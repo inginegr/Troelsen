@@ -71,6 +71,40 @@ namespace AutoLotConnectedLayer
                 cmd.ExecuteNonQuery();
             }
         }
+        public List<NewCar> GetAllInventoryAsList()
+        {
+            List<NewCar> inv = new List<NewCar>();
+            string sql = "Select * From Inventory";
+            using (SqlCommand scmd = new SqlCommand(sql, this.sqlCn))
+            {
+                SqlDataReader sdr = scmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    inv.Add(new NewCar
+                    {
+
+                        CarID = (int)sdr["CarID"],
+                        Color = (string)sdr["Color"],
+                        Make = (string)sdr["Make"],
+                        PetName = (string)sdr["PetName"]
+                    });
+                }
+                sdr.Close();
+            }
+            return inv;
+        }
+        public DataTable GetAllInventoryAsDatatable()
+        {
+            DataTable inv = new DataTable();
+            string sql = "Select * From Inventory";
+            using (SqlCommand scmd = new SqlCommand(sql, this.sqlCn))
+            {
+                SqlDataReader sdr = scmd.ExecuteReader();
+                inv.Load(sdr);
+                sdr.Close();
+            }
+            return inv;
+        }
     }
     public class NewCar
     {
