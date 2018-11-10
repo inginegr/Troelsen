@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SharpTestConsole
+{
+    public class Person
+    {
+        public int Age { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public Person() { }
+        public Person(string firstName, string lastName, int age)
+        {
+            Age = age;
+            FirstName = firstName;
+            LastName = lastName;
+        }
+        public override string ToString()
+        {
+            return string.Format("Name: {0} {1}, Age: {2}",
+            FirstName, LastName, Age);
+        }
+    }
+    public class PeopleCollection : IEnumerable
+    {
+        private ArrayList arPeople = new ArrayList();
+
+        public Person GetPerson(int pos) { return (Person)arPeople[pos]; }
+        public void AddPerson(Person p) { arPeople.Add(p); }
+        public void ClearPeople() { arPeople.Clear(); }
+        public int Count { get { return arPeople.Count; } }
+        IEnumerator IEnumerable.GetEnumerator() { return arPeople.GetEnumerator(); }
+    }
+}
