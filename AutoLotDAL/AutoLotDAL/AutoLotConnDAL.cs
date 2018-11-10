@@ -105,6 +105,68 @@ namespace AutoLotConnectedLayer
             }
             return inv;
         }
+        //public void InsertAuto(int id, string color, string make, string petName)
+        //{
+        //    // Обратите внимание на "заполнители" в SQL-запросе.
+        //    string sql = string.Format("Select * From Inventory (CarID, Make, Color, PetName) Values (@CarID, @Make, @Color, @PetName)");
+
+        //    using (SqlCommand scmd = new SqlCommand(sql, this.sqlCn))
+        //    {
+        //        SqlParameter param = new SqlParameter();
+        //        param.ParameterName = "@CarID";
+        //        param.Value = id;
+        //        param.SqlDbType = SqlDbType.Int;
+        //        scmd.Parameters.Add(param);
+
+        //        param = new SqlParameter();
+        //        param.ParameterName = "@Make";
+        //        param.Value = make;
+        //        param.SqlDbType = SqlDbType.Char;
+        //        param.Size = 10;
+        //        scmd.Parameters.Add(param);
+
+        //        param = new SqlParameter();
+        //        param.ParameterName = "@Color";
+        //        param.Value = color;
+        //        param.SqlDbType = SqlDbType.Char;
+        //        param.Size = 10;
+        //        scmd.Parameters.Add(param);
+
+        //        param = new SqlParameter();
+        //        param.ParameterName = "@PetName";
+        //        param.Value = petName;
+        //        param.SqlDbType = SqlDbType.Char;
+        //        param.Size = 10;
+        //        scmd.Parameters.Add(param);
+
+        //        scmd.ExecuteNonQuery();
+        //    }
+        //}
+        public string LookUpPetName(int carID)
+        {
+            string carPetName = string.Empty;
+            using (SqlCommand scmd = new SqlCommand("GetPetName", this.sqlCn))
+            {
+                scmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter pr = new SqlParameter();
+                pr.ParameterName = "@carID";
+                pr.SqlDbType = SqlDbType.Int;
+                pr.Value = carID;
+
+                pr.Direction = ParameterDirection.Input;
+                scmd.Parameters.Add(pr);
+
+                pr = new SqlParameter();
+                pr.ParameterName = "@petName";
+                pr.SqlDbType = SqlDbType.Char;
+                pr.Size = 10;
+                pr.Direction = ParameterDirection.Output;
+
+                scmd.ExecuteNonQuery();
+                carPetName = (string)scmd.Parameters["@petName"].Value;
+            }
+            return carPetName;
+        }
     }
     public class NewCar
     {
