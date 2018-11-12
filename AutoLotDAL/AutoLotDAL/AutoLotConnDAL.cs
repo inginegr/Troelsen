@@ -160,12 +160,12 @@ namespace AutoLotConnectedLayer
                 cmd.Parameters.Add(param);
 
                 // Output param.
-                //param = new SqlParameter();
-                //param.ParameterName = "@petName";
-                //param.SqlDbType = SqlDbType.Char;
-                //param.Size = 10;
-                //param.Direction = ParameterDirection.Output;
-                //cmd.Parameters.Add(param);
+                param = new SqlParameter();
+                param.ParameterName = "@petName";
+                param.SqlDbType = SqlDbType.Char;
+                param.Size = 10;
+                param.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(param);
 
                 // Execute the stored proc.
                 cmd.ExecuteNonQuery();

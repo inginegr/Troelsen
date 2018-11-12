@@ -8,7 +8,7 @@ using System.Data.Common;
 using AutoLotConnectedLayer;
 
 namespace MyConnectionFactory
-{    
+{
     class Program
     {
         static void Main()
