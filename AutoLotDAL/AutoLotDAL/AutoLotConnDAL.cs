@@ -175,7 +175,47 @@ namespace AutoLotConnectedLayer
             }
             return carPetName;
         }
-    }
+        public void ProcessCreditRisk(bool throwEx, int custID)
+        {
+            string fName = string.Empty;
+            string lName = string.Empty;
+            SqlCommand cmdSelect = new SqlCommand(string.Format("Select * from Customers where CustID = {0}", custID), sqlCn);
+            using (SqlDataReader sdr = cmdSelect.ExecuteReader())
+            {
+                if (sdr.HasRows)
+                {
+                    sdr.Read();
+                    fName = (string)sdr["FirstName"];
+                    lName = (string)sdr["LastName"];
+                }
+                else
+                    return;
+                SqlCommand cmdRemove = new SqlCommand(string.Format("Delete from Customers where CustID = {0}", custID), sqlCn);
+                SqlCommand cmdInsert = new SqlCommand(string.Format("Insert Into CreditRisks (CustID, FirstName, LastName) Values ({0}, '{1}', '{2}')", custID, fName, lName), sqlCn);
+                SqlTransaction tx = null;
+                try
+                {
+                    tx = sqlCn.BeginTransaction();
+                    cmdInsert.Transaction = tx;
+                    cmdRemove.Transaction = tx;
+
+                    cmdInsert.ExecuteNonQuery();
+                    cmdRemove.ExecuteNonQuery();
+
+                    if (throwEx)
+                    {
+                        throw new Exception("Sorry, Database Error! Tx faild...");
+                    }
+                    tx.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    tx.Rollback();
+                }
+            }
+        }
+    }    
     public class NewCar
     {
         public int CarID { get; set; }
