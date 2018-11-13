@@ -14,17 +14,30 @@ namespace MyConnectionFactory
         static void Main()
         {
             Console.WriteLine("*** Simple Transaction Example ***\n");
-            bool throwEx = true;
-            string userAnswer = string.Empty;
-            Console.Write("Do you want to throw an exception (Y or N): ");
-            userAnswer = Console.ReadLine();
-            if (userAnswer.ToLower() == "n")
-                throwEx = false;
-            InventoryDAL dal = new InventoryDAL();
-            dal.OpenConnection(@"Data Source=DIMA-PC\MSSQLSERVER2014;Integrated Security = SSPI; Initial Catalog=AutoLot");
-            dal.ProcessCreditRisk(throwEx, 333);
-            Console.WriteLine("Check CreditRisk table for results");
+
+            DataSet dts = new DataSet("Car Inventory");
+            dts.ExtendedProperties["TimeStamp"] = DateTime.Now;
+            dts.ExtendedProperties["DataSetID"] = Guid.NewGuid();
+            dts.ExtendedProperties["Company"] = "Mikko's Hot Tub Super Store";
+
             Console.ReadLine();
+        }
+        static void FillDataSet(DataSet ds)
+        {
+            DataColumn dcCarID = new DataColumn("CarID", typeof(int));
+            dcCarID.ReadOnly = true;
+            dcCarID.Unique = true;
+            dcCarID.AllowDBNull = false;
+            dcCarID.Caption = "Car ID";
+            dcCarID.AutoIncrement = true;
+            dcCarID.AutoIncrementSeed = 0;
+            dcCarID.AutoIncrementStep = 1;
+            DataColumn dcMake = new DataColumn("Make", typeof(string));
+            DataColumn dcColor = new DataColumn("Color", typeof(string));
+            DataColumn dcPetName = new DataColumn("PetName", typeof(string));
+            dcPetName.Caption = "Pet Name";
+            DataTable dt = new DataTable("Inventory");
+            dt.Columns.AddRange(new DataColumn[] { dcCarID, dcMake, dcColor, dcPetName });
         }
     }
 }
