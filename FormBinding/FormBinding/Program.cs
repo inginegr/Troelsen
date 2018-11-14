@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DataParallelismWithForEach
+namespace FormBinding
 {
+    public class Car
+    {
+        public int ID { get; set; }
+        public string PetName { get; set; }
+        public string Make { get; set; }
+        public string Color { get; set; }
+    }
     static class Program
     {
         /// <summary>
@@ -15,7 +22,7 @@ namespace DataParallelismWithForEach
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new Form1());
         }
     }
 }
