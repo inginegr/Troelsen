@@ -13,6 +13,7 @@ namespace FormBinding
     public partial class Form1 : Form
     {
         List<Car> listCars = null;
+        DataTable inventoryTable = new DataTable();
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +29,45 @@ namespace FormBinding
                 new Car { ID = 106, PetName = "Mel", Make = "Firebird", Color = "Red"  },
                 new Car { ID = 107, PetName = "Sarah", Make = "Colt", Color = "Black"  },
             };
+            CreateDataTable();
+        }
+        private void CreateDataTable()
+        {
+            // Создать схему таблицы.
+            DataColumn carIDColumn = new DataColumn("ID", typeof(int));
+            DataColumn carMakeColumn = new DataColumn("Make", typeof(string));
+            DataColumn carColorColumn = new DataColumn("Color", typeof(string));
+            DataColumn carPetNameColumn = new DataColumn("PetName", typeof(string));
+            carPetNameColumn.Caption = "Pet Name";
+            inventoryTable.Columns.AddRange(new DataColumn[] { carIDColumn,
+                carMakeColumn, carColorColumn, carPetNameColumn });
+            // Пройти no List<T> для создания строк.
+            foreach (Car c in listCars)
+            {
+                DataRow newRow = inventoryTable.NewRow();
+                newRow["ID"] = c.ID;
+                newRow["Make"] = c.Make;
+                newRow["Color"] = c.Color;
+                newRow["PetName"] = c.PetName;
+                inventoryTable.Rows.Add(newRow);
+            }
+            // Привязать DataTable к carInventoryGridView.
+            carInventoryGridView.DataSource = inventoryTable;
+        }
+
+        private void btnRemoveRow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataRow[] rowToDelete = inventoryTable.Select(
+                    string.Format("ID={0}", int.Parse(txtRowToRemove.Text)));
+                rowToDelete[0].Delete();
+                inventoryTable.AcceptChanges();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
