@@ -13,6 +13,7 @@ namespace FormBinding
     public partial class Form1 : Form
     {
         List<Car> listCars = null;
+        DataView yugoOnlyView;
         DataTable inventoryTable = new DataTable();
         public Form1()
         {
@@ -55,6 +56,19 @@ namespace FormBinding
             carInventoryGridView.DataSource = inventoryTable;
         }
 
+        private void ShowCarsWithGreaterThanN(int n)
+        {
+            DataRow[] properID;
+            properID = inventoryTable.Select(string.Format("ID > {0}", n));
+            string strID = null;
+            for (int i = 0; i < properID.Length; i++)
+            {
+                DataRow temp = properID[i];
+                strID += temp["PetName"] + "is ID" + temp["ID"] + "\n";
+            }
+            MessageBox.Show(strID, string.Format("The values with ID greater than {0}", n));
+        }
+
         private void btnRemoveRow_Click(object sender, EventArgs e)
         {
             try
@@ -85,6 +99,32 @@ namespace FormBinding
                 }
                 MessageBox.Show(strMake, string.Format("We have {0} named: ", txtMakeToView.Text));
             }
+        }
+
+        private void edtChangeMake_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnChangeMake_Click(object sender, EventArgs e)
+        {
+            DataRow[] strUpdate = inventoryTable.Select(string.Format("Make='{0}'", edtChangeMake.Text));
+            for (int i = 0; i < strUpdate.Length; i++)
+            {
+                strUpdate[i]["Make"] = "Yugo";
+            }
+        }
+
+        private void CreateDataView(string from,string to)
+        {
+            yugoOnlyView = new DataView(inventoryTable);
+            yugoOnlyView.RowFilter = string.Format("{0} = '{1}'", from, to);
+            dataGridYugo.DataSource = yugoOnlyView;
+        }
+
+        private void btnShowSub_Click(object sender, EventArgs e)
+        {
+            CreateDataView(edtShowSubFrom.Text, edtShowSubTo.Text);
         }
     }
 }
