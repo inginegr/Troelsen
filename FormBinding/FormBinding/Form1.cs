@@ -69,5 +69,22 @@ namespace FormBinding
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btnDisplayMakes_Click(object sender, EventArgs e)
+        {
+            string filterStr = string.Format("Make='{0}'", txtMakeToView.Text);
+            DataRow[] makes = inventoryTable.Select(filterStr);
+            if (makes.Length == 0)
+                MessageBox.Show("Sorry, no cars...", "Selection Error!");
+            else
+            {
+                string strMake = "";
+                for (int i = 0; i < makes.Length; i++)
+                {
+                    strMake += makes[i]["ID"] + "\n";
+                }
+                MessageBox.Show(strMake, string.Format("We have {0} named: ", txtMakeToView.Text));
+            }
+        }
     }
 }
