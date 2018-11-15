@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 using System.Data;
 using System.Data.SqlClient;
 
@@ -21,8 +21,8 @@ namespace AutoLotDisconnectedLayer
         }
         private void ConfigureAdapter(out SqlDataAdapter dAdapt)
         {
-            int x = 6;
-            Console.WriteLine(x);
+            dAdapt = new SqlDataAdapter("Select * From Inventory", cnString);
+            SqlCommandBuilder sbuild = new SqlCommandBuilder(dAdapt);
         }
     }
 }
