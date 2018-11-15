@@ -24,5 +24,16 @@ namespace AutoLotDisconnectedLayer
             dAdapt = new SqlDataAdapter("Select * From Inventory", cnString);
             SqlCommandBuilder sbuild = new SqlCommandBuilder(dAdapt);
         }
+        public DataTable GetAllInventory()
+        {
+            DataTable inv = new DataTable("Inventory");
+            dAdapt.Fill(inv);
+            return inv;
+        }
+
+        public void UpdateInventory(DataTable modtab)
+        {
+            dAdapt.Update(modtab);
+        }
     }
 }
