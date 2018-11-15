@@ -16,17 +16,15 @@ namespace MyConnectionFactory
     {
         static void Main()
         {
-            Console.WriteLine("*** Simple Transaction Example ***\n");
-
-            DataSet dts = new DataSet("Car Inventory");
-            dts.ExtendedProperties["TimeStamp"] = DateTime.Now;
-            dts.ExtendedProperties["DataSetID"] = Guid.NewGuid();
-            dts.ExtendedProperties["Company"] = "Mikko's Hot Tub Super Store";
-            FillDataSet(dts);
-            PrintDataSet(dts);
-            SaveAndLoadXML(dts);
-            SaveAndLoadBinary(dts);
-            
+            Console.WriteLine("*** Fun with data adapters ***");
+            string cnStr = "Integrated Security =SSPI; Initial Catalog=Autolot; Data Source=(local)\\MSSQLSERVER2014";
+            DataSet ds = new DataSet("Autolot");
+            SqlDataAdapter dAdapt = new SqlDataAdapter("Select * From Inventory", cnStr);
+            DataTableMapping curMap = dAdapt.TableMappings.Add("Inventory", "Current Inventory");
+            curMap.ColumnMappings.Add("CarID", "ID of Car");
+            curMap.ColumnMappings.Add("PetName", "Name of car");
+            dAdapt.Fill(ds, "Inventory");
+            PrintDataSet(ds);
             Console.ReadLine();
         }
         #region
@@ -110,6 +108,7 @@ namespace MyConnectionFactory
                 {
                     Console.Write("{0} \t", dtr.GetValue(i).ToString().Trim());
                 }
+                Console.WriteLine();
             }
             dtr.Close();
         }
@@ -122,7 +121,7 @@ namespace MyConnectionFactory
             dts.Clear();
             dts.ReadXml("docxml.xml");
         }
-        #endregion
+        
 
         static void SaveAndLoadBinary(DataSet dts)
         {
@@ -137,5 +136,6 @@ namespace MyConnectionFactory
             fs = new FileStream("BinaryCar.bin", FileMode.Open);
             DataSet ds = (DataSet)bfm.Deserialize(fs);
         }
+        #endregion
     }
 }
