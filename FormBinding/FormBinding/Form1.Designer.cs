@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtRowToRemove = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnShowSub = new System.Windows.Forms.Button();
             this.edtChangeMake = new System.Windows.Forms.TextBox();
             this.btnChangeMake = new System.Windows.Forms.Button();
             this.btnDisplayMakes = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.edtShowSubTo = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnShowSub = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.carInventoryGridView)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridYugo)).BeginInit();
@@ -91,6 +91,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Deleting of string";
             // 
+            // btnShowSub
+            // 
+            this.btnShowSub.Location = new System.Drawing.Point(201, 63);
+            this.btnShowSub.Name = "btnShowSub";
+            this.btnShowSub.Size = new System.Drawing.Size(92, 29);
+            this.btnShowSub.TabIndex = 8;
+            this.btnShowSub.Text = "Show";
+            this.btnShowSub.UseVisualStyleBackColor = true;
+            this.btnShowSub.Click += new System.EventHandler(this.btnShowSub_Click);
+            // 
             // edtChangeMake
             // 
             this.edtChangeMake.Location = new System.Drawing.Point(201, 28);
@@ -132,7 +142,7 @@
             this.btnRemoveRow.Name = "btnRemoveRow";
             this.btnRemoveRow.Size = new System.Drawing.Size(92, 29);
             this.btnRemoveRow.TabIndex = 3;
-            this.btnRemoveRow.Text = "Remove";
+            this.btnRemoveRow.Text = "Update";
             this.btnRemoveRow.UseVisualStyleBackColor = true;
             this.btnRemoveRow.Click += new System.EventHandler(this.btnRemoveRow_Click);
             // 
@@ -187,16 +197,6 @@
             this.label3.Size = new System.Drawing.Size(30, 22);
             this.label3.TabIndex = 9;
             this.label3.Text = "To";
-            // 
-            // btnShowSub
-            // 
-            this.btnShowSub.Location = new System.Drawing.Point(201, 63);
-            this.btnShowSub.Name = "btnShowSub";
-            this.btnShowSub.Size = new System.Drawing.Size(92, 29);
-            this.btnShowSub.TabIndex = 8;
-            this.btnShowSub.Text = "Show";
-            this.btnShowSub.UseVisualStyleBackColor = true;
-            this.btnShowSub.Click += new System.EventHandler(this.btnShowSub_Click);
             // 
             // Form1
             // 

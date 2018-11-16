@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AutoLotDisconnectedLayer;
+
 
 namespace FormBinding
 {
@@ -14,10 +16,13 @@ namespace FormBinding
     {
         List<Car> listCars = null;
         DataView yugoOnlyView;
+        InventoryDALDisLayer dal = null;
         DataTable inventoryTable = new DataTable();
         public Form1()
         {
             InitializeComponent();
+            string cnStr=@"Data Source=DIMA-PC\MSSQLSERVER2014;Initial Catalog=AutoLot;Integrated Security=True;Pooling=False";
+
             // Заполнить список несколькими автомобилями.
             listCars = new List<Car>
             {
@@ -30,7 +35,9 @@ namespace FormBinding
                 new Car { ID = 106, PetName = "Mel", Make = "Firebird", Color = "Red"  },
                 new Car { ID = 107, PetName = "Sarah", Make = "Colt", Color = "Black"  },
             };
-            CreateDataTable();
+           // CreateDataTable();
+            dal = new InventoryDALDisLayer(cnStr);
+            carInventoryGridView.DataSource = dal.GetAllInventory();
         }
         private void CreateDataTable()
         {
@@ -71,14 +78,12 @@ namespace FormBinding
 
         private void btnRemoveRow_Click(object sender, EventArgs e)
         {
+            DataTable curDat = (DataTable)carInventoryGridView.DataSource;
             try
             {
-                DataRow[] rowToDelete = inventoryTable.Select(
-                    string.Format("ID={0}", int.Parse(txtRowToRemove.Text)));
-                rowToDelete[0].Delete();
-                inventoryTable.AcceptChanges();
+                dal.UpdateInventory(curDat);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -120,6 +125,7 @@ namespace FormBinding
             yugoOnlyView = new DataView(inventoryTable);
             yugoOnlyView.RowFilter = string.Format("{0} = '{1}'", from, to);
             dataGridYugo.DataSource = yugoOnlyView;
+            
         }
 
         private void btnShowSub_Click(object sender, EventArgs e)
