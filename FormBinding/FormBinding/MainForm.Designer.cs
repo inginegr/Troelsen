@@ -106,7 +106,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryDataSet)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
