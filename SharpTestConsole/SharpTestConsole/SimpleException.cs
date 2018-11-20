@@ -8,7 +8,7 @@ using System.Data.Common;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using AutoLotConnectedLayer;
+using AutoLotDisconnectedLayer;
 
 namespace MyConnectionFactory
 {
@@ -17,125 +17,44 @@ namespace MyConnectionFactory
         static void Main()
         {
             Console.WriteLine("*** Fun with data adapters ***");
-            string cnStr = "Integrated Security =SSPI; Initial Catalog=Autolot; Data Source=(local)\\MSSQLSERVER2014";
-            DataSet ds = new DataSet("Autolot");
-            SqlDataAdapter dAdapt = new SqlDataAdapter("Select * From Inventory", cnStr);
-            DataTableMapping curMap = dAdapt.TableMappings.Add("Inventory", "Current Inventory");
-            curMap.ColumnMappings.Add("CarID", "ID of Car");
-            curMap.ColumnMappings.Add("PetName", "Name of car");
-            dAdapt.Fill(ds, "Inventory");
-            PrintDataSet(ds);
+            string cnStr = ConfigurationManager.ConnectionStrings["AutoLotSqlProvider"].ConnectionString;
+            InventoryDALDisLayer dl = null;
+            try
+            {
+                dl = new InventoryDALDisLayer(cnStr);
+                DataTable dt = dl.GetAllInventory();
+                ShowRedCars(dt);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             Console.ReadLine();
         }
-        #region
-        static void FillDataSet(DataSet ds)
+
+        static void PrintAllCarIDs(DataTable data)
         {
-            DataColumn dcCarID = new DataColumn("CarID", typeof(int));
-            dcCarID.ReadOnly = true;
-            dcCarID.Unique = true;
-            dcCarID.AllowDBNull = false;
-            dcCarID.Caption = "Car ID";
-            dcCarID.AutoIncrement = true;
-            dcCarID.AutoIncrementSeed = 0;
-            dcCarID.AutoIncrementStep = 1;
-            
-            DataColumn dcMake = new DataColumn("Make", typeof(string));
-            DataColumn dcColor = new DataColumn("Color", typeof(string));
-            DataColumn dcPetName = new DataColumn("PetName", typeof(string));
-            dcPetName.Caption = "Pet Name";
-            DataTable dt = new DataTable("Inventory");
-            dt.Columns.AddRange(new DataColumn[] { dcCarID, dcMake, dcColor, dcPetName });
-            
-            DataRow carRow = dt.NewRow();
-            carRow["Make"] = "BMW";
-            carRow["Color"] = "Black";
-            carRow["PetName"] = "Hamlet";
-            dt.Rows.Add(carRow);
-            carRow = dt.NewRow();
-            carRow[1] = "Renault";
-            carRow[2] = "Duster";
-            carRow[3] = "Black";
-            dt.Rows.Add(carRow);
-            dt.PrimaryKey = new DataColumn[] { dt.Columns[0] };
-            ds.Tables.Add(dt);
+            EnumerableRowCollection enumData = data.AsEnumerable();
+            foreach (DataRow dt in enumData)
+                Console.WriteLine("Car ID = {0}, Make = {1}, Color = {2}", dt["CarID"], dt["Make"], dt["Color"]);
         }
-        private static void ManipulateDataRowState()
+
+        static void ShowRedCars(DataTable data)
         {
-            DataTable temp = new DataTable("Temp");
-            temp.Columns.Add(new DataColumn("TempColumn",typeof(int)));
+            var cars = from car in data.AsEnumerable()
+                       select car;
+            Console.WriteLine("Here are the red cars we have in stock:");
+            DataTable newTable = cars.CopyToDataTable();
 
-            DataRow row =temp.NewRow();
-            Console.WriteLine("After calling NewRow(): {0}",row.RowState);
-            temp.Rows.Add(row);
-            Console.WriteLine("After calling Rows.Add(): {0}", row.RowState);
-            row[0] = 10;
-            Console.WriteLine("After first assignment: {0}", row.RowState);
-
-            row.AcceptChanges();
-            Console.WriteLine("After calling AcceptChanges(): {0}", row.RowState);
-
-            row[0] = 11;
-            Console.WriteLine("After first assignment: {0}", row.RowState);
-
-            temp.Rows[0].Delete();
-            Console.WriteLine("After calling Delete: {0}", row.RowState);
-        }
-        static void PrintDataSet(DataSet ds)
-        {
-            Console.WriteLine("DataSet is named: {0}", ds.DataSetName);
-            foreach (System.Collections.DictionaryEntry de in ds.ExtendedProperties)
+            for (int row = 0; row < newTable.Rows.Count; row++)
             {
-                Console.WriteLine("Key = {0}, Value = {1}", de.Key, de.Value);
-            }
-            Console.WriteLine(ds.Tables.Count);
-            foreach (DataTable dd in ds.Tables)
-            {
-                Console.WriteLine("=> {0} Table:", dd.TableName);
-                for (int curCol = 0; curCol < dd.Columns.Count; curCol++)
+                for (int col = 0; col < newTable.Columns.Count; col++)
                 {
-                    Console.Write(dd.Columns[curCol].ColumnName + "\t");
-                }
-                Console.WriteLine("\n------------------------------------------------");
-                PrintTable(dd);
-            }
-        }
-        static void PrintTable(DataTable dt)
-        {
-            DataTableReader dtr = dt.CreateDataReader();
-            while (dtr.Read())
-            {
-                for (int i = 0; i < dtr.FieldCount; i++)
-                {
-                    Console.Write("{0} \t", dtr.GetValue(i).ToString().Trim());
+                    Console.Write(newTable.Rows[row][col].ToString().Trim()+"\t");
                 }
                 Console.WriteLine();
             }
-            dtr.Close();
+
         }
-        
-        static void SaveAndLoadXML(DataSet dts)
-        {
-            dts.WriteXml("docxml.xml");
-            dts.WriteXmlSchema("docxsd.xsd");
-
-            dts.Clear();
-            dts.ReadXml("docxml.xml");
-        }
-        
-
-        static void SaveAndLoadBinary(DataSet dts)
-        {
-            dts.RemotingFormat = SerializationFormat.Binary;
-            FileStream fs = new FileStream("BinaryCar.bin", FileMode.Create);
-            BinaryFormatter bfm = new BinaryFormatter(); 
-            bfm.Serialize(fs, dts);
-            fs.Close();
-
-            dts.Clear();
-
-            fs = new FileStream("BinaryCar.bin", FileMode.Open);
-            DataSet ds = (DataSet)bfm.Deserialize(fs);
-        }
-        #endregion
     }
 }
