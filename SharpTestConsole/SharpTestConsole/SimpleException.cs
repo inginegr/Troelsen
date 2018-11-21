@@ -48,5 +48,18 @@ namespace MyConnectionFactory
             }
             
         }
+        private static void RemoveRecord()
+        {
+            using (AutoLotEntities context = new AutoLotEntities())
+            {
+                EntityKey key = new EntityKey("AutolotEntities.Cars", "CarID", 2222);
+                Car carToDelete = (Car)context.GetObjectByKey(key);
+                if(carToDelete!=null)
+                {
+                    context.DeleteObject(carToDelete);
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }
