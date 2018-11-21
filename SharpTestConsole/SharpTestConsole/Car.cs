@@ -14,9 +14,23 @@ namespace SharpTestConsole
     
     public partial class Car
     {
-        public int CarID { get; set; }
-        public string Make { get; set; }
-        public string Color { get; set; }
-        public string CarNickName { get; set; }
+        public override string ToString()
+        {
+            return string.Format("{0} is as {1}   {2}  with ID {3}", this.CarNickName ?? "**No Name**", this.Color, this.Make, this.CarID);
+        }
+
+        partial void OnCarNickNameChanging(global::System.String value)
+        {
+            Console.WriteLine("\t-> Changing name to: {0}", value);
+        }
+
+        partial void OnColorChanged()
+        {
+            Console.WriteLine("\t Name of car has been changed!");
+        }
+        //public int CarID { get; set; }
+        //public string Make { get; set; }
+        //public string Color { get; set; }
+        //public string CarNickName { get; set; }
     }
 }

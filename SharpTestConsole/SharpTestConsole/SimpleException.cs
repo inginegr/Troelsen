@@ -1,14 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.Odbc;
-using System.Data.OleDb;
-using System.Configuration;
-using System.Data.Common;
-using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using AutoLotDisconnectedLayer;
+using System.Data.EntityClient;
+using SharpTestConsole;
 
 namespace MyConnectionFactory
 {
@@ -16,10 +12,41 @@ namespace MyConnectionFactory
     {
         static void Main()
         {
-            Console.WriteLine("*** Fun with data adapters ***");
-            
+            Console.WriteLine("*** Fun with with ADO.net EF ***");
+            AddNewRecord();
+            PrintAllInventory();
 
             Console.ReadLine();
-        }        
+        }
+        private static void AddNewRecord()
+        {
+            using (AutoLotEntities contex = new AutoLotEntities())
+            {
+                try
+                {
+                    contex.Cars.AddObject(new Car()
+                    {
+                        CarID = 2222,
+                        Make = "Yugo",
+                        Color = "Brown"
+                    });
+                    contex.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.InnerException.Message);
+                }
+            }
+        }
+
+        private static void PrintAllInventory()
+        {
+            using(AutoLotEntities context=new AutoLotEntities())
+            {
+                foreach (Car c in context.Cars)
+                    Console.WriteLine(c);
+            }
+            
+        }
     }
 }

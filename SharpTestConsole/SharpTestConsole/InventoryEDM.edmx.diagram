@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="863d665a82f84f21923947853dba51f3" Name="Diagram1">
+      <Diagram DiagramId="96a0a5782dd64857b9955c25982b027a" Name="Diagram1">
         <EntityTypeShape EntityType="AutoLotModel.Car" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>

@@ -53,6 +53,7 @@
       <HintPath>..\..\AutoLotDAL\AutoLotDAL\bin\Release\AutoLotDAL.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -74,13 +75,17 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ClassDiagram1.cd" />
     <EntityDeploy Include="InventoryEDM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>InventoryEDM.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="InventoryEDM.edmx.diagram">
       <DependentUpon>InventoryEDM.edmx</DependentUpon>
+    </None>
+    <None Include="InventoryEDM.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InventoryEDM.edmx</DependentUpon>
+      <LastGenOutput>InventoryEDM.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -111,11 +116,6 @@
     <Compile Include="Car.cs">
       <DependentUpon>InventoryEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="InventoryEDM.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryEDM.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="InventoryEDM.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,18 +127,6 @@
       <DependentUpon>InventoryEDM.edmx</DependentUpon>
     </Compile>
     <Compile Include="SimpleException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="InventoryEDM.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InventoryEDM.Context.cs</LastGenOutput>
-      <DependentUpon>InventoryEDM.edmx</DependentUpon>
-    </Content>
-    <Content Include="InventoryEDM.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InventoryEDM.edmx</DependentUpon>
-      <LastGenOutput>InventoryEDM.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
