@@ -24,7 +24,7 @@ namespace SharpTestConsole
             Console.WriteLine("\t-> Changing name to: {0}", value);
         }
 
-        partial void OnColorChanged()
+        partial void OnCarNickNameChanged()
         {
             Console.WriteLine("\t Name of car has been changed!");
         }
