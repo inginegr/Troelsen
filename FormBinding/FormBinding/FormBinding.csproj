@@ -57,6 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InventoryDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="LinqToXMLObjectModel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Desert.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Inventory.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

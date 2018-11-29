@@ -63,6 +63,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -75,19 +76,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="InventoryEDM.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>InventoryEDM.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="InventoryEDM.edmx.diagram">
-      <DependentUpon>InventoryEDM.edmx</DependentUpon>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
     </None>
-    <None Include="InventoryEDM.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InventoryEDM.edmx</DependentUpon>
-      <LastGenOutput>InventoryEDM.cs</LastGenOutput>
-    </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -113,19 +104,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs">
-      <DependentUpon>InventoryEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryEDM.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryEDM.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryEDM.edmx</DependentUpon>
-    </Compile>
     <Compile Include="SimpleException.cs" />
   </ItemGroup>
   <ItemGroup>
