@@ -7,28 +7,20 @@ using System.Data.EntityClient;
 using System.Xml;
 using System.Xml.Linq;
 using System.ServiceModel;
+using MagicEightBallServiceLib;
 
 
-namespace MagicEightBallServiceLib
+namespace MagicEightBallServiceHost
 {
-    [ServiceContract]
-    public interface IEightBall
+    class Program
     {
-        [OperationContract]
-        string ObtainAnswerToQwestion(string userQuestion);
-    }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("***Console based WCF Host***");
 
-    public class MagicEightBallService : IEightBall
-    {
-        public MagicEightBallService()
-        {
-            Console.WriteLine("The 8-ball awaits your question...");
-        }
-        public string ObtainAnswerToQwestion(string userQuestion)
-        {
-            string[] answers = { "Future Uncertain", "Yes", "No", "Hazy", "Ask again later", "Definitely" };
-            Random r = new Random();
-            return answers[r.Next(answers.Length)];
+
+
+            Console.ReadLine();
         }
     }
 }
