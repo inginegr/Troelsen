@@ -22,7 +22,7 @@ namespace WpfTestApp
     {
         public MainWindow()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)

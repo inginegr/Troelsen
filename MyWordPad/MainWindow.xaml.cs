@@ -12,10 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
-using System.Windows.Markup;
 
-namespace MyXamlPad
+namespace MyWordPad
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -24,7 +22,32 @@ namespace MyXamlPad
     {
         public MainWindow()
         {
-           // InitializeComponent();
+            InitializeComponent();
+        }
+
+        private void MouseExitArea(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void MouseLeaveArea(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void FileExit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MouseEnterToolsHintsArea(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void ToolsSpellingHints_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

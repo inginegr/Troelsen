@@ -12,10 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
-using System.Windows.Markup;
 
-namespace MyXamlPad
+namespace VisualLayoutTesterApp
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -24,7 +22,7 @@ namespace MyXamlPad
     {
         public MainWindow()
         {
-           // InitializeComponent();
+            InitializeComponent();
         }
     }
 }
