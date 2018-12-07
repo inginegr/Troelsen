@@ -7,17 +7,66 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl x:Name="myTabSystem" HorizontalAlignment="Left" Height="400" Margin="220,10,0,0" VerticalAlignment="Top" Width="562">
+        <TabControl x:Name="myTabSystem" HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
             <TabItem Header="Ink API">
-                <Grid Background="#FFE5E5E5"/>
+                <StackPanel Background="#FFE5E5E5">
+                    <ToolBar x:Name="inkToolbar" Height="60" HorizontalAlignment="Left">
+                        <Border Margin="0,2,0,3" Width="300">
+                            <Grid>
+                                <RadioButton x:Name="inkRadio" Content="Ink Mode!" GroupName="InkMode" Margin="0,0,200,0" Click="RadioButtonClicked"/>
+                                <RadioButton x:Name="selectRadio" Content="Erase Mode!" GroupName="InkMode" Margin="100,0" Background="#FFF70707" BorderBrush="Red" Foreground="Black" Click="RadioButtonClicked"/>
+                                <RadioButton x:Name="eraseRadio" Content="Select Mode!" GroupName="InkMode" Margin="200,0,0,0" Click="RadioButtonClicked"/>
+                            </Grid>
+                        </Border>
+                        <Separator/>
+                        <ComboBox x:Name="comboColors" Width="100" SelectionChanged="ColorChanged">
+                            <StackPanel Orientation="Horizontal" Tag="Red">
+                                <Ellipse Fill="Red" Height="15" Width="15"/>
+                                <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Red"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Tag="Green">
+                                <Ellipse Fill="Green" Height="15" Width="15"/>
+                                <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Green"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Tag="Blue">
+                                <Ellipse Fill="Blue" Height="15" Width="15"/>
+                                <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Blue"/>
+                            </StackPanel>
+                        </ComboBox>
+                        <Button x:Name="btnSave" Content="Save" Click="SaveData"/>
+                        <Button x:Name="btnLoad" Content="Load" Click="LoadData"/>
+                        <Button x:Name="btnClear" Content="Clear" Click="Clear"/>
+                    </ToolBar>
+                    <InkCanvas x:Name="myInkCanvas" Height="304" VerticalAlignment="Bottom">
+                        <InkCanvas.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#FF7DD1DC" Offset="0.06"/>
+                                <GradientStop Color="#FFBEE6EC" Offset="0.928"/>
+                            </RadialGradientBrush>
+                        </InkCanvas.Background>
+                    </InkCanvas>
+                </StackPanel>
             </TabItem>
-            <TabItem Header="Documents" Margin="-2,-2,-14,-1">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Documents" Margin="-2,-2,-14,-1" x:Name="tabDocuments" VerticalAlignment="Bottom" Height="20">
+                <StackPanel Background="#FFE5E5E5">
+                    <ToolBar>
+                        <Button Content="Add Sticky Note" BorderBrush="Green"/>
+                        <Button Content="Delete Sticky Notes" BorderBrush="Green"/>
+                        <Button Content="Highlight Text" BorderBrush="Green"/>
+                    </ToolBar>
+                    <FlowDocumentReader Height="341" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="762"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Data Binding" Margin="14,0,-14,0" Height="20" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="DataGrid" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="62" Margin="14,0,-19,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="57">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
