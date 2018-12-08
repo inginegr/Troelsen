@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Ink;
+using AutoLotDAL;
 
 
 namespace WpfControlsAndAPIs
@@ -29,6 +30,7 @@ namespace WpfControlsAndAPIs
             this.myInkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             this.inkRadio.IsChecked = true;
             this.comboColors.SelectedIndex = 0;
+            SetBindings();
             //InitializeComponent();
         }
 
@@ -75,6 +77,21 @@ namespace WpfControlsAndAPIs
         private void Clear(object sender, RoutedEventArgs e)
         {
             this.myInkCanvas.Strokes.Clear();
+        }
+
+        private void SetBindings()
+        {
+            Binding b = new Binding();
+            b.Converter = new MyDoubleConverter();
+            b.Source = this.mySB;
+            b.Path = new PropertyPath("Value");
+
+            this.labelSBTumb.SetBinding(Label.ContentProperty, b);
+        }
+
+        private void ConfigureGrid()
+        {
+            using(autolo)
         }
     }
 }
