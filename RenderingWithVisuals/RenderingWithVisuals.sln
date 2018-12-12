@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderingWithVisuals", "RenderingWithVisuals.csproj", "{77814325-D7FA-4A0D-945C-D1A020A6E64F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77814325-D7FA-4A0D-945C-D1A020A6E64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77814325-D7FA-4A0D-945C-D1A020A6E64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77814325-D7FA-4A0D-945C-D1A020A6E64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77814325-D7FA-4A0D-945C-D1A020A6E64F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AB91B50-A354-4C36-8D44-EE6F49800A7D}
+	EndGlobalSection
+EndGlobal
