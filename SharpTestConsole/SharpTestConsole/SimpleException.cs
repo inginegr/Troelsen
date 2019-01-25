@@ -7,38 +7,51 @@ using System.Data.EntityClient;
 using System.Xml;
 using System.Xml.Linq;
 using System.ServiceModel;
-using MagicEightBallServiceLib;
+using System.Collections;
+using System.Reflection;
+using System.Diagnostics;
+using System.Threading;
+using System.Runtime.Remoting.Messaging;
 
+
+[assembly:CLSCompliant(true)]
 
 namespace MagicEightBallServiceHost
 {
+    public delegate int BinarOp(int x, int y);
+
     class Program
     {
+        
         static void Main(string[] args)
         {
-            Console.WriteLine("***Console based WCF Host***");
+            WaitCallback wcb = new WaitCallback(PrintNum);
+            ThreadPool.QueueUserWorkItem(wcb, "Hello");
 
-            using(ServiceHost serviceHost =new ServiceHost(typeof(MagicEightBallService)))
-            {
-                serviceHost.Open();
-                DisplayHostInfo(serviceHost);
 
-                Console.WriteLine("The service is ready;");
-                Console.WriteLine("Press the Enter key to terminate the service;");
-                Console.ReadLine();
-            }
+            Console.ReadLine();
         }
-        static void DisplayHostInfo(ServiceHost host)
+
+        public static void PrintNum(object inb)
         {
-            Console.WriteLine();
-            Console.WriteLine("HostInfo");
-            foreach (System.ServiceModel.Description.ServiceEndpoint se in host.Description.Endpoints)
-            {
-                Console.WriteLine("Adress: {0}", se.Address);
-                Console.WriteLine("Binding: {0}", se.Binding.Name);
-                Console.WriteLine("Contract: {0}", se.Contract.Name);
-                Console.WriteLine();
-            }
+            Console.WriteLine("{0} + {1}", (string)inb , DateTime.Now.ToLongTimeString());
+            
+        }
+
+        public static void asclbc(IAsyncResult ia)
+        {            
+            Console.WriteLine("Ended");
+            AsyncResult ac = (AsyncResult)ia;
+            BinarOp bo = (BinarOp)ac.AsyncDelegate;
+            Console.WriteLine("Adding operation  {0}", bo.EndInvoke(ia));
+             
+        }
+        public static int Add(int x, int y)
+        {
+            Console.WriteLine("Adding");
+            Console.WriteLine(x + y);
+            Thread.Sleep(500);
+            return x + y;
         }
     }
 }
