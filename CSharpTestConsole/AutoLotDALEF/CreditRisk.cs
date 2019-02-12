@@ -7,16 +7,14 @@ namespace AutoLotDALEF
     using System.Data.Entity.Spatial;
 
     [Table("CreditRisk")]
-    public partial class CreditRisk
+    public partial class CreditRisk : EntityBase
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CustID { get; set; }
-
         [StringLength(50)]
+        [Index("IDX_CreditRisk_Name", IsUnique = true, Order =2)]
         public string FirstName { get; set; }
 
         [StringLength(50)]
+        [Index("IDX_CreditRisk_Name", IsUnique = true, Order = 1)]
         public string LastName { get; set; }
     }
 }

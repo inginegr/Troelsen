@@ -6,19 +6,15 @@ namespace AutoLotDALEF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Customer
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CustID { get; set; }
-
+    public partial class Customer : EntityBase
+    {   
         [StringLength(50)]
         public string FirstName { get; set; }
 
         [StringLength(50)]
         public string LastName { get; set; }
 
-        //public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
 
         [NotMapped]
         public string FullName => FirstName +" "+ LastName;

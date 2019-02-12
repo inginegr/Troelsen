@@ -18,8 +18,8 @@ namespace TestLibrary
             {
                 Database.SetInitializer(new MyDataInitializer());
                 var cont = new AutoLotEntities();
-                foreach (Customer c in cont.Customers)
-                    Console.WriteLine("{0}  {1}  {2}", c.CustID, c.FirstName, c.LastName);
+                foreach (Inventory c in cont.Inventories)
+                    Console.WriteLine(c);
             }
             catch (Exception ex)
             {

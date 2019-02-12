@@ -7,12 +7,8 @@ namespace AutoLotDALEF
     using System.Data.Entity.Spatial;
 
     [Table("Inventory")]
-    public partial class Inventory
+    public partial class Inventory : EntityBase
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CarID { get; set; }
-
         [StringLength(50)]
         public string Make { get; set; }
 
@@ -22,6 +18,6 @@ namespace AutoLotDALEF
         [StringLength(50)]
         public string PetName { get; set; }
 
-        //public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 }

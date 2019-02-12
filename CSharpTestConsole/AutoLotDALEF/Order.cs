@@ -6,13 +6,15 @@ namespace AutoLotDALEF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Order
-    {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int OrderID { get; set; }
-
-        public int CustID { get; set; }
+    public partial class Order : EntityBase
+    {        
+        public int CustomerID { get; set; }
+        [ForeignKey(nameof(CustomerID))]
+        public virtual Customer Customer { get; set; }
 
         public int CarID { get; set; }
+        [ForeignKey(nameof(CarID))]
+        public virtual Inventory Car { get; set; }
+
     }
 }
