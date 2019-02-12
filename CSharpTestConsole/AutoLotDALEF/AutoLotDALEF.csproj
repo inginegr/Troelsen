@@ -55,12 +55,22 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryPartial.cs" />
+    <Compile Include="Migrations\201902121017148_InitialCreate.cs" />
+    <Compile Include="Migrations\201902121017148_InitialCreate.Designer.cs">
+      <DependentUpon>201902121017148_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201902121017148_InitialCreate.resx">
+      <DependentUpon>201902121017148_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

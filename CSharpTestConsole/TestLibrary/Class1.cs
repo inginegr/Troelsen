@@ -19,7 +19,7 @@ namespace TestLibrary
                 Database.SetInitializer(new MyDataInitializer());
                 var cont = new AutoLotEntities();
                 foreach (Customer c in cont.Customers)
-                    Console.WriteLine("{0}  {1}  {2}",c.CustID,c.FirstName,c.LastName);
+                    Console.WriteLine("{0}  {1}  {2}", c.CustID, c.FirstName, c.LastName);
             }
             catch (Exception ex)
             {
