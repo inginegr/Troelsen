@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.EntityClient;
 using System.Xml;
 using System.Xml.Linq;
 using System.ServiceModel;
@@ -11,47 +10,38 @@ using System.Collections;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.Remoting.Messaging;
+using System.Net;
+using System.IO;
+using System.Data.Common;
+using System.Data.SqlClient;
+
 
 
 [assembly:CLSCompliant(true)]
 
 namespace MagicEightBallServiceHost
 {
-    public delegate int BinarOp(int x, int y);
-
+    
     class Program
     {
-        
+        private static string theEbook = null;
+        enum me
+        {
+            one, two, three
+        }
         static void Main(string[] args)
         {
-            WaitCallback wcb = new WaitCallback(PrintNum);
-            ThreadPool.QueueUserWorkItem(wcb, "Hello");
+            DirectoryInfo di = new DirectoryInfo(".");
+            FileInfo[] s = di.GetFiles();
+            foreach(FileInfo f in s)
+                Console.WriteLine(f.Name);
+            object sd;
+            Enum.IsDefined(typeof(me), "dsfsdf");
 
 
             Console.ReadLine();
-        }
-
-        public static void PrintNum(object inb)
-        {
-            Console.WriteLine("{0} + {1}", (string)inb , DateTime.Now.ToLongTimeString());
-            
-        }
-
-        public static void asclbc(IAsyncResult ia)
-        {            
-            Console.WriteLine("Ended");
-            AsyncResult ac = (AsyncResult)ia;
-            BinarOp bo = (BinarOp)ac.AsyncDelegate;
-            Console.WriteLine("Adding operation  {0}", bo.EndInvoke(ia));
-             
-        }
-        public static int Add(int x, int y)
-        {
-            Console.WriteLine("Adding");
-            Console.WriteLine(x + y);
-            Thread.Sleep(500);
-            return x + y;
         }
     }
 }

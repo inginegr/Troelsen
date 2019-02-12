@@ -22,6 +22,8 @@ namespace DataParallelismWithForEach
     /// </summary>
     public partial class MainWindow : Window
     {
+        CancellationTokenSource cnt = new CancellationTokenSource();
+
         public MainWindow()
         {
             //InitializeComponent();
@@ -29,38 +31,44 @@ namespace DataParallelismWithForEach
 
         private void cmdCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            cnt.Cancel();
         }
 
         private void cmdProcess_Click(object sender, RoutedEventArgs e)
         {
-            GetProc();
+            Task.Factory.StartNew(() => GetProc());
         }
         void GetProc()
         {
+            ParallelOptions parop = new ParallelOptions();
+            parop.CancellationToken = cnt.Token;
+            parop.MaxDegreeOfParallelism = System.Environment.ProcessorCount;
+
             string FilesPath = @"C:\Users\Public\Pictures\Sample Pictures";
             string NewPath = @"C:\Users\Public\Pictures\Sample Pictures\NewPic";
             string[] msFiles = Directory.GetFiles(FilesPath, "*.jpg");
             Directory.CreateDirectory(@"C:\Users\Public\Pictures\Sample Pictures\NewPic");
-            Parallel.ForEach(msFiles, (s)=>
+
+            try
             {
-                string st = Path.GetFileName(s);
-                using(Bitmap bp=new Bitmap(s))
-                {
-                    bp.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    bp.Save(Path.Combine(NewPath, st));
-                    this.Dispatcher.Invoke((Action)delegate
+                Parallel.ForEach(msFiles, parop, (s) =>
                     {
-                      //  lock (new object())
-                      //  {
-                            this.Title = $"Processing {st} on thread {Thread.CurrentThread.ManagedThreadId}";
-                      //  }
-                    });
-                    
-                    
-                }
+                        parop.CancellationToken.ThrowIfCancellationRequested();
+                        string st = Path.GetFileName(s);
+                        using (Bitmap bp = new Bitmap(s))
+                        {
+                            bp.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            bp.Save(Path.Combine(NewPath, st));
+                            this.Dispatcher.Invoke((Action)delegate { this.Title = $"Processing {st} on thread {Thread.CurrentThread.ManagedThreadId}"; });
+                        }
+                    }
+                    );
+                this.Dispatcher.Invoke((Action)delegate { this.Title = "Done"; });
             }
-            );
+            catch (Exception ex)
+            {
+                this.Dispatcher.Invoke((Action)delegate { this.Title = ex.Message; });
+            }
         }
     }
 }
