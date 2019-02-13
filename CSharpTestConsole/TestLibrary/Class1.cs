@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoLotDALEF;
+using AutoLotDALEF.Repo;
 
 namespace TestLibrary
 {
@@ -13,12 +14,12 @@ namespace TestLibrary
     {
         static void Main()
         {
+            
             Console.WriteLine("**** Fun with EntityFrameWork ****");
             try
             {
-                Database.SetInitializer(new MyDataInitializer());
-                var cont = new AutoLotEntities();
-                foreach (Inventory c in cont.Inventories)
+                var repo = new InventoryRepo();
+                foreach (Inventory c in repo.GetAll())
                     Console.WriteLine(c);
             }
             catch (Exception ex)
