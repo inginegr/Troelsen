@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
+
+
 namespace DataParallelismWithForEach
 {
     /// <summary>
@@ -26,49 +28,37 @@ namespace DataParallelismWithForEach
 
         public MainWindow()
         {
-            //InitializeComponent();
+            InitializeComponent();
+        }        
+
+        private void MenuItem_MouseEnter_Exit(object sender, MouseEventArgs e)
+        {
+
         }
 
-        private void cmdCancel_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_MouseLeave_Exit(object sender, MouseEventArgs e)
         {
-            cnt.Cancel();
+            this.Close();
         }
 
-        private void cmdProcess_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_Exit(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(() => GetProc());
+
         }
-        void GetProc()
+
+        private void MenuItem_MouseEnter_Tools(object sender, MouseEventArgs e)
         {
-            ParallelOptions parop = new ParallelOptions();
-            parop.CancellationToken = cnt.Token;
-            parop.MaxDegreeOfParallelism = System.Environment.ProcessorCount;
 
-            string FilesPath = @"C:\Users\Public\Pictures\Sample Pictures";
-            string NewPath = @"C:\Users\Public\Pictures\Sample Pictures\NewPic";
-            string[] msFiles = Directory.GetFiles(FilesPath, "*.jpg");
-            Directory.CreateDirectory(@"C:\Users\Public\Pictures\Sample Pictures\NewPic");
+        }
 
-            try
-            {
-                Parallel.ForEach(msFiles, parop, (s) =>
-                    {
-                        parop.CancellationToken.ThrowIfCancellationRequested();
-                        string st = Path.GetFileName(s);
-                        using (Bitmap bp = new Bitmap(s))
-                        {
-                            bp.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                            bp.Save(Path.Combine(NewPath, st));
-                            this.Dispatcher.Invoke((Action)delegate { this.Title = $"Processing {st} on thread {Thread.CurrentThread.ManagedThreadId}"; });
-                        }
-                    }
-                    );
-                this.Dispatcher.Invoke((Action)delegate { this.Title = "Done"; });
-            }
-            catch (Exception ex)
-            {
-                this.Dispatcher.Invoke((Action)delegate { this.Title = ex.Message; });
-            }
+        private void MenuItem_MouseLeav_Tools(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_Tools(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
