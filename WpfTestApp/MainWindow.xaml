@@ -5,37 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataParallelismWithForEach"
         mc:Ignorable="d"
-        Title="NotePad" Height="295.333" Width="400">
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Open" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
-    </Window.CommandBindings>
+        Title="NotePad" Height="295.333" Width="600">
+    
     <DockPanel Background="AliceBlue">
-        <Menu DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <MenuItem Header="_File">
-                <Separator/>
-                <MenuItem Command="ApplicationCommands.Open"/>
-                <MenuItem Header="_Exit" MouseEnter="MenuItem_MouseEnter_Exit" MouseLeave="MenuItem_MouseLeave_Exit"
-                          Click="MenuItem_Click_Exit"/>                
-            </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Command="ApplicationCommands.Copy"/>
-                <MenuItem Command="ApplicationCommands.Paste"/>
-            </MenuItem>
-            <MenuItem Header="_Tools">
-                <Separator/>
-                <MenuItem Header="_Spelling Hints" MouseEnter="MenuItem_MouseEnter_Tools" MouseLeave="MenuItem_MouseLeav_Tools" Click="MenuItem_Click_Exit"/>
-            </MenuItem>
-        </Menu>
-        
-        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top">
-            <Button Content="Exit" MouseEnter="MenuItem_MouseEnter_Exit" MouseLeave="MenuItem_MouseLeave_Exit" Click="MenuItem_Click_Exit"/>
-            <Button Content="Check" MouseEnter="MenuItem_MouseEnter_Tools" MouseLeave="MenuItem_MouseLeav_Tools" Click="MenuItem_Click_Tools" Cursor="Help"/>
-        </ToolBar>
-        <StatusBar DockPanel.Dock="Bottom" Background="Beige" VerticalAlignment="Bottom">
-            <StatusBarItem>
-                <TextBlock x:Name="statBarText" Text="Ready"/>
-            </StatusBarItem>
-        </StatusBar>
-        <Button x:Name="MyBut" Width="50" Height="30" PreviewMouseDown="Bla"/>
+        <TabControl Height="265" VerticalAlignment="Top" Width="Auto">
+            <TabItem Header="Ink API">
+                <StackPanel Background="#FFE5E5E5">
+                    <ToolBar Height="30">
+                        <Border Margin="0,2,0,0" Width="Auto">
+                            <WrapPanel Orientation="Horizontal">
+                                <RadioButton x:Name="inkRadio" Content="Ink Mode" IsChecked="True" Click="RadioButtonClicked"/>
+                                <RadioButton x:Name="eraseRadio" Content="Erase Mode" Click="RadioButtonClicked"/>
+                                <RadioButton x:Name="selectRadio" Content="Select Mode" Click="RadioButtonClicked"/>
+                            </WrapPanel>
+                        </Border>
+
+                        <Separator/>
+                        <ComboBox Width="100" x:Name="comboColors" SelectionChanged="ColorChanged">
+                            <ComboBoxItem x:Name="cmbRed" Content="Red" IsSelected="True"/>
+                            <ComboBoxItem x:Name="cmbBlue" Content="Blue"/>
+                            <ComboBoxItem x:Name="cmbGreen" Content="Green"/>
+                        </ComboBox>
+                        <Separator/>
+                        
+                        <Grid Background="LightBlue">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btnSave" Width="50" Content="Save"/>
+                            <Button Grid.Column="1" x:Name="btnLoad" Width="50" Content="Load"/>
+                            <Button Grid.Column="2" x:Name="btnClear" Width="50" Content="Clear"/>
+                        </Grid>
+                    </ToolBar>
+                    <InkCanvas x:Name="MyInkCanvas" Background="#FFB6F4F1" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="DataBinding">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="DataGrid">
+                <StackPanel Background="BlanchedAlmond">                    
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
     </DockPanel>
 </Window>
