@@ -36,6 +36,6 @@
                 <TextBlock x:Name="statBarText" Text="Ready"/>
             </StatusBarItem>
         </StatusBar>
-        <Button Name="MyBut" Width="50" Height="30" MouseLeftButtonDown="BraBraBra"/>
+        <Button x:Name="MyBut" Width="50" Height="30" PreviewMouseDown="Bla"/>
     </DockPanel>
 </Window>

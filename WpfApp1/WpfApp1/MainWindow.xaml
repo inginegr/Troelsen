@@ -6,9 +6,9 @@
         xmlns:Cor="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="568.505" Width="1602.313" MouseMove="Window_MouseMove">
+        Title="MainWindow" Height="568.505" Width="573.313" MouseMove="Window_MouseMove">
     <StackPanel>
-        <Button Width="100" Height="50" HorizontalAlignment="Left" Content="Click Me" Click="Button_Click" Name="ClickMe">
+        <Button Width="100" Height="50" HorizontalAlignment="Left" Content="Click Me" MouseDown="Button_Click" Name="ClickMe">
             
         </Button>
         <Calendar Name="Calendar" HorizontalAlignment="Left">

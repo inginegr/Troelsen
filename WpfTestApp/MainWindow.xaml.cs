@@ -84,20 +84,15 @@ namespace DataParallelismWithForEach
             }
         }
 
-        private void BraBraBra(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Hello  From Button");
-        }
-
         private void EllipseDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("Hello from ellipse");
             e.Handled = false;
         }
 
-        private void BraBraBra(object sender, MouseButtonEventArgs e)
+        private void Bla(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Hello  From Button");
+            MessageBox.Show("Hello");
         }
     }
 }

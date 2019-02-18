@@ -32,7 +32,12 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Hello");
+        }
 
+        private void Button_Click(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hello");
         }
     }
 }
