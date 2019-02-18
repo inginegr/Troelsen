@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataParallelismWithForEach"
         mc:Ignorable="d"
-        Title="NotePad" Height="295.333" Width="600">
+        Title="NotePad" Height="300" Width="600">
+    <Window.Resources>
+        <local:MyConv x:Key="cnv"/>
+    </Window.Resources>
     
     <DockPanel Background="AliceBlue">
         <TabControl Height="265" VerticalAlignment="Top" Width="Auto">
@@ -42,8 +45,12 @@
                     <InkCanvas x:Name="MyInkCanvas" Background="#FFB6F4F1" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="DataBinding">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="DataBinding">                
+                <StackPanel VerticalAlignment="Top">
+                    <ScrollBar x:Name="MySb" VerticalAlignment="Top" Orientation="Horizontal" Height="30" Width="Auto" Minimum="0" Maximum="100"/>
+                    <Label x:Name="lbl" Height="30" BorderThickness="1" BorderBrush="Gray"
+                           HorizontalAlignment="Left" Content="{Binding Path=Value, Converter={StaticResource cnv}}" Width="100"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="DataGrid">
                 <StackPanel Background="BlanchedAlmond">                    
