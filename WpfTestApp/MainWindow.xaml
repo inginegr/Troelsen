@@ -6,28 +6,36 @@
         xmlns:local="clr-namespace:DataParallelismWithForEach"
         mc:Ignorable="d"
         Title="NotePad" Height="295.333" Width="400">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
     <DockPanel Background="AliceBlue">
         <Menu DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top">
             <MenuItem Header="_File">
                 <Separator/>
+                <MenuItem Command="ApplicationCommands.Open"/>
                 <MenuItem Header="_Exit" MouseEnter="MenuItem_MouseEnter_Exit" MouseLeave="MenuItem_MouseLeave_Exit"
                           Click="MenuItem_Click_Exit"/>                
             </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="ApplicationCommands.Copy"/>
+                <MenuItem Command="ApplicationCommands.Paste"/>
+            </MenuItem>
             <MenuItem Header="_Tools">
                 <Separator/>
-                <MenuItem Header="_Spelling Hints" MouseEnter="MenuItem_MouseEnter_Tools" MouseLeave="MenuItem_MouseLeav_Tools" Click="MenuItem_Click_Tools"/>
+                <MenuItem Header="_Spelling Hints" MouseEnter="MenuItem_MouseEnter_Tools" MouseLeave="MenuItem_MouseLeav_Tools" Click="MenuItem_Click_Exit"/>
             </MenuItem>
         </Menu>
         
         <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top">
-            <Button Content="Exit" MouseEnter="MouseEneterExitArea" MouseLeave="MouseLeaveArea" Click="FileExit_Click"/>
-            <Button Content="Check" MouseEnter="MouseEnterToolsHintsArea" MouseLeave="MouseLeaveArea" Click="ToolsSpllingHints_Click" Cursor="Help"/>
+            <Button Content="Exit" MouseEnter="MenuItem_MouseEnter_Exit" MouseLeave="MenuItem_MouseLeave_Exit" Click="MenuItem_Click_Exit"/>
+            <Button Content="Check" MouseEnter="MenuItem_MouseEnter_Tools" MouseLeave="MenuItem_MouseLeav_Tools" Click="MenuItem_Click_Tools" Cursor="Help"/>
         </ToolBar>
-
         <StatusBar DockPanel.Dock="Bottom" Background="Beige" VerticalAlignment="Bottom">
             <StatusBarItem>
-                <TextBlock Name="statBarText" Text="Ready"/>
+                <TextBlock x:Name="statBarText" Text="Ready"/>
             </StatusBarItem>
         </StatusBar>
-     </DockPanel>
+        <Button Name="MyBut" Width="50" Height="30" MouseLeftButtonDown="BraBraBra"/>
+    </DockPanel>
 </Window>

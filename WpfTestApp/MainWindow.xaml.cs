@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using Microsoft.Win32;
 
 
 
@@ -38,12 +39,12 @@ namespace DataParallelismWithForEach
 
         private void MenuItem_MouseLeave_Exit(object sender, MouseEventArgs e)
         {
-            this.Close();
+            
         }
 
         private void MenuItem_Click_Exit(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void MenuItem_MouseEnter_Tools(object sender, MouseEventArgs e)
@@ -59,6 +60,44 @@ namespace DataParallelismWithForEach
         private void MenuItem_Click_Tools(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            int y = 8;
+
+            if (y > 7)
+            {
+                e.CanExecute = true;
+            }
+            else
+                e.CanExecute = false;
+            
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog opf = new OpenFileDialog { Filter = "Text Files |*.txt" };
+            if (opf.ShowDialog() == true)
+            {
+                string str = File.ReadAllText(opf.FileName);
+            }
+        }
+
+        private void BraBraBra(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Hello  From Button");
+        }
+
+        private void EllipseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hello from ellipse");
+            e.Handled = false;
+        }
+
+        private void BraBraBra(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hello  From Button");
         }
     }
 }
