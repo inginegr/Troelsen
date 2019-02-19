@@ -4,59 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataParallelismWithForEach"
-        mc:Ignorable="d"
-        Title="NotePad" Height="300" Width="600">
-    <Window.Resources>
-        <local:MyConv x:Key="cnv"/>
-    </Window.Resources>
-    
-    <DockPanel Background="AliceBlue">
-        <TabControl Height="265" VerticalAlignment="Top" Width="Auto">
-            <TabItem Header="Ink API">
-                <StackPanel Background="#FFE5E5E5">
-                    <ToolBar Height="30">
-                        <Border Margin="0,2,0,0" Width="Auto">
-                            <WrapPanel Orientation="Horizontal">
-                                <RadioButton x:Name="inkRadio" Content="Ink Mode" IsChecked="True" Click="RadioButtonClicked"/>
-                                <RadioButton x:Name="eraseRadio" Content="Erase Mode" Click="RadioButtonClicked"/>
-                                <RadioButton x:Name="selectRadio" Content="Select Mode" Click="RadioButtonClicked"/>
-                            </WrapPanel>
-                        </Border>
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        Title="MainWindow" Height="400" Width="675">
+    <Canvas>
+        <Button Name="bOne" Height="30" Width="50" Click="BOne_Click" Canvas.Top="40" Canvas.Left="40" Content="First"/>
+        <Button Name="bTwo" Height="30" Width="50" Click="BTwo_Click"  Canvas.Top="80" Canvas.Left="40" Content="Second"/>
+        <Button Name="bThird" Height="30" Width="50" Click="BThird_Click"  Canvas.Top="120" Canvas.Left="40" Content="Third"/>
 
-                        <Separator/>
-                        <ComboBox Width="100" x:Name="comboColors" SelectionChanged="ColorChanged">
-                            <ComboBoxItem x:Name="cmbRed" Content="Red" IsSelected="True"/>
-                            <ComboBoxItem x:Name="cmbBlue" Content="Blue"/>
-                            <ComboBoxItem x:Name="cmbGreen" Content="Green"/>
-                        </ComboBox>
-                        <Separator/>
-                        
-                        <Grid Background="LightBlue">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="60"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" x:Name="btnSave" Width="50" Content="Save"/>
-                            <Button Grid.Column="1" x:Name="btnLoad" Width="50" Content="Load"/>
-                            <Button Grid.Column="2" x:Name="btnClear" Width="50" Content="Clear"/>
-                        </Grid>
-                    </ToolBar>
-                    <InkCanvas x:Name="MyInkCanvas" Background="#FFB6F4F1" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="DataBinding">                
-                <StackPanel VerticalAlignment="Top">
-                    <ScrollBar x:Name="MySb" VerticalAlignment="Top" Orientation="Horizontal" Height="30" Width="Auto" Minimum="0" Maximum="100"/>
-                    <Label x:Name="lbl" Height="30" BorderThickness="1" BorderBrush="Gray"
-                           HorizontalAlignment="Left" Content="{Binding Path=Value, Converter={StaticResource cnv}}" Width="100"/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="DataGrid">
-                <StackPanel Background="BlanchedAlmond">                    
-                </StackPanel>
-            </TabItem>
-        </TabControl>
-
-    </DockPanel>
+        <Border BorderThickness="2" BorderBrush="Green" Canvas.Left="100" Canvas.Bottom="0" Canvas.Right="0" Canvas.Top="0">
+            <Image Name="MyImg" Stretch="None"/>
+        </Border>
+    </Canvas>
 </Window>
