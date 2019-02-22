@@ -3,14 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 
 namespace WpfTestApp.Models
 {
-    public class Inventory
+    public class Inventory : INotifyPropertyChanged
     {
-        public int CarId { get; set; }
-        public string Make { get; set; }
-        public string Color { get; set; }
-        public string PetName { get; set; }
+        private int carid;
+        private string make;
+        private string color;
+        private string petname;
+
+        public int CarId
+        {
+            get { return carid; }
+            set
+            {
+                if (value == carid) return;
+                carid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Make
+        {
+            get { return make; }
+            set
+            {
+                if (value == make) return;
+                make = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Color
+        {
+            get { return color; }
+            set
+            {
+                if (value == color) return;
+                color = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PetName
+        {
+            get { return petname; }
+            set
+            {
+                if (value == petname) return;
+                petname = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

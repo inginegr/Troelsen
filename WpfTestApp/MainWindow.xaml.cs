@@ -36,13 +36,13 @@ namespace DataParallelismWithForEach
 
         private void BtnAddCar_OnClick(object sender, RoutedEventArgs e)
         {
-            lst.First(x => x.CarId == ((Inventory)cboCars.SelectedItem)?.CarId).Color = "Pink";
+            var maxCount = lst?.Max(x => x.CarId) ?? 0;
+            lst?.Add(new Inventory { CarId = ++maxCount, Color = "Yellow", Make = "VW", PetName = "Birdie" });
         }
 
         private void BtnChangeColor_OnClick(object sender, RoutedEventArgs e)
         {
-            var maxCount = lst?.Max(x => x.CarId) ?? 0;
-            lst?.Add(new Inventory { CarId = ++maxCount, Color = "Yellow", Make = "VW", PetName = "Birdie" });
+            lst.First(x => x.CarId == ((Inventory)cboCars.SelectedItem)?.CarId).Color = "Pink";
         }
     }
 }
