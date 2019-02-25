@@ -15,6 +15,8 @@ namespace WpfTestApp.Models
         private string make;
         private string color;
         private string petname;
+        private bool ischanged;
+
 
         public int CarId
         {
@@ -60,9 +62,22 @@ namespace WpfTestApp.Models
             }
         }
 
+        public bool IsChanged
+        {
+            get { return ischanged; }
+            set
+            {
+                if (value == ischanged) return;
+                ischanged = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
+            if (propertyName != nameof(ischanged))
+                ischanged = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

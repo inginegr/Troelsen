@@ -43,7 +43,7 @@
                 <Button x:Name="btnChangeColor" Content="Change Color" Margin="5,0,5,0" Padding="4, 2" Click="BtnChangeColor_OnClick"/>
             </StackPanel>
             <Label Grid.Column="0" Grid.Row="4" Content="Is Changed"/>
-            <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding Path=IsChanged}" />
+            <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="10,0,0,0" IsEnabled="True" IsChecked="{Binding Path=IsChanged}" />
         </Grid>
     </Grid>
 </Window>

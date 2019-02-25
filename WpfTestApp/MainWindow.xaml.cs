@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,12 @@ namespace DataParallelismWithForEach
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly List<Inventory> lst = new List<Inventory>();
+        readonly ObservableCollection<Inventory> lst = new ObservableCollection<Inventory>();
         public MainWindow()
         {
             InitializeComponent();
-            lst.Add(new Inventory { CarId = 0, Color = "Black", Make = "Volvo", PetName = "FX-40" });
-            lst.Add(new Inventory { CarId = 1, Color = "Blue", Make = "Suzuki", PetName = "Jimny" });
+            lst.Add(new Inventory { CarId = 0, Color = "Black", Make = "Volvo", PetName = "FX-40", IsChanged=false });
+            lst.Add(new Inventory { CarId = 1, Color = "Blue", Make = "Suzuki", PetName = "Jimny", IsChanged=false });
             cboCars.ItemsSource = lst;
         }
 
