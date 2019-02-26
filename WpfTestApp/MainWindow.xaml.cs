@@ -19,6 +19,7 @@ using System.Data;
 using WpfTestApp.Models;
 
 
+
 namespace DataParallelismWithForEach
 {
     /// <summary>

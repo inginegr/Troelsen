@@ -31,19 +31,22 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" Content="Make"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Make}" />
-            <Label Grid.Column="0" Grid.Row="1" Content="Color"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Column="0" Grid.Row="2" Content="Pet Name"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=PetName}" />
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,5">
+            <Label Grid.Column="0" Grid.Row="0" Content="CarID"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=CarId, ValidatesOnDataErrors=True}"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="Make"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Make, ValidatesOnDataErrors=True}" />
+            <Label Grid.Column="0" Grid.Row="2" Content="Color"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+            <Label Grid.Column="0" Grid.Row="3" Content="Pet Name"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=PetName, ValidatesOnDataErrors=True}" />
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,5">
                 <Button x:Name="btnAddCar" Content="Add Car" Margin="5,0,5,0" Padding="4, 2" Click="BtnAddCar_OnClick" />
                 <Button x:Name="btnChangeColor" Content="Change Color" Margin="5,0,5,0" Padding="4, 2" Click="BtnChangeColor_OnClick"/>
             </StackPanel>
-            <Label Grid.Column="0" Grid.Row="4" Content="Is Changed"/>
-            <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="10,0,0,0" IsEnabled="True" IsChecked="{Binding Path=IsChanged}" />
+            <Label Grid.Column="0" Grid.Row="5" Content="Is Changed"/>
+            <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0,0,0" IsEnabled="True" IsChecked="{Binding Path=IsChanged, ValidatesOnDataErrors=True}" />
         </Grid>
     </Grid>
 </Window>

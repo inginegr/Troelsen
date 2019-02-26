@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace WpfTestApp.Models
 {
-    public class Inventory : INotifyPropertyChanged
+    public partial class Inventory : INotifyPropertyChanged
     {
         private int carid;
         private string make;
@@ -36,7 +36,8 @@ namespace WpfTestApp.Models
             {
                 if (value == make) return;
                 make = value;
-                OnPropertyChanged();
+                
+                OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -78,7 +79,7 @@ namespace WpfTestApp.Models
         {
             if (propertyName != nameof(ischanged))
                 ischanged = true;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
         }
 
     }
