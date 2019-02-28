@@ -12,12 +12,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Name="grd">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="CarLabels"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Vehicle"/>
+            <Label Grid.Column="0" Content="{Binding Path=gf.st}"/>
             <ComboBox Name="cboCars"  Grid.Column="1" DisplayMemberPath="PetName" />
         </Grid>
         <Grid Grid.Row="1" Name="DetailsGrid" DataContext="{Binding ElementName=cboCars, Path=SelectedItem}">

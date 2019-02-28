@@ -17,13 +17,17 @@ namespace MagicEightBallServiceHost
     {        
         public string s1 { get; set; }
         public string s2 { get; set; }
-        public string s3 { get; set; }        
+        public string s3 { get; set; }
 
         public myc()
         {
             s1 = "Hello";
             s2 = "my";
             s3 = "Frends";
+        }
+        public override string ToString()
+        {
+            return $"{ s1}  {s2}  {s3}";
         }
     }
 
@@ -39,41 +43,32 @@ namespace MagicEightBallServiceHost
             a2 = "are";
             a3 = "best";
         }
+        public override string ToString()
+        {
+            return $"{ a1}  {a2}  {a3}  { s1}  {s2}  {s3}";
+        }
     }
+
+
     class Program
-    {
-        
+    {        
         static void Main(string[] args)
         {
-            myc ms = new mys();
-            ms.s1 = "s11";
-            ms.s2 = "s2";
-            ms.s3 = "s3";
+            myc mc = new myc();
+            mc.s1 = "one";
+            mc.s2 = "two";
+            mc.s3 = "three";
+            mys ms = new mys();
 
+            Console.WriteLine("Before");
+
+            Console.WriteLine(ms.ToString());
+
+            ms = (mys)mc;
+            Console.WriteLine("After");
+            Console.WriteLine(ms.ToString());
             
-
-            try
-            {
-                XmlSerializer xser = new XmlSerializer(typeof(mys));
-
-                Stream fstr = new FileStream("mt.xml", FileMode.Create, FileAccess.Write, FileShare.None);
-                xser.Serialize(fstr, ms);
-                fstr.Close();
-
-                fstr = new FileStream("mt.xml", FileMode.Open);
-
-                myc vm = new myc();
-                Console.WriteLine($"{vm.s1}  {vm.s2}   {vm.s3}");
-                vm = (myc)xser.Deserialize(fstr);
-                Console.WriteLine($"{vm.s1}  {vm.s2}   {vm.s3}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-
-    Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }
