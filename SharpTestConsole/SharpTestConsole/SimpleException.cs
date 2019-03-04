@@ -12,7 +12,6 @@ using System.IO;
 namespace MagicEightBallServiceHost
 {
     [Serializable]
-    [XmlType]
     public class myc
     {        
         public string s1 { get; set; }
@@ -31,21 +30,26 @@ namespace MagicEightBallServiceHost
         }
     }
 
-    public class mys : myc
+    [Serializable]
+    public class mys
     {
         public string a1 { get; set; }
         public string a2 { get; set; }
         public string a3 { get; set; }
 
+        public myc[] mc = new myc[2];
+
         public mys()
         {
+            mc[0] = new myc();
+            mc[1] = new myc { s1 = "Hello2", s2 = "my2", s3 = "Friends2" };
             a1 = "You";
             a2 = "are";
             a3 = "best";
         }
         public override string ToString()
         {
-            return $"{ a1}  {a2}  {a3}  { s1}  {s2}  {s3}";
+            return $"{ a1}  {a2}  {a3}";
         }
     }
 
@@ -54,19 +58,19 @@ namespace MagicEightBallServiceHost
     {        
         static void Main(string[] args)
         {
-            myc mc = new myc();
-            mc.s1 = "one";
-            mc.s2 = "two";
-            mc.s3 = "three";
             mys ms = new mys();
 
             Console.WriteLine("Before");
 
-            Console.WriteLine(ms.ToString());
+            XmlSerializer xsr = new XmlSerializer(typeof(mys));
+            FileStream fs = new FileStream("ss.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            xsr.Serialize(fs, ms);
+            fs.Close();
 
-            ms = (mys)mc;
-            Console.WriteLine("After");
-            Console.WriteLine(ms.ToString());
+            fs = new FileStream("ss.xml", FileMode.OpenOrCreate, FileAccess.Read);
+            mys dd = (mys)xsr.Deserialize(fs);
+
+            Console.WriteLine($"{dd.ToString()}  {dd.mc[0].ToString()}    {dd.mc[1].ToString()}");
             
             Console.ReadLine();
         }

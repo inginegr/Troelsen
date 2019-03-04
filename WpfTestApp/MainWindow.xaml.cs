@@ -10,10 +10,12 @@ namespace DataParallelismWithForEach
     public class fr
     {
         public string st { get; set; }
+        public double hgt { get; set; }
 
         public fr()
         {
             st = "Hello";
+            hgt = 200;
         }
     }
     public partial class MainWindow : Window
@@ -30,6 +32,7 @@ namespace DataParallelismWithForEach
             lst.Add(new Inventory { CarId = 1, Color = "Blue", Make = "Suzuki", PetName = "Jimny", IsChanged=false });
             cboCars.ItemsSource = lst;
             gf = new fr();
+            this.Height = gf.hgt;
             this.grd.DataContext = this;
         }
 
