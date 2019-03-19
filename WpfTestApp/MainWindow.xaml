@@ -4,50 +4,100 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataParallelismWithForEach"
+        xmlns:prop="clr-namespace:WpfTestApp"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="{Binding Path=gf.hgt}" Width="675">
+        Title="opa" Height="400" Width="675" Name="MW">
+    <Window.Resources>
+        <prop:AppClass x:Key="der"/>
+        <SolidColorBrush x:Key="fff" Color="{x:Static SystemColors.WindowTextColor}"/>
+        <GeometryGroup x:Key="geom" FillRule="Nonzero">
+            <RectangleGeometry Rect="0,0,100,50"/>
+            <EllipseGeometry RadiusX="50" RadiusY="25" Center="50, 70">
+            </EllipseGeometry>
+        </GeometryGroup>
+
+        <CombinedGeometry GeometryCombineMode="Intersect" x:Key="comb">
+            <CombinedGeometry.Geometry1>
+                <CombinedGeometry GeometryCombineMode="Exclude">
+                    <CombinedGeometry.Geometry1>
+                        <RectangleGeometry Rect="0,0 100,50"/>
+                    </CombinedGeometry.Geometry1>
+                    <CombinedGeometry.Geometry2>
+                        <EllipseGeometry Center="50,40" RadiusX="40" RadiusY="25">
+                            <EllipseGeometry.Transform>
+                                <ScaleTransform ScaleX="0.6" ScaleY="0.6" CenterX="50" CenterY="40"/>
+                            </EllipseGeometry.Transform>
+                        </EllipseGeometry>
+                    </CombinedGeometry.Geometry2>
+                </CombinedGeometry>
+            </CombinedGeometry.Geometry1>
+            <CombinedGeometry.Geometry2>
+                <EllipseGeometry Center="50,40" RadiusX="50" RadiusY="35"/>
+            </CombinedGeometry.Geometry2>
+        </CombinedGeometry>
+
+        <PathGeometry x:Key="mcd" Figures="M10,10 L50,10 L50,65 Z"/>
+
+        <GeometryGroup x:Key="clp" >
+            <EllipseGeometry Center="50,50" RadiusX="40" RadiusY="70"/>
+        </GeometryGroup>
+
+        <GeometryDrawing Brush="Yellow" x:Key="gmtr">
+            <GeometryDrawing.Pen>
+                <Pen Brush="Blue" Thickness="3"/>
+            </GeometryDrawing.Pen>
+            <GeometryDrawing.Geometry>
+                <PathGeometry>
+                    <PathFigure StartPoint="5,5" IsClosed="True">
+                        <LineSegment Point="50,5"/>
+                        <LineSegment Point="50,50"/>
+                    </PathFigure>
+                </PathGeometry>
+            </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+
+    </Window.Resources>
+    
 
     <Grid IsSharedSizeScope="True" Margin="5,0,5,5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Name="grd">
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="CarLabels"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="{Binding Path=gf.st}"/>
-            <ComboBox Name="cboCars"  Grid.Column="1" DisplayMemberPath="PetName" />
-        </Grid>
-        <Grid Grid.Row="1" Name="DetailsGrid" DataContext="{Binding ElementName=cboCars, Path=SelectedItem}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="CarLabels"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" Content="CarID"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=CarId, ValidatesOnDataErrors=True}"/>
-            <Label Grid.Column="0" Grid.Row="1" Content="Make"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Make, ValidatesOnDataErrors=True}" />
-            <Label Grid.Column="0" Grid.Row="2" Content="Color"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-            <Label Grid.Column="0" Grid.Row="3" Content="Pet Name"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=PetName, ValidatesOnDataErrors=True}" />
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,5">
-                <Button x:Name="btnAddCar" Content="Add Car" Margin="5,0,5,0" Padding="4, 2" Click="BtnAddCar_OnClick" />
-                <Button x:Name="btnChangeColor" Content="Change Color" Margin="5,0,5,0" Padding="4, 2" Click="BtnChangeColor_OnClick"/>
-            </StackPanel>
-            <Label Grid.Column="0" Grid.Row="5" Content="Is Changed"/>
-            <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0,0,0" IsEnabled="True" IsChecked="{Binding Path=IsChanged, ValidatesOnDataErrors=True}" />
-        </Grid>
+        <Rectangle Fill="Yellow" Stroke="Blue" Width="100" Height="50" Margin="10,10,547,305" />        
+        <Path Fill="Yellow" Stroke="Blue" Data="{StaticResource geom}" Margin="266,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Path Fill="AntiqueWhite" Stroke="Beige" Margin="5, 100" VerticalAlignment="Top" HorizontalAlignment="Left" Data="{StaticResource comb}"/>
+
+        <Path Stroke="Blue"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,200,0,0">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="5,5" IsClosed="True">
+                        <LineSegment Point="50,5"/>
+                        <LineSegment Point="50,50"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <Path Stroke="Aqua" StrokeThickness="1" Margin="60,205,0,-200" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure IsClosed="True" StartPoint="0,0">
+                        <ArcSegment Point="50,0" SweepDirection="Clockwise" IsLargeArc="False" Size="40,200"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <Path Stroke="DarkMagenta" Margin="111,205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="0,0">
+                        <BezierSegment Point3="50,50" Point1="20,5" Point2="5,45"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Path Stroke="Firebrick" Margin="111,205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3" Data="M0,0 L60 4 L60 40 Z"/>
+
+        <Path Stroke="Black" Margin="130, 205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3" Data="{StaticResource mcd}"/>
+        <Button Content="Button" Clip="{StaticResource clp}" HorizontalAlignment="Left" Margin="256,205,0,0" VerticalAlignment="Top" Width="90" Height="150"/>
+        <Image Source="/Images/Tulips.jpg" Clip="{StaticResource clp}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="435,132,-251,-122"/>
+        
     </Grid>
 </Window>

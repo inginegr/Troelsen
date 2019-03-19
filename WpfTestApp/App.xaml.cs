@@ -6,11 +6,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace WpfTestApp
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
+    public class AppClass
+    {
+        public string stfr { get; set; }
+        public AppClass()
+        {
+            stfr = "Hello Friend";
+        }
+    }
     public partial class App : Application
     {
     }

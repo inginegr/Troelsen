@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using WpfTestApp.Models;
-
-
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DataParallelismWithForEach
 {
@@ -15,7 +16,7 @@ namespace DataParallelismWithForEach
         public fr()
         {
             st = "Hello";
-            hgt = 200;
+            hgt = 400;
         }
     }
     public partial class MainWindow : Window
@@ -30,10 +31,23 @@ namespace DataParallelismWithForEach
             InitializeComponent();
             lst.Add(new Inventory { CarId = 0, Color = "Black", Make = "Volvo", PetName = "FX-40", IsChanged=false });
             lst.Add(new Inventory { CarId = 1, Color = "Blue", Make = "Suzuki", PetName = "Jimny", IsChanged=false });
-            cboCars.ItemsSource = lst;
+            //cboCars.ItemsSource = lst;
             gf = new fr();
-            this.Height = gf.hgt;
-            this.grd.DataContext = this;
+            
+            this.DataContext = this;
+            ControlTemplate ct = new ControlTemplate(typeof(Button));
+
+            CommandBinding command = new CommandBinding(ApplicationCommands.New);
+            command.Executed += Command_Executed;
+            this.CommandBindings.Add(command);
+            
+
+            //ct.Background = (Brush)Colors.Yellow;
+        }
+
+        private void Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("Hello");
         }
 
         private void BtnAddCar_OnClick(object sender, RoutedEventArgs e)
@@ -44,7 +58,7 @@ namespace DataParallelismWithForEach
 
         private void BtnChangeColor_OnClick(object sender, RoutedEventArgs e)
         {
-            lst.First(x => x.CarId == ((Inventory)cboCars.SelectedItem)?.CarId).Color = "Pink";
+           // lst.First(x => x.CarId == ((Inventory)cboCars.SelectedItem)?.CarId).Color = "Pink";
         }
     }
 }

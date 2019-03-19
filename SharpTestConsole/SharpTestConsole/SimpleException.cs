@@ -17,12 +17,17 @@ namespace MagicEightBallServiceHost
         public string s1 { get; set; }
         public string s2 { get; set; }
         public string s3 { get; set; }
-
+        public int si { get; set; }
+        int dd;
+        //public myc() { }
         public myc()
         {
             s1 = "Hello";
             s2 = "my";
             s3 = "Frends";
+            si = 12;
+            dd = 45;
+            int f = 9 + 5;
         }
         public override string ToString()
         {
@@ -36,16 +41,19 @@ namespace MagicEightBallServiceHost
         public string a1 { get; set; }
         public string a2 { get; set; }
         public string a3 { get; set; }
-
-        public myc[] mc = new myc[2];
+        public int uy { get; set; }
+        public myc[] mc;
 
         public mys()
         {
-            mc[0] = new myc();
-            mc[1] = new myc { s1 = "Hello2", s2 = "my2", s3 = "Friends2" };
+            mc = new myc[2];
+            //for (int i = 0; i < 2; i++)
+            //    mc[i] = new myc ();
+            uy = 5;
             a1 = "You";
             a2 = "are";
             a3 = "best";
+            
         }
         public override string ToString()
         {
