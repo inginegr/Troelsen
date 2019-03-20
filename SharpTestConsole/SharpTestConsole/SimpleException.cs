@@ -1,86 +1,88 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
 using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Upload;
+using Google.Apis.Util.Store;
+using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
 
-
-namespace MagicEightBallServiceHost
+namespace Google.Apis.YouTube.Samples
 {
-    [Serializable]
-    public class myc
-    {        
-        public string s1 { get; set; }
-        public string s2 { get; set; }
-        public string s3 { get; set; }
-        public int si { get; set; }
-        int dd;
-        //public myc() { }
-        public myc()
-        {
-            s1 = "Hello";
-            s2 = "my";
-            s3 = "Frends";
-            si = 12;
-            dd = 45;
-            int f = 9 + 5;
-        }
-        public override string ToString()
-        {
-            return $"{ s1}  {s2}  {s3}";
-        }
-    }
-
-    [Serializable]
-    public class mys
+    /// <summary>
+    /// YouTube Data API v3 sample: create a playlist.
+    /// Relies on the Google APIs Client Library for .NET, v1.7.0 or higher.
+    /// See https://developers.google.com/api-client-library/dotnet/get_started
+    /// </summary>
+    internal class PlaylistUpdates
     {
-        public string a1 { get; set; }
-        public string a2 { get; set; }
-        public string a3 { get; set; }
-        public int uy { get; set; }
-        public myc[] mc;
-
-        public mys()
-        {
-            mc = new myc[2];
-            //for (int i = 0; i < 2; i++)
-            //    mc[i] = new myc ();
-            uy = 5;
-            a1 = "You";
-            a2 = "are";
-            a3 = "best";
-            
-        }
-        public override string ToString()
-        {
-            return $"{ a1}  {a2}  {a3}";
-        }
-    }
-
-
-    class Program
-    {        
+        [STAThread]
         static void Main(string[] args)
         {
-            mys ms = new mys();
+            Console.WriteLine("YouTube Data API: Playlist Updates");
+            Console.WriteLine("==================================");
 
-            Console.WriteLine("Before");
+            try
+            {
+                new PlaylistUpdates().Run().Wait();
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var e in ex.InnerExceptions)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                }
+            }
 
-            XmlSerializer xsr = new XmlSerializer(typeof(mys));
-            FileStream fs = new FileStream("ss.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            xsr.Serialize(fs, ms);
-            fs.Close();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
 
-            fs = new FileStream("ss.xml", FileMode.OpenOrCreate, FileAccess.Read);
-            mys dd = (mys)xsr.Deserialize(fs);
+        private async Task Run()
+        {
+            UserCredential credential;
+            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            {
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    // This OAuth 2.0 access scope allows for full read/write access to the
+                    // authenticated user's account.
+                    new[] { YouTubeService.Scope.Youtube },
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(this.GetType().ToString())
+                );
+            }
 
-            Console.WriteLine($"{dd.ToString()}  {dd.mc[0].ToString()}    {dd.mc[1].ToString()}");
+            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = this.GetType().ToString()
+            });
             
-            Console.ReadLine();
+            // Create a new, private playlist in the authorized user's channel.
+            var newPlaylist = new Playlist();
+            newPlaylist.Snippet = new PlaylistSnippet();
+            newPlaylist.Snippet.Title = "Test Playlist";
+            newPlaylist.Snippet.Description = "A playlist created with the YouTube API v3";
+            newPlaylist.Status = new PlaylistStatus();
+            newPlaylist.Status.PrivacyStatus = "public";
+            newPlaylist = await youtubeService.Playlists.Insert(newPlaylist, "snippet,status").ExecuteAsync();
+
+            // Add a video to the newly created playlist.
+            var newPlaylistItem = new PlaylistItem();
+            newPlaylistItem.Snippet = new PlaylistItemSnippet();
+            newPlaylistItem.Snippet.PlaylistId = newPlaylist.Id;
+            newPlaylistItem.Snippet.ResourceId = new ResourceId();
+            newPlaylistItem.Snippet.ResourceId.Kind = "youtube#video";
+            newPlaylistItem.Snippet.ResourceId.VideoId = "GNRMeaz6QRI";
+            newPlaylistItem = await youtubeService.PlaylistItems.Insert(newPlaylistItem, "snippet").ExecuteAsync();
+
+            Console.WriteLine("Playlist item id {0} was added to playlist id {1}.", newPlaylistItem.Id, newPlaylist.Id);
         }
     }
 }

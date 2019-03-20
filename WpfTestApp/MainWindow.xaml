@@ -8,96 +8,11 @@
         mc:Ignorable="d"
         Title="opa" Height="400" Width="675" Name="MW">
     <Window.Resources>
-        <prop:AppClass x:Key="der"/>
-        <SolidColorBrush x:Key="fff" Color="{x:Static SystemColors.WindowTextColor}"/>
-        <GeometryGroup x:Key="geom" FillRule="Nonzero">
-            <RectangleGeometry Rect="0,0,100,50"/>
-            <EllipseGeometry RadiusX="50" RadiusY="25" Center="50, 70">
-            </EllipseGeometry>
-        </GeometryGroup>
-
-        <CombinedGeometry GeometryCombineMode="Intersect" x:Key="comb">
-            <CombinedGeometry.Geometry1>
-                <CombinedGeometry GeometryCombineMode="Exclude">
-                    <CombinedGeometry.Geometry1>
-                        <RectangleGeometry Rect="0,0 100,50"/>
-                    </CombinedGeometry.Geometry1>
-                    <CombinedGeometry.Geometry2>
-                        <EllipseGeometry Center="50,40" RadiusX="40" RadiusY="25">
-                            <EllipseGeometry.Transform>
-                                <ScaleTransform ScaleX="0.6" ScaleY="0.6" CenterX="50" CenterY="40"/>
-                            </EllipseGeometry.Transform>
-                        </EllipseGeometry>
-                    </CombinedGeometry.Geometry2>
-                </CombinedGeometry>
-            </CombinedGeometry.Geometry1>
-            <CombinedGeometry.Geometry2>
-                <EllipseGeometry Center="50,40" RadiusX="50" RadiusY="35"/>
-            </CombinedGeometry.Geometry2>
-        </CombinedGeometry>
-
-        <PathGeometry x:Key="mcd" Figures="M10,10 L50,10 L50,65 Z"/>
-
-        <GeometryGroup x:Key="clp" >
-            <EllipseGeometry Center="50,50" RadiusX="40" RadiusY="70"/>
-        </GeometryGroup>
-
-        <GeometryDrawing Brush="Yellow" x:Key="gmtr">
-            <GeometryDrawing.Pen>
-                <Pen Brush="Blue" Thickness="3"/>
-            </GeometryDrawing.Pen>
-            <GeometryDrawing.Geometry>
-                <PathGeometry>
-                    <PathFigure StartPoint="5,5" IsClosed="True">
-                        <LineSegment Point="50,5"/>
-                        <LineSegment Point="50,50"/>
-                    </PathFigure>
-                </PathGeometry>
-            </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-
     </Window.Resources>
-    
+
 
     <Grid IsSharedSizeScope="True" Margin="5,0,5,5">
-        <Rectangle Fill="Yellow" Stroke="Blue" Width="100" Height="50" Margin="10,10,547,305" />        
-        <Path Fill="Yellow" Stroke="Blue" Data="{StaticResource geom}" Margin="266,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Path Fill="AntiqueWhite" Stroke="Beige" Margin="5, 100" VerticalAlignment="Top" HorizontalAlignment="Left" Data="{StaticResource comb}"/>
+        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
 
-        <Path Stroke="Blue"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,200,0,0">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="5,5" IsClosed="True">
-                        <LineSegment Point="50,5"/>
-                        <LineSegment Point="50,50"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-        <Path Stroke="Aqua" StrokeThickness="1" Margin="60,205,0,-200" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure IsClosed="True" StartPoint="0,0">
-                        <ArcSegment Point="50,0" SweepDirection="Clockwise" IsLargeArc="False" Size="40,200"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-        <Path Stroke="DarkMagenta" Margin="111,205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="0,0">
-                        <BezierSegment Point3="50,50" Point1="20,5" Point2="5,45"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-
-        <Path Stroke="Firebrick" Margin="111,205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3" Data="M0,0 L60 4 L60 40 Z"/>
-
-        <Path Stroke="Black" Margin="130, 205,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" StrokeThickness="3" Data="{StaticResource mcd}"/>
-        <Button Content="Button" Clip="{StaticResource clp}" HorizontalAlignment="Left" Margin="256,205,0,0" VerticalAlignment="Top" Width="90" Height="150"/>
-        <Image Source="/Images/Tulips.jpg" Clip="{StaticResource clp}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="435,132,-251,-122"/>
-        
     </Grid>
 </Window>
