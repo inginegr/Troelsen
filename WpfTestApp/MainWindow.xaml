@@ -8,11 +8,39 @@
         mc:Ignorable="d"
         Title="opa" Height="400" Width="675" Name="MW">
     <Window.Resources>
+        <Style x:Key="rotat">
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="true">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width" To="300" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="Height" To="80" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
+                            </Storyboard>                            
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
 
     <Grid IsSharedSizeScope="True" Margin="5,0,5,5">
-        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="Button_Click" Style="{StaticResource rotat}">
+            <!--<Button.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Left" To="300" Duration="0:0:1"></DoubleAnimation>
+                                
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>-->
+        </Button>
 
     </Grid>
 </Window>

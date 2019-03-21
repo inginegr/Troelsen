@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
@@ -13,16 +14,21 @@ using Google.Apis.YouTube.v3.Data;
 
 namespace Google.Apis.YouTube.Samples
 {
+    
     /// <summary>
     /// YouTube Data API v3 sample: create a playlist.
     /// Relies on the Google APIs Client Library for .NET, v1.7.0 or higher.
     /// See https://developers.google.com/api-client-library/dotnet/get_started
     /// </summary>
     internal class PlaylistUpdates
-    {
+    {   
         [STAThread]
         static void Main(string[] args)
         {
+            List<int> lst = new List<int> { 3, 23, 23, 56, 5, 7, 9, 2, 5, 78, 98, 54, 32, 545 };
+            lst.RemoveAll(x => x < 50);
+            
+
             Console.WriteLine("YouTube Data API: Playlist Updates");
             Console.WriteLine("==================================");
 
@@ -44,6 +50,9 @@ namespace Google.Apis.YouTube.Samples
 
         private async Task Run()
         {
+            LiveChatMessage df = new LiveChatMessage();
+            
+            
             UserCredential credential;
             using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
             {
@@ -57,7 +66,7 @@ namespace Google.Apis.YouTube.Samples
                     new FileDataStore(this.GetType().ToString())
                 );
             }
-
+           
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
