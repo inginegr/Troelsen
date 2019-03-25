@@ -16,10 +16,9 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Width" To="300" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
                                 <DoubleAnimation Storyboard.TargetProperty="Height" To="80" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
-                            </Storyboard>                            
+                            </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
-                    
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -27,19 +26,23 @@
 
 
     <Grid IsSharedSizeScope="True" Margin="5,0,5,5">
-        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="Button_Click" Style="{StaticResource rotat}">
-            <!--<Button.Triggers>
+
+
+        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="76" Height="25" Click="Button_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.Effect>
+                <BlurEffect Radius="5"/>
+            </Button.Effect>
+            <Button.Triggers>
                 <EventTrigger RoutedEvent="Button.MouseEnter">
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Left" To="300" Duration="0:0:1"></DoubleAnimation>
-                                
+                                <DoubleAnimation Storyboard.TargetProperty="Effect.Radius" From="5" To="0" Duration="0:0:0.8"></DoubleAnimation>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
-                </EventTrigger>
-            </Button.Triggers>-->
+                </EventTrigger>                
+            </Button.Triggers>
         </Button>
 
     </Grid>

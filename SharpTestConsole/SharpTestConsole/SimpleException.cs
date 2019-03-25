@@ -52,7 +52,6 @@ namespace Google.Apis.YouTube.Samples
         {
             LiveChatMessage df = new LiveChatMessage();
             
-            
             UserCredential credential;
             using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
             {
@@ -92,6 +91,21 @@ namespace Google.Apis.YouTube.Samples
             newPlaylistItem = await youtubeService.PlaylistItems.Insert(newPlaylistItem, "snippet").ExecuteAsync();
 
             Console.WriteLine("Playlist item id {0} was added to playlist id {1}.", newPlaylistItem.Id, newPlaylist.Id);
+        }
+    }
+    internal class Testing
+    {
+        public delegate void SomeDel(int a, int b);
+        static void Main()
+        {
+            Action<int, int> sd = new Action<int, int>(SomeActions);
+            sd(3, 4);
+            Console.ReadLine();
+        }
+
+        public static void SomeActions(int a, int b)
+        {
+            Console.WriteLine(a + b);
         }
     }
 }
