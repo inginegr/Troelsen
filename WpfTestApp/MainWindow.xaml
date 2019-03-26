@@ -6,44 +6,18 @@
         xmlns:local="clr-namespace:DataParallelismWithForEach"
         xmlns:prop="clr-namespace:WpfTestApp"        
         mc:Ignorable="d"
-        Title="opa" Height="400" Width="675" Name="MW">
-    <Window.Resources>
-        <Style x:Key="rotat">
-            <Style.Triggers>
-                <Trigger Property="Button.IsMouseOver" Value="true">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Width" To="300" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetProperty="Height" To="80" Duration="0:0:0.1" AutoReverse="True"></DoubleAnimation>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+        Title="opa" Height="400" Width="675" Name="MW" Loaded="MW_Loaded">
 
 
-    <Grid IsSharedSizeScope="True" Margin="5,0,5,5">
-
-
-        <Button Name="fv" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="76" Height="25" Click="Button_Click" RenderTransformOrigin="0.5,0.5">
-            <Button.Effect>
-                <BlurEffect Radius="5"/>
-            </Button.Effect>
-            <Button.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                    <EventTrigger.Actions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Effect.Radius" From="5" To="0" Duration="0:0:0.8"></DoubleAnimation>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger.Actions>
-                </EventTrigger>                
-            </Button.Triggers>
-        </Button>
-
+    <Grid Name="grid" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ListBox Name="lbx" Margin="5" SelectionChanged="lbx_SelectionChanged"></ListBox>
+        </ScrollViewer>
+        <TextBox TextWrapping="Wrap" IsReadOnly="True" Margin="5" 
+                         Name="txb" Grid.Column="1" VerticalScrollBarVisibility="Auto"></TextBox>
     </Grid>
 </Window>

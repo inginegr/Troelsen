@@ -64,6 +64,7 @@ namespace Google.Apis.YouTube.Samples
                     CancellationToken.None,
                     new FileDataStore(this.GetType().ToString())
                 );
+                
             }
            
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
@@ -94,18 +95,82 @@ namespace Google.Apis.YouTube.Samples
         }
     }
     internal class Testing
-    {
-        public delegate void SomeDel(int a, int b);
+    {        
         static void Main()
         {
-            Action<int, int> sd = new Action<int, int>(SomeActions);
-            sd(3, 4);
+            byte[] b = new byte[] { 0x12, 0x23, 0x34, 0x45, 0x56, 0x67, 0x78, 0x89 };
+            byte[] c = new byte[] { 0x98, 0x87, 0x76, 0x65, 0x54, 0x43, 0x32, 0x21 };
+
+            byte[] com;
+
+            var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.ReadWrite);
+            com = new byte[stream.Length];
+            for(int i=0;i<com.Length;i++)
+                com[i] = (byte)stream.ReadByte();
+            stream.Close();
+
+            com = ChangeEveryNByte(3, com);
+            
+            stream = new FileStream("secr.json", FileMode.Create, FileAccess.ReadWrite);
+            stream.Write(com, 0, com.Length);
+            stream.Close();
+
+            com = ChangeEveryNByte(3, com);
+
+            stream = new FileStream("secr1.json", FileMode.Create, FileAccess.ReadWrite);
+            stream.Write(com, 0, com.Length);
+            stream.Close();
+
             Console.ReadLine();
+        }        
+
+        static byte[] ChangeEveryNByte(byte n, byte[] a)
+        {
+            byte[] ret = new byte[a.Length];            
+            int by = 0;
+            foreach (byte c in a)
+            {
+                ret[by] = c;
+                for (int i = 0; i < 8; i++)
+                {
+                    if ( (i % n == 0) && (i > 0))
+                    {
+                        byte v = (byte)Math.Pow(2, i - 1);
+                        byte tb = (byte)(c & (byte)v);
+                        if (tb == v)
+                            ret[by] = (byte)(ret[by] & (255 - v));
+                        else
+                            ret[by] = (byte)(ret[by] | v);
+                    }
+                }
+                by++;
+            }
+            return ret;
         }
 
-        public static void SomeActions(int a, int b)
+        static string ChangeEveryNString(byte n, string a)
         {
-            Console.WriteLine(a + b);
+            char[] ch = a.ToCharArray();
+            char[] ret = new char[ch.Length];
+            int by = 0;
+            foreach (char c in ch)
+            {
+                ret[by] = c;
+                for (int i = 0; i < 8; i++)
+                {
+                    if ((i % n == 0) && (i > 0))
+                    {
+                        byte v = (byte)Math.Pow(2, i - 1);
+                        char tb = (char)(c & v);
+                        if (tb == v)
+                            ret[by] = (char)(ret[by] & (255 - v));
+                        else
+                            ret[by] = (char)(ret[by] | v);
+                    }
+                }
+                by++;
+            }
+            return new string(ret);
         }
     }
 }
