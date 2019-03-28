@@ -53,8 +53,22 @@ namespace Google.Apis.YouTube.Samples
             LiveChatMessage df = new LiveChatMessage();
             
             UserCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("secr1.json", FileMode.Open, FileAccess.ReadWrite))
             {
+                //var stream = new FileStream("secr.json", FileMode.Open, FileAccess.ReadWrite);
+
+                byte[] com;
+                com = new byte[stream.Length];
+                stream.Seek(0, SeekOrigin.Begin);
+                for (int i = 0; i < com.Length; i++)
+                    com[i] = (byte)stream.ReadByte();
+                
+                com = ChangeEveryNByte(3, com);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                stream.Write(com, 0, com.Length);
+                stream.Seek(0, SeekOrigin.Begin);
+
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     // This OAuth 2.0 access scope allows for full read/write access to the
@@ -64,8 +78,15 @@ namespace Google.Apis.YouTube.Samples
                     CancellationToken.None,
                     new FileDataStore(this.GetType().ToString())
                 );
-                
+
+                var st = new FileStream("secr1.json", FileMode.Open, FileAccess.ReadWrite);
+                com = ChangeEveryNByte(3, com);                
+
+                st.Write(com, 0, com.Length);
+
+                st.Close();                
             }
+            
            
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -93,6 +114,29 @@ namespace Google.Apis.YouTube.Samples
 
             Console.WriteLine("Playlist item id {0} was added to playlist id {1}.", newPlaylistItem.Id, newPlaylist.Id);
         }
+        static byte[] ChangeEveryNByte(byte n, byte[] a)
+        {
+            byte[] ret = new byte[a.Length];
+            int by = 0;
+            foreach (byte c in a)
+            {
+                ret[by] = c;
+                for (int i = 0; i < 8; i++)
+                {
+                    if ((i % n == 0) && (i > 0))
+                    {
+                        byte v = (byte)Math.Pow(2, i - 1);
+                        byte tb = (byte)(c & (byte)v);
+                        if (tb == v)
+                            ret[by] = (byte)(ret[by] & (255 - v));
+                        else
+                            ret[by] = (byte)(ret[by] | v);
+                    }
+                }
+                by++;
+            }
+            return ret;
+        }
     }
     internal class Testing
     {        
@@ -105,17 +149,25 @@ namespace Google.Apis.YouTube.Samples
 
             var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.ReadWrite);
             com = new byte[stream.Length];
-            for(int i=0;i<com.Length;i++)
+            for (int i = 0; i < com.Length; i++)
                 com[i] = (byte)stream.ReadByte();
             stream.Close();
 
-            com = ChangeEveryNByte(3, com);
-            
-            stream = new FileStream("secr.json", FileMode.Create, FileAccess.ReadWrite);
-            stream.Write(com, 0, com.Length);
-            stream.Close();
+           // com = ChangeEveryNByte(3, com);
+
+            //stream = new FileStream("secr.json", FileMode.Open, FileAccess.Read);
+            //com = new byte[stream.Length];
+            //for (int i = 0; i < com.Length; i++)
+            //    com[i] = (byte)stream.ReadByte();
+            //com = ChangeEveryNByte(3, com);
+            //stream.Flush();
+            //stream.Write(com, 0, com.Length);
+                        
+            //stream.Close();
+
 
             com = ChangeEveryNByte(3, com);
+
 
             stream = new FileStream("secr1.json", FileMode.Create, FileAccess.ReadWrite);
             stream.Write(com, 0, com.Length);
