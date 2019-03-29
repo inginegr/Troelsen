@@ -34,10 +34,24 @@ namespace CSharpTestConsole
     {   
         static void Main()
         {
-            Console.WriteLine("***Entity Framework***");
-            Console.WriteLine("CarID \t Color \t\t Make \t\t PetName \n");
+            int[] tt = new int[3];
+            tt[0] = 1;
+            tt[1] = 2;
+            tt[2] = 2;
 
-            ShowAllInventories();
+            int[] pp = new int[3];
+            pp[0] = 9;
+            pp[1] = 8;
+            pp[2] = 7;
+
+
+            Console.WriteLine($"{tt[0]}   {tt[1]}   {tt[2]}");
+            tt = pp;
+            Console.WriteLine($"{tt[0]}   {tt[1]}   {tt[2]}");
+
+
+
+
             Console.ReadLine();
         }
 
