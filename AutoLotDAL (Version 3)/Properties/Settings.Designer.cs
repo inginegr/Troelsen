@@ -26,7 +26,7 @@ namespace AutoLotDAL.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DIMA-PC\\MSSQLSERVER2014; Integrated Security=SSPI; Initial Catalog=AutoLot;P" +
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local)\\SQLEXPRESS;Initial Catalog=AutoLot;Integrated Security=True;P" +
             "ooling=False")]
         public string AutoLotConnectionString {
             get {
