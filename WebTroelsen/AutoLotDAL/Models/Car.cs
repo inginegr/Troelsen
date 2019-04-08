@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace AutoLotDAL.Models
 {
-    public class Car
+    public class Products
     {
-        public int CarId { get; set; }
-        public string Color { get; set; }
-        public string Make { get; set; }
-        public string PetName { get; set; }
+        public int ProductId { get; set; }
+        public string Name { get; set; }
+        public int Price { get; set; }
     }
 }
