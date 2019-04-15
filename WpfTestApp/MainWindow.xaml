@@ -6,18 +6,22 @@
         xmlns:local="clr-namespace:DataParallelismWithForEach"
         xmlns:prop="clr-namespace:WpfTestApp"        
         mc:Ignorable="d"
-        Title="opa" Height="400" Width="675" Name="MW" Loaded="MW_Loaded">
+        Title="opa" Height="400" Width="675" Name="MW">
 
 
-    <Grid Name="grid" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ListBox Name="lbx" Margin="5" SelectionChanged="lbx_SelectionChanged"></ListBox>
-        </ScrollViewer>
-        <TextBox TextWrapping="Wrap" IsReadOnly="True" Margin="5" 
-                         Name="txb" Grid.Column="1" VerticalScrollBarVisibility="Auto"></TextBox>
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="125,0,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="250,0,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="375,0,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="500,0,0,0"/>
+        
+        <ListBox Name="GRD" HorizontalAlignment="Left" Height="298" Margin="0,71,0,0" VerticalAlignment="Top" Width="667"/>
+        
+        <Button Name="GetAll" Content="GetAll" HorizontalAlignment="Left" Margin="0,28,0,0" VerticalAlignment="Top" Width="75" Click="GetAll_Click"/>
+        <Button Name="Update" Content="UpDate" HorizontalAlignment="Left" Margin="80,28,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="Remove" Content="Remove" HorizontalAlignment="Left" Margin="160,28,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="Options" Content="Options" HorizontalAlignment="Left" Margin="240,28,0,0" VerticalAlignment="Top" Width="75"/>
+
     </Grid>
 </Window>
