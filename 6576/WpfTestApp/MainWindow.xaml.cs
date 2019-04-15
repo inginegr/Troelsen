@@ -5,7 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoLot;
+using WpfTestApp;
 using System.Windows;
 
 
@@ -24,10 +24,6 @@ namespace DataParallelismWithForEach
         private void GetAll_Click(object sender, RoutedEventArgs e)
         {
             Database.SetInitializer(new MyDataInitializer());
-            AutoLotEntities ent = new AutoLotEntities();
-            
-            foreach(Customers cs in ent.Customers)
-                GRD.Items.Add($"{cs.CustID}   {cs.FirstName}   {cs.LastName}");
         }
     }    
 }

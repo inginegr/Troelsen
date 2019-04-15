@@ -10,6 +10,7 @@ namespace AutoLot
         public AutoLotEntities()
             : base("name=AutoLotEntities")
         {
+
         }
 
         public virtual DbSet<Customers> Customers { get; set; }
