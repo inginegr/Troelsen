@@ -1,4 +1,4 @@
-namespace WpfTestApp
+namespace ShoppingLot
 {
     using System;
     using System.Data.Entity;
@@ -6,12 +6,14 @@ namespace WpfTestApp
     using System.Linq;
     using System.Data.Entity.Migrations;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Entities : DbContext
     {
         public Entities()
             : base("name=ShoppingConnection")
         {
+
         }
 
         public virtual DbSet<Categories> Categories { get; set; }
@@ -79,7 +81,12 @@ namespace WpfTestApp
                 new Customers{ CustID=2, CustLastName="Capitan", CustName="Wane", GoodsID=3, GoodsNum=1 },
                 new Customers{ CustID=3, CustLastName="Gray", CustName="Gendalf", GoodsID=7, GoodsNum=6 },
                 new Customers{ CustID=4, CustLastName="Mouse", CustName="Mikky", GoodsID=1, GoodsNum=4 },
-                new Customers{ CustID=5, CustLastName="Rackham", CustName="Jack", GoodsID=5, GoodsNum=12 }
+                new Customers{ CustID=5, CustLastName="Rackham", CustName="Jack", GoodsID=5, GoodsNum=12 },
+                new Customers{ CustID=6, CustLastName="Snow", CustName="John", GoodsID=6, GoodsNum=3 },
+                new Customers{ CustID=7, CustLastName="Eddward", CustName="Stark", GoodsID=0, GoodsNum=11 },
+                new Customers{ CustID=8, CustLastName="Starc", CustName="Sansa", GoodsID=5, GoodsNum=7 },
+                new Customers{ CustID=9, CustLastName="Gates", CustName="John", GoodsID=4, GoodsNum=8 },
+                new Customers{ CustID=10, CustLastName="Straustrup", CustName="Bjarne", GoodsID=7, GoodsNum=8 }
             };
             context.Customers.AddOrUpdate(x => new { x.CustID, x.CustName }, cst.ToArray());
 
@@ -87,5 +94,14 @@ namespace WpfTestApp
 
             base.Seed(context);
         }
+    }
+
+    public class EntityBase
+    {
+        [Key]
+        public int ID { get; set; }
+
+        [Timestamp]
+        public byte[] TimeStamp { get; set; }
     }
 }

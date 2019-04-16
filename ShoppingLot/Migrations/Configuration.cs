@@ -1,54 +1,19 @@
-namespace WpfTestApp
+namespace ShoppingLot.Migrations
 {
     using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
     using System.Data.Entity.Migrations;
+    using System.Linq;
     using System.Collections.Generic;
 
-    public partial class Entities : DbContext
+    internal sealed class Configuration : DbMigrationsConfiguration<ShoppingLot.Entities>
     {
-        public Entities()
-            : base("name=ShoppingConnection")
+        public Configuration()
         {
+            AutomaticMigrationsEnabled = false;
         }
 
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<Store> Store { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Categories>()
-                .Property(e => e.CatName)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Customers>()
-                .Property(e => e.CustName)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Customers>()
-                .Property(e => e.CustLastName)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Store>()
-                .Property(e => e.Name)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Store>()
-                .Property(e => e.Category)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Store>()
-                .Property(e => e.Description)
-                .IsFixedLength();
-        }
-    }
-
-    public class MyDataInitializer : DropCreateDatabaseAlways<Entities>
-    {
-        protected override void Seed(Entities context)
+        protected override void Seed(ShoppingLot.Entities context)
         {
             List<Categories> ctg = new List<Categories>
             {
@@ -79,7 +44,12 @@ namespace WpfTestApp
                 new Customers{ CustID=2, CustLastName="Capitan", CustName="Wane", GoodsID=3, GoodsNum=1 },
                 new Customers{ CustID=3, CustLastName="Gray", CustName="Gendalf", GoodsID=7, GoodsNum=6 },
                 new Customers{ CustID=4, CustLastName="Mouse", CustName="Mikky", GoodsID=1, GoodsNum=4 },
-                new Customers{ CustID=5, CustLastName="Rackham", CustName="Jack", GoodsID=5, GoodsNum=12 }
+                new Customers{ CustID=5, CustLastName="Rackham", CustName="Jack", GoodsID=5, GoodsNum=12 },
+                new Customers{ CustID=6, CustLastName="Snow", CustName="John", GoodsID=6, GoodsNum=3 },
+                new Customers{ CustID=7, CustLastName="Eddward", CustName="Stark", GoodsID=0, GoodsNum=11 },
+                new Customers{ CustID=8, CustLastName="Starc", CustName="Sansa", GoodsID=5, GoodsNum=7 },
+                new Customers{ CustID=9, CustLastName="Gates", CustName="John", GoodsID=4, GoodsNum=8 },
+                new Customers{ CustID=10, CustLastName="Straustrup", CustName="Bjarne", GoodsID=7, GoodsNum=8 }
             };
             context.Customers.AddOrUpdate(x => new { x.CustID, x.CustName }, cst.ToArray());
 
