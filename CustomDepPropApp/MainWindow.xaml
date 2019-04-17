@@ -1,9 +1,0 @@
-﻿<Window x:Class="CustomDepPropApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:myCtrls="clr-namespace:CustomDepPropApp"
-        Title="MainWindow" Height="350" Width="500">
-    <StackPanel>
-        <myCtrls:ShowNumberControl x:Name="myShowNumberCtrl" CurrentNumber="100"/>
-    </StackPanel>
-</Window>
