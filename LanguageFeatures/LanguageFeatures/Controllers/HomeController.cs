@@ -17,12 +17,9 @@ namespace LanguageFeatures.Controllers
 
         public ViewResult AutoProperty()
         {
-            Product prod = new Product();
-            prod.Name = "Kayaka";
+            Product prod = new Product() { Name = "Kayak", Category = "Categ", Price = 23, Description = "Descr", ProductID = 2 };
 
-            string productName = prod.Name;
-
-            return View("Result", (object)String.Format("Product name is: {0}", productName));
+            return View("Result", (object)String.Format("Product name is: {0}", prod.Name));
         }
     }
 }
