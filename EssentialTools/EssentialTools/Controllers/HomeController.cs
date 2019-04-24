@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using EssentialTools.Models;
 using Ninject;
 using Ninject.Web.Common;
+using TempLibrary;
+
 
 namespace EssentialTools.Controllers
 {
@@ -20,15 +22,21 @@ namespace EssentialTools.Controllers
             new Products{ ProductID=3, Category="Chocolate", Description="Sweet item", Name="Snikers", Price=32}
         };
 
-        public HomeController(IValueCalculator clc1, IValueCalculator clc2)
+        private ITestCount itst;
+
+        public HomeController(IValueCalculator clc1, ITestCount its)
         {
             calc = clc1;
+            itst = its;
         }
 
         // GET: Home
         public ActionResult Index()
         {            
             ShoppingCart shopCard = new ShoppingCart(calc) { Prods = prods };
+
+            itst.IncreaseCount();
+            ViewBag.Cntr = itst.GetCounter();
 
             decimal totalValue = shopCard.CalculateProductTotal();
 

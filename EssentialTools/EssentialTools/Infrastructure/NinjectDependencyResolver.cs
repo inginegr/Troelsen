@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Ninject;
 using EssentialTools.Models;
 using Ninject.Web.Common;
+using TempLibrary;
 
 namespace EssentialTools.Infrastructure
 {
@@ -21,9 +22,10 @@ namespace EssentialTools.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IValueCalculator>().To<LinqValueCalculator>().InSingletonScope();
+            kernel.Bind<IValueCalculator>().To<LinqValueCalculator>().InRequestScope();
             kernel.Bind<IDiscounthelper>().To<DefaultDiscountHelper>().WithPropertyValue("DiscountSize", 40m);
             kernel.Bind<IDiscounthelper>().To<FlexibleDiscountHelper>().WhenInjectedInto<LinqValueCalculator>();
+            kernel.Bind<ITestCount>().To<TestCount>().InRequestScope();
         }
 
         public object GetService(Type serviceType)

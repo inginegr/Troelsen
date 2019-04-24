@@ -1,4 +1,4 @@
-﻿@model decimal
+﻿@*@model decimal*@
 
 @{
     Layout = null;
@@ -13,7 +13,11 @@
 </head>
 <body>
     <div>
-        Total value is @Model
+        @*Total value is $@Model*@
+    </div>
+    <br/>
+    <div>
+        The counter is @ViewBag.Cntr
     </div>
 </body>
 </html>
