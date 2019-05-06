@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Welcome to @ViewBag.Title</title>
+    <style>
+        .order {
+            background-color: antiquewhite;
+            text-align: left;
+            color: brown;
+            margin: 0 auto;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="order">
+        @RenderBody()
+    </div>
+
+
+    <div style="text-align:center; color:red; background-color:black; margin:0 auto; width:100px">
+        <footer style="font-size:large">
+            @if (DateTime.Now.Hour > 6 && DateTime.Now.Hour < 12)
+            {
+                <p>Good morning</p>
+            }
+            else if (DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 17)
+            {
+                <p>Good day</p>
+            }
+            else
+            {
+                <p>Good evening</p>
+            }
+        </footer>
+    </div>
+</body>
+</html>

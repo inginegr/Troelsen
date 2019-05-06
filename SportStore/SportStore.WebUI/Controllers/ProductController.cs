@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using SportStore.Domain.Abstract;
 using SportStore.Domain.Entities;
-
+using SportStore.WebUI.Models;
 
 namespace SportStore.WebUI.Controllers
 {
     public class ProductController : Controller
     {
-        private IProductRepository repository;1
+        private IProductRepository repository;
         public int PageSize = 4;
 
 
@@ -20,9 +20,22 @@ namespace SportStore.WebUI.Controllers
             this.repository = productRepository;
         }
 
-        public ViewResult List(int page=1)
+        public ViewResult List(string category, int page=1)
         {
-            return View(repository.Products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize));
+            ProductsListViewModel model = new ProductsListViewModel
+            {
+                Products = repository.Products.Where(p=>p.Category==null||p.Category==category)
+                .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = repository.Products.Count()
+                },
+                CurrentCategory=category
+            };
+
+            return View(model);
         }
     }
 }

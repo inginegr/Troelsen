@@ -32,15 +32,15 @@ namespace SportStore.WebUI.Infrastructure
 
         private void AddBinding()
         {
-            //Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            //mock.Setup(m => m.Products).Returns(new List<Product>
-            //{
-            //    new Product{Name="Milk", Price=45},
-            //    new Product{Name="Chocolate", Price=54},
-            //    new Product{Name="Kefir", Price=53},
-            //    new Product{Name="Meat", Price=340}
-            //});
-            
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product{Name="Milk", Price=45},
+                new Product{Name="Chocolate", Price=54},
+                new Product{Name="Kefir", Price=53},
+                new Product{Name="Meat", Price=340}
+            });
+
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
         }
     }
