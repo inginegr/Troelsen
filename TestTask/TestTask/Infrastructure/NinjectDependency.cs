@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using StoreDataBase;
 using StoreDataBase.EntityDataModel;
+using StoreDataBase.ConnectedLayerDataModel;
 
 
 namespace TestTask.Infrastructure

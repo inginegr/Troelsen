@@ -1,4 +1,4 @@
-﻿@model StoreDataBase.EntityDataModel.Order
+﻿@model StoreDataBase.Order
 
 @{
     ViewBag.Title = "SuperStore";
@@ -9,7 +9,7 @@
     <p>Your name: @Html.TextBoxFor(x=>x.BuyerName)</p> 
     <p>Order name: @Html.TextBoxFor(x=>x.OrderName)</p>
     <p>Goods number: @Html.TextBoxFor(x=>x.OrderNumber)</p>
-    <p><b>@ViewBag.Numbers</b> pieces of the goods is remains</p>
+    <p><b>@ViewBag.Numbers</b> pieces of the goods is remained</p>
     <input type="submit" value="Get order by 1-st method"/>
     <input type="submit" value="Get order by 2-nd method"/>
 }

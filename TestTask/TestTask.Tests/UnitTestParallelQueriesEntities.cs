@@ -16,7 +16,7 @@ namespace TestTask.Tests
     [TestClass]
     public class StoreDBTest
     {
-        private delegate Order StartQueriesDelegate(string BuyerName, string GoodsName, byte GoodsNumber, StoreConnectedLayer sdb);
+        private delegate Order StartQueriesDelegate(string BuyerName, string GoodsName, byte GoodsNumber, StoreDBEntities sdb);
         private StartQueriesDelegate StartQueries = new StartQueriesDelegate(StartQueriesMethod);
         List<Order> ServedOrderCollection = new List<Order>();
         private object BlockServedOrderCollection = new object();
@@ -25,7 +25,7 @@ namespace TestTask.Tests
         [TestMethod]
         public void EmptyDbTable_ByManyThreads_UsingQueue()
         {
-            StoreConnectedLayer storeDB = new StoreConnectedLayer();
+            StoreDBEntities storeDB = new StoreDBEntities();
 
             // Формируем коллекцию заказов для запросов к БД
             List<Order> ordersToServe = new List<Order>();
@@ -43,7 +43,7 @@ namespace TestTask.Tests
         }
 
 
-        private static Order StartQueriesMethod(string BuyerName, string GoodsName, byte GoodsNumber, StoreConnectedLayer sdb)
+        private static Order StartQueriesMethod(string BuyerName, string GoodsName, byte GoodsNumber, StoreDBEntities sdb)
         {
             return sdb.GetOrderWithQueueParallel(BuyerName, GoodsName, GoodsNumber);
         }
