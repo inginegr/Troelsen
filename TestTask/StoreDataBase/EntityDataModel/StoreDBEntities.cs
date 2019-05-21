@@ -118,34 +118,34 @@ namespace StoreDataBase.EntityDataModel
             ProjectDB.SaveChanges();
         }
 
-        public Order GetOrderWithQueueSerial(string NameOfBuyer, string NameOfGoods, byte GoodsNumber)
-        {
-            Order ord = new Order() { BuyerName = NameOfBuyer, OrderName = NameOfGoods, OrderNumber = GoodsNumber };
-            lock (BlockDB)
-            {
-                // Получаем товар, извлекаемый из БД
-                Goods goods = ProjectDB.Goods.Find(1);
+        //public Order GetOrderWithQueueSerial(string NameOfBuyer, string NameOfGoods, byte GoodsNumber)
+        //{
+        //    Order ord = new Order() { BuyerName = NameOfBuyer, OrderName = NameOfGoods, OrderNumber = GoodsNumber };
+        //    lock (BlockDB)
+        //    {
+        //        // Получаем товар, извлекаемый из БД
+        //        Goods goods = ProjectDB.Goods.Find(1);
 
 
-                if ((goods.GoodsBalance - GoodsNumber) >= 0) //Если баланс не отрицательный, то бронируем заказ
-                {
-                    goods.GoodsBalance -= GoodsNumber;
-                    ord.IsOrderReady = true;
-                    orderCollectionServed.Add(ord); // Заносим заказ в список обслуженных
-                    // Заносим покупателей в БД
-                    ProjectDB.Byuers.Add(new Buyers { BuyerName = ord.BuyerName, BuyerNumberOfOrders = ord.OrderNumber });
-                    ord.GoodsRemain = goods.GoodsBalance;
-                    //Вносим изменения в БД
-                    ProjectDB.SaveChanges();
-                }
-                else //Если баланс отрицательный, то присваиваем статус "false" (false установлен по умолчанию в конструкторе)
-                {
-                    orderCollectionServed.Add(ord);
-                }
-                NumOrders = goods.GoodsBalance;
-            }
-            return ord;
-        }
+        //        if ((goods.GoodsBalance - GoodsNumber) >= 0) //Если баланс не отрицательный, то бронируем заказ
+        //        {
+        //            goods.GoodsBalance -= GoodsNumber;
+        //            ord.IsOrderReady = true;
+        //            orderCollectionServed.Add(ord); // Заносим заказ в список обслуженных
+        //            // Заносим покупателей в БД
+        //            ProjectDB.Byuers.Add(new Buyers { BuyerName = ord.BuyerName, BuyerNumberOfOrders = ord.OrderNumber });
+        //            ord.GoodsRemain = goods.GoodsBalance;
+        //            //Вносим изменения в БД
+        //            ProjectDB.SaveChanges();
+        //        }
+        //        else //Если баланс отрицательный, то присваиваем статус "false" (false установлен по умолчанию в конструкторе)
+        //        {
+        //            orderCollectionServed.Add(ord);
+        //        }
+        //        NumOrders = goods.GoodsBalance;
+        //    }
+        //    return ord;
+        //}
 
         public bool InsertOrder(Order orderParam)
         {

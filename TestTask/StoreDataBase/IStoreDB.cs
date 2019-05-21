@@ -10,7 +10,7 @@ namespace StoreDataBase
     public interface IStoreDB
     {
         Order GetOrderWithQueueParallel(string NameOfBuyer, string NameOfGoods, byte GoodsNumber);
-        Order GetOrderWithQueueSerial(string NameOfBuyer, string NameOfGoods, byte GoodsNumber);
+        //Order GetOrderWithQueueSerial(string NameOfBuyer, string NameOfGoods, byte GoodsNumber);
         bool InsertOrder(Order orderParam);
         int? NumOrders { get; set; }
     }

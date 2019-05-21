@@ -25,7 +25,7 @@ namespace TestTask.Tests
         [TestMethod]
         public void EmptyDbTable_ByManyThreads_UsingQueue()
         {
-            StoreDBEntities storeDB = new StoreDBEntities();
+            StoreDBEntities storeDB = new StoreDBEntities(); 
 
             // Формируем коллекцию заказов для запросов к БД
             List<Order> ordersToServe = new List<Order>();
@@ -39,6 +39,7 @@ namespace TestTask.Tests
 
             finishOfQueriesFlag.WaitOne();
 
+            // Проверяем, что сумма купленных товаров, равноа 100
             Assert.AreEqual(100, ServedOrderCollection.Where(o=>o.IsOrderReady==true).Sum(o => o.OrderNumber));
         }
 
