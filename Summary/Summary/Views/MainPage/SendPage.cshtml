@@ -4,15 +4,46 @@
     Layout = "~/Views/Shared/Desktop/_Layout.cshtml";
 }
 
-@section AddStyles{
+@section AddStylesSection{
     <link href="~/Content/Styles/StylesDesktop.css" rel="stylesheet" type="text/css"/>
     }
-@section AddScripts{
+@section AddScriptsSection{
     <script src="~/Content/Scripts/DefiningFunctions.js"></script>
     <script src="~/Content/Scripts/Executing.js"></script>
     }
 
 
-@section Header{
-    <div class="topheader"><p>Добро пожаловать на мою личную страницу</p></div>
+@section HeaderSection{
+    <header>
+        <p>Добро пожаловать на мою страницу</p>
+        <p>Здесь вы найдете краткую информацию обо мне и о моих профессиональных навыках</p>    
+    </header>
+    }
+
+@section MainSection{
+    <main class="main-section">
+        <aside>
+            <div class="navigateskills">
+            </div>
+            <div class="navigateskills">
+            </div>
+            <div class="navigateskills">
+            </div>
+            <div class="navigateskills">
+            </div>
+            <div class="navigateskills">
+            </div>
+        </aside>
+
+        <section class="about-section">
+
+        </section>
+        <section id="myskills" class="skills-section">
+
+        </section>
+    </main>
+    }
+
+@section FooterSection{
+    <footer></footer>
     }

@@ -1,11 +1,28 @@
-﻿.topheader {
+﻿header {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-style: italic;
     font-size: x-large;
-    color: orange;
+    color: #eeeeee;
     text-align: center;
-    position: absolute;
-    width: 100%;
     height: 100px;
-    background-color: azure;
+    background-color: #222831;
+}
+
+body {
+    background-color: #eeeeee;
+}
+
+body > main, header{
+    max-width: 1200px;
+    min-width: 500px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 50px;
+}
+
+.main-section {
+    height: 1000px;
+    background-color: #393e46;
 }
