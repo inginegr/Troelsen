@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    @RenderSection("AddStyles")
+</head>
+<body>
+    @RenderSection("Header", required: false)
+    <br/>
+    @RenderSection("Body", required: false)
+    <br />
+    @RenderSection("Footer", required: false)
+    <br/>
+    @RenderSection("AddScripts")
+</body>
+</html>

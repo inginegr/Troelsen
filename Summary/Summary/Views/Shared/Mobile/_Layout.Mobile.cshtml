@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0" />
+    @RenderSection("AddStyles")
+</head>
+<body>
+    @RenderSection("Header", required: false)
+    <br />
+    @RenderSection("Body", required: false)
+    <br />
+    @RenderSection("Footer", required: false)
+    <br />
+    @RenderSection("AddScripts")
+</body>
+</html>
