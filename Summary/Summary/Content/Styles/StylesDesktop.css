@@ -1,29 +1,106 @@
 ﻿header {
-    margin-left: 0px;
-    margin-top: 0px;
-    margin-right: 0px;
+    max-width: 1500px;
+    min-width: 1000px;
+    width: 1000px;
     height: 100px;
-    background-color: #e2c275;
+    margin: 0 auto;
+    background-image: linear-gradient(to bottom, #769fcd, #07689f);
 }
 
 html, body {
-    width: 100%;
     height: 100%;
-    margin-left: 0px;
-    margin-top: 0px;
 }
 
 body {
-    background-color: #99e1e5;
+    background-color: #fafafa;
+    /*background: linear-gradient(to bottom right, #a2d5f2 50%, #07689f 50%);*/
 }
 
-main {
-    background-color: black; /*#c36a2d;*/
+section {
+    margin: 20px auto;
+    width: 500px;
 }
+/*=====================================================Блок для фото===================================================================*/
 
-.template-diagonal {
-    width: 50%;
+.section-photo {
+    height: 250px;
+}.section-photo > div{
     height: 100%;
-    margin-right: 0px;
-    background-color: #fbafaf;
+    background-color: antiquewhite;
+}.swith-photo{
+    width: 5%;
+    background-color: aqua;
+    float: left;
+}.swith-photo-left{
+    float: left;
+}
+
+.swith-photo-right {
+    float: right;
+}/*=====================================================Крутящиеся фотографии===================================================================*/
+
+.photo {
+    margin: 0 auto;
+    width: 80%;
+    position: relative;
+}
+
+.photo > div{
+    display: inline-block;
+}
+
+.foreground {
+    height: 80%;
+    position: relative;
+    width: 50%;
+    top: 20%;
+    background-color: aqua;
+}
+
+.foreground.left{
+    left: 0%;
+    width: 25%;
+    transform-origin: bottom right;
+    transform: skewY(0.153rad);
+}
+
+.foreground.right{
+    width: 25%;    
+    transform-origin: bottom left;
+    transform: skewY(-0.153rad);
+}
+
+.background{
+    position: absolute;
+    height: 80%;
+    left: 30%;
+    width: 40%;
+    top: 0%;
+    background-color: lightgray;
+}
+
+.background.left{
+    left: 0%;
+    width: 30%;
+    transform-origin: top right;
+    transform: skewY(-0.138rad);
+}
+
+.background.right{
+    left: 70%;
+    width: 30%;
+    transform-origin: left top;
+    transform: skewY(0.138rad);
+}
+/*=====================================================Крутящиеся фотографии===================================================================*/
+
+/*=====================================================Блок для фото===================================================================*/
+
+
+.section-about {
+    height: 150px;
+}
+
+.section-skills {
+    height: 150px;
 }
