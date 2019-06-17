@@ -12,33 +12,56 @@
     <script src="~/Content/Scripts/Executing.js"></script>
 }
 
-
 @section HeaderSection{
     <header></header>
 }
 
 @section PhotoSection{
-    <section class="section-photo">
-        <div class="swith-photo swith-photo-left"></div>
-        <div class="swith-photo swith-photo-right"></div>
-        <div class="photo">            
-            <div class="background left"></div><!--
-         --><div class="background"></div><!--
-         --><div class="background right"></div>
-            <div class="foreground left"></div><!--
-         --><div class="foreground"></div><!--
-         --><div class="foreground right"></div>
+    <section class="photo">
+        <div class="switch left">
+            <div></div>
+            <div></div>
+            <div class="scaled"></div>
+            <div class="scaled"></div>
+        </div>
+        <div class="switch right">
+            <div></div>
+            <div></div>
+            <div class="scaled"></div>
+            <div class="scaled"></div>
+        </div>
+        <div class="rotate photo">
+            <div class="background left photo"></div><!--
+         --><div class="background photo"></div><!--
+         --><div class="background right photo"></div>
+            <div class="foreground left photo"></div><!--
+         --><div class="foreground photo"></div><!--
+         --><div class="foreground right photo"></div>
         </div>
     </section>
 }
 
-@section AboutSection{
-    <section class="section-about">
+@section SkillsSection{
+    <section class="skills">
+        <div class="switch left">
+            <div></div>
+            <div></div>
+            <div class="scaled"></div>
+            <div class="scaled"></div>
+        </div>
+        <div class="switch right">
+            <div></div>
+            <div></div>
+            <div class="scaled"></div>
+            <div class="scaled"></div>
+        </div>
+        <div class="rotate skills">
+            <div class="background left skills"></div><!--
+         --><div class="background skills"></div><!--
+         --><div class="background right skills"></div>
+            <div class="foreground left skills"></div><!--
+         --><div class="foreground skills"></div><!--
+         --><div class="foreground right skills"></div>
+        </div>
     </section>
 }
-
-@section SkillsSection{
-    <section class="section-skills">
-    </section>
-    
-    }

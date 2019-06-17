@@ -1,106 +1,216 @@
 ﻿header {
-    max-width: 1500px;
-    min-width: 1000px;
-    width: 1000px;
-    height: 100px;
+    width: 900px;
+    height: 5%;
+    min-height: 30px;
     margin: 0 auto;
     background-image: linear-gradient(to bottom, #769fcd, #07689f);
 }
 
 html, body {
     height: 100%;
+    margin: 0px;
 }
 
-body {
+/*body {
     background-color: #fafafa;
-    /*background: linear-gradient(to bottom right, #a2d5f2 50%, #07689f 50%);*/
+    /*background: linear-gradient(to bottom right, #a2d5f2 50%, #07689f 50%);
+}*/
+
+main{
+    margin: 20px auto;
+    width: 900px;
+    height: 80%;
+    min-height: 880px;
+    /*background-color: blue;*/
 }
 
 section {
+    width: 100%;
     margin: 20px auto;
-    width: 500px;
 }
-/*=====================================================Блок для фото===================================================================*/
 
-.section-photo {
-    height: 250px;
-}.section-photo > div{
+/*=====================================================Базовые классы===================================================================*/
+
+/*=====================================================Основная секция===================================================================*/
+
+section > div{
     height: 100%;
-    background-color: antiquewhite;
-}.swith-photo{
+}
+
+.switch{
     width: 5%;
-    background-color: aqua;
+    min-width: 40px;
     float: left;
-}.swith-photo-left{
+    border-radius: 20%;
+}
+
+.switch:hover{
+    background-color: black;
+}
+
+
+.switch.left{
     float: left;
 }
 
-.swith-photo-right {
+.switch.right{
     float: right;
-}/*=====================================================Крутящиеся фотографии===================================================================*/
+}
+/*=====================================================/Основная секция===================================================================*/
 
-.photo {
+/*=====================================================блок вращения===================================================================*/
+
+.rotate {
     margin: 0 auto;
     width: 80%;
     position: relative;
 }
 
-.photo > div{
+.rotate > div{
     display: inline-block;
 }
 
 .foreground {
     height: 80%;
     position: relative;
-    width: 50%;
+    width: 70%;
     top: 20%;
-    background-color: aqua;
+    background: linear-gradient(to right, #1287ff, #007af6, #1287ff);
 }
 
 .foreground.left{
     left: 0%;
-    width: 25%;
+    width: 15%;
     transform-origin: bottom right;
-    transform: skewY(0.153rad);
+    background: linear-gradient(to left, #1187ff, #56aaff);
 }
 
 .foreground.right{
-    width: 25%;    
+    width: 15%;    
     transform-origin: bottom left;
-    transform: skewY(-0.153rad);
+    background: linear-gradient(to right, #1187ff, #56aaff);
 }
 
 .background{
     position: absolute;
     height: 80%;
-    left: 30%;
-    width: 40%;
+    left: 25%;
+    width: 50%;
     top: 0%;
-    background-color: lightgray;
+    background-color: #b3b3b3;
 }
 
 .background.left{
     left: 0%;
-    width: 30%;
+    width: 25%;
     transform-origin: top right;
-    transform: skewY(-0.138rad);
+    background: linear-gradient(to right, #d6d6d6, #aaaaaa);
 }
 
 .background.right{
-    left: 70%;
-    width: 30%;
+    left: 75%;
+    width: 25%;
     transform-origin: left top;
-    transform: skewY(0.138rad);
+    background: linear-gradient(to left, #d6d6d6, #aaaaaa);
 }
-/*=====================================================Крутящиеся фотографии===================================================================*/
+/*=====================================================/блок вращения===================================================================*/
+
+
+/*=====================================================/Базовые классы===================================================================*/
+
+
+
+
 
 /*=====================================================Блок для фото===================================================================*/
 
-
-.section-about {
-    height: 150px;
+section.photo {
+    height: 35%;
+    width: 50%;
 }
 
-.section-skills {
-    height: 150px;
+/*=====================================================Крутящиеся фотографии===================================================================*/
+.foreground.photo {
+
 }
+
+.foreground.left.photo{
+    transform: skewY(0.518rad);
+}
+
+.foreground.right.photo{
+    transform: skewY(-0.518rad);
+}
+
+.background.photo{
+}
+
+.background.left.photo{
+    transform: skewY(-0.33rad);
+}
+
+.background.right.photo{
+    transform: skewY(0.33rad);
+}
+
+/*=====================================================/Крутящиеся фотографии===================================================================*/
+
+/*=====================================================/Блок для фото===================================================================*/
+
+
+/*=====================================================Блок для основной информации===================================================================*/
+
+section.skills {
+    height: 60%;
+    /*background-color: burlywood;*/
+}
+
+/*=====================================================Блок для крутящихся скилов===================================================================*/
+
+.foreground.skills {
+}
+
+.foreground.left.skills {
+    transform: skewY(0.455rad);
+}
+
+.foreground.right.skills {
+    transform: skewY(-0.455rad);
+}
+
+.background.skills {
+}
+
+.background.left.skills {
+    transform: skewY(-0.285rad);
+}
+
+.background.right.skills {
+    transform: skewY(0.285rad);
+}
+
+/*=====================================================/Блок для крутящихся скилов=====================================================================*/
+
+/*=====================================================/Блок для основной информации===================================================================*/
+
+/*===============================================================Блок стрелок==========================================================================*/
+
+.switch > div {
+    width: 50%;
+    height: 50%;
+    float: left;
+}
+
+.switch.left > div {
+    background: linear-gradient(to left top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,76,34,1) 50%, rgba(0,0,0,0) 50%);
+}
+
+.switch.right > div {
+    background: linear-gradient(to right top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,76,34,1) 50%, rgba(0,0,0,0) 50%);
+}
+
+.switch > div.scaled {
+    transform: scale(1, -1);
+}
+
+/*===============================================================/Блок стрелок==========================================================================*/

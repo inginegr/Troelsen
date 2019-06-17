@@ -12,14 +12,14 @@
 </head>
 
 <body>
+
     @RenderSection("HeaderSection")
 
-    @RenderSection("PhotoSection")
+    <main>
+        @RenderSection("PhotoSection")
 
-    @RenderSection("AboutSection")
-
-    @RenderSection("SkillsSection");
-
+        @RenderSection("SkillsSection")
+    </main>
     @RenderSection("AddScriptsSection")
 </body>
 </html>
