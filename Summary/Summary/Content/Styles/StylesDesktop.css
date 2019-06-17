@@ -41,20 +41,22 @@ section > div{
     width: 5%;
     min-width: 40px;
     float: left;
-    border-radius: 20%;
 }
 
 .switch:hover{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
 }
-
 
 .switch.left{
     float: left;
+    border-radius: 40% 0 0 40%;
+    
 }
 
 .switch.right{
     float: right;
+    border-radius: 0 40% 40% 0;
 }
 /*=====================================================/Основная секция===================================================================*/
 
@@ -199,14 +201,16 @@ section.skills {
     width: 50%;
     height: 50%;
     float: left;
+    
 }
 
 .switch.left > div {
-    background: linear-gradient(to left top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,76,34,1) 50%, rgba(0,0,0,0) 50%);
+    background: linear-gradient(to left top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,255,34,1) 50%, rgba(0,0,0,0) 50%);
+    border-radius: 10%;
 }
 
 .switch.right > div {
-    background: linear-gradient(to right top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,76,34,1) 50%, rgba(0,0,0,0) 50%);
+    background: linear-gradient(to right top, rgba(0,0,0,0) 35%, rgba(98,76,34,1) 0%, rgba(98,255,34,1) 50%, rgba(0,0,0,0) 50%);
 }
 
 .switch > div.scaled {
