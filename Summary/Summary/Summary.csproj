@@ -105,8 +105,8 @@
     <Content Include="Content\Images\me4.jpg" />
     <Content Include="Content\Images\me5.jpg" />
     <Content Include="Content\Images\me6.jpg" />
-    <Content Include="Content\Scripts\DefiningFunctions.js" />
-    <Content Include="Content\Scripts\Executing.js" />
+    <Content Include="Scripts\SpecialScripts\DefiningFunctions.js" />
+    <Content Include="Scripts\SpecialScripts\Executing.js" />
     <Content Include="Content\Styles\StylesDesktop.css" />
     <Content Include="Content\Styles\StylesMobile.css" />
     <Content Include="Global.asax" />
