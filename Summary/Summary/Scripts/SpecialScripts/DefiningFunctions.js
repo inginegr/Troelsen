@@ -1,18 +1,49 @@
 ﻿
+
 window.onload = function (eventObj) {
 
-     //Вращение барабана
+    // Вращение блоков
+    var rotateBlocks = function (directionRotate, blockRotate) {
+        var setse = blockRotate.getElementsByTagName("div");
+        //alert(document.querySelector('.background.left.photo'));
+        try {
+            document.querySelector(".foreground.left.photo").style.background = "linear-gradient(to left, #00869f, #565599)";
+        } catch{
+            alert("SDfsdfsdf");
+        }
+        
 
-
-//===========================================Элементы, вращающие барабан=======================================//
-    var skillsSwitchLeft = document.getElementById('skills').getElementsByClassName('switch left');
-    var skillsSwitchRight = document.getElementById("skills").getElementsByClassName('switch right');
-    var photoSwitchLeft = document.getElementById("photo").getElementsByClassName('switch left');
-    var photoSwitchRight = document.getElementById("photo").getElementsByClassName('switch right');
-
-    skillsSwitchLeft[0].onclick = function () {
-        alert("dfgdfgdfg");
     }
+
+    // Переключение влево-вправо
+    var doSwitch = function (eventObj) {
+        // Направление поворота
+        var turnSide = "";
+        // Блок, содержищий вращяющиеся элементы
+        var blockRoot = null;
+
+        var trg = eventObj.target.parentNode;
+
+        // Определяем направление поворота
+        if (trg.getAttribute("class") == "switch left") {
+            turnSide = "left";
+        }
+            
+        else
+            turnSide = "right";
+
+        // Определяем блок, в котором происходит вращение
+        blockRoot = trg.parentNode.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+
+        // Вращаем блоки
+        rotateBlocks(turnSide, blockRoot);
+    }
+
+    //===========================================Элементы, вращающие барабан=======================================//
+    document.getElementById('skills').getElementsByClassName("switch left")[0].onclick = doSwitch;
+    document.getElementById("skills").getElementsByClassName('switch right')[0].onclick = doSwitch;
+    document.getElementById("photo").getElementsByClassName('switch left')[0].onclick = doSwitch;
+    document.getElementById("photo").getElementsByClassName('switch right')[0].onclick = doSwitch;
 
 }
 
