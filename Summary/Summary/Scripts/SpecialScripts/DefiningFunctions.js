@@ -7,7 +7,7 @@ window.onload = function (eventObj) {
         var setse = blockRotate.getElementsByTagName("div");
         //alert(document.querySelector('.background.left.photo'));
         try {
-            document.querySelector(".foreground.left.photo").style.background = "linear-gradient(to left, #00869f, #565599)";
+            document.querySelector(".foreground.left.photo").setAttribute('class', 'foreground right photo');
         } catch{
             alert("SDfsdfsdf");
         }
