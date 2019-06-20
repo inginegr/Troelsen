@@ -3,7 +3,7 @@ var procentFactors = {
     heightPanel: 0.8,      // Высота панели переднего и заднего плана
     widthForeground: 0.7,  // Ширина  панели переднего плана
     widthBackground: 0.5,  // Ширина панели заднего плана
-    alpha: 0.518,          // Наклон боковых панелей переднего плана
+    alpha: 0.455,          // Наклон боковых панелей переднего плана
     betta: 0.33            // Наклон боковых панелей заднего плана
 }
 
@@ -28,7 +28,7 @@ window.onload = function (eventObj) {
         this.kfCenterFor = (this.centerFor - (this.leftFor / (widthParam * procentFactors.widthForeground))) / cycles;
         this.rightFor = widthParam * (1 - procentFactors.widthForeground) / 2;
         this.alphaCenterFor = 0;
-        this.kfAlphaCenterFor = procentFactors.alpha / (6 * cycles);
+        this.kfAlphaCenterFor = procentFactors.alpha / ( cycles);
         // Доделать
         this.kfRightFor = 0;
         
@@ -54,7 +54,8 @@ window.onload = function (eventObj) {
                 curSt.centerFor -= curSt.kfCenterFor;
                 curSt.alphaCenterFor -= curSt.kfAlphaCenterFor
                 //alert(curSt.alphaCenterFor + " " + curSt.kfAlphaCenterFor);
-                panels[4].style.transform = "scaleX(" + curSt.centerFor + ")" + " skewY(" + /*curSt.alphaCenterFor*/0.518 + "rad)";
+                panels[4].style.transformOrigin = "bottom left";
+                panels[4].style.transform = "scaleX(" + curSt.centerFor + ")" + " skewY(" + curSt.alphaCenterFor + "rad)";
                 //alert("scaleX(" + curSt.centerFor + ")");
             }
             
