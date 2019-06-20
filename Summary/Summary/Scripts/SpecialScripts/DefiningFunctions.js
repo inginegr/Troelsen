@@ -3,8 +3,8 @@ var procentFactors = {
     heightPanel: 0.8,      // Высота панели переднего и заднего плана
     widthForeground: 0.7,  // Ширина  панели переднего плана
     widthBackground: 0.5,  // Ширина панели заднего плана
-    alpha: "0.518rad",      // Наклон боковых панелей переднего плана
-    betta: "0.33rad"        // Наклон боковых панелей заднего плана
+    alpha: 0.518,          // Наклон боковых панелей переднего плана
+    betta: 0.33            // Наклон боковых панелей заднего плана
 }
 
 
@@ -17,102 +17,86 @@ var procentFactors = {
 
 
 window.onload = function (eventObj) {
-    // Вращение блоков
-    var rotateBlocks = function (directionRotate, blockRotate) {
+    // Количество циклов изменений
+    var cycles = divis = 30;
 
-        // Массив с панелями для вращения
-        var panels = [];
-        // Количество циклов для обеспечения поворота
-        var cycles = 30;
+    // Теущие состояния
+    function currentStates(procentFactors, widthParam, heightParam) {
+        this.leftFor = widthParam * (1 - procentFactors.widthForeground) / 2; // Относительные величины, в долях, занимаемые панелями в родительском окне
+        this.kfLeftFor = procentFactors.alpha / cycles;
+        this.centerFor = 1;
+        this.kfCenterFor = (this.centerFor - (this.leftFor / (widthParam * procentFactors.widthForeground))) / cycles;
+        this.rightFor = widthParam * (1 - procentFactors.widthForeground) / 2;
+        this.alphaCenterFor = 0;
+        this.kfAlphaCenterFor = procentFactors.alpha / (6 * cycles);
+        // Доделать
+        this.kfRightFor = 0;
         
-        //// Коэффициенты и процентные соотношения
-        //var blockWidth = blockRotate.clientWidth;
-        //var blockHeight = blockRotate.clientWidth;
+    }
 
-        //var alpha = Math.atan((blockHeight * 0.9) / (blockWidth * 0.85));
-        //var betta = Math.atan((blockHeight * 0.9) / (blockWidth * 0.75));
+    // Объект с текущими состояниями
+    var curSt = null;
 
+    // Вращающиеся панели
+    var panels = null;
 
-        //Парсим класс, в котором содержатся панели для вращения
-        var str = blockRotate.getAttribute('class').toString().split(" ");
-        str = str[str.length - 1];
+    // Таймеры
+    var timeRotate = null;
 
-        document.querySelector(".foreground." + str).style.background = "black";
+    
 
-        panels[0] = document.querySelector(".foreground.right.");
-        panels[1] = document.querySelector(".foreground");
-        panels[2] = document.querySelector(".foreground.right." + str);
-        panels[3] = document.querySelector(".background.right." + str);
-        panels[4] = document.querySelector(".background");
-        panels[5] = document.querySelector(".background.left." + str);
+    // Вращение блоков
+    var rotateBlocks = function (directionRotate) {
 
         try {
-
             // Производим трансформации с панелями
-            while (cycles) {
-                //for (a in panels) {
-
-                //}
-                //alert(cycles);
-                panels[1].style.transform = "rotate(" + (alpha / cycles).toString() + "deg)";
-                cycles--;
-                
+            if (directionRotate == "right") {
+                curSt.centerFor -= curSt.kfCenterFor;
+                curSt.alphaCenterFor -= curSt.kfAlphaCenterFor
+                //alert(curSt.alphaCenterFor + " " + curSt.kfAlphaCenterFor);
+                panels[4].style.transform = "scaleX(" + curSt.centerFor + ")" + " skewY(" + /*curSt.alphaCenterFor*/0.518 + "rad)";
+                //alert("scaleX(" + curSt.centerFor + ")");
             }
+            
+            cycles--;
 
-            // Сдвигаем элементы в массиве, в зависимости от "directionRotate"
-            // Временный буфер
-            //if (directionRotate == "right") {
-            //    var tmp = 0;
-            //    for (var i = 0; i < panels.length; i++) {
-            //        if (i == 0) {
-            //            tmp = panels[panels.length - 1];
-            //        }
-            //        panels[panels.length - 1 - i] = panels[panels.length - 2 - i];
-            //        if (i == panels.length - 1) {
-            //            pan[0] = tmp;
-            //        }
-            //    }
-            //} else {
-            //    var tmp = 0;
-            //    for (var i = 0; i < panels.length; i++) {
-            //        if (i == 0) {
-            //            tmp = panels[i];
-            //        }
-            //        panels[i] = panels[i + 1];
-            //        if (i == panels.length - 1) {
-            //            pan[i] = tmp;
-            //        }
-            //    }
-            //}
+            if (cycles < 1) {
+                clearInterval(timeRotate);
+            }
         } catch (e) {
 
         }
         
 
     }
-
+    
     // Переключение влево-вправо
-    var doSwitch = function (eventObj) {
+    var doSwitch = function (eventObj) {        
         // Направление поворота
         var turnSide = "";
         // Блок, содержищий вращяющиеся элементы
         var blockRoot = null;
-
+                
         var trg = eventObj.target.parentNode;
 
         // Определяем направление поворота
         if (trg.getAttribute("class") == "switch left") {
             turnSide = "left";
-        }
-            
-        else
+        }else
             turnSide = "right";
 
         // Определяем блок, в котором происходит вращение
         blockRoot = trg.parentNode.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
-
+        
+        curSt = new currentStates(procentFactors, blockRoot.clientWidth, blockRoot.clientHeight);
+        
+        panels = blockRoot.querySelectorAll("div");
+        
         // Вращаем блоки
-        rotateBlocks(turnSide, blockRoot);
+        timeRotate = setInterval(function () {
+            rotateBlocks(turnSide);
+        }, 10);
+        
     }
 
     //===========================================Элементы, вращающие барабан=======================================//
