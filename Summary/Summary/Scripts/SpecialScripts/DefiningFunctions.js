@@ -97,11 +97,11 @@ window.onload = function (eventObj) {
         //============================================Right background panel====================================================================//
         this.rightForScaleXBack = 1;
         this.kfRightForScaleXBack = (directionParam == "left") ? this.scaleStepXBack : (panels[1].clientWidth / panels[2].clientWidth - 1) / divis;
-        this.rightForScewBack = -this.angleBetta;
-        this.kfRightForSkewBack = (directionParam == "right") ? 0 : (this.angleBetta / divis);
+        this.rightForScewBack = this.angleBetta;
+        this.kfRightForSkewBack = (directionParam == "left") ? 0 : (this.angleBetta / divis);
         this.rightForTranslateXBack = 0;
         this.kfRightForTranslateXBack = panels[0].clientWidth / divis;
-        this.rightForTranslateYBack = (directionParam == "right") ? 0 : this.shortH / 2;
+        this.rightForTranslateYBack = (directionParam == "left") ? 0 : this.shortH / 2;
         this.kfRightForTranslateYBack = this.shortH / (2 * divis);
 
 
@@ -178,12 +178,12 @@ window.onload = function (eventObj) {
             curSt.leftForScewBack += (i) * curSt.kfLeftForSkewBack;            
             panels[0].style.transform = "matrix(" + curSt.leftForScaleXBack + "," + curSt.leftForScewBack + ", 0, 1," + curSt.leftForTranslateXBack + "," + curSt.leftForTranslateYBack + ")";
 
-            // Ghfdfz панель заднего плана
-            curSt.leftForTranslateXBack += (i) * curSt.kfLeftForTranslateXBack;
-            curSt.leftForTranslateYBack -= (i) * curSt.kfLeftForTranslateYBack;
-            curSt.leftForScaleXBack += (i) * curSt.kfLeftForScaleXBack;
-            curSt.leftForScewBack += (i) * curSt.kfLeftForSkewBack;
-            panels[0].style.transform = "matrix(" + curSt.leftForScaleXBack + "," + curSt.leftForScewBack + ", 0, 1," + curSt.leftForTranslateXBack + "," + curSt.leftForTranslateYBack + ")";
+            // Правая панель заднего плана
+            curSt.rightForTranslateXBack += (i) * curSt.kfRightForTranslateXBack;
+            curSt.rightForTranslateYBack += (i) * curSt.kfRightForTranslateYBack;
+            curSt.rightForScaleXBack -= (i) * curSt.kfRightForScaleXBack;
+            curSt.rightForScewBack += (i) * curSt.kfRightForSkewBack;
+            panels[2].style.transform = "matrix(" + curSt.rightForScaleXBack + "," + curSt.rightForScewBack + ", 0, 1," + curSt.rightForTranslateXBack + "," + curSt.rightForTranslateYBack + ")";
 
 
 
