@@ -81,7 +81,7 @@ section > div{
 }
 
 .foreground.left{
-    left: 0%;
+    /*left: 0%;*/
     width: 15%;
     transform-origin: bottom right;
     background: linear-gradient(to left, #1187ff, #56aaff);
