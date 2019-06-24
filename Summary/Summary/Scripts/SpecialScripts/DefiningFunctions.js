@@ -7,32 +7,49 @@ var procentFactors = {
     betta: 0.33            // Наклон боковых панелей заднего плана
 }
 
+// Представляет структуру панели, с необходимыми данными для вращения
+var panelStruct = {
+    xScale: null,          // Текущий масштаб по оси Х
+    kfXScale: null,        // Коэфициент приращения по оси Х
+    skew: null,            // Наклон панели (для центральных передней и задней панели)
+    kfSkew: null,          // Коэфициент приращения для наклона
+    translateX: null,      // Перемещение по оси Х
+    kfTranslateX: null,    // Коэфициент приращения для перемещения по оси Х
+    translateY: null,      // Перемещение по оси У
+    kftranslateY: null     // Коэфициент приращения по оси У
+}
 
-//panels[0] = document.querySelector(".foreground.left." + str);
-//panels[1] = document.querySelector(".foreground");
-//panels[2] = document.querySelector(".foreground.right." + str);
-//panels[3] = document.querySelector(".background.right." + str);
-//panels[4] = document.querySelector(".background");
-//panels[5] = document.querySelector(".background.left." + str);
 
 
 window.onload = function (eventObj) {
+    
     // Количество циклов изменений
     var cycles = divis = 30;
-    // Коэффициент для поворота. 1 - влево, -1 - вправо
+
+    // Коэффициент для поворота. 1 - влево, -1 - вправо    
     var i = 1;
 
     // Флаг, показывающий, что в данный момент происходит вращение
     var flagRotate = false;
 
+    // Объект с текущими состояниями
+    var curSt = null;
+
+    // Вращающиеся панели
+    var panels = null;
+
+    // Таймеры
+    var timeRotate = null;
+
     // Теущие состояния, управляющие вращением
     function currentStates(procentFactors, widthParam, heightParam, panels, directionParam) {
+        // Массив панелей для вращения
+        this.panelStruct = [];
+
         //-----------------------------------------Общие свойства--------------------------------------------------------//
         this.alphaForeground = Math.atan((heightParam - panels[4].clientHeight) / (2 * panels[4].clientWidth));
         this.tgAlpha = (heightParam - panels[4].clientHeight) / (widthParam - panels[4].clientWidth);
         this.tgBetta = (heightParam - panels[1].clientHeight) / (widthParam - panels[1].clientWidth);
-        //this.cosAlpha = 1 / (Math.sqrt(1 + Math.pow(this.tgAlpha, 2)));
-        //this.cosBetta = 1 / (Math.sqrt(1 + Math.pow(this.tgBetta, 2)));
         this.angleAlpha = Math.atan(this.tgAlpha);
         this.angleBetta = Math.atan(this.tgBetta);
 
@@ -49,144 +66,226 @@ window.onload = function (eventObj) {
         
 
         //============================================Left foreground panel====================================================================//
-        this.leftForScaleX = 1;                                            // Относительные величины, в долях, занимаемые панелями в родительском окне
-        this.kfLeftForScaleX = (directionParam == "left") ? this.scaleStepX : (panels[4].clientWidth / panels[3].clientWidth - 1) / divis;
-        this.leftForScew = this.angleAlpha;
-        this.kfLeftForSkew = (directionParam == "left") ? 0 : (this.angleAlpha / divis);
-        this.leftForTranslateX = 0;
-        this.kfLeftForTranslateX = panels[3].clientWidth / divis;
-        this.leftForTranslateY = (directionParam == "left") ? 0 : - this.shortH / 2;
-        this.kfLeftForTranslateY = this.shortH / (2 * divis);
+        this.panelStruct[3] = {
 
+            // Текущий масштаб по оси Х
+            xScale: 1,          
+
+            // Коэфициент приращения по оси Х
+            kfXScale: (directionParam == "left") ? this.scaleStepX : (panels[4].clientWidth / panels[3].clientWidth - 1) / divis,  
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: this.angleAlpha,            
+
+            // Коэфициент приращения для наклона
+            kfSkew: (directionParam == "left") ? 0 : (this.angleAlpha / divis),          
+
+            // Перемещение по оси Х
+            translateX: 0,      
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: panels[3].clientWidth / divis,    
+
+            // Перемещение по оси У
+            translateY: (directionParam == "left") ? 0 : - this.shortH / 2,      
+
+            // Коэфициент приращения по оси У
+            kftranslateY: this.shortH / (2 * divis)
+        }
+             
         //============================================Center foreground panel====================================================================//
-        this.centerForScale = 1;
-        this.kfCenterForScale = (this.centerForScale - (panels[5].clientWidth / (widthParam * procentFactors.widthForeground))) / cycles;
-        this.centerForSkew = 0;
-        this.kfCenterForSkew = this.alphaForeground / divis;
-        this.centerForTranslateX = 0;
-        this.kfCenterForTranslateX = panels[4].clientWidth / divis;
+        this.panelStruct[4] = {
+
+            // Текущий масштаб по оси Х
+            xScale: 1,
+
+            // Коэфициент приращения по оси Х
+            kfXScale: (1 - (panels[5].clientWidth / (widthParam * procentFactors.widthForeground))) / cycles,
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: 0,
+
+            // Коэфициент приращения для наклона
+            kfSkew: this.alphaForeground / divis,
+
+            // Перемещение по оси Х
+            translateX: 0,
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: panels[4].clientWidth / divis,
+
+            // Перемещение по оси У
+            translateY: 0,
+
+            // Коэфициент приращения по оси У
+            kftranslateY: 0
+        }
+
 
         //============================================Right foreground panel====================================================================//
-        this.rightForScaleX = 1;                                            // Относительные величины, в долях, занимаемые панелями в родительском окне
-        this.kfRightForScaleX = (directionParam == "right") ? this.scaleStepX : (panels[4].clientWidth / panels[5].clientWidth - 1) / divis;
-        this.rightForScew = -this.angleAlpha;
-        this.kfRightForSkew = (directionParam == "right") ? 0 : (this.angleAlpha / divis);
-        this.rightForTranslateX = 0;
-        this.kfRightForTranslateX = panels[5].clientWidth / divis;
-        this.rightForTranslateY = (directionParam == "right") ? 0 : - this.shortH / 2;
-        this.kfRightForTranslateY = this.shortH / (2 * divis);
+        this.panelStruct[5] = {
+
+            // Текущий масштаб по оси Х
+            xScale: 1,
+
+            // Коэфициент приращения по оси Х
+            kfXScale: (directionParam == "right") ? -this.scaleStepX : -(panels[4].clientWidth / panels[5].clientWidth - 1) / divis,
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: -this.angleAlpha,
+
+            // Коэфициент приращения для наклона
+            kfSkew: (directionParam == "right") ? 0 : (this.angleAlpha / divis),
+
+            // Перемещение по оси Х
+            translateX: 0,
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: panels[5].clientWidth / divis,
+
+            // Перемещение по оси У
+            translateY: (directionParam == "right") ? 0 : - this.shortH / 2,
+
+            // Коэфициент приращения по оси У
+            kftranslateY: -this.shortH / (2 * divis)
+        }
 
         //============================================Left background panel====================================================================//
-        this.leftForScaleXBack = 1;                                            
-        this.kfLeftForScaleXBack = (directionParam == "right") ? this.scaleStepXBack : (panels[1].clientWidth / panels[0].clientWidth - 1) / divis;
-        this.leftForScewBack = -this.angleBetta;
-        this.kfLeftForSkewBack = (directionParam == "right") ? 0 : (this.angleBetta / divis);
-        this.leftForTranslateXBack = 0;
-        this.kfLeftForTranslateXBack = panels[0].clientWidth / divis;
-        this.leftForTranslateYBack = (directionParam == "right") ? 0 : this.shortH / 2;
-        this.kfLeftForTranslateYBack = this.shortH / (2 * divis);
+        this.panelStruct[0] = {
+
+            // Текущий масштаб по оси Х
+            xScale: 1,
+
+            // Коэфициент приращения по оси Х
+            kfXScale: (directionParam == "right") ? -this.scaleStepXBack : -(panels[1].clientWidth / panels[0].clientWidth - 1) / divis,
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: -this.angleBetta,
+
+            // Коэфициент приращения для наклона
+            kfSkew: (directionParam == "right") ? 0 : (this.angleBetta / divis),
+
+            // Перемещение по оси Х
+            translateX: 0,
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: -panels[0].clientWidth / divis,
+
+            // Перемещение по оси У
+            translateY: (directionParam == "right") ? 0 : this.shortH / 2,
+
+            // Коэфициент приращения по оси У
+            kftranslateY: this.shortH / (2 * divis)
+        }
 
         //============================================Center background panel====================================================================//
-        this.centerForScaleBack = 1;
-        this.kfCenterForScaleBack = (this.centerForScaleBack - (panels[0].clientWidth / (widthParam * procentFactors.widthBackground))) / cycles;
-        this.centerForSkewBack = 0;
-        this.kfCenterForSkewBack = this.bettaBackground / divis;
-        this.centerForTranslateXBack = 0;
-        this.kfCenterForTranslateXBack = panels[1].clientWidth / divis;
+        this.panelStruct[1] = {
+
+            // Текущий масштаб по оси Х
+            xScale: 1,
+
+            // Коэфициент приращения по оси Х
+            kfXScale: (1 - (panels[0].clientWidth / (widthParam * procentFactors.widthBackground))) / cycles,
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: 0,
+
+            // Коэфициент приращения для наклона
+            kfSkew: this.bettaBackground / divis,
+
+            // Перемещение по оси Х
+            translateX: 0,
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: -panels[1].clientWidth / divis,
+
+            // Перемещение по оси У
+            translateY: 0,
+
+            // Коэфициент приращения по оси У
+            kftranslateY: 0
+        }
 
         //============================================Right background panel====================================================================//
-        this.rightForScaleXBack = 1;
-        this.kfRightForScaleXBack = (directionParam == "left") ? this.scaleStepXBack : (panels[1].clientWidth / panels[2].clientWidth - 1) / divis;
-        this.rightForScewBack = this.angleBetta;
-        this.kfRightForSkewBack = (directionParam == "left") ? 0 : (this.angleBetta / divis);
-        this.rightForTranslateXBack = 0;
-        this.kfRightForTranslateXBack = panels[0].clientWidth / divis;
-        this.rightForTranslateYBack = (directionParam == "left") ? 0 : this.shortH / 2;
-        this.kfRightForTranslateYBack = this.shortH / (2 * divis);
+        this.panelStruct[2] = {
 
+            // Текущий масштаб по оси Х
+            xScale: 1,
 
-        // Доделать
-        this.kfRightFor = 0;
-        
+            // Коэфициент приращения по оси Х
+            kfXScale: (directionParam == "left") ? this.scaleStepXBack : (panels[1].clientWidth / panels[2].clientWidth - 1) / divis,
+
+            // Наклон панели (для центральных передней и задней панели)
+            skew: this.angleBetta,
+
+            // Коэфициент приращения для наклона
+            kfSkew: (directionParam == "left") ? 0 : (this.angleBetta / divis),
+
+            // Перемещение по оси Х
+            translateX: 0,
+
+            // Коэфициент приращения для перемещения по оси Х
+            kfTranslateX: -panels[0].clientWidth / divis,
+
+            // Перемещение по оси У
+            translateY: (directionParam == "left") ? 0 : this.shortH / 2,
+
+            // Коэфициент приращения по оси У
+            kftranslateY: -this.shortH / (2 * divis)
+        }        
     }
 
-    // Объект с текущими состояниями
-    var curSt = null;
+    // Управление стилями вращающихся блоков
+    var managePanelsBehaviour = (currents, rotatePanels, directionRotate) => {
+        // Цвет, на который меняем
+        var flagChangeColor = false;
+        for (a in currents.panelStruct) {
 
-    // Вращающиеся панели
-    var panels = null;
 
-    // Таймеры
-    var timeRotate = null;
+        }
 
- 
+        if (currents.panelStruct[0].xScale < 0) {
+            rotatePanels[0].style.background = directionRotate == "left" ? "linear - gradient(to right, #d6d6d6, #aaaaaa)" : "linear-gradient(to left, #1187ff, #56aaff)";
+            rotatePanels[0].style.zIndex = "2";
+            rotatePanels[1].style.background = "linear - gradient(to right, #d6d6d6, #aaaaaa)";
+            rotatePanels[2].style.background = directionRotate == "left" ? "linear - gradient(to right, #d6d6d6, #aaaaaa)" : "linear-gradient(to left, #1187ff, #56aaff)";
+        }
+    }
+
     // Вращение блоков
     var rotateBlocks = function (directionRotate) {
         try {
-            if (directionRotate == "right") {
-                i = -1;
-                panels[4].style.transformOrigin = "left bottom";
-                // For panel[3]
-                panels[3].style.transformOrigin = "left bottom";
-                panels[5].style.transformOrigin = "left bottom";
-                panels[1].style.transformOrigin = "right bottom";
-                panels[0].style.transformOrigin = "right bottom";
-                if (curSt.leftForScaleXBack < 0) panels[0].style.zIndex = "2";
-                panels[2].style.transformOrigin = "right bottom";
-            } else {
-                i = 1;
-                panels[4].style.transformOrigin = "right bottom";
-                // For panel[3]
-                panels[3].style.transformOrigin = "right bottom";                
-                panels[5].style.transformOrigin = "right bottom";
-                panels[5].style.zIndex = "2";
-                panels[1].style.transformOrigin = "left bottom";
-                panels[0].style.transformOrigin = "left bottom";
-                panels[2].style.transformOrigin = "left bottom";
+            // Начало отсчета
+            var coord1 = "right bottom";
+            var coord2 = "left bottom";
+
+            // Устанавливаем начало координат в зваисимости от направления вращения
+            for (var a = 0; a < curSt.panelStruct.length; a++) {
+                if (directionRotate == "right") {
+                    i = -1;
+                    if (a < 3)
+                        panels[a].style.transformOrigin = coord1;
+                    else
+                        panels[a].style.transformOrigin = coord2;
+                } else {
+                    i = 1;
+                    if (a < 3)
+                        panels[a].style.transformOrigin = coord2;
+                    else
+                        panels[a].style.transformOrigin = coord1;
+                }
             }
 
-            // Работаем с центральной панелью переднего плана
-            curSt.centerForScale -= curSt.kfCenterForScale;
-            curSt.centerForSkew += i * curSt.kfCenterForSkew;
-            curSt.centerForTranslateX -=  i * curSt.kfCenterForTranslateX;            
-            panels[4].style.transform = "matrix(" + curSt.centerForScale + "," + curSt.centerForSkew + ", 0, 1," + curSt.centerForTranslateX + ", 0)";
+            // Вращаем панели
+            for (var b = 0; b < curSt.panelStruct.length; b++) {
+                curSt.panelStruct[b].translateX -= (i) * curSt.panelStruct[b].kfTranslateX;
+                curSt.panelStruct[b].translateY -= (i) * curSt.panelStruct[b].kftranslateY;
+                curSt.panelStruct[b].xScale -= (b == 1 || b == 4) ? curSt.panelStruct[b].kfXScale : (i) * curSt.panelStruct[b].kfXScale;
+                curSt.panelStruct[b].skew += (i) * curSt.panelStruct[b].kfSkew;
+                panels[b].style.transform = "matrix(" + curSt.panelStruct[b].xScale + "," + curSt.panelStruct[b].skew + ", 0, 1," + curSt.panelStruct[b].translateX + "," + curSt.panelStruct[b].translateY + ")";
+            }
 
-            // Левая панель переднего плана
-            curSt.leftForTranslateX -= (i) * curSt.kfLeftForTranslateX;
-            curSt.leftForTranslateY -= (i) * curSt.kfLeftForTranslateY;
-            curSt.leftForScaleX -= (i) * curSt.kfLeftForScaleX;
-            curSt.leftForScew += (i) * curSt.kfLeftForSkew;
-            panels[3].style.transform = "matrix(" + curSt.leftForScaleX + "," + curSt.leftForScew + ", 0, 1," + curSt.leftForTranslateX + "," + curSt.leftForTranslateY + ")";
-
-            // Правая панель переднего плана
-            curSt.rightForTranslateX -= (i) * curSt.kfRightForTranslateX;
-            curSt.rightForTranslateY += (i) * curSt.kfRightForTranslateY;
-            curSt.rightForScaleX += (i) * curSt.kfRightForScaleX;
-            curSt.rightForScew += (i) * curSt.kfRightForSkew;
-            panels[5].style.transform = "matrix(" + curSt.rightForScaleX + "," + curSt.rightForScew + ", 0, 1," + curSt.rightForTranslateX + "," + curSt.rightForTranslateY + ")";
-
-            // Работаем с центральной панелью заднего плана
-            curSt.centerForScaleBack -= curSt.kfCenterForScaleBack;
-            curSt.centerForSkewBack += i * curSt.kfCenterForSkewBack;
-            curSt.centerForTranslateXBack += i * curSt.kfCenterForTranslateXBack;
-            panels[1].style.transform = "matrix(" + curSt.centerForScaleBack + "," + curSt.centerForSkewBack + ", 0, 1," + curSt.centerForTranslateXBack + ", 0)";
-
-            // Левая панель заднего плана
-            curSt.leftForTranslateXBack += (i) * curSt.kfLeftForTranslateXBack;
-            curSt.leftForTranslateYBack -= (i) * curSt.kfLeftForTranslateYBack;
-            curSt.leftForScaleXBack += (i) * curSt.kfLeftForScaleXBack;
-            curSt.leftForScewBack += (i) * curSt.kfLeftForSkewBack;            
-            panels[0].style.transform = "matrix(" + curSt.leftForScaleXBack + "," + curSt.leftForScewBack + ", 0, 1," + curSt.leftForTranslateXBack + "," + curSt.leftForTranslateYBack + ")";
-
-            // Правая панель заднего плана
-            curSt.rightForTranslateXBack += (i) * curSt.kfRightForTranslateXBack;
-            curSt.rightForTranslateYBack += (i) * curSt.kfRightForTranslateYBack;
-            curSt.rightForScaleXBack -= (i) * curSt.kfRightForScaleXBack;
-            curSt.rightForScewBack += (i) * curSt.kfRightForSkewBack;
-            panels[2].style.transform = "matrix(" + curSt.rightForScaleXBack + "," + curSt.rightForScewBack + ", 0, 1," + curSt.rightForTranslateXBack + "," + curSt.rightForTranslateYBack + ")";
-
-
-
+            managePanelsBehaviour(curSt, panels, directionRotate);
 
             cycles--;
 
@@ -197,8 +296,6 @@ window.onload = function (eventObj) {
         } catch (e) {
 
         }
-        
-
     }
     
     // Переключение влево-вправо
