@@ -19,8 +19,9 @@ body {
 main{
     margin: 20px auto;
     width: 900px;
-    height: 80%;
-    min-height: 880px;
+    height: 90%;
+    min-height: 700px;
+    min-width: 900px;
     /*background-color: blue;*/
 }
 
@@ -77,18 +78,21 @@ section > div{
     position: relative;
     width: 70%;
     top: 20%;
+    left: 15%;
     background: linear-gradient(to right, #1287ff, #007af6, #1287ff);
 }
 
 .foreground.left{
     /*left: 0%;*/
     width: 15%;
+    left: 0%;
     transform-origin: bottom right;
     background: linear-gradient(to left, #1187ff, #56aaff);
 }
 
 .foreground.right{
-    width: 15%;    
+    width: 15%;
+    left: 0%;
     transform-origin: bottom left;
     background: linear-gradient(to right, #1187ff, #56aaff);
 }
@@ -225,3 +229,11 @@ section.skills {
 }
 
 /*===============================================================/Панели вращения==========================================================================*/
+
+/*===============================================================Скилы==========================================================================*/
+.tex-skills{
+    position: relative;
+}
+
+
+/*===============================================================/Скилы==========================================================================*/
