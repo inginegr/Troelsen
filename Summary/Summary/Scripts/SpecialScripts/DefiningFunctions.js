@@ -1,10 +1,12 @@
 ﻿//Процентные соотношения для панелей
 var procentFactors = {
-    heightPanel: 0.8,      // Высота панели переднего и заднего плана
-    widthForeground: 0.7,  // Ширина  панели переднего плана
-    widthBackground: 0.5,  // Ширина панели заднего плана
-    alpha: 0.455,          // Наклон боковых панелей переднего плана
-    betta: 0.33            // Наклон боковых панелей заднего плана
+    heightPanel: 0.8,                                // Высота панели переднего и заднего плана
+    widthForeground: 0.7,                            // Ширина  панели переднего плана
+    widthBackground: 0.5,                            // Ширина панели заднего плана
+    widthSideBackground: 0.25,                       // Ширина боковых панелей заднего плана
+    widthSideForeground: 0.15,                       // Ширина боковых панелей переднего плана
+    alpha: 0.455,                                    // Наклон боковых панелей переднего плана
+    betta: 0.33                                      // Наклон боковых панелей заднего плана
 }
 
 // Представляет структуру панели, с необходимыми данными для вращения
@@ -19,24 +21,39 @@ var panelStruct = {
     kftranslateY: null     // Коэфициент приращения по оси У
 }
 
+// Структура с цветами панелей
+var panelsColor = {
+    leftBackground: "linear-gradient(to right, #d6d6d6, #aaaaaa)",
+    centerBackground: "#b3b3b3",
+    rightBackground: "linear - gradient(to left, #d6d6d6, #aaaaaa)",
+    leftForeground: "linear-gradient(to left, #1187ff, #56aaff)",
+    centerForeground: "linear-gradient(to right, #1287ff, #007af6, #1287ff)",
+    rightForeground: "linear-gradient(to right, #1187ff, #56aaff)"
+}
+
 
 
 window.onload = function (eventObj) {
     
     // Количество циклов изменений
-    var cycles = divis = 30;
-
+    var cycles = divis = 60;    
     // Коэффициент для поворота. 1 - влево, -1 - вправо    
     var i = 1;
 
     // Флаг, показывающий, что в данный момент происходит вращение
     var flagRotate = false;
+    // Флаг переключения цвета
+    var flagColor1 = false;
+    var flagColor2 = false;
 
     // Объект с текущими состояниями
     var curSt = null;
 
     // Вращающиеся панели
     var panels = null;
+
+    // Классы панелей
+    var panelsClass = null;
 
     // Таймеры
     var timeRotate = null;
@@ -235,21 +252,117 @@ window.onload = function (eventObj) {
         }        
     }
 
+    // Нахождение вращающихся панелей
+    var findPanels = (rootContainer) => {
+        // Определяем блок, в котором происходит вращение
+        //var blockRoot = rootContainer.parentNode.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+        return rootContainer.querySelectorAll("div");
+    }
+
+    // Нахождение всех контейнеров, которыекоторые содержат вращающиеся панели
+    var findContainers = (className) => {
+        var str = (typeof className == "undefined") ? "" : " " + className;
+        return document.getElementsByClassName("rotate" + str);
+    }
+
+    // Восстановление панелей в исходное состояние
+    var restorePanels = (factors, classContainer) => {
+        var containers = findContainers(classContainer);
+        for (i = 0; i < containers.length; i++) {
+            // Контейнеры
+            var p = containers[i];
+            // Угол наглона для задних панелей
+            alphaBackground = Math.atan((p.clientHeight * (1 - factors.heightPanel)/2) / ((p.clientWidth * (1 - factors.widthBackground) / 2)));
+
+            // Угол наклона для передних панелей
+            alphaForeground = Math.atan((p.clientHeight * (1 - factors.heightPanel)/2) / ((p.clientWidth * (1 - factors.widthForeground) / 2)));
+
+            // Ширина задних боковых
+            var widthBackground = p.clientWidth * ((1 - factors.widthBackground) / 2);
+
+            // Ширина передних боковых
+            var widthForeground = p.clientWidth * ((1 - factors.widthForeground) / 2);
+
+            var pnls = findPanels(p);
+            for (j = 0; j < pnls.length; j++) {
+                // Панели
+                a = pnls[j];
+                // Сбрасываем z-индексы
+                a.style.zIndex = "1";
+                // Устанавливаем начало отсчета для панелей
+                a.style.transformOrigin = "right bottom";
+                // Высота всех панелей
+                a.clientHeight = factors.heightPanel;
+
+                // Определяем класс текущей панели
+                var buf = a.getAttribute("class").split(" ");
+                var str = buf[0] + " " + buf[1];
+
+                // Задние панели
+                if (str == "background left") {
+                    a.clientWidth = widthBackground;
+                    a.style.left = "0%";
+                    a.style.transform = "skewY(" + "-" + alphaBackground + "rad)";
+                    a.style.background = panelsColor.leftBackground;
+                } else if (str == "background right") {
+                    a.style.transformOrigin = "left bottom";
+                    a.style.left = 100 * (factors.widthSideBackground + factors.widthBackground) + "%";
+                    a.clientWidth = widthBackground;
+                    a.style.background = "";
+                    a.style.background = /*"linear-gradient(to left, #d6d6d6, #aaaaaa)";*/ panelsColor.rightBackground;
+                    a.style.transform = "skewY(" + alphaBackground + "rad)";                    
+                } else if (buf[0] == "background") {
+                    a.style.left = factors.widthSideBackground * 100 + "%";
+                    a.clientWidth = p.clientWidth * factors.widthBackground;
+                    a.style.transform = "";
+                    a.style.background = panelsColor.centerBackground;
+                }
+
+                if (str == "foreground left") {
+                    a.clientWidth = widthForeground;
+                    a.style.left = "0%";
+                    a.style.transform = "skewY(" + alphaForeground + "rad)";
+                    a.style.background = panelsColor.leftForeground;
+                } else if (str == "foreground right") {
+                    a.style.transformOrigin = "left bottom";
+                    a.clientWidth = widthForeground;
+                    a.style.left = 0 + "%";
+                    a.style.transform = "skewY(" + "-" + alphaForeground + "rad)";
+                    a.style.background = panelsColor.rightForeground;
+                } else if (buf[0] == "foreground") {
+                    a.style.left = 0 * 100 + "%";
+                    a.clientWidth = p.clientWidth * factors.widthForeground;
+                    a.style.transform = "";
+                    a.style.background = panelsColor.centerForeground;
+                }
+            }
+        }
+    }
+
     // Управление стилями вращающихся блоков
     var managePanelsBehaviour = (currents, rotatePanels, directionRotate) => {
-        // Цвет, на который меняем
-        var flagChangeColor = false;
-        for (a in currents.panelStruct) {
-
-
+        // Если перешли за середину, то меняем цвета
+        if ((currents.panelStruct[0].xScale < 0 || currents.panelStruct[3].xScale < 0) && !flagColor1) {
+            rotatePanels[0].style.background = directionRotate == "left" ? panelsColor.centerBackground : panelsColor.leftForeground;
+            rotatePanels[0].style.zIndex = directionRotate == "right" ? "2" : "1";
+            rotatePanels[1].style.background = panelsColor.leftBackground;            
+            rotatePanels[3].style.background = directionRotate == "right" ? panelsColor.centerForeground : panelsColor.leftBackground;
+            flagColor1 = true;
+        }
+        if ((currents.panelStruct[2].xScale < 0 || currents.panelStruct[5].xScale < 0) && !flagColor2) {
+            rotatePanels[1].style.background = panelsColor.leftBackground; 
+            rotatePanels[2].style.background = directionRotate == "left" ? panelsColor.rightForeground : panelsColor.centerBackground;
+            rotatePanels[2].style.zIndex = directionRotate == "right" ? "1" : "2";
+            rotatePanels[5].style.background = "";
+            rotatePanels[5].style.background = directionRotate == "left" ? panelsColor.centerForeground : "linear-gradient(to left, #d6d6d6, #aaaaaa)";
+            rotatePanels[5].style.zIndex = directionRotate == "right" ? "0" : "1";
+            flagColor2 = true;
+        }
+        var className = rotatePanels[0].parentElement.getAttribute("class").split(" ");
+        if (cycles == 0) {
+            restorePanels(procentFactors,  className[1]);
         }
 
-        if (currents.panelStruct[0].xScale < 0) {
-            rotatePanels[0].style.background = directionRotate == "left" ? "linear - gradient(to right, #d6d6d6, #aaaaaa)" : "linear-gradient(to left, #1187ff, #56aaff)";
-            rotatePanels[0].style.zIndex = "2";
-            rotatePanels[1].style.background = "linear - gradient(to right, #d6d6d6, #aaaaaa)";
-            rotatePanels[2].style.background = directionRotate == "left" ? "linear - gradient(to right, #d6d6d6, #aaaaaa)" : "linear-gradient(to left, #1187ff, #56aaff)";
-        }
     }
 
     // Вращение блоков
@@ -285,13 +398,15 @@ window.onload = function (eventObj) {
                 panels[b].style.transform = "matrix(" + curSt.panelStruct[b].xScale + "," + curSt.panelStruct[b].skew + ", 0, 1," + curSt.panelStruct[b].translateX + "," + curSt.panelStruct[b].translateY + ")";
             }
 
-            managePanelsBehaviour(curSt, panels, directionRotate);
-
             cycles--;
+
+            managePanelsBehaviour(curSt, panels, directionRotate);
 
             if (cycles < 1) {
                 clearInterval(timeRotate);
                 flagRotate = false;
+                //flagColor1 = false;
+                //flagColor2 = false;
             }
         } catch (e) {
 
@@ -305,6 +420,10 @@ window.onload = function (eventObj) {
             return;
         else
             flagRotate = true;
+
+        flagColor1 = false;
+        flagColor2 = false;
+
         // Установить счетчик
         cycles = divis;
         // Направление поворота
@@ -323,18 +442,20 @@ window.onload = function (eventObj) {
         }else
             turnSide = "right";
 
-        // Определяем блок, в котором происходит вращение
-        blockRoot = trg.parentNode.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
-                
-        panels = blockRoot.querySelectorAll("div");
+        // Определяем контейнер с панелями
+        var blockRoot = trg.parentNode.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+
+        panels = findPanels(blockRoot); 
 
         curSt = new currentStates(procentFactors, blockRoot.clientWidth, blockRoot.clientHeight, panels, turnSide);
 
         // Вращаем блоки
         timeRotate = setInterval(function () {
             rotateBlocks(turnSide);
-        }, 10);
+        }, 5);        
     }
+
+    restorePanels(procentFactors);
 
     //===========================================Элементы, вращающие барабан=======================================//
     document.getElementById('skills').getElementsByClassName("switch left")[0].onclick = doSwitch;
