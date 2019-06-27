@@ -31,12 +31,20 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate photo">
-            <div class="background left photo"></div><!--
-         --><div class="background photo"></div><!--
-         --><div class="background right photo"></div>
-            <div class="foreground left photo"></div><!--
-         --><div class="foreground photo"></div><!--
-         --><div class="foreground right photo"></div>
+            <div class="background left photo"></div>
+            <!--
+            -->
+            <div class="background photo"></div>
+            <!--
+            -->
+            <div class="background right photo"></div>
+            <div class="foreground left photo"></div>
+            <!--
+            -->
+            <div class="foreground photo"></div>
+            <!--
+            -->
+            <div class="foreground right photo"></div>
         </div>
     </section>
 }
@@ -56,16 +64,74 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate skills">
-            <div class="background left skills"></div><!--
-         --><div class="background skills">
-             
-             </div><!--
-         --><div class="background right skills"></div>
-            <div class="foreground left skills"></div><!--
-         --><div class="foreground skills"><!--
-              --><p class="tex-skills"> dsfsdfsdfsdfsdfsdfsdfd</p><!--
-          --></div><!--
-         --><div class="foreground right skills"></div>
+            <div class="background left skills"></div>
+            <!--
+            -->
+            <div class="background skills">
+
+            </div>
+            <!--
+            -->
+            <div class="background right skills"></div>
+            <div class="foreground left skills"></div>
+            <!--
+            -->
+            <div class="foreground skills"></div>
+            <!--
+            -->
+            <div class="foreground right skills"></div>
         </div>
     </section>
+}
+
+@section AddHideInfoSection{
+    <script id="s1" type="text/template">
+        <p class="content">Общая информация</p>
+        <ul>
+            <li>Сапожников Дмитрий Владимирович</li>
+            <li><b>Дата рождения:</b>03.02.1987</li>
+            <li><b>Проживание:</b>г. Омск</li>
+            <li class="no-marker">Контактная информация</li>
+            <li>
+                <div class="buttoned">
+                    <div><b>Телефон:</b></div><div id="phoneId" class="btn-show">показать</div>
+                </div>
+            </li>
+            <li>
+                <div class="buttoned">
+                    <div><b>Электронная почта:</b></div><div id="emailId" class="btn-show">показать</div>
+                </div>
+            </li>
+            <li class="no-marker">Увлечения</li>
+            <li>Программирование,  бег, плавание, турпоходы.</li>
+        </ul>
+    </script>
+
+    <script id="s2" type="text/template">
+        <p class="content">Образование</p>
+        <ul>
+            <li>Омский Государственный Технический Университет</li>
+            <li><b>Год выпуска:</b>2012</li>
+            <li><b>Факультет:</b>радиотехнический.</li>
+            <li><b>Кафедра:</b> средства связи и информационная безопасность.</li>
+            <li><b>Специальность:</b>средства связи с подвижными объектами.</li>
+            <li><b>Квалификация:</b> инженер.</li>
+            <li class="no-marker">Сертификаты</li>
+            <li>Программирование на C# c помощью Microsoft Visual Studio 2012.</li>
+        </ul>
+    </script>
+
+    <script id="s3" type="text/template">
+        <p class="content">Общая информация</p>
+        <ul>
+            <li>Сапожников Дмитрий Владимирович</li>
+            <li><b>Дата рождения:</b>03.02.1987</li>
+            <li><b>Проживание:</b>г. Омск</li>
+            <li>Контактная информация</li>
+            <li>Увлечения</li>
+            <li>Программирование,  бег, плавание, турпоходы.</li>
+        </ul>
+    </script>
+
+
 }

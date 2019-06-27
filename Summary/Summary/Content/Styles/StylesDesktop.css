@@ -47,6 +47,7 @@ section > div{
 .switch:hover{
     background-color: rgba(0, 0, 0, 0.2);
     transform: scale(1.1);
+    cursor: pointer;
 }
 
 .switch.left{
@@ -77,6 +78,7 @@ section > div{
     height: 80%;
     position: relative;
     width: 70%;
+    vertical-align: top;
     top: 20%;
     left: 15%;
     background: linear-gradient(to right, #1287ff, #007af6, #1287ff);
@@ -204,8 +206,7 @@ section.skills {
 .switch > div {
     width: 50%;
     height: 50%;
-    float: left;
-    
+    float: left;    
 }
 
 .switch.left > div {
@@ -231,9 +232,52 @@ section.skills {
 /*===============================================================/Панели вращения==========================================================================*/
 
 /*===============================================================Скилы==========================================================================*/
-.tex-skills{
-    position: relative;
+.content {
+    text-align: center;
+    font-size: x-large; 
+    font-style: italic;
+    vertical-align: top;
 }
 
+ul{
+    vertical-align: top;
+}
+
+ul li {
+    text-align: left;
+    font-size: larger;
+    vertical-align: top;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+li b::after {
+    content: '\00A0' '\00A0' '\00A0';
+}
+
+div b::after {
+    content: '\00A0' '\00A0' '\00A0';
+}
+
+.no-marker{
+    list-style-type: none;
+    padding-top: 3%;
+    font-weight: bold;
+}
+
+.buttoned > div{
+    display: inline-block;
+    margin: auto;
+}
+
+.btn-show {
+    background: linear-gradient(to top, #0073e7 0%, #00cc18 50%, #0073e7 100% );
+    border-radius: 20%;
+}
+
+.btn-show:hover{
+    background: rgb(0,204,24);
+    cursor: pointer;
+    color: brown;
+}
 
 /*===============================================================/Скилы==========================================================================*/
