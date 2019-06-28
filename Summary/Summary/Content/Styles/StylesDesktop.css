@@ -85,17 +85,17 @@ section > div{
 }
 
 .foreground.left{
-    /*left: 0%;*/
-    width: 15%;
+    width: 100%;
     left: 0%;
-    transform-origin: bottom right;
+    padding: 0%;
+    /*transform-origin: bottom right;*/
     background: linear-gradient(to left, #1187ff, #56aaff);
 }
 
 .foreground.right{
-    width: 15%;
+    width: 100%;
     left: 0%;
-    transform-origin: bottom left;
+    /*transform-origin: bottom left;*/
     background: linear-gradient(to right, #1187ff, #56aaff);
 }
 
@@ -138,7 +138,7 @@ section.photo {
 }
 
 /*=====================================================Крутящиеся фотографии===================================================================*/
-.foreground.photo {
+/*.foreground.photo {
     color: black;
 }
 
@@ -159,7 +159,7 @@ section.photo {
 
 .background.right.photo{
     transform: skewY(0.33rad);
-}
+}*/
 
 /*=====================================================/Крутящиеся фотографии===================================================================*/
 
@@ -175,7 +175,7 @@ section.skills {
 
 /*=====================================================Блок для крутящихся скилов===================================================================*/
 
-.foreground.skills {
+/*.foreground.skills {
 }
 
 .foreground.left.skills {
@@ -195,7 +195,7 @@ section.skills {
 
 .background.right.skills {
     transform: skewY(0.285rad);
-}
+}*/
 
 /*=====================================================/Блок для крутящихся скилов=====================================================================*/
 
@@ -243,11 +243,18 @@ ul{
     vertical-align: top;
 }
 
+.foreground.left > ul{
+    padding: 0px;
+    margin-left: 0px;
+    transform: matrix(0.25, 0, 0, 1, -20, 0);
+}
+
 ul li {
     text-align: left;
     font-size: larger;
     vertical-align: top;
     font-family: 'Times New Roman', Times, serif;
+    height: 100%;
 }
 
 li b::after {

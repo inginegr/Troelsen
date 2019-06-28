@@ -289,8 +289,11 @@ var restorePanels = (factors, classContainer) => {
         // Угол наглона для задних панелей
         alphaBackground = Math.atan((p.clientHeight * (1 - factors.heightPanel) / 2) / ((p.clientWidth * (1 - factors.widthBackground) / 2)));
 
+        // Deviation panel Y
+        var devY = p.clientHeight * (1 - factors.heightPanel) / 2;
+
         // Угол наклона для передних панелей
-        alphaForeground = Math.atan((p.clientHeight * (1 - factors.heightPanel) / 2) / ((p.clientWidth * (1 - factors.widthForeground) / 2)));
+        alphaForeground = Math.atan((p.clientHeight * (1 - factors.heightPanel) / 2) / ((p.clientWidth /** (1 - factors.widthForeground) / 2*/)));
 
         // Ширина задних боковых
         var widthBackground = p.clientWidth * ((1 - factors.widthBackground) / 2);
@@ -318,6 +321,7 @@ var restorePanels = (factors, classContainer) => {
                 a.clientWidth = widthBackground;
                 a.style.left = "0%";
                 a.style.transform = "skewY(" + "-" + alphaBackground + "rad)";
+                //a.style.transform = "matrix(1," + "-" + alphaBackground + ",0,1,0,0)";
                 a.style.background = panelsColor.leftBackground;
             } else if (str == "background right") {
                 a.style.transformOrigin = "left bottom";
@@ -326,6 +330,7 @@ var restorePanels = (factors, classContainer) => {
                 a.style.background = "";
                 a.style.background = /*"linear-gradient(to left, #d6d6d6, #aaaaaa)";*/ panelsColor.rightBackground;
                 a.style.transform = "skewY(" + alphaBackground + "rad)";
+                //a.style.transform = "matrix(1," + alphaBackground + ",0,1,0,0)";
             } else if (buf[0] == "background") {
                 a.style.left = factors.widthSideBackground * 100 + "%";
                 a.clientWidth = p.clientWidth * factors.widthBackground;
@@ -336,21 +341,38 @@ var restorePanels = (factors, classContainer) => {
             if (str == "foreground left") {
                 a.clientWidth = widthForeground;
                 a.style.left = "0%";
-                a.style.transform = "skewY(" + alphaForeground + "rad)";
+                a.style.transformOrigin = "left bottom";
+                a.style.transform = "scaleX(" + factors.widthSideForeground + ") " + "translateY(-" + devY + "px)" + " skewY(" + alphaForeground + "rad)";
                 a.style.background = panelsColor.leftForeground;
             } else if (str == "foreground right") {
                 a.style.transformOrigin = "left bottom";
                 a.clientWidth = widthForeground;
                 a.style.left = 0 + "%";
-                a.style.transform = "skewY(" + "-" + alphaForeground + "rad)";
+                a.style.transform = "translate(" + p.clientWidth * (1 - factors.widthSideForeground) + "px, -" + (2 * p.clientHeight * factors.heightPanel) + "px) " +
+                    "scaleX(" + factors.widthSideForeground + ") skewY(-" + alphaForeground + "rad)";
+                    
                 a.style.background = panelsColor.rightForeground;
             } else if (buf[0] == "foreground") {
                 a.style.left = 0 * 100 + "%";
                 a.clientWidth = p.clientWidth * factors.widthForeground;
-                a.style.transform = "";
+                a.style.transform = "translate(" + p.clientWidth * factors.widthSideForeground + "px, -" + p.clientHeight * factors.heightPanel + "px)";
                 a.style.background = panelsColor.centerForeground;
             }
         }
+        var v = document.getElementsByTagName("body");
+        var c = document.getElementsByTagName("html");
+        // Восстанавливаем родительскую панель до исходного уровня
+        //p.scrollHeight = p.clientHeight;
+        //v.scrollHeight = v.clientHeight;
+        //c.scrollHeight = c.clientHeight;
+        var parentEl = p;
+        while (parentEl != null) {
+            parentEl.scrollHeight = parentEl.clientHeight;
+            parentEl = parentEl.parentElement;
+        }
+        var v = document.getElementsByTagName("body");
+        var c = document.getElementsByTagName("html");
+        var m = 4;
     }
 }
 
@@ -373,6 +395,8 @@ var managePanelsBehaviour = (currents, rotatePanels, directionRotate) => {
         rotatePanels[5].style.zIndex = directionRotate == "right" ? "0" : "1";
         flagColor2 = true;
     }
+
+    // Если дошли до конца, то возвращаем панели в исходное состояние
     var className = rotatePanels[0].parentElement.getAttribute("class").split(" ");
     if (cycles == 0) {
         restorePanels(procentFactors, className[1]);
@@ -468,11 +492,29 @@ var doSwitch = function (eventObj) {
     }, 5);
 }
 
+// Заполнение панелей со скилами
+var fillSkills = (containerSkills) => {
+    var panels = findPanels(findContainers("skills")[0]);
+
+    // Заполняем передние панели данными
+    for (var i = 3; i < panels.length; i++)
+        panels[i].innerHTML = containerSkills[i - 3];
+}
+
 // Заполнение панелей со скилами при старте страницы
 var fillSkillsOnStartUp = () => {
-    var panels = findPanels(findContainers("skills")[0]);
-    skillsContent[4] = document.getElementById("s1").innerHTML;
-    panels[4].innerHTML = skillsContent[4];
+    var skillsMassiv = [];
+
+    // Формируем массив со скилами
+    for (var i = 0; i < 3; i++) {
+        var sTmp = "s" + i;
+        skillsMassiv[i] = document.getElementById(sTmp).innerHTML;
+    }
+
+    // Заполняем панели
+    fillSkills(skillsMassiv);
+
+    restorePanels(procentFactors);
 }
 
 // Показать скрытые данные

@@ -1,8 +1,12 @@
-﻿// Установить начальные размеры панелей
+﻿//Заполняем панели информацией
+fillSkillsOnStartUp();
+
+// Установить начальные размеры панелей
 restorePanels(procentFactors);
 
-//Заполняем панели информацией
-fillSkillsOnStartUp();
+//var skillsMassiv = document.getElementById("s1").innerText;
+
+//document.getElementsByClassName("foreground left skills")[0].innerHTML = skillsMassiv;
 
 
 
@@ -23,3 +27,6 @@ window.onload = function (eventObj) {
     document.getElementById("emailId").onclick = showHiddenData;
 }
 
+window.onresize = function (eventObj) {
+    restorePanels(procentFactors);
+}
