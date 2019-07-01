@@ -68,6 +68,7 @@ section > div{
     margin: 0 auto;
     width: 80%;
     position: relative;
+    overflow: hidden;
 }
 
 .rotate > div{
@@ -243,11 +244,11 @@ ul{
     vertical-align: top;
 }
 
-.foreground.left > ul{
+/*.foreground.left > ul{
     padding: 0px;
     margin-left: 0px;
     transform: matrix(0.25, 0, 0, 1, -20, 0);
-}
+}*/
 
 ul li {
     text-align: left;

@@ -359,20 +359,6 @@ var restorePanels = (factors, classContainer) => {
                 a.style.background = panelsColor.centerForeground;
             }
         }
-        var v = document.getElementsByTagName("body");
-        var c = document.getElementsByTagName("html");
-        // Восстанавливаем родительскую панель до исходного уровня
-        //p.scrollHeight = p.clientHeight;
-        //v.scrollHeight = v.clientHeight;
-        //c.scrollHeight = c.clientHeight;
-        var parentEl = p;
-        while (parentEl != null) {
-            parentEl.scrollHeight = parentEl.clientHeight;
-            parentEl = parentEl.parentElement;
-        }
-        var v = document.getElementsByTagName("body");
-        var c = document.getElementsByTagName("html");
-        var m = 4;
     }
 }
 
@@ -430,11 +416,15 @@ var rotateBlocks = function (directionRotate) {
 
         // Вращаем панели
         for (var b = 0; b < curSt.panelStruct.length; b++) {
-            curSt.panelStruct[b].translateX -= (i) * curSt.panelStruct[b].kfTranslateX;
-            curSt.panelStruct[b].translateY -= (i) * curSt.panelStruct[b].kftranslateY;
-            curSt.panelStruct[b].xScale -= (b == 1 || b == 4) ? curSt.panelStruct[b].kfXScale : (i) * curSt.panelStruct[b].kfXScale;
-            curSt.panelStruct[b].skew += (i) * curSt.panelStruct[b].kfSkew;
-            panels[b].style.transform = "matrix(" + curSt.panelStruct[b].xScale + "," + curSt.panelStruct[b].skew + ", 0, 1," + curSt.panelStruct[b].translateX + "," + curSt.panelStruct[b].translateY + ")";
+            if (b < 3) {
+                curSt.panelStruct[b].translateX -= (i) * curSt.panelStruct[b].kfTranslateX;
+                curSt.panelStruct[b].translateY -= (i) * curSt.panelStruct[b].kftranslateY;
+                curSt.panelStruct[b].xScale -= (b == 1 || b == 4) ? curSt.panelStruct[b].kfXScale : (i) * curSt.panelStruct[b].kfXScale;
+                curSt.panelStruct[b].skew += (i) * curSt.panelStruct[b].kfSkew;
+                panels[b].style.transform = "matrix(" + curSt.panelStruct[b].xScale + "," + curSt.panelStruct[b].skew + ", 0, 1," + curSt.panelStruct[b].translateX + "," + curSt.panelStruct[b].translateY + ")";
+            } else {
+
+            }
         }
 
         cycles--;
