@@ -314,7 +314,8 @@ var evaluateCoefficients = (mainPanel, totalCycles, directionRotate, pos, factor
     var e = factors.widthSideBackground;
     var f = factors.widthSideForeground;
     var g = factors.heightPanel;
-    var angleBackground = (a * g / 2) / (b * e / 2);
+    var angleBackground = Math.atan(a * (1- g) / (b * e));
+    var angleForeground = Math.atan(a * (1- g) / (b * f));
 
     // Object with coefficients
     var coefs = {
@@ -333,21 +334,26 @@ var evaluateCoefficients = (mainPanel, totalCycles, directionRotate, pos, factor
     }
 
     var dir = directionRotate == "left";
+    // Left background panel
     coefs = {
         kfXScale: dir ? b * ((c - e) / 2) / totalCycles : (1 + f / e) / totalCycles,
-        //kfYScale: dir ? mainPanel.clientHeight * factors.heightPanel
-        kfYSkew: 
-        kfXTranslate: dir ? a * e / totalCycles : 0,
-        kfYTranslate: dir?
+        kfYScale: 0,
+        kfXSkew: 1,
+        kfYSkew: dir ? -angleBackground / totalCycles : 0,
+        kfXTranslate: dir ? b * e / totalCycles : 0,
+        kfYTranslate: dir ? a * (1 - g) / (2 * totalCycles) : -a * (1 - g) / (2 * totalCycles)
     }
 
+    retMas.push(coefs);
 
-    // Massive with panels
-    var pnl = findPanels(mainPanel);
-
-    // For each panel evaluate coefficient
-    for (var i = 0; i < pnl.length; i++) {
-        
+    // Center background panel
+    coefs = {
+        kfXScale: dir ? b * ((c - e) / 2) / totalCycles : (1 + f / e) / totalCycles,
+        kfYScale: 0,
+        kfXSkew: 1,
+        kfYSkew: dir ? -angleBackground / totalCycles : 0,
+        kfXTranslate: dir ? b * e / totalCycles : 0,
+        kfYTranslate: dir ? a * (1 - g) / (2 * totalCycles) : -a * (1 - g) / (2 * totalCycles)
     }
 
     return retMas;
