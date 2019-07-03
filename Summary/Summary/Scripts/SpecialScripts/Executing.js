@@ -1,8 +1,8 @@
 ﻿//Заполняем панели информацией
-fillSkillsOnStartUp();
+//fillSkillsOnStartUp();
 
 // Установить начальные размеры панелей
-restorePanels(procentFactors);
+restoreAllPanels(procentFactors);
 
 //var skillsMassiv = document.getElementById("s1").innerText;
 
@@ -13,7 +13,6 @@ restorePanels(procentFactors);
 
 window.onload = function (eventObj) {
 
-
     //===========================================Обработчики событий=======================================//
 
     //===========================================Элементы, вращающие барабан=======================================//
@@ -23,10 +22,10 @@ window.onload = function (eventObj) {
     document.getElementById("photo").getElementsByClassName('switch right')[0].onclick = doSwitch;
 
     //===========================================Показать скрытые данные=======================================//
-    document.getElementById("phoneId").onclick = showHiddenData;
-    document.getElementById("emailId").onclick = showHiddenData;
+    //document.getElementById("phoneId").onclick = showHiddenData;
+    //document.getElementById("emailId").onclick = showHiddenData;
 }
 
 window.onresize = function (eventObj) {
-    restorePanels(procentFactors);
+    restoreAllPanels(procentFactors);
 }
