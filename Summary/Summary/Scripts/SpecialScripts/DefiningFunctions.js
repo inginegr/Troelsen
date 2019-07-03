@@ -420,7 +420,7 @@ var transformPanels = (factors, rootPanel, turnSide, division) => {
 
     // Transform all panels
     for (var i = 0; i < panels.length; i++) {
-        transformPanel(panels[i], currentPositions);
+        transformPanel(panels[i], currentPositions[i]);
     }
     
     cycles--;
@@ -428,6 +428,7 @@ var transformPanels = (factors, rootPanel, turnSide, division) => {
     if (cycles == 0) {
         clearInterval(timeRotate);
         restorePanels(rootPanel, factors);
+        flagRotate = false;
     }
 }
 
