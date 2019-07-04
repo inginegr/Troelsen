@@ -11,52 +11,17 @@ var procentFactors = {
     betta: 0.33                                      // Наклон боковых панелей заднего плана
 }
 
-// Представляет структуру панели, с необходимыми данными для вращения
-//var initialStates = {
-//    xScale: null,          // Текущий масштаб по оси Х
-//    yScale: null,          // Масштаб по оси У
-//    xSkew: null,           // Угол поворота по горизонтали
-//    ySkew: null,           // Угол поворота по вертикали
-//    xTranslate: null,      // Перемещение по оси Х
-//    yTranslate: null,      // Перемещение по оси У
-//}
 
-// Структура с цветами панелей
-var panelsColor = {
-    leftBackground: "linear-gradient(to right, #d6d6d6, #aaaaaa)",
-    centerBackground: "#b3b3b3",
-    rightBackground: "linear - gradient(to left, #d6d6d6, #aaaaaa)",
-    leftForeground: "linear-gradient(to left, #1187ff, #56aaff)",
-    centerForeground: "linear-gradient(to right, #1287ff, #007af6, #1287ff)",
-    rightForeground: "linear-gradient(to right, #1187ff, #56aaff)"
-}
+// Массив с цветом панелей
+var panelsColor = ["linear-gradient(to right, #d6d6d6, #aaaaaa)", "#b3b3b3", "linear-gradient(to left, #d6d6d6, #aaaaaa)", "linear-gradient(to left, #1187ff, #56aaff)",
+    "linear-gradient(to right, #1287ff, #007af6, #1287ff)", "linear-gradient(to right, #1187ff, #56aaff)"];
 
-// Текущие состояния, управляющие вращением
-//function currentStates(procentFactors, widthParam, heightParam, panels, directionParam) {
-//    // Массив панелей для вращения
-//    this.panelStruct = [];
-
-//    //-----------------------------------------Общие свойства--------------------------------------------------------//
-//    this.alphaForeground = Math.atan((heightParam - panels[4].clientHeight) / (2 * panels[4].clientWidth));
-//    this.tgAlpha = (heightParam - panels[4].clientHeight) / (widthParam - panels[4].clientWidth);
-//    this.tgBetta = (heightParam - panels[1].clientHeight) / (widthParam - panels[1].clientWidth);
-//    this.angleAlpha = Math.atan(this.tgAlpha);
-//    this.angleBetta = Math.atan(this.tgBetta);
-
-//    this.bettaBackground = Math.atan((heightParam - panels[1].clientHeight) / (2 * panels[1].clientWidth));
-//    this.shortH = (heightParam - panels[4].clientHeight);
-//    this.shortWidthTop = (widthParam - panels[1].clientWidth) / 2;
-//    this.shortWidthBottom = (widthParam - panels[4].clientWidth) / 2;
-//    this.heightScale = Math.abs(((this.shortH - this.shortWidthTop * this.tgAlpha - this.shortWidthBottom * this.tgBetta) * (this.tgAlpha + this.tgBetta)) / (2 * this.tgAlpha));
-//    this.scaleStepX = (1 + this.shortWidthTop / this.shortWidthBottom) / divis;
-//    this.scaleStepXBack = (1 + this.shortWidthBottom / this.shortWidthTop) / divis;
-//    this.scaleLeftTransition = Math.trunc(1 / this.scaleStepX);
-//    this.scaleDownStepY = this.heightScale * 2 / (this.shortH * this.scaleLeftTransition);
-//    this.scaleUpStepY = this.shortH / (2 * (1 - this.heightScale * 2 / this.shortH) * (divis - this.scaleLeftTransition));
-//}
 
 // Количество циклов изменений
-var cycles = divis = 60;
+var cycles = divis = 10;
+
+// Time between panels rotating
+var timerInterval = 20;
 
 
 // Флаг, показывающий, что в данный момент происходит вращение
@@ -220,17 +185,49 @@ var evaluateInitialStates = (rootContainer, factors) => {
     return retMas;
 }
 
+// Change backgrounds of panels, if the panel is reversed
+// position - initialStates structure
+// panel - current panel
+var changeBackgrounds = (panel) => {
+
+    // Define classes of panel
+    var className = panel.className.split(" ");
+
+    // Change backgrounds
+    if (className.includes("background")) {
+        if (className.includes("left")) {
+            panel.style.background = panelsColor[3];//"linear-gradient(to left, #1187ff, #56aaff)";// panelsColor[0];
+            panel.style.zIndex = "2";
+        }            
+        else
+            panel.style.background = panelsColor[5];
+    } else
+            panel.style.background = panelsColor[0];
+        
+}
+
 // Переместить панель в указанное положение
 // currentPanel - панель, которую перемещаем
 // moves - структура panelStruct
-var transformPanel = (currentPanel, moves) => {
+var transformPanel = (currentPanel, moves, turnSide) => {
     // Dafault parameters
     currentPanel.style.transformOrigin = "left top";
-    currentPanel.style.zIndex = 1;
     currentPanel.style.left = "0%";
-    
+
+    // Set x-Index' es
+    var names = currentPanel.className.split(" ");
+    if ((names.length == 2) && (names.includes("foreground"))) {
+        currentPanel.style.zIndex = "2";        
+    }
+    if (turnSide == "right" && names.includes("left") && names.includes("foreground"))
+        currentPanel.style.zIndex = "2";
+       
     // Move panel
     currentPanel.style.transform = "matrix(" + moves.xScale + "," + moves.ySkew + "," + moves.xSkew + "," + moves.yScale + "," + moves.xTranslate + "," + moves.yTranslate + ")";
+
+    // If reverse event is occur, coontrol background colors and z indexes
+    if (moves.xScale < 0)
+        changeBackgrounds(currentPanel);
 }
 
 // Restore panels to default positions
@@ -245,6 +242,8 @@ var restorePanels = (rootContainer, factors) => {
     // Transform each panel to default position
     for (var i = 0; i < panels.length; i++) {
         transformPanel(panels[i], panelPositions[i]);
+        panels[i].style.zIndex = "1";
+        panels[i].style.background = panelsColor[i];
     }
 }
 
@@ -273,8 +272,9 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
     var e = factors.widthSideBackground;
     var f = factors.widthSideForeground;
     var g = factors.heightPanel;
-    var angleBackground = Math.atan(a * (1- g) / (b * e));
-    var angleForeground = Math.atan(a * (1 - g) / (b * f));
+
+    var angleBackground = Math.atan((a * (1 - g) / 2) / b);
+    var angleForeground = Math.atan((a * (1 - g) / 2) / b);
     
     // Object with coefficients
     var coefs = {
@@ -289,9 +289,9 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
     var dir = directionRotate == "left";
     // Left background panel
     coefs = {
-        kfXScale: dir ? c / (e * totalCycles) : -(1 + f / e) / totalCycles,
-        kfYSkew: dir ? -angleBackground / totalCycles : 0,
-        kfXTranslate: dir ? b * e / totalCycles : 0,
+        kfXScale: dir ? (c - e) / totalCycles : -(e + f) / totalCycles,
+        kfYSkew: dir ? (angleBackground) / totalCycles : 0,
+        kfXTranslate: dir ? b * e / totalCycles : b * f / totalCycles,
         kfYTranslate: dir ? -a * (1 - g) / (2 * totalCycles) : a * (1 - g) / (2 * totalCycles),
         kfYScale: 0,
         kfXSkew: 0
@@ -301,9 +301,9 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     // Center background panel
     coefs = {
-        kfXScale: e / (b * totalCycles),
+        kfXScale: (e - c) / totalCycles,
         kfYSkew: dir ? angleBackground / totalCycles : -angleBackground / totalCycles,
-        kfXTranslate: dir ? b * c / totalCycles : -b * c / totalCycles,
+        kfXTranslate: dir ? b * c / totalCycles : -b * e / totalCycles,
         kfYTranslate: dir ? 0 : a * (1 - g) / (2 * totalCycles),
         kfYScale: 0,
         kfXSkew: 0
@@ -311,12 +311,12 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     retMas.push(coefs);
 
-    // Left background panel
+    // Right background panel
     coefs = {
-        kfXScale: dir ? -(1 + f / e) / totalCycles : c / (e * totalCycles),
-        kfYSkew: dir ? angleBackground / totalCycles : 0,
-        kfXTranslate: dir ? 0 : b * e / totalCycles,
-        kfYTranslate: dir ? a * (1 - g) / (2 * totalCycles) : -a * (1 - g) / (2 * totalCycles),
+        kfXScale: dir ? -(e + f) / totalCycles : (c - e) / totalCycles,
+        kfYSkew: dir ? 0 : -angleBackground / totalCycles,
+        kfXTranslate: dir ? b * e / totalCycles : -b * c / totalCycles,
+        kfYTranslate: dir ? a * (1 - g) / (2 * totalCycles) : 0,
         kfYScale: 0,
         kfXSkew: 0
     }
@@ -325,9 +325,9 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     // Left foreground panel
     coefs = {
-        kfXScale: dir ? -(1 + e / f) / totalCycles : d / (f * totalCycles),
+        kfXScale: dir ? -(e + f) / totalCycles : (d - f) / totalCycles,
         kfYSkew: dir ? 0 : -angleForeground / totalCycles,
-        kfXTranslate: dir ? 0 : d / (f * totalCycles),
+        kfXTranslate: dir ? b * e / totalCycles : b * f / totalCycles,
         kfYTranslate: dir ? -a * (1 - g) / (2 * totalCycles) : a * (1 - g) / (2 * totalCycles),
         kfYScale: 0,
         kfXSkew: 0
@@ -337,7 +337,7 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     // Center foreground panel
     coefs = {
-        kfXScale: dir ? -f / (d * totalCycles) : -f / (d * totalCycles),
+        kfXScale: (f - d) / totalCycles,
         kfYSkew: dir ? angleForeground / totalCycles : -angleForeground / totalCycles,
         kfXTranslate: dir ? -b * f / totalCycles : b * d / totalCycles,
         kfYTranslate: dir ? -a * (1 - g) / (2 * totalCycles) : 0,
@@ -349,9 +349,9 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     // Right foreground panel
     coefs = {
-        kfXScale: dir ? d / (f * totalCycles) : - (1 + e / f) / totalCycles,
+        kfXScale: dir ? (d - f) / totalCycles : - (e + f) / totalCycles,
         kfYSkew: dir ? angleForeground / totalCycles : 0,
-        kfXTranslate: dir ? d / (f * totalCycles) : 0,
+        kfXTranslate: dir ? -d * b / totalCycles : b * f / totalCycles,
         kfYTranslate: dir ? 0 : -a * (1 - g) / (2 * totalCycles),
         kfYScale: 0,
         kfXSkew: 0
@@ -361,7 +361,6 @@ var evaluateCoefficients = (rootPanel, totalCycles, directionRotate, factors) =>
 
     return retMas;
 }
-
 
 // Вычисление координат, для перемещения панелей
 // direction - the direction, that indicates where to turn
@@ -382,13 +381,10 @@ var evaluatePosition = (direction, positions, division, rootPanel, factors) => {
     var coefficients = evaluateCoefficients(rootPanel, division, direction, factors);
 
     // Evaluate new positions of panels using coefficients
-    for (var i = 0; i < currentPositions.length; i++) {
-        
+    for (var i = 0; i < currentPositions.length; i++) {        
         positions[i].xScale += coefficients[i].kfXScale;
-        // Define flag
-        flagSideChanged = positions[i].xScale < 0;
-        positions[i].yScale += coefficients[i].kfYScale;
-        positions[i].xSkew += coefficients[i].kfYSkew;
+        positions[i].yScale += 0;
+        positions[i].xSkew += 0;
         positions[i].ySkew += coefficients[i].kfYSkew;
         positions[i].xTranslate += coefficients[i].kfXTranslate;
         positions[i].yTranslate += coefficients[i].kfYTranslate;
@@ -420,95 +416,17 @@ var transformPanels = (factors, rootPanel, turnSide, division) => {
 
     // Transform all panels
     for (var i = 0; i < panels.length; i++) {
-        transformPanel(panels[i], currentPositions[i]);
+        transformPanel(panels[i], currentPositions[i], turnSide);
     }
     
     cycles--;
 
     if (cycles == 0) {
-        clearInterval(timeRotate);
-        restorePanels(rootPanel, factors);
         flagRotate = false;
+        clearInterval(timeRotate);
+        restorePanels(rootPanel, factors);        
     }
 }
-
-//// Управление стилями вращающихся блоков
-//var managePanelsBehaviour = (currents, rotatePanels, directionRotate) => {
-//    // Если перешли за середину, то меняем цвета
-//    if ((currents.panelStruct[0].xScale < 0 || currents.panelStruct[3].xScale < 0) && !flagColor1) {
-//        rotatePanels[0].style.background = directionRotate == "left" ? panelsColor.centerBackground : panelsColor.leftForeground;
-//        rotatePanels[0].style.zIndex = directionRotate == "right" ? "2" : "1";
-//        rotatePanels[1].style.background = panelsColor.leftBackground;
-//        rotatePanels[3].style.background = directionRotate == "right" ? panelsColor.centerForeground : panelsColor.leftBackground;
-//        flagColor1 = true;
-//    }
-//    if ((currents.panelStruct[2].xScale < 0 || currents.panelStruct[5].xScale < 0) && !flagColor2) {
-//        rotatePanels[1].style.background = panelsColor.leftBackground;
-//        rotatePanels[2].style.background = directionRotate == "left" ? panelsColor.rightForeground : panelsColor.centerBackground;
-//        rotatePanels[2].style.zIndex = directionRotate == "right" ? "1" : "2";
-//        rotatePanels[5].style.background = "";
-//        rotatePanels[5].style.background = directionRotate == "left" ? panelsColor.centerForeground : "linear-gradient(to left, #d6d6d6, #aaaaaa)";
-//        rotatePanels[5].style.zIndex = directionRotate == "right" ? "0" : "1";
-//        flagColor2 = true;
-//    }
-
-//    // Если дошли до конца, то возвращаем панели в исходное состояние
-//    var className = rotatePanels[0].parentElement.getAttribute("class").split(" ");
-//    if (cycles == 0) {
-//        restorePanels(procentFactors, className[1]);
-//    }
-
-//}
-
-//// Вращение блоков
-//var rotateBlocks = function (directionRotate) {
-//    try {
-//        // Начало отсчета
-//        var coord1 = "right bottom";
-//        var coord2 = "left bottom";
-
-//        // Устанавливаем начало координат в зваисимости от направления вращения
-//        for (var a = 0; a < curSt.panelStruct.length; a++) {
-//            if (directionRotate == "right") {
-//                i = -1;
-//                if (a < 3)
-//                    panels[a].style.transformOrigin = coord1;
-//                else
-//                    panels[a].style.transformOrigin = coord2;
-//            } else {
-//                i = 1;
-//                if (a < 3)
-//                    panels[a].style.transformOrigin = coord2;
-//                else
-//                    panels[a].style.transformOrigin = coord1;
-//            }
-//        }
-
-//        // Вращаем панели
-//        for (var b = 0; b < curSt.panelStruct.length; b++) {
-//            if (b < 3) {
-//                curSt.panelStruct[b].translateX -= (i) * curSt.panelStruct[b].kfTranslateX;
-//                curSt.panelStruct[b].translateY -= (i) * curSt.panelStruct[b].kftranslateY;
-//                curSt.panelStruct[b].xScale -= (b == 1 || b == 4) ? curSt.panelStruct[b].kfXScale : (i) * curSt.panelStruct[b].kfXScale;
-//                curSt.panelStruct[b].skew += (i) * curSt.panelStruct[b].kfSkew;
-//                panels[b].style.transform = "matrix(" + curSt.panelStruct[b].xScale + "," + curSt.panelStruct[b].skew + ", 0, 1," + curSt.panelStruct[b].translateX + "," + curSt.panelStruct[b].translateY + ")";
-//            } else {
-
-//            }
-//        }
-
-//        cycles--;
-
-//        managePanelsBehaviour(curSt, panels, directionRotate);
-
-//        if (cycles < 1) {
-//            clearInterval(timeRotate);
-//            flagRotate = false;
-//        }
-//    } catch (e) {
-
-//    }
-//}
 
 // Переключение влево-вправо
 var doSwitch = (eventObj) => {
@@ -546,7 +464,7 @@ var doSwitch = (eventObj) => {
     // Вращаем блоки
     timeRotate = setInterval(function () {
         transformPanels(procentFactors, blockRoot, turnSide, divis);
-    }, 5);
+    }, timerInterval);
 }
 
 // Заполнение панелей со скилами
@@ -571,7 +489,7 @@ var fillSkillsOnStartUp = () => {
     // Заполняем панели
     fillSkills(skillsMassiv);
 
-    rotatePanels(procentFactors);
+    restoreAllPanels(procentFactors);
 }
 
 // Показать скрытые данные

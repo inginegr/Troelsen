@@ -1,8 +1,6 @@
 ﻿//Заполняем панели информацией
-//fillSkillsOnStartUp();
+fillSkillsOnStartUp();
 
-// Установить начальные размеры панелей
-restoreAllPanels(procentFactors);
 
 //var skillsMassiv = document.getElementById("s1").innerText;
 
@@ -22,8 +20,8 @@ window.onload = function (eventObj) {
     document.getElementById("photo").getElementsByClassName('switch right')[0].onclick = doSwitch;
 
     //===========================================Показать скрытые данные=======================================//
-    //document.getElementById("phoneId").onclick = showHiddenData;
-    //document.getElementById("emailId").onclick = showHiddenData;
+    document.getElementById("phoneId").onclick = showHiddenData;
+    document.getElementById("emailId").onclick = showHiddenData;
 }
 
 window.onresize = function (eventObj) {
