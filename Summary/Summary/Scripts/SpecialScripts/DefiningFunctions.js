@@ -17,12 +17,17 @@ var panelsColor = ["linear-gradient(to right, #d6d6d6, #aaaaaa)", "#b3b3b3", "li
     "linear-gradient(to right, #1287ff, #007af6, #1287ff)", "linear-gradient(to right, #1187ff, #56aaff)"];
 
 
+// Massive with photo
+var containerPhoto = [];
+
+// Massive with skills data
+var containerSkills = [];
+
 // Количество циклов изменений
 var cycles = divis = 10;
 
 // Time between panels rotating
 var timerInterval = 20;
-
 
 // Флаг, показывающий, что в данный момент происходит вращение
 var flagRotate = false;
@@ -509,11 +514,44 @@ var showHiddenData = (eventObj) => {
     eventSource.innerHTML = codedSymbols;
 }
 
-
-//===========================================================================Первоначальная информация для блоков Skills=====================================//
-
+//===============================================================Ajax requests===================================================================//
 
 
 
 
-//===========================================================================/Первоначальная информация для блоков Skills=====================================//
+
+
+// Get remained data async, and load them to massives
+
+var GetRemainedDataAsync = () => {
+    var req = new XMLHttpRequest();
+
+    req.open("POST", "MainPage/SendRemainedAsync", true);
+
+    req.setRequestHeader('Content-Type', 'text/xml');
+
+    req.onreadystatechange = () => {
+
+        if (req.readyState != 4) return;
+
+        var v = req.responseXML.getElementById('s2');
+
+        if (req.status >= 200 && req.status < 400) {
+            alert(v);
+        } else {
+            alert('We encountered an error!');
+        }
+    }
+
+    req.send();
+}
+
+
+
+
+
+
+
+
+
+//===============================================================================================================================================//

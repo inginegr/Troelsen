@@ -6,7 +6,7 @@ fillSkillsOnStartUp();
 
 //document.getElementsByClassName("foreground left skills")[0].innerHTML = skillsMassiv;
 
-
+//GetRemainedDataAsync();
 
 
 window.onload = function (eventObj) {
@@ -14,7 +14,7 @@ window.onload = function (eventObj) {
     //===========================================Обработчики событий=======================================//
 
     //===========================================Элементы, вращающие барабан=======================================//
-    document.getElementById('skills').getElementsByClassName("switch left")[0].onclick = doSwitch;
+    document.getElementById('skills').getElementsByClassName("switch left")[0].onclick = GetRemainedDataAsync;//doSwitch;
     document.getElementById("skills").getElementsByClassName('switch right')[0].onclick = doSwitch;
     document.getElementById("photo").getElementsByClassName('switch left')[0].onclick = doSwitch;
     document.getElementById("photo").getElementsByClassName('switch right')[0].onclick = doSwitch;

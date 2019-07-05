@@ -13,5 +13,11 @@ namespace Summary.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult SendRemainedAsync()
+        {
+            return Content("dsf sdf sd fs sfd d", "text/xml");
+        }
     }
 }
