@@ -13,7 +13,14 @@
 }
 
 @section HeaderSection{
-    <header></header>
+    <header>
+        <div id="headTop"></div>
+        <div id="headDown"><!--
+         --><div id="hLeft">Вход</div><!--
+         --><div id="hCenter"></div><!--
+         --><div id="hRight">Отправить письмо</div><!--
+     --></div>
+    </header>
 }
 
 @section PhotoSection{
@@ -31,17 +38,22 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate photo">
-            <div class="background left photo"></div><!--
-         --><div class="background photo"></div><!--
-         --><div class="background right photo"></div>
+            <div class="background left photo"></div>
+            <!--
+            -->
+            <div class="background photo"></div>
+            <!--
+            -->
+            <div class="background right photo"></div>
             <div class="foreground left photo">
-                <img src="~/Content/Images/me1.jpg" />
-            </div><!--
-         --><div class="foreground photo">
-                <img src="~/Content/Images/me3.jpg" />
-             </div><!--
-         --><div class="foreground right photo">
-                <img src="~/Content/Images/me3.jpg" />            
+            </div>
+            <!--
+            -->
+            <div class="foreground photo">
+            </div>
+            <!--
+            -->
+            <div class="foreground right photo">
             </div>
         </div>
     </section>
@@ -62,18 +74,26 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate skills">
-            <div class="background left skills"></div><!--
-         --><div class="background skills"></div><!--
-         --><div class="background right skills"></div>
-            <div class="foreground left skills"></div><!--
-         --><div class="foreground skills"></div><!--
-         --><div class="foreground right skills"></div>
+            <div class="background left skills"></div>
+            <!--
+            -->
+            <div class="background skills"></div>
+            <!--
+            -->
+            <div class="background right skills"></div>
+            <div class="foreground left skills"></div>
+            <!--
+            -->
+            <div class="foreground skills"></div>
+            <!--
+            -->
+            <div class="foreground right skills"></div>
         </div>
     </section>
 }
 
 @section AddHideInfoSection{
-    <script id="s0" type="text/template">
+    <script id="s2" type="text/template">
         <p class="content">Общая информация</p>
         <ul>
             <li>Сапожников Дмитрий Владимирович</li>
@@ -82,14 +102,18 @@
             <li class="no-marker">Контактная информация</li>
             <li>
                 <div class="buttoned">
-                    <div><b>Телефон:</b></div><div id="phoneId" class="btn-show">показать</div>
+                    <div><b>Телефон:</b></div><div id="phoneId" class="btn-show" onclick="showHiddenData(this)" >показать</div>
                 </div>
             </li>
             <li>
                 <div class="buttoned">
-                    <div><b>Электронная почта:</b></div><div id="emailId" class="btn-show">показать</div>
+                    <div><b>Электронная почта:</b></div><div id="emailId" class="btn-show" onclick="showHiddenData(this)">показать</div>
                 </div>
             </li>
+            <li class="no-marker">Место работы:</li>
+            <li>Центральное Конструкторское Бюро Автоматики</li>
+            <li><b>Годы работы:</b> 2012 - по настоящее время</li>
+            <li><b>Должность:</b> инженер-конструктор 1-ой категории</li>
             <li class="no-marker">Увлечения</li>
             <li>Программирование,  бег, плавание, турпоходы.</li>
         </ul>
@@ -105,21 +129,58 @@
             <li><b>Специальность:</b>средства связи с подвижными объектами.</li>
             <li><b>Квалификация:</b> инженер.</li>
             <li class="no-marker">Сертификаты</li>
-            <li>Программирование на C# c помощью Microsoft Visual Studio 2012.</li>
+            <li><u id="1 certificate">Программирование на C# c помощью Microsoft Visual Studio 2012.</u></li>
         </ul>
     </script>
 
-    <script id="s2" type="text/template">
+    <script id="s3" type="text/template">
         <p class="content">Опыт разработки приложений</p>
         <ul>
             <li class="no-marker">Программирование на языке С++</li>
             <li><b>Программы для автоматизированных рабочих мест:</b> WinAPI, работа с сокетами, управление оборудованием по Ethernet.</li>
             <li><b>Парсеры для интернет магазинов:</b> SSL (openssl), WinInet.</li>
             <li class="no-marker">Программирование на языке C#</li>
-            <li><b>Сборщик комментариев с YouTube:</b>WPF, XAML.</li>
-            <li><b>Модель интернет магазина:</b>Entiyty Framework, ASP.net MVC, ADO.net, SQL, многопоточное программирование (асинхронные делегаты).</li>            
+            <li><b>Сборщик комментариев с YouTube:</b>WPF, XAML, YouTube API.</li>
+            <li><b>Модель интернет магазина:</b>Entiyty Framework, ASP.net MVC, ADO.net, SQL, многопоточное программирование (асинхронные делегаты).</li>
+            <li>
+                Имеется опыт создания устройств, на Arduino (сигнализация с GSM-модулем и пультом
+                управления, а также небольших проектов для автоматизации).
+            </li>
         </ul>
     </script>
 
+    <script id="me1" type="text/template">
+        <img src="/Content/Images/me1.jpg" />
+    </script>
 
+    <script id="me2" type="text/template">
+        <img src="/Content/Images/me2.jpg" />
+    </script>
+
+    <script id="me3" type="text/template">
+        <img src="/Content/Images/me3.jpg" />
+    </script>
+
+    <script id="to addWindow" type="text/template">
+
+        <div id="crossClose"></div>
+
+        <textarea id="textMessage">
+              Пожалуйста, введите ваше сообщение и способ связи с вами.
+        </textarea>
+
+        <div id="noSend">Отмена</div>
+        <div id="ajaxVis"></div>
+        <div id="sendMes">Отправить</div>
+
+    </script> 
+
+    <script id="messageSendSuccess" type="text/template">
+
+        <h1>Спасибо, ваше сообщение успешно отправлено</h1>
+
+        <div id="noSend">Хорошо</div>
+
+    </script>
 }
+

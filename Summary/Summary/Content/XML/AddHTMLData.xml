@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<rootTree>
+  
+  <script id="s4" type="text/template">
+    <p class="content">Ключевые навыки</p>
+    <ul>
+      <li class="no-marker">Программирование на языке С++</li>
+      <li>
+        Openssl, WinInet, Сокеты, WinAPI.
+      </li>
+      <li class="no-marker">Программирование на языке C#</li>
+      <li>
+        ASP.NET MVC, LINQ, Entity Framework, WPF, MS SQL Server, SQL, ADO.NET, XAML, многопоточное программирование (PLINQ),
+        рефлексия и позднее связывание.
+      </li>
+      <li>
+        JavaScript, HTML5, CSS.
+      </li>
+      <li>
+        <b>Уровень владения английским:</b> могу читать английские тексты, немного понимаю на слух.
+      </li>
+    </ul>
+  </script>
+
+  <script id="s5" type="text/template">
+    <p class="content">Пожелания к вакансии</p>
+    <ul>
+      <li>
+        Разроботка веб приложений.
+      </li>
+      <li>
+        График работы: желательно удаленно, но не принципиально.
+      </li>
+      
+      <li>
+        Возможен переезд в другой город.
+      </li>
+    </ul>
+  </script>
+
+  <script id="s6" type="text/template">
+    <p class="content">Награждения</p>
+    <ul>
+      <li>
+        <u id="1 rewards1">Конкурс «Лучший молодой специалист 2013-го года»: 1-е место</u>
+      </li>
+      <li>
+        <u id="2 rewards2">Конкурс «Лучший молодой специалист 2014-го года»: 2-е место</u>
+      </li>
+      <li>
+        <u id="3 rewards3">Конкурс «Научно-производственных достижений» (2015 г.): 3-е место</u>
+      </li>
+    </ul>
+  </script>
+
+  <script id="rewards1" type="text/template">
+    <img id="stop" src="/Content/Images/rewards1.jpg" />
+  </script>
+
+  <script id="rewards2" type="text/template">
+    <img id="stop" src="/Content/Images/rewards2.jpg" />
+  </script>
+
+  <script id="rewards3" type="text/template">
+    <img id="stop" src="/Content/Images/rewards3.jpg" />
+  </script>
+
+  <script id="certificate" type="text/template">
+    <img id="stop" src="/Content/Images/certificate.jpg" />
+  </script>
+
+  <script id="me4" type="text/template">
+    <img src="/Content/Images/me4.jpg" />
+  </script>
+
+  <script id="me5" type="text/template">
+    <img src="/Content/Images/me5.jpg" />
+  </script>
+
+  <script id="me6" type="text/template">
+    <img src="/Content/Images/me6.jpg" />
+  </script>
+  
+</rootTree>

@@ -11,6 +11,8 @@ var procentFactors = {
     betta: 0.33                                      // Наклон боковых панелей заднего плана
 }
 
+// Ajax object
+var req = null;
 
 // Массив с цветом панелей
 var panelsColor = ["linear-gradient(to right, #d6d6d6, #aaaaaa)", "#b3b3b3", "linear-gradient(to left, #d6d6d6, #aaaaaa)", "linear-gradient(to left, #1187ff, #56aaff)",
@@ -23,6 +25,9 @@ var containerPhoto = [];
 // Massive with skills data
 var containerSkills = [];
 
+// Massive with reward photo
+var containerRewardsPhoto = [];
+
 // Количество циклов изменений
 var cycles = divis = 10;
 
@@ -32,9 +37,11 @@ var timerInterval = 20;
 // Флаг, показывающий, что в данный момент происходит вращение
 var flagRotate = false;
 
-// Флаг переключения цвета
+// Флаги
 var flagSideChanged = false;
 var flagSideChanged2 = false;
+var flagAjaxRequest = false;
+
 
 // Объект с текущим положением панелей
 var currentPositions = null;
@@ -44,6 +51,7 @@ var timeRotate = null;
 
 // Массив с данными для панелей со скилами
 var skillsContent = [];
+
 
 // Кодировка скрытых данных
 var hideEmail = [11.2, 9.7, 11.5, 10.7, 9.7, 10.8, 10.4, 10.1, 10.8, 11.2, 6.4, 11, 9.7, 11.4, 11.1, 10, 4.6, 11.4, 11.7];
@@ -211,10 +219,59 @@ var changeBackgrounds = (panel) => {
         
 }
 
+// Fills panels with content
+// massWithContent - massive with content
+var fillPanelsWithContent = (massWithContent, panels) => {
+    // Заполняем передние панели данными
+    for (var i = 3; i < panels.length; i++)
+        panels[i].innerHTML = massWithContent[i - 3];
+}
+
+
+// Restores content of panels
+//panels - panels, that ratated
+var restoreContentOfPanels = (panels) => {
+    var masTemp = panels[0].parentElement.className.split(' ').includes('photo') == true ? containerPhoto : containerSkills;
+    panels[0].innerHTML = "";
+    panels[2].innerHTML = "";
+    fillPanelsWithContent(masTemp, panels);
+}
+
+
+// Change content in panels by rotating
+// panels - panels, that rotating
+// turnSide - direction? where rotate "left", or "right"
+// elementToInsert - element, that neccassary to insert in panel
+var changeContentOfPanels = (turnSide, panels, elementToInsert) => {
+    if (turnSide == "left") {
+        panels[3].innerHTML = "";
+        panels[2].innerHTML = elementToInsert;
+    } else {
+        panels[5].innerHTML = "";
+        panels[0].innerHTML = elementToInsert;
+    }
+}
+
+// Shifts elements in massive
+// turnSide - direction? where rotate "left", or "right"
+// massiveToShift - massive, in which elements must be shifted
+var shiftElementsInMassive = (turnSide, massiveToShift) => {
+    var retElement = null;
+    if (turnSide == "right") {
+        massiveToShift.unshift(massiveToShift.pop());
+        retElement = massiveToShift[5];
+    } else {
+        massiveToShift.push(massiveToShift.shift());
+        retElement = massiveToShift[3];
+    }
+    return retElement;
+}
+
 // Переместить панель в указанное положение
 // currentPanel - панель, которую перемещаем
 // moves - структура panelStruct
-var transformPanel = (currentPanel, moves, turnSide) => {
+// panels  - all panels
+var transformPanel = (currentPanel, moves, turnSide, panels) => {
     // Dafault parameters
     currentPanel.style.transformOrigin = "left top";
     currentPanel.style.left = "0%";
@@ -226,13 +283,21 @@ var transformPanel = (currentPanel, moves, turnSide) => {
     }
     if (turnSide == "right" && names.includes("left") && names.includes("foreground"))
         currentPanel.style.zIndex = "2";
-       
+    
     // Move panel
     currentPanel.style.transform = "matrix(" + moves.xScale + "," + moves.ySkew + "," + moves.xSkew + "," + moves.yScale + "," + moves.xTranslate + "," + moves.yTranslate + ")";
 
     // If reverse event is occur, coontrol background colors and z indexes
-    if (moves.xScale < 0)
+    if (moves.xScale < 0 ) {
         changeBackgrounds(currentPanel);
+
+        if (!flagSideChanged2) {
+            var masTemp = currentPanel.parentElement.className.split(' ').includes('photo') == true ? containerPhoto : containerSkills;
+            var elementToInsert = shiftElementsInMassive(turnSide, masTemp);
+            changeContentOfPanels(turnSide, panels, elementToInsert);
+            flagSideChanged2 = true;
+        }        
+    }        
 }
 
 // Restore panels to default positions
@@ -404,32 +469,37 @@ var evaluatePosition = (direction, positions, division, rootPanel, factors) => {
 // states - структура currentStates
 var transformPanels = (factors, rootPanel, turnSide, division) => {
 
-    // Коэффициенты для матрицы преобразований
-    //matrix(scaleX, skewY, scaleY, skewX, moveX, moveY)
-    var scaleX = 0;
-    var scaleY = 0;
-    var skewX = 0;
-    var skewY = 0;
-    var moveX = 0;
-    var moveY = 0;
+    try {
+        // Коэффициенты для матрицы преобразований
+        //matrix(scaleX, skewY, scaleY, skewX, moveX, moveY)
+        var scaleX = 0;
+        var scaleY = 0;
+        var skewX = 0;
+        var skewY = 0;
+        var moveX = 0;
+        var moveY = 0;
 
-    // Define new positions of panels
-    currentPositions = evaluatePosition(turnSide, currentPositions, division, rootPanel, factors);
+        // Define new positions of panels
+        currentPositions = evaluatePosition(turnSide, currentPositions, division, rootPanel, factors);
 
-    // Define panels to rotate
-    var panels = findPanels(rootPanel);
+        // Define panels to rotate
+        var panels = findPanels(rootPanel);
 
-    // Transform all panels
-    for (var i = 0; i < panels.length; i++) {
-        transformPanel(panels[i], currentPositions[i], turnSide);
-    }
-    
-    cycles--;
+        // Transform all panels
+        for (var i = 0; i < panels.length; i++) {
+            transformPanel(panels[i], currentPositions[i], turnSide, panels);
+        }
 
-    if (cycles == 0) {
+        cycles--;
+
+        if (cycles < 1) {
+            flagRotate = false;
+            clearInterval(timeRotate);
+            restorePanels(rootPanel, factors);
+            restoreContentOfPanels(panels);
+        }
+    } catch (e) {
         flagRotate = false;
-        clearInterval(timeRotate);
-        restorePanels(rootPanel, factors);        
     }
 }
 
@@ -442,6 +512,7 @@ var doSwitch = (eventObj) => {
         flagRotate = true;
 
     flagSideChanged = false;
+    flagSideChanged2 = false;
 
     // Установить счетчик
     cycles = divis;
@@ -472,37 +543,38 @@ var doSwitch = (eventObj) => {
     }, timerInterval);
 }
 
-// Заполнение панелей со скилами
-var fillSkills = (containerSkills) => {
-    var panels = findPanels(findContainers("skills")[0]);
-
-    // Заполняем передние панели данными
-    for (var i = 3; i < panels.length; i++)
-        panels[i].innerHTML = containerSkills[i - 3];
-}
 
 // Заполнение панелей со скилами при старте страницы
 var fillSkillsOnStartUp = () => {
-    var skillsMassiv = [];
-
-    // Формируем массив со скилами
-    for (var i = 0; i < 3; i++) {
-        var sTmp = "s" + i;
-        skillsMassiv[i] = document.getElementById(sTmp).innerHTML;
+ 
+    // Формируем массив со скилами, если он еще не сформирован
+    if (containerSkills.length <= 1) {
+        for (var i = 1; i < 4; i++) {
+            var sTmp = "s" + i;
+            containerSkills.push(document.getElementById(sTmp).innerHTML);
+        }
     }
-
+    var panels = findPanels(findContainers("skills")[0]);
     // Заполняем панели
-    fillSkills(skillsMassiv);
+    fillPanelsWithContent(containerSkills, panels);
 
     restoreAllPanels(procentFactors);
 }
+
+// Fills photo panels by load page
+var fillPhotoOnStartUp = () => {
+
+    var panels = findPanels(findContainers("photo")[0]);
+    // Заполняем панели
+    fillPanelsWithContent(containerPhoto, panels);
+}
+
 
 // Показать скрытые данные
 var showHiddenData = (eventObj) => {
 
     // Источник сообщения
-    var eventSource = eventObj.target;
-    var parsData = eventSource.id == "phoneId" ? hidePhone : hideEmail;
+    var parsData = eventObj.id == "phoneId" ? hidePhone : hideEmail;
 
     // Получаем кодировку символов
     var codedSymbols = "";
@@ -511,22 +583,74 @@ var showHiddenData = (eventObj) => {
         codedSymbols += "&#" + parsData[i] * 10 + ";";
 
     // Отображаем скрытые данные
-    eventSource.innerHTML = codedSymbols;
+    eventObj.innerHTML = codedSymbols;
+}
+
+// Increase image when mouse is over
+var increaseFromPhoto = (eventObj) => {
+    // Short variable
+    var sh = eventObj.target;
+    if (sh.localName == "img" && sh.id != "stop") {
+        var el = document.getElementById("zoomFromPhoto");
+        el.innerHTML = sh.outerHTML;
+    }
+}
+
+// Remove increased photo
+var removeFromPhoto = (eventObj) => {
+    // Short variable
+    var sh = eventObj.target;
+    if (sh.localName == "img") {
+        var el = document.getElementById("zoomFromPhoto");
+        el.innerHTML = "";
+    }
+}
+
+// Remove increased photo
+var removeFromSkills = (eventObj) => {
+    // Short variable
+    var el = document.getElementById("zoomFromSkills");
+    el.innerHTML = "";
+}
+
+
+// Increase image from skills section
+var increaseFromSkills = (eventObj) => {
+    // Short variable
+    var sh = eventObj.target;
+    if (sh.localName == "u") {
+        var el = document.getElementById("zoomFromSkills");
+        var el2 = req.responseXML.getElementById(sh.id.split(" ")[1]);
+        el.innerHTML = el2.innerHTML;
+    } else {
+        removeFromSkills(eventObj);
+    }
+}
+
+// Send Message to developper
+var sendMessage = (eventObj) => {
+    var el = document.getElementById("addWindow");
+    el.className = "feed-back";
+    el.innerHTML = document.getElementById("to addWindow").innerHTML;
+}
+
+// Close message window
+var closeMessageWindow = (eventObj) => {
+    var el = eventObj.target;
+    if (el.id == "crossClose" || el.id == "noSend") {
+        var e = document.getElementById("addWindow");
+        e.innerHTML = "";
+        e.className = "";
+    }
 }
 
 //===============================================================Ajax requests===================================================================//
 
+// Get Remained HTML, that hidden by first page loading
+var getRemainedXML = () => {
+    req = new XMLHttpRequest();
 
-
-
-
-
-// Get remained data async, and load them to massives
-
-var GetRemainedDataAsync = () => {
-    var req = new XMLHttpRequest();
-
-    req.open("POST", "MainPage/SendRemainedAsync", true);
+    req.open("POST", "MainPage/SendRemainedXML", true);
 
     req.setRequestHeader('Content-Type', 'text/xml');
 
@@ -534,10 +658,12 @@ var GetRemainedDataAsync = () => {
 
         if (req.readyState != 4) return;
 
-        var v = req.responseXML.getElementById('s2');
-
         if (req.status >= 200 && req.status < 400) {
-            alert(v);
+            for (var i = 4; i < 7; i++) {
+                containerSkills.push(req.responseXML.getElementById('s' + i).innerHTML);
+                containerPhoto.push(req.responseXML.getElementById('me' + i).innerHTML);
+                containerRewardsPhoto.push(req.responseXML.getElementById('rewards' + (i - 3)).innerHTML);
+            }
         } else {
             alert('We encountered an error!');
         }
@@ -547,11 +673,52 @@ var GetRemainedDataAsync = () => {
 }
 
 
+// Send message to developper
+var ajaxSendMessageToDevelopper = (eventObj) => {
+    var el = eventObj.target;
 
+    // If onclick from message box
+    if (el.id == "sendMes") {
+        if (flagAjaxRequest) return;
 
+        try {
+            flagAjaxRequest = true;
+            // Clear container
+            document.getElementById("ajaxVis").innerHTML = "";
+            // Visualize ajax process
+            document.getElementById("ajaxVis").className = "ajax-visualize";
 
+            var req = new XMLHttpRequest();
 
+            req.open("POST", "/MainPage/SendMessageToDevelopper", true);
 
+            req.setRequestHeader('Content-type', "application/x-www-form-urlencoded");
 
+            // Get text of message
+            var mes = document.getElementById("textMessage").value;
+
+            req.onreadystatechange = () => {
+                if (req.readyState != 4) return;
+
+                if (req.status >= 200 && req.status <= 400 && req.responseText == "ok") {
+                    var e = document.getElementById("addWindow");
+                    e.className = "send-succeed";
+                    e.innerHTML = document.getElementById("messageSendSuccess").innerHTML;
+                } else {
+                    document.getElementById("ajaxVis").className = "error-during-sending";
+                    document.getElementById("ajaxVis").innerText = "Произошла ошибка";
+                }
+                flagAjaxRequest = false;
+            }
+
+            req.send(mes);
+                        
+        } catch (e) {
+            document.getElementById("ajaxVis").className = "error-during-sending";
+            document.getElementById("ajaxVis").innerText = "Произошла ошибка";
+            flagAjaxRequest = false;
+        }
+    }
+}
 
 //===============================================================================================================================================//
