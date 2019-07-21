@@ -121,6 +121,7 @@
     <Content Include="Content\XML\AddHTMLData.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Content\XML\AdminData.xml" />
     <Content Include="Scripts\SpecialScripts\DefiningFunctions.js" />
     <Content Include="Scripts\SpecialScripts\Executing.js" />
     <Content Include="Content\Styles\StylesDesktop.css" />
@@ -140,6 +141,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LocalCryptography.cs" />
     <Compile Include="Models\MesInbox.cs" />
     <Compile Include="Models\ProcessDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

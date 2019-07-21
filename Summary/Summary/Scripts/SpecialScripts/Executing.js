@@ -5,6 +5,8 @@ for (var i = 1; i < 4; i++) {
 }
 
 
+var el = encryptData("Hello");
+
 window.onload = function (eventObj) {
 
 
@@ -44,6 +46,7 @@ window.onclick = function (eventObj) {
     increaseFromSkills(eventObj);
     closeMessageWindow(eventObj);
     ajaxSendMessageToDevelopper(eventObj);
+    ajaxShowAdminEnterWindow(eventObj);
 }
 
 

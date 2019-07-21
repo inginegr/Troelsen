@@ -1,5 +1,14 @@
 ﻿//===========================================================================Данные=====================================//
 
+// Variables for login and password
+var login = null;
+var password = null;
+var cryptoKey = null;
+var stringKey = null;
+var iv = null;
+var stringIV = null;
+var sizeOfBlock = 128;
+
 //Процентные соотношения для панелей
 var procentFactors = {
     heightPanel: 0.8,                                // Высота панели переднего и заднего плана
@@ -644,6 +653,67 @@ var closeMessageWindow = (eventObj) => {
     }
 }
 
+// Check, if parent element includes the element with id (checkId)
+// checkId - element, that need to be checked
+var checkIfParentIncludesId = (checkId, childElement) => {
+    var retBool = false;
+
+    var sh = childElement.parentElement.children;
+    for (var i = 0; i < sh.length; i++) {
+        if (sh[i].id == checkId)
+            return true;
+    }
+    return retBool;
+}
+
+// Show admin enter window
+var ajaxShowAdminEnterWindow = (eventObj) => {
+    var el = eventObj.target;
+    if (el.id == "hLeft") {
+        var cont = document.getElementById("addWindow");
+        cont.innerHTML = document.getElementById("adminEnter").innerHTML;
+        cont.className = "log-in";
+    }
+}
+
+// Generate random key
+var generateRandomKey = (blockSize) => {
+    window.crypto.subtle.generateKey(
+        {
+            name: "AES-CBC",
+            length: blockSize
+        },
+        true,
+        ["encrypt", "decrypt"]
+    ).then((key) => {
+        cryptoKey = key;
+        window.crypto.subtle.exportKey("raw", key).then((ky) => {
+            stringKey = new Uint8Array(ky).toString();
+        });
+    });
+}
+
+// Generate random iv
+var generateRandomIV = (blockSize) => {
+    if ((blockSize % 8) != 0) return;
+    iv = window.crypto.getRandomValues(new Uint8Array(blockSize/8));
+    stringIV = iv.toString();
+}
+
+// Encrypt data with AES
+var encryptData = (dataToEncode) => {
+    generateRandomKey(sizeOfBlock);
+    generateRandomIV(sizeOfBlock);
+
+    var encodedData = window.crypto.subtle.encrypt({
+        name: "AES-CBC",
+        iv
+    },
+        cryptoKey,
+        dataToEncode);
+    return encodedData;
+}
+
 //===============================================================Ajax requests===================================================================//
 
 // Get Remained HTML, that hidden by first page loading
@@ -672,13 +742,11 @@ var getRemainedXML = () => {
     req.send();
 }
 
-
 // Send message to developper
 var ajaxSendMessageToDevelopper = (eventObj) => {
     var el = eventObj.target;
 
-    // If onclick from message box
-    if (el.id == "sendMes") {
+    if (checkIfParentIncludesId("textMessage", el)) {
         if (flagAjaxRequest) return;
 
         try {
@@ -718,6 +786,18 @@ var ajaxSendMessageToDevelopper = (eventObj) => {
             document.getElementById("ajaxVis").innerText = "Произошла ошибка";
             flagAjaxRequest = false;
         }
+    }
+}
+
+// Send request to log in
+var ajaxSendRequestToLogIn = (eventObj) => {
+    var el = eventObj.target;
+    if (checkIfParentIncludesId("container-login", el)) {
+        var log = document.getElementById("login").value;
+        var pass = document.getElementById("password").value;
+
+
+        var stringToSend = log + " " + pass;
     }
 }
 

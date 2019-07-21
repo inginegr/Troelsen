@@ -54,5 +54,28 @@ namespace Summary.Controllers
 
             return Content(retSt, "text/xml");
         }
+
+        [HttpPost]
+        public ActionResult AdminEnter()
+        {
+            string retSt = null;
+
+            string loginStandart = "Karamba";
+            string passwordStandart = "12*df#hn_Ho";
+
+            string[] ans = Request.Form[0].Split(' ');
+
+            string login = ans[0];
+            string passw = ans[1];
+
+            if (login == loginStandart && passw == passwordStandart)
+            {
+                retSt = "";
+            }
+
+
+
+            return Content(retSt, "text/xml");
+        }
     }
 }

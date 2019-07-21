@@ -23,7 +23,9 @@ section {
     margin: 20px auto;
 }
 
-
+div > p{
+    user-select: none;
+}
 
 u{
     color: brown;
@@ -398,7 +400,7 @@ div b::after {
 
 /*Buttons send and cancell*/
 #noSend, #sendMes {
-    width: 15%;
+    width: auto;
     height: 20px;
     border-radius: 5px;
     background: linear-gradient(to bottom, #56aaff, #0073e7);
@@ -522,5 +524,50 @@ header > div {
     transform: scaleY(1.5);
     cursor: pointer;
 }
+
+/*=======================================================================================================================================================*/
+
+/*===============================================================Login, password========================================================================*/
+
+.log-in {
+    position: absolute;
+    width: 20%;
+    min-width: 200px;
+    height: 200px;
+    z-index: 4;
+    background-color: burlywood;
+    left: 50%;
+    margin-left: -10%;
+    border-radius: 2%;
+}
+
+
+#login, #password{
+    width: 50%;
+    height: 100%;
+}
+
+#container-login, #container-password{
+    width: 100%;
+    height: 1em;
+    margin-left: 10%;
+}
+
+#container-login:after, #container-password:after{
+    position: absolute;
+    width: auto;
+    margin-left: 5%;
+    margin-top: 3pt;
+}
+
+#container-login:after{
+    content: "Логин";
+}
+
+#container-password:after{
+    content: "Пароль";
+}
+
+
 
 /*=======================================================================================================================================================*/
