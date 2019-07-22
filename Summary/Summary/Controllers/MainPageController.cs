@@ -58,22 +58,23 @@ namespace Summary.Controllers
         [HttpPost]
         public ActionResult AdminEnter()
         {
+            LocalCryptography lc = new LocalCryptography();
+
             string retSt = null;
 
-            string loginStandart = "Karamba";
-            string passwordStandart = "12*df#hn_Ho";
-
-            string[] ans = Request.Form[0].Split(' ');
-
-            string login = ans[0];
-            string passw = ans[1];
-
-            if (login == loginStandart && passw == passwordStandart)
+            if (lc.CheckIfUserAuth(Request.Form[0]))
             {
-                retSt = "";
+                string st = Server.MapPath("~/Content/XML/AdminData.xml");
+
+                //Load XML data to XmlDocument object
+                XmlDocument xml = new XmlDocument();
+                xml.Load(st);
+                retSt = xml.InnerXml;
             }
-
-
+            else
+            {
+                retSt = "false";
+            }
 
             return Content(retSt, "text/xml");
         }

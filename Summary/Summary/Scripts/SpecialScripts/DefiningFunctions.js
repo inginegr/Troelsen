@@ -3,11 +3,8 @@
 // Variables for login and password
 var login = null;
 var password = null;
-var cryptoKey = null;
-var stringKey = null;
-var iv = null;
-var stringIV = null;
-var sizeOfBlock = 128;
+
+var keyLengthInBits = 128;
 
 //Процентные соотношения для панелей
 var procentFactors = {
@@ -676,9 +673,19 @@ var ajaxShowAdminEnterWindow = (eventObj) => {
     }
 }
 
+// Generate random iv
+// blockSize length of key in bits
+var generateRandomIV = async (blockSize) => {
+    if ((blockSize % 8) != 0) return;
+    iv = window.crypto.getRandomValues(new Uint8Array(blockSize / 8));
+    return iv;
+}
+
+
 // Generate random key
-var generateRandomKey = (blockSize) => {
-    window.crypto.subtle.generateKey(
+// blockSize length of key in bits
+var generateRandomKey = async (blockSize) => {
+    var retKey = await window.crypto.subtle.generateKey(
         {
             name: "AES-CBC",
             length: blockSize
@@ -686,31 +693,41 @@ var generateRandomKey = (blockSize) => {
         true,
         ["encrypt", "decrypt"]
     ).then((key) => {
-        cryptoKey = key;
-        window.crypto.subtle.exportKey("raw", key).then((ky) => {
-            stringKey = new Uint8Array(ky).toString();
+        return key;
         });
-    });
+
+    return retKey;
 }
 
-// Generate random iv
-var generateRandomIV = (blockSize) => {
-    if ((blockSize % 8) != 0) return;
-    iv = window.crypto.getRandomValues(new Uint8Array(blockSize/8));
-    stringIV = iv.toString();
+// Converts cryptokey to string
+var transformCryptoKeyToString = async (cryptoKeyParam) => {
+    var keyString = await window.crypto.subtle.exportKey("raw", cryptoKeyParam).then((key) => {
+        return new Uint8Array(key).toString()
+    });
+
+    return keyString;
 }
+
+
 
 // Encrypt data with AES
-var encryptData = (dataToEncode) => {
-    generateRandomKey(sizeOfBlock);
-    generateRandomIV(sizeOfBlock);
+// dataToEncode - string with data to encode
+var encryptData = async (dataToEncode, key, iv) => {
+    
+    var enc = new TextEncoder();
 
-    var encodedData = window.crypto.subtle.encrypt({
-        name: "AES-CBC",
-        iv
-    },
-        cryptoKey,
-        dataToEncode);
+    var encData = enc.encode(dataToEncode);
+
+    var encodedData = await window.crypto.subtle.encrypt(
+        {
+            name: "AES-CBC",
+            iv
+        },
+        key,
+        encData).then((encData) => {
+            return new Uint8Array(encData);
+        });
+
     return encodedData;
 }
 
@@ -790,14 +807,40 @@ var ajaxSendMessageToDevelopper = (eventObj) => {
 }
 
 // Send request to log in
-var ajaxSendRequestToLogIn = (eventObj) => {
+var ajaxSendRequestToLogIn = async (eventObj) => {
     var el = eventObj.target;
     if (checkIfParentIncludesId("container-login", el)) {
         var log = document.getElementById("login").value;
         var pass = document.getElementById("password").value;
 
+        var key = await generateRandomKey(128);
+        var iv = await generateRandomIV(128);
 
         var stringToSend = log + " " + pass;
+
+        var encryptedText = await encryptData(stringToSend, key, iv);
+
+        var req = new XMLHttpRequest();
+        req.open("POST", "MainPage/AdminEnter", true);
+        req.setRequestHeader('Content-type', "application/x-www-form-urlencoded");
+
+        req.onreadystatechange = () => {
+            if (req.readyState != 4) return;
+
+            if (req.status >= 200 && req.status <= 400 && req.responseText != "false") {
+                var e = document.getElementById("addWindow");
+                e.className = "send-succeed";
+                e.innerHTML = document.getElementById("messageSendSuccess").innerHTML;
+            } else {
+                document.getElementById("ajaxVis").className = "error-during-sending";
+                document.getElementById("ajaxVis").innerText = "Произошла ошибка";
+            }
+        }
+        var keyString = await transformCryptoKeyToString(key);
+
+        var messageToSend = encryptedText.toString() + " " + keyString + " " + iv.toString();
+
+        req.send(messageToSend);
     }
 }
 

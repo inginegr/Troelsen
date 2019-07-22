@@ -8,6 +8,40 @@ namespace Summary.Models
     {
         // Local variables
         Random _random = new Random();
+        string loginStandart = "Karamba";
+        string passwordStandart = "12*df#hn_Ho";
+
+
+        // Check user authentification
+        public bool CheckIfUserAuth(string encryptedString)
+        {
+            bool retAns = false;
+            string[] ans = encryptedString.Split(' ');
+
+            byte[] dataToDecrypt = ConvertStringToByteArray(ans[0].Split(','));
+            byte[] key = ConvertStringToByteArray(ans[1].Split(','));
+            byte[] iv = ConvertStringToByteArray(ans[2].Split(','));
+
+            string[] decryptdetText = DecriptData(dataToDecrypt, key, iv).Split(' ');
+
+            string UserLogin = decryptdetText[0];
+            string UserPassword = decryptdetText[1];
+
+            retAns = UserLogin == loginStandart && UserPassword == passwordStandart ? true : false;
+
+            return retAns;
+        }
+
+        // Convert stringArray to byteArray
+        public byte[] ConvertStringToByteArray(string[] stringToConvert)
+        {
+            byte[] retBt = new byte[stringToConvert.Length];
+
+            for (int i = 0; i < retBt.Length; i++)
+                retBt[i] = byte.Parse(stringToConvert[i]);
+
+            return retBt;
+        }
 
         // Generate random key
         public byte[] GenerateRandomKey(byte keySize)
