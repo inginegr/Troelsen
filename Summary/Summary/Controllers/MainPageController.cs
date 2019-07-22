@@ -59,21 +59,37 @@ namespace Summary.Controllers
         public ActionResult AdminEnter()
         {
             LocalCryptography lc = new LocalCryptography();
+            ProcessDb pdb = new ProcessDb();
 
-            string retSt = null;
+            string retSt = "ok";
 
-            if (lc.CheckIfUserAuth(Request.Form[0]))
+            string st = Request.Form[0];
+
+            try
             {
-                string st = Server.MapPath("~/Content/XML/AdminData.xml");
+                if (lc.CheckIfUserAuth(st))
+                {                    
+                    string param = st.Split(' ')[4];
 
-                //Load XML data to XmlDocument object
-                XmlDocument xml = new XmlDocument();
-                xml.Load(st);
-                retSt = xml.InnerXml;
+                    if (param == "readDb")
+                    {
+                        retSt += pdb.GetData();
+                    }
+
+                    if (param == "clearDb")
+                    {
+                        retSt = pdb.RemoveRecords().ToString();
+                    }
+                }
+                else
+                {
+                    retSt = "false";
+                }
             }
-            else
+            catch ( Exception ex)
             {
                 retSt = "false";
+                pdb.WriteToLog(ex.Message);
             }
 
             return Content(retSt, "text/xml");

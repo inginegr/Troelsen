@@ -7,6 +7,8 @@
 @section AddStylesSection{
     <link href="~/Content/Styles/StylesDesktop.css" rel="stylesheet" type="text/css" />
 }
+
+
 @section AddScriptsSection{
     <script src="~/Scripts/SpecialScripts/DefiningFunctions.js"></script>
     <script src="~/Scripts/SpecialScripts/Executing.js"></script>
@@ -153,9 +155,9 @@
               Пожалуйста, введите ваше сообщение и способ связи с вами.
         </textarea>
 
-        <div id="noSend">Отмена</div>
+        <div id="noSend" class="dlg-buttons">Отмена</div>
         <div id="ajaxVis"></div>
-        <div id="sendMes">Отправить</div>
+        <div id="sendMes" class="dlg-buttons">Отправить</div>
 
     </script> 
 
@@ -163,7 +165,7 @@
 
         <h1>Спасибо, ваше сообщение успешно отправлено</h1>
 
-        <div id="noSend">Хорошо</div>
+        <div id="noSend" class="dlg-buttons">Хорошо</div>
 
     </script>
 
@@ -175,9 +177,20 @@
         <br/>
         <div id="container-password"><textarea id="password"></textarea></div>
 
-        <div id="noSend">Отмена</div>
+        <div id="noSend" class="dlg-buttons">Отмена</div>
         <div id="ajaxVis"></div>
-        <div id="sendMes">Отправить</div>
+        <div id="enterLg" class="dlg-buttons">Отправить</div>
+    </script>
+
+    <script id="adminFunctions" type="text/template">
+        <textarea id="textMessage">              
+        </textarea>
+
+        <div id="noSend" class="dlg-buttons">Отмена</div>
+        <div id="ajaxVis"></div>
+        <div id="clearDb" class="dlg-buttons">Очистить</div>
+        <div id="readDb" class="dlg-buttons">Прочитать</div>
+
     </script>
 
 }

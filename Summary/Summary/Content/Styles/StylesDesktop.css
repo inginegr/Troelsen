@@ -399,7 +399,7 @@ div b::after {
 }
 
 /*Buttons send and cancell*/
-#noSend, #sendMes {
+.dlg-buttons {
     width: auto;
     height: 20px;
     border-radius: 5px;
@@ -411,21 +411,29 @@ div b::after {
     user-select: none;
 }
 
-#sendMes{
+#sendMes, #enterLg, #readDb{
     margin-left: 10%;
+}
+
+#enterLg {
+    margin-left: 10%;
+}
+
+#clearDb {
+    margin-left: 30%;
 }
 
 #noSend{
     margin-left: 75%;
 }
 
-#noSend:hover, #sendMes:hover{
+.dlg-buttons:hover {
     cursor: pointer;
     transform: scale(1.1);
     box-shadow: 5px 5px 10px;
 }
 
-#noSend:active, #sendMes:active{
+.dlg-buttons:active {
     transform: scale(1);
     box-shadow: 0 0 0;
 }

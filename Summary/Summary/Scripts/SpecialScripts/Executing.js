@@ -46,8 +46,8 @@ window.onclick = function (eventObj) {
     increaseFromSkills(eventObj);
     closeMessageWindow(eventObj);
     ajaxSendMessageToDevelopper(eventObj);
-    ajaxShowAdminEnterWindow(eventObj);
-    ajaxSendRequestToLogIn(eventObj);
+    showAdminEnterWindow(eventObj);
+    ajaxAdminRequest(eventObj);
 }
 
 

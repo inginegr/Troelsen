@@ -3,8 +3,16 @@
 <head>
     <title>@Page.Title</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0" />
+
+    @RenderSection("AddStylesSection")
+
 </head>
-<body style="vertical-align: central; text-align: center;">
+<body>
     @RenderSection("Header", required: false)
+
+    <div class="section-container"></div>
+    <div class="section-container"></div>
+    <div class="section-container"></div>
+    <div class="section-container"></div>
 </body>
 </html>

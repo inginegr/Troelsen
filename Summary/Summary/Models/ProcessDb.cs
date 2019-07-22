@@ -100,29 +100,25 @@ namespace Summary.Models
         }
 
         // Remove record from db
-        public void RemoveRecord(Table tb)
+        public bool RemoveRecords()
         {
             using(MesInbox mi=new MesInbox())
             {
                 try
                 {
-                    Table tableToRemove = mi.Table.Find(tb.id);
-
-                    if (tableToRemove != null)
-                    {
-                        mi.Table.Remove(tableToRemove);
-                        mi.SaveChanges();
-                    }
+                    mi.Table.RemoveRange(mi.Table);
+                    mi.SaveChanges();
                 }catch(Exception ex)
                 {
                     WriteToLog(ex.Message);
                     throw new Exception(ex.Message);
                 }
             }
+            return true;
         }
 
         // Get Record from db
-        public IEnumerable<Table> GetRecords()
+        public List<Table> GetRecords()
         {
             List<Table> retTable = new List<Table>();
             using(MesInbox mi = new MesInbox())
@@ -140,6 +136,19 @@ namespace Summary.Models
                 }
             }
             return retTable;
+        }
+
+        // Convert tables to strings
+        public string GetData()
+        {
+            string st = null;
+            List<Table> rt = GetRecords();
+            foreach(Table t in rt)
+            {
+                st += t.ToString();
+            }
+
+            return st;
         }
         
         // Get unread records from db

@@ -9,7 +9,7 @@ namespace Summary.Models
         // Local variables
         Random _random = new Random();
         string loginStandart = "Karamba";
-        string passwordStandart = "12*df#hn_Ho";
+        string passwordStandart = "123";
 
 
         // Check user authentification
@@ -18,14 +18,16 @@ namespace Summary.Models
             bool retAns = false;
             string[] ans = encryptedString.Split(' ');
 
-            byte[] dataToDecrypt = ConvertStringToByteArray(ans[0].Split(','));
-            byte[] key = ConvertStringToByteArray(ans[1].Split(','));
-            byte[] iv = ConvertStringToByteArray(ans[2].Split(','));
+            //byte[] dataToDecrypt = ConvertStringToByteArray(ans[0].Split(','));
+            //byte[] key = ConvertStringToByteArray(ans[1].Split(','));
+            //byte[] iv = ConvertStringToByteArray(ans[2].Split(','));
 
-            string[] decryptdetText = DecriptData(dataToDecrypt, key, iv).Split(' ');
+            //string[] decryptdetText = DecriptData(dataToDecrypt, key, iv).Split(' ');
 
-            string UserLogin = decryptdetText[0];
-            string UserPassword = decryptdetText[1];
+            //string UserLogin = decryptdetText[0];
+            //string UserPassword = decryptdetText[1];
+            string UserLogin = ans[0];
+            string UserPassword = ans[1];
 
             retAns = UserLogin == loginStandart && UserPassword == passwordStandart ? true : false;
 

@@ -47,6 +47,7 @@ var flagRotate = false;
 var flagSideChanged = false;
 var flagSideChanged2 = false;
 var flagAjaxRequest = false;
+var flagIsLogined = false;
 
 
 // Объект с текущим положением панелей
@@ -647,6 +648,7 @@ var closeMessageWindow = (eventObj) => {
         var e = document.getElementById("addWindow");
         e.innerHTML = "";
         e.className = "";
+        flagIsLogined = false;
     }
 }
 
@@ -664,7 +666,7 @@ var checkIfParentIncludesId = (checkId, childElement) => {
 }
 
 // Show admin enter window
-var ajaxShowAdminEnterWindow = (eventObj) => {
+var showAdminEnterWindow = (eventObj) => {
     var el = eventObj.target;
     if (el.id == "hLeft") {
         var cont = document.getElementById("addWindow");
@@ -685,17 +687,21 @@ var generateRandomIV = async (blockSize) => {
 // Generate random key
 // blockSize length of key in bits
 var generateRandomKey = async (blockSize) => {
-    var retKey = await window.crypto.subtle.generateKey(
-        {
-            name: "AES-CBC",
-            length: blockSize
-        },
-        true,
-        ["encrypt", "decrypt"]
-    ).then((key) => {
-        return key;
+    try {
+        var retKey = await window.crypto.subtle.generateKey(
+            {
+                name: "AES-CBC",
+                length: blockSize
+            },
+            true,
+            ["encrypt", "decrypt"]
+        ).then((key) => {
+            return key;
         });
 
+    } catch (e) {
+        alert(e);
+    }
     return retKey;
 }
 
@@ -763,7 +769,7 @@ var getRemainedXML = () => {
 var ajaxSendMessageToDevelopper = (eventObj) => {
     var el = eventObj.target;
 
-    if (checkIfParentIncludesId("textMessage", el)) {
+    if (checkIfParentIncludesId("sendMes", el)) {
         if (flagAjaxRequest) return;
 
         try {
@@ -807,18 +813,34 @@ var ajaxSendMessageToDevelopper = (eventObj) => {
 }
 
 // Send request to log in
-var ajaxSendRequestToLogIn = async (eventObj) => {
+var ajaxAdminRequest = async (eventObj) => {
     var el = eventObj.target;
-    if (checkIfParentIncludesId("container-login", el)) {
-        var log = document.getElementById("login").value;
-        var pass = document.getElementById("password").value;
+    if (checkIfParentIncludesId("container-login", el) || el.id == "clearDb" || el.id == "readDb") {
+        if (flagAjaxRequest) return;
 
-        var key = await generateRandomKey(128);
-        var iv = await generateRandomIV(128);
+        flagAjaxRequest = true;
+        // Clear container
+        document.getElementById("ajaxVis").innerHTML = "";
+        // Visualize ajax process
+        document.getElementById("ajaxVis").className = "ajax-visualize";
 
-        var stringToSend = log + " " + pass;
+        var log = null;
+        var pass = null;
 
-        var encryptedText = await encryptData(stringToSend, key, iv);
+        if (!flagIsLogined) {
+            login = log = document.getElementById("login").value;
+            password = pass = document.getElementById("password").value;
+        } else {
+            log = login;
+            pass = password;
+        }
+        
+        //var key = await generateRandomKey(keyLengthInBits);
+        //var iv = await generateRandomIV(keyLengthInBits);
+
+        var encryptedText = log + " " + pass;
+
+        //var encryptedText = await encryptData(stringToSend, key, iv);
 
         var req = new XMLHttpRequest();
         req.open("POST", "MainPage/AdminEnter", true);
@@ -828,17 +850,27 @@ var ajaxSendRequestToLogIn = async (eventObj) => {
             if (req.readyState != 4) return;
 
             if (req.status >= 200 && req.status <= 400 && req.responseText != "false") {
-                var e = document.getElementById("addWindow");
-                e.className = "send-succeed";
-                e.innerHTML = document.getElementById("messageSendSuccess").innerHTML;
+                
+                if (!flagIsLogined) {
+                    var e = document.getElementById("addWindow");
+                    e.className = "feed-back";
+                    e.innerHTML = document.getElementById("adminFunctions").innerHTML;
+                    flagIsLogined = true;
+                } else {
+                    var el = document.getElementById("textMessage");
+                    el.value = req.responseText;
+                }
+                
             } else {
                 document.getElementById("ajaxVis").className = "error-during-sending";
                 document.getElementById("ajaxVis").innerText = "Произошла ошибка";
             }
+            document.getElementById("ajaxVis").className = "error-during-sending";
+            flagAjaxRequest = false;
         }
-        var keyString = await transformCryptoKeyToString(key);
+        //var keyString = await transformCryptoKeyToString(key);
 
-        var messageToSend = encryptedText.toString() + " " + keyString + " " + iv.toString();
+        var messageToSend = encryptedText + " " + "keyString" + " " + "iv" + " " + el.id;
 
         req.send(messageToSend);
     }
