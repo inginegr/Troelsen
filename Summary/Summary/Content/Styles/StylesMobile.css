@@ -1,14 +1,56 @@
-﻿body {
+﻿header {
+    background-color: #C5B9BB;
+
+}
+
+body {
+    margin: 0px;
+    background-color: #DCD8DC;
+    overflow: hidden;
+    height: auto;
+}
+
+.content-block {
+    height: auto;
     width: 100%;
-    height: 100%;
-    margin-left: 0%;
     margin-top: 0%;
 }
 
-.section-container{
+.link-to-content {
     width: 100%;
-    height: 15%;
-    min-height: 70px;
-    background: linear-gradient(to bottom, rgb(255, 0, 0), rgb(255, 216, 0));
-    margin-top: 0%;
+    height: auto;
+    margin-left: 0;
+    margin-top: 0.3em;
+    border-radius: 15px;
+    color: #FFFFFF;
+    font-size: 1.5em;
+    line-height: 2em;
+    user-select: none;
+    box-shadow: .2em .2em .4em #070605;
+}
+
+.link-to-content.unpressed{
+    background: linear-gradient(to bottom, #5F4B43, #070605, #5F4B43);
+    background-size: 400% 400%;
+    animation: gradient-flow 5s infinite linear alternate;
+}
+
+.link-to-content.pressed{
+    background: linear-gradient(to bottom, #857D83, #5F4B43);
+    box-shadow: 0 0;
+    transform: scale(.98);
+}
+
+@keyframes gradient-flow{
+    from {
+        background-position: 50% 0%;
+    }
+
+    50% {
+        background-position: 50% 50%;
+    }
+
+    to {
+        background-position: 50% 100%;
+    }
 }

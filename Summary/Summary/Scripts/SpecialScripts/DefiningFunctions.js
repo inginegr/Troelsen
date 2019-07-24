@@ -769,7 +769,7 @@ var getRemainedXML = () => {
 var ajaxSendMessageToDevelopper = (eventObj) => {
     var el = eventObj.target;
 
-    if (checkIfParentIncludesId("sendMes", el)) {
+    if (checkIfParentIncludesId("sendMes", el) && el.id=="sendMes") {
         if (flagAjaxRequest) return;
 
         try {

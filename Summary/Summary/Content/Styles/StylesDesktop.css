@@ -475,7 +475,7 @@ header {
     vertical-align: central;
     width: 900px;
     height: 5%;
-    min-height: 30px;
+    min-height: 50px;
     margin: 0 auto;
     background: rgba(0,0,0,0);
 }
