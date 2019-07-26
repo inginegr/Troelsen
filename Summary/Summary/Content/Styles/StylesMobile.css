@@ -1,12 +1,13 @@
 ﻿header {
-    background-color: #C5B9BB;
-
+    width: 100%;
+    background: linear-gradient(to bottom, #C5B9BB, #DCD8DC 90%);
+    text-align: center;
+    font-size: 1.5em;
 }
 
 body {
     margin: 0px;
     background-color: #DCD8DC;
-    overflow: hidden;
     height: auto;
 }
 
@@ -26,6 +27,9 @@ body {
     font-size: 1.5em;
     line-height: 2em;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     box-shadow: .2em .2em .4em #070605;
 }
 
@@ -53,4 +57,29 @@ body {
     to {
         background-position: 50% 100%;
     }
+}
+
+.buttoned > div{
+    display: inline-block;
+    margin: auto;
+}
+
+.btn-show {
+    background: linear-gradient(to top, #0073e7 0%, #00cc18 50%, #0073e7 100% );
+    border-radius: 20%;
+}
+
+.btn-show:hover{
+    background: rgb(0,204,24);
+    cursor: pointer;
+    color: brown;
+}
+
+.content-hidden{
+    display: none;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
 }

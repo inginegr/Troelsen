@@ -1,7 +1,12 @@
-﻿
+﻿@using System.Xml
+
 @{
     ViewBag.Title = "Резюме Сапожникова Д.В.";
     Layout = "~/Views/Shared/Desktop/_Layout.cshtml";
+    var st = Server.MapPath("~/Content/XML/AddHTMLData.xml");
+    XmlDocument xml = new XmlDocument();
+    xml.Load(st);
+    XmlElement xel = xml.DocumentElement;
 }
 
 @section AddStylesSection{
@@ -16,12 +21,12 @@
 
 @section HeaderSection{
     <header>
-        <div id="headTop"></div>
+        <div id="headTop"> Добро пожаловать</div>
         <div id="headDown"><!--
-         --><div id="hLeft">Вход</div><!--
-         --><div id="hCenter"></div><!--
-         --><div id="hRight">Отправить письмо</div><!--
-     --></div>
+            --><div id="hLeft">Вход</div><!--
+            --><div id="hCenter"></div><!--
+            --><div id="hRight">Отправить письмо</div><!--
+        --></div>
     </header>
 }
 
@@ -40,14 +45,22 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate photo">
-            <div class="background left photo"></div><!--
-         --><div class="background photo"></div><!--
-         --><div class="background right photo"></div>
+            <div class="background left photo"></div>
+            <!--
+            -->
+            <div class="background photo"></div>
+            <!--
+            -->
+            <div class="background right photo"></div>
             <div class="foreground left photo">
-            </div><!--
-         --><div class="foreground photo">
-            </div><!--
-         --><div class="foreground right photo">
+            </div>
+            <!--
+            -->
+            <div class="foreground photo">
+            </div>
+            <!--
+            -->
+            <div class="foreground right photo">
             </div>
         </div>
     </section>
@@ -68,72 +81,31 @@
             <div class="scaled"></div>
         </div>
         <div class="rotate skills">
-            <div class="background left skills"></div><!--
-         --><div class="background skills"></div><!--
-         --><div class="background right skills"></div>
-            <div class="foreground left skills"></div><!--
-         --><div class="foreground skills"></div><!--
-         --><div class="foreground right skills"></div>
+            <div class="background left skills"></div>
+            <!--
+            -->
+            <div class="background skills"></div>
+            <!--
+            -->
+            <div class="background right skills"></div>
+            <div class="foreground left skills"></div>
+            <!--
+            -->
+            <div class="foreground skills"></div>
+            <!--
+            -->
+            <div class="foreground right skills"></div>
         </div>
     </section>
 }
 
 @section AddHideInfoSection{
-    <script id="s2" type="text/template">
-        <p class="content">Общая информация</p>
-        <ul>
-            <li>Сапожников Дмитрий Владимирович</li>
-            <li><b>Дата рождения:</b>03.02.1987</li>
-            <li><b>Проживание:</b>г. Омск</li>
-            <li class="no-marker">Контактная информация</li>
-            <li>
-                <div class="buttoned">
-                    <div><b>Телефон:</b></div><div id="phoneId" class="btn-show" onclick="showHiddenData(this)" >показать</div>
-                </div>
-            </li>
-            <li>
-                <div class="buttoned">
-                    <div><b>Электронная почта:</b></div><div id="emailId" class="btn-show" onclick="showHiddenData(this)">показать</div>
-                </div>
-            </li>
-            <li class="no-marker">Место работы:</li>
-            <li>Центральное Конструкторское Бюро Автоматики</li>
-            <li><b>Годы работы:</b> 2012 - по настоящее время</li>
-            <li><b>Должность:</b> инженер-конструктор 1-ой категории</li>
-            <li class="no-marker">Увлечения</li>
-            <li>Программирование,  бег, плавание, турпоходы.</li>
-        </ul>
-    </script>
 
-    <script id="s1" type="text/template">
-        <p class="content">Образование</p>
-        <ul>
-            <li>Омский Государственный Технический Университет</li>
-            <li><b>Год выпуска:</b>2012</li>
-            <li><b>Факультет:</b>радиотехнический.</li>
-            <li><b>Кафедра:</b> средства связи и информационная безопасность.</li>
-            <li><b>Специальность:</b>средства связи с подвижными объектами.</li>
-            <li><b>Квалификация:</b> инженер.</li>
-            <li class="no-marker">Сертификаты</li>
-            <li><u id="1 certificate">Программирование на C# c помощью Microsoft Visual Studio 2012.</u></li>
-        </ul>
-    </script>
+    @Html.Raw(xel.SelectSingleNode("script[@id='s2']").OuterXml);
 
-    <script id="s3" type="text/template">
-        <p class="content">Опыт разработки приложений</p>
-        <ul>
-            <li class="no-marker">Программирование на языке С++</li>
-            <li><b>Программы для автоматизированных рабочих мест:</b> WinAPI, работа с сокетами, управление оборудованием по Ethernet.</li>
-            <li><b>Парсеры для интернет магазинов:</b> SSL (openssl), WinInet.</li>
-            <li class="no-marker">Программирование на языке C#</li>
-            <li><b>Сборщик комментариев с YouTube:</b>WPF, XAML, YouTube API.</li>
-            <li><b>Модель интернет магазина:</b>Entiyty Framework, ASP.net MVC, ADO.net, SQL, многопоточное программирование (асинхронные делегаты).</li>
-            <li>
-                Имеется опыт создания устройств, на Arduino (сигнализация с GSM-модулем и пультом
-                управления, а также небольших проектов для автоматизации).
-            </li>
-        </ul>
-    </script>
+    @Html.Raw(xel.SelectSingleNode("script[@id='s1']").OuterXml);
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s3']").OuterXml);
 
     <script id="me1" type="text/template">
         <img src="/Content/Images/me1.jpg" />
@@ -159,7 +131,7 @@
         <div id="ajaxVis"></div>
         <div id="sendMes" class="dlg-buttons">Отправить</div>
 
-    </script> 
+    </script>
 
     <script id="messageSendSuccess" type="text/template">
 
@@ -174,7 +146,7 @@
         <p style="margin-left: 10%;">Введите логин и пароль</p>
 
         <div id="container-login"><textarea id="login"></textarea></div>
-        <br/>
+        <br />
         <div id="container-password"><textarea id="password"></textarea></div>
 
         <div id="noSend" class="dlg-buttons">Отмена</div>
