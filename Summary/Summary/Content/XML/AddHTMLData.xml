@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<rootTree>
+
+  <script id="s2" type="text/template">
+    <p class="content">Общая информация</p>
+    <ul>
+      <li>Сапожников Дмитрий Владимирович</li>
+      <li>
+        <b>Дата рождения:</b>03.02.1987
+      </li>
+      <li>
+        <b>Проживание:</b>г. Омск
+      </li>
+      <li class="no-marker">Контактная информация</li>
+      <li>
+        <div class="buttoned">
+          <div>
+            <b>Телефон:</b>
+          </div>
+          <div id="phoneId" class="btn-show" onclick="showHiddenData(this)">показать</div>
+        </div>
+      </li>
+      <li>
+        <div class="buttoned">
+          <div>
+            <b>Электронная почта:</b>
+          </div>
+          <div id="emailId" class="btn-show" onclick="showHiddenData(this)">показать</div>
+        </div>
+      </li>
+      <li class="no-marker">Место работы:</li>
+      <li>Центральное Конструкторское Бюро Автоматики</li>
+      <li>
+        <b>Годы работы:</b> 2012 - по настоящее время
+      </li>
+      <li>
+        <b>Должность:</b> инженер-конструктор 1-ой категории
+      </li>
+      <li class="no-marker">Увлечения</li>
+      <li>Программирование,  бег, плавание, турпоходы.</li>
+    </ul>
+  </script>
+
+  <script id="s1" type="text/template">
+    <p class="content">Образование</p>
+    <ul>
+      <li>Омский Государственный Технический Университет</li>
+      <li>
+        <b>Год выпуска:</b>2012
+      </li>
+      <li>
+        <b>Факультет:</b>радиотехнический.
+      </li>
+      <li>
+        <b>Кафедра:</b> средства связи и информационная безопасность.
+      </li>
+      <li>
+        <b>Специальность:</b>средства связи с подвижными объектами.
+      </li>
+      <li>
+        <b>Квалификация:</b> инженер.
+      </li>
+      <li class="no-marker">Сертификаты</li>
+      <li>
+        <u id="1 certificate">Программирование на C# c помощью Microsoft Visual Studio 2012.</u>
+      </li>
+    </ul>
+  </script>
+
+  <script id="s3" type="text/template">
+    <p class="content">Опыт разработки приложений</p>
+    <ul>
+      <li class="no-marker">Программирование на языке С++</li>
+      <li>
+        <b>Программы для автоматизированных рабочих мест:</b> WinAPI, работа с сокетами, управление оборудованием по Ethernet.
+      </li>
+      <li>
+        <b>Парсеры для интернет магазинов:</b> SSL (openssl), WinInet.
+      </li>
+      <li class="no-marker">Программирование на языке C#</li>
+      <li>
+        <b>Сборщик комментариев с YouTube:</b>WPF, XAML, YouTube API.
+      </li>
+      <li>
+        <b>Модель интернет магазина:</b>Entiyty Framework, ASP.net MVC, ADO.net, SQL, многопоточное программирование (асинхронные делегаты).
+      </li>
+      <li>
+        Имеется опыт создания устройств, на Arduino (сигнализация с GSM-модулем и пультом
+        управления, а также небольших проектов для автоматизации).
+      </li>
+    </ul>
+  </script>
+  
+  <script id="s4" type="text/template">
+    <p class="content">Ключевые навыки</p>
+    <ul>
+      <li class="no-marker">Программирование на языке С++</li>
+      <li>
+        Openssl, WinInet, Сокеты, WinAPI.
+      </li>
+      <li class="no-marker">Программирование на языке C#</li>
+      <li>
+        ASP.NET MVC, LINQ, Entity Framework, WPF, MS SQL Server, SQL, ADO.NET, XAML, многопоточное программирование (PLINQ),
+        рефлексия и позднее связывание.
+      </li>
+      <li>
+        JavaScript, HTML5, CSS.
+      </li>
+      <li>
+        <b>Уровень владения английским:</b> могу читать английские тексты, немного понимаю на слух.
+      </li>
+    </ul>
+  </script>
+
+  <script id="s5" type="text/template">
+    <p class="content">Пожелания к вакансии</p>
+    <ul>
+      <li>
+        Разроботка веб приложений.
+      </li>
+      <li>
+        График работы: желательно удаленно, но не принципиально.
+      </li>
+      
+      <li>
+        Возможен переезд в другой город.
+      </li>
+    </ul>
+  </script>
+
+  <script id="s6" type="text/template">
+    <p class="content">Награждения</p>
+    <ul>
+      <li>
+        <u id="1 rewards1">Конкурс «Лучший молодой специалист 2013-го года»: 1-е место</u>
+      </li>
+      <li>
+        <u id="2 rewards2">Конкурс «Лучший молодой специалист 2014-го года»: 2-е место</u>
+      </li>
+      <li>
+        <u id="3 rewards3">Конкурс «Научно-производственных достижений» (2015 г.): 3-е место</u>
+      </li>
+    </ul>
+  </script>
+
+  <script id="rewards1" type="text/template">
+    <img id="stop" src="/Content/Images/rewards1.jpg" />
+  </script>
+
+  <script id="rewards2" type="text/template">
+    <img id="stop" src="/Content/Images/rewards2.jpg" />
+  </script>
+
+  <script id="rewards3" type="text/template">
+    <img id="stop" src="/Content/Images/rewards3.jpg" />
+  </script>
+
+  <script id="certificate" type="text/template">
+    <img id="stop" src="/Content/Images/certificate.jpg" />
+  </script>
+
+  <script id="me4" type="text/template">
+    <img src="/Content/Images/me4.jpg" />
+  </script>
+
+  <script id="me5" type="text/template">
+    <img src="/Content/Images/me5.jpg" />
+  </script>
+
+  <script id="me6" type="text/template">
+    <img src="/Content/Images/me6.jpg" />
+  </script>
+  
+</rootTree>

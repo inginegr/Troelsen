@@ -1,2 +1,85 @@
-﻿body {
+﻿header {
+    width: 100%;
+    background: linear-gradient(to bottom, #C5B9BB, #DCD8DC 90%);
+    text-align: center;
+    font-size: 1.5em;
+}
+
+body {
+    margin: 0px;
+    background-color: #DCD8DC;
+    height: auto;
+}
+
+.content-block {
+    height: auto;
+    width: 100%;
+    margin-top: 0%;
+}
+
+.link-to-content {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    margin-top: 0.3em;
+    border-radius: 15px;
+    color: #FFFFFF;
+    font-size: 1.5em;
+    line-height: 2em;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    box-shadow: .2em .2em .4em #070605;
+}
+
+.link-to-content.unpressed{
+    background: linear-gradient(to bottom, #5F4B43, #070605, #5F4B43);
+    background-size: 400% 400%;
+    animation: gradient-flow 5s infinite linear alternate;
+}
+
+.link-to-content.pressed{
+    background: linear-gradient(to bottom, #857D83, #5F4B43);
+    box-shadow: 0 0;
+    transform: scale(.98);
+}
+
+@keyframes gradient-flow{
+    from {
+        background-position: 50% 0%;
+    }
+
+    50% {
+        background-position: 50% 50%;
+    }
+
+    to {
+        background-position: 50% 100%;
+    }
+}
+
+.buttoned > div{
+    display: inline-block;
+    margin: auto;
+}
+
+.btn-show {
+    background: linear-gradient(to top, #0073e7 0%, #00cc18 50%, #0073e7 100% );
+    border-radius: 20%;
+}
+
+.btn-show:hover{
+    background: rgb(0,204,24);
+    cursor: pointer;
+    color: brown;
+}
+
+.content-hidden{
+    display: none;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
 }

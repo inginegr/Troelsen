@@ -3,15 +3,32 @@
 <head>
     <title>@Page.Title</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0" />
-    @RenderSection("AddStyles")
+
+    @RenderSection("AddStylesSection")
+
+    
 </head>
+
 <body>
-    @RenderSection("Header", required: false)
-    <br />
-    @RenderSection("Body", required: false)
-    <br />
-    @RenderSection("Footer", required: false)
-    <br />
-    @RenderSection("AddScripts")
+    <header>
+        @RenderSection("Header", required: false)
+    </header>
+
+    <div id="0" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Фотографии</div>
+    <div id="2" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Общая информация</div>
+    <div id="1" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Образование</div>
+    <div id="3" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Опыт разработки</div>
+    <div id="4" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Ключевые навыки</div>
+    <div id="5" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Пожелания к вакансии</div>
+    <div id="6" class="link-to-content unpressed">&nbsp;&nbsp;&nbsp;Награждения</div>
+
+    @RenderSection("AddHideInfoSection")
+
+    <div id="s0" class="content-hidden">
+        <img src="~/Content/Images/me3.jpg" />
+        <img src="~/Content/Images/me5.jpg" />
+    </div>
+
+    @RenderSection("AddScriptsSection")
 </body>
 </html>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<rootTree>
+
+  <script id="rewards1" type="text/template">
+    <img id="stop" src="/Content/Images/rewards1.jpg" />
+  </script>
+
+  <script id="rewards2" type="text/template">
+    <img id="stop" src="/Content/Images/rewards2.jpg" />
+  </script>
+
+  <script id="rewards3" type="text/template">
+    <img id="stop" src="/Content/Images/rewards3.jpg" />
+  </script>
+
+  <script id="certificate" type="text/template">
+    <img id="stop" src="/Content/Images/certificate.jpg" />
+  </script>
+
+  <script id="me4" type="text/template">
+    <img src="/Content/Images/me4.jpg" />
+  </script>
+
+  <script id="me5" type="text/template">
+    <img src="/Content/Images/me5.jpg" />
+  </script>
+
+  <script id="me6" type="text/template">
+    <img src="/Content/Images/me6.jpg" />
+  </script>
+
+</rootTree>

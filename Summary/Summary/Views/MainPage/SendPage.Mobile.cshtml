@@ -1,10 +1,39 @@
-﻿
+﻿@using System
+@using System.Xml
+
+
 @{
     ViewBag.Title = "SendPagew";
     Layout = "~/Views/Shared/Mobile/_Layout.Mobile.cshtml";
+    var st = Server.MapPath("~/Content/XML/AddHTMLData.xml");
+    XmlDocument xml = new XmlDocument();
+    xml.Load(st);
+    XmlElement xel = xml.DocumentElement;
+}
+
+@section AddStylesSection{
+    <link href="~/Content/Styles/StylesMobile.css" rel="stylesheet" type="text/css" />
 }
 
 @section Header{
-    
-    }
+    Добро пожаловать
+}
 
+@section AddScriptsSection{
+    <script src="~/Scripts/SpecialScripts/ScriptsMobile.js"></script>
+}
+
+@section AddHideInfoSection{
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s2']").OuterXml)
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s1']").OuterXml)
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s3']").OuterXml)
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s4']").OuterXml)
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s5']").OuterXml)
+
+    @Html.Raw(xel.SelectSingleNode("script[@id='s6']").OuterXml)
+}
