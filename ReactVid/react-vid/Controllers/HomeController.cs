@@ -12,7 +12,12 @@ namespace react_vid.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            InnerData ind = new InnerData
+            {
+                Name = "dima",
+                Surname = "Sap"
+            };
+            return View(ind);
         }
 
         public IActionResult Privacy()

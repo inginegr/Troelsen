@@ -4,9 +4,8 @@
 
 @font-face {
     font-family: 'thinking_of_bettyregular';
-    src: url('thinking_of_betty-webfont.woff2') format('woff2'),
-         url('thinking_of_betty-webfont.woff') format('woff');
+    src: url('/Fonts/thinking_of_betty-webfont.woff2') format('woff2'),
+         url('/Fonts/thinking_of_betty-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }

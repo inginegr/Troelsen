@@ -1,10 +1,56 @@
 body, html{
     margin: 0;
+    font-family: 'Montserrat' serif;
 }
 
-header{
+/*----------------------------------------------Header---------------------------------------*/
+
+/*----------------------------------------------Label---------------------------------------*/
+
+#header{
     height: 128px;
-    background-color: #000000;
-    margin-top: 0px;
-    width: 100%;
+    background-color: black;
+}
+
+.label{
+    width: 4.5em;
+    margin-left: 6%;
+    color: white;
+    text-align: center;
+    height: 100%;
+    font-size: 38.6px;
+    font-family: 'thinking_of_bettyregular';
+    line-height: .6em;
+}
+
+.label>p{
+    font-size: 22.9px;
+}
+
+/*----------------------------------------------Menu---------------------------------------*/
+
+
+#menu>.space-menu{
+    margin-left: -40px;
+    margin-right: 80px;
+}
+
+#menu>div>a{
+    color: white;
+    font-weight: bold;
+    font-size: 18.9px;
+}
+
+div[spec-attr="contact-us"]{
+    min-width: 180px;
+    margin-left: -40px;
+}
+
+
+@font-face {
+    font-family: 'thinking_of_bettyregular';
+    src: url('/Fonts/thinking_of_betty-webfont.woff2') format('woff2'),
+         url('/Fonts/thinking_of_betty-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
