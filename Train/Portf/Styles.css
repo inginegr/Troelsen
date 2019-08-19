@@ -13,11 +13,11 @@ body, html{
 }
 
 .label{
+    padding-top: 0.5em;
     width: 4.5em;
-    margin-left: 6%;
+    margin-left: 1.5em;
     color: white;
     text-align: center;
-    height: 100%;
     font-size: 38.6px;
     font-family: 'thinking_of_bettyregular';
     line-height: .6em;
@@ -27,23 +27,37 @@ body, html{
     font-size: 22.9px;
 }
 
-/*----------------------------------------------Menu---------------------------------------*/
-
-
-#menu>.space-menu{
-    margin-left: -40px;
-    margin-right: 80px;
+#header > .col-12{
+    padding-left: 0%;
+    padding-right: 0%;
 }
 
-#menu>div>a{
+#menu-col > nav{
+    margin-left: 0%;
+    margin-right: 0%;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+/*----------------------------------------------Menu---------------------------------------*/
+
+#menu > div{
+    margin-left: 23%;
+}
+
+#menu > div > a{
     color: white;
     font-weight: bold;
     font-size: 18.9px;
 }
 
-div[spec-attr="contact-us"]{
-    min-width: 180px;
-    margin-left: -40px;
+.spec-attr-menu{    
+    margin-right: 5%;
+}
+
+a[special-attribute="contact-us"]{
+    min-width: 140px;
+    margin-right: 0%;
 }
 
 /*----------------------------------------------Menu Icon---------------------------------------*/

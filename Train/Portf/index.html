@@ -22,40 +22,38 @@
 <body>
 
   <div class="container-fluid">
-    <div id="header" class="row align-items-center justify-content-between">
-      <div class="col">
-        <div class="label">
-          Creative <p>agency</p>
-        </div>
-      </div>
-      <div class="col">
+    <div id="header" class="row">
+      <div id="menu-col" class="col-12">
         <nav class="navbar navbar-expand-sm navbar-light">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <div class="menu-icon">
-              <i class="material-icons">menu</i>
+          <div class="row  align-items-center">
+            <div class="col-6">
+              <div class="label">
+                Creative <p>agency</p>
+              </div>
             </div>
-          </button>
-          <div class="collapse navbar-collapse" id="menu">
-            <div class="navbar-nav space-menu">
-              <a class="nav-item nav-link active" href="#">HOME <span class="sr-only">(current)</span></a>
-            </div>
-            <div class="navbar-nav space-menu">
-              <a class="nav-item nav-link active" href="#">PAGE <span class="sr-only">(current)</span></a>
-            </div>
-            <div class="navbar-nav space-menu">
-              <a class="nav-item nav-link active" href="#">PORTFOLIO <span class="sr-only">(current)</span></a>
-            </div>
-            <div class="navbar-nav space-menu">
-              <a class="nav-item nav-link active" href="#">BLOG <span class="sr-only">(current)</span></a>
-            </div>
-            <div class="navbar-nav" spec-attr="contact-us">
-              <a class="nav-item nav-link active" href="#">CONTUCT US <span class="sr-only">(current)</span></a>
+            <div class="col-6">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu"
+                aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="menu-icon">
+                  <i class="material-icons">menu</i>
+                </div>
+              </button>
+              <div class="collapse navbar-collapse" id="menu">
+                <div class="navbar-nav">
+                  <a class="nav-item nav-link spec-attr-menu active" href="#">HOME <span
+                      class="sr-only">(current)</span></a>
+                  <a class="nav-item nav-link spec-attr-menu" href="#">PAGE</a>
+                  <a class="nav-item nav-link spec-attr-menu" href="#">PORTFOLIO</a>
+                  <a class="nav-item nav-link spec-attr-menu" href="#">BLOG</a>
+                  <a class="nav-item nav-link" href="#" special-attribute="contact-us">CONTACT US</a>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
       </div>
     </div>
+
   </div>
 
 
