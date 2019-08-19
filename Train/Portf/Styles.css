@@ -46,6 +46,26 @@ div[spec-attr="contact-us"]{
     margin-left: -40px;
 }
 
+/*----------------------------------------------Menu Icon---------------------------------------*/
+
+.menu-icon{
+    padding: 0px;
+    border-width: 7px;
+    border-color: white;
+    border-style: solid;
+    border-radius: 3px;
+    margin-left: 150px;
+}
+
+.menu-icon > i {
+    font-size: 70px;
+    color: white;
+}
+
+
+
+
+
 
 @font-face {
     font-family: 'thinking_of_bettyregular';
@@ -54,3 +74,4 @@ div[spec-attr="contact-us"]{
     font-weight: normal;
     font-style: normal;
 }
+

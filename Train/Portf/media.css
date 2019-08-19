@@ -1,0 +1,17 @@
+@media only screen and (max-width: 991px) {
+    #menu > .space-menu {
+        margin-left: -40px;
+        margin-right: 40px;
+    }
+
+    #header > .col,
+    #header > .col > nav {
+        padding-right: 0px;
+        margin-right: 0px;
+    }
+
+    div[spec-attr="contact-us"]{
+        min-width: 140px;
+        margin-left: -40px;
+    }
+}
