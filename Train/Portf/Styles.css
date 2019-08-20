@@ -111,6 +111,7 @@ a[special-attribute="contact-us"]{
 
 #face-page > div > .row{
     height: 100%;
+    max-height: 892px;
 }
 
 #nice-content{
@@ -168,17 +169,64 @@ a[special-attribute="contact-us"]{
 }
 
 #img-dots{
-    width: 10px;
+    width: 140px;
 }
 
+/*------------------------------------------------------------Services Block-----------------------------------------------*/
 
+/*------------------------------------------------------------Title Text----------------------------------------------------*/
 
+/* Bacground */
+#services > img {
+    max-width: 1700px;
+    max-height: 1076px;
+    position: absolute;
+}
 
+/* Title text */
+#services-title,
+#services-description{
+    margin: 0 auto;
+    color: white;
+    text-align: center;
+}
 
+/* Title bold text */
+#services-title{
+    font-size: 3.4vw;
+    font-weight: bold;
+    font-family: 'Montserrat' serif;
+    width: 42vw;
+    margin-top: 8.5vw;
+}
+#services-title-yellow{
+    color: yellow;
+}
 
+/* Titlethin text */
+#services-description{
+    margin: 0 auto;
+    width: 56vw;
+    margin-top: 3vw;
+}
 
+/*------------------------------------------------------------Three Images----------------------------------------------------*/
 
+/* Set three div common properties */
+#services-row-images > .col-3 > div{
+    overflow: hidden;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 10.5vw;
+    border-width: 1vw;
+    border-style: solid;
+    border-color: white;
+    position: relative;
+}
 
+#services-row-images > .col-3 > div > img{
+    
+}
 
 
 @font-face {
