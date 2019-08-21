@@ -3,229 +3,200 @@ body, html{
     font-family: 'Montserrat' serif;
 }
 
-body > .container-fluid{
-    margin-left: 0%;
-    padding-left: 0%;
-}
+/*===================================================Header Block============================================*/
 
-/*----------------------------------------------Header---------------------------------------*/
-
-/*----------------------------------------------Label---------------------------------------*/
-
-#header{
-    height: 128px;
+/* Header Total */
+header{
     background-color: black;
+    min-width: 230px;
 }
 
-.label{
-    padding-top: 0.5em;
-    width: 4.5em;
-    margin-left: 1.5em;
+/* Label text */
+.header-label{
     color: white;
     text-align: center;
-    font-size: 38.6px;
     font-family: 'thinking_of_bettyregular';
-    line-height: .6em;
+    display: inline-block;
+    height: auto;
+    font-size: 30px;
+    margin-top: 0.3em;
+    margin-left: 3em;
 }
 
-.label>p{
-    font-size: 22.9px;
-}
-
-#header > .col-12{
-    padding-left: 0%;
-    padding-right: 0%;
-}
-
-#menu-col > nav{
-    margin-left: 0%;
-    margin-right: 0%;
-    padding-left: 0%;
-    padding-right: 0%;
-    height: 100%;
-}
-
-/*----------------------------------------------Menu---------------------------------------*/
-
-#row-in-col-menu{
-    width: 100%;
-}
-
-#menu > div{
-    margin-left: -1vw;
-}
-
-#menu > div > a{
+/* Menu text */
+#header-menu > ul > li > a{
     color: white;
-    font-weight: bold;
-    font-size: 18.9px;
+    font-size: 25px;
 }
 
-.spec-attr-menu{    
+/* Margin right */
+.menu-mr{
     margin-right: 5vw;
 }
 
-a[special-attribute="contact-us"]{
-    min-width: 140px;
-    margin-right: 0%;
+.nav-item{
+    position: relative;
+
 }
 
-/*----------------------------------------------Menu Icon---------------------------------------*/
-
-.menu-icon{
-    padding: 0px;
-    border-width: 7px;
-    border-color: white;
-    border-style: solid;
-    border-radius: 3px;
-    margin-left: 150px;
+@keyframes menu-item-underline{
+    from{
+        width: 0%;
+        margin-left: 50%;
+    }
+    to{
+        width: 100%;
+        margin-left: 0%;
+    }
 }
 
-.menu-icon > i {
-    font-size: 70px;
-    color: white;
-}
-
-/*-------------------------------------------Face Page---------------------------------------------*/
-
-/*-------------------------------------------Image Block in Face------------------------------------------------------*/
-
-#face-page{
-    height: 98vh;
-}
-
-#face-page > div{
-    margin-left: 0%;
-    padding-left: 0%;
-    background-color: #f8e530;
-}
-
-#img-map{
+/* Menu visualize */
+.nav-item:hover:after{
     position: absolute;
-    margin-left: 4.5vw;
-    margin-top: 2vw;
-    width: 100%;
-    max-height: 90vh;
-    max-width: 95vw;
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: white;
+    margin-top: 0;
+    margin-left: 50%;
+    animation: menu-item-underline .3s linear forwards;
 }
 
-#face-page > div > .row{
-    height: 100%;
-    max-height: 892px;
+/* Mune show position */
+#header-menu.show > ul > li,
+#header-menu.collapsing > ul > li{
+    margin-right: 0;
+    margin-left: auto;
 }
 
-#nice-content{
-    max-width: 467px;
-    margin-top: 20vh;
+
+/*===================================================Main Section Block============================================*/
+
+/* Background main section */
+.main-section{
+    /* background: url('/images/world-map.jpg') center no-repeat  yellow; */
+    background: yellow url('/images/world-map.gif') center no-repeat;
+    background-size: cover;
+}
+
+/* Left column with image */
+.main-nice {
     margin-left: 15vw;
+    margin-top: 10vw;
+    width: 28vw;
 }
 
-#img-cloud{
-    margin-left: 5vw;
+/* Shadow under image */
+.main-shadow{
+    margin-left: 17vw;
+    width: 28vw;
 }
 
+/* Right column in main section */
 
-
-/*-------------------------------------------Text Block in Face------------------------------------------------------*/
-
-#text-name{
-    margin-top: 20vh;
-    margin-left: 0;
+/* Bold text */
+.main-bold-text{
     display: inline-block;
-    font-family: 'Montserrat' serif;
-    font-size: 10vw;
+    margin-top: 10vw;
+    font-size: 6vw;
+    line-height: 0.8em;
     text-align: center;
-    line-height: .87em;
     font-weight: bold;
 }
 
-#text-name > p{
-    line-height: 0.65em;
+.main-bold-text > p{
+    margin-bottom: 0px;
 }
 
-#text-description{
+/* Description text */
+.main-description{
     display: inline-block;
+    margin-top: 2vw;
     text-align: center;
-    margin-left: 4vw;
-    margin-top: 1.7em;
     font-weight: bold;
+    margin-left: .5vw;
+    font-size: 1.1vw;
+}
+
+.main-description > p{
+    margin-bottom: 0px;
+}
+
+
+/* Know more label */
+
+.turned-label > div{
+    width: 8vw;
     font-size: 1.3vw;
+    color: white;
+    background-color: black;
+    transform: skewX(-45deg);
+    margin-left: 1.4vw;
 }
 
-#text-know-more{
-    width: 8em;
-    display: inline-block;
-    text-align: center;
-    color: white;
-    font-weight: bold;
+.turned-label{
+    margin-left: 10vw;
+    margin-top: 1em;
+    height: 2vw;
     background-color: black;
     transform: skewX(45deg);
-    border-radius: 1em;
-    margin-left: 20vw;
+    width: 11vw;
+    border-radius: .5em .2em .5em .2em;
 }
 
-#text-know-more > div{
-    transform: skewX(-45deg);
+/* Three dots */
+.main-dots > img{
+    margin-top: 10vw;
 }
 
-#img-dots{
-    width: 140px;
-}
+/*===================================================Services Block============================================*/
 
-/*------------------------------------------------------------Services Block-----------------------------------------------*/
-
-/*------------------------------------------------------------Title Text----------------------------------------------------*/
-
-/* Bacground */
-#services > img {
-    max-width: 1700px;
-    max-height: 1076px;
-    position: absolute;
-}
-
-/* Title text */
-#services-title,
-#services-description{
-    margin: 0 auto;
+/* Background configs */
+.services{
+    background: url('/images/services-background.gif') center no-repeat;
+    background-size: cover;
     color: white;
-    text-align: center;
 }
 
-/* Title bold text */
-#services-title{
-    font-size: 3.4vw;
-    font-weight: bold;
-    font-family: 'Montserrat' serif;
-    width: 42vw;
+
+/* Configs of text block */
+.s-bold-text{
+    width: 37vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 8.5vw;
+    color: white;
+    font-weight: bold;
+    font-size: 3vw;
 }
-#services-title-yellow{
+
+.s-bold-text > span{
+    width: 57vw;
     color: yellow;
 }
 
-/* Titlethin text */
-#services-description{
-    margin: 0 auto;
-    width: 56vw;
-    margin-top: 3vw;
+.s-description{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vw;
+    width: 57vw;
+    text-align: center;
 }
 
-/*------------------------------------------------------------Three Images----------------------------------------------------*/
-
-/* Set three div common properties */
-#services-row-images > .col-3 > div{
-    overflow: hidden;
-    width: 21vw;
-    height: 21vw;
-    border-radius: 10.5vw;
-    border-width: 1vw;
+/* Three columns with images */
+.s-round-image{
+    width: 22vw;
+    height: 22vw;
+    border-radius: 11vw;
     border-style: solid;
+    border-width: 1vw;
     border-color: white;
-    position: relative;
+    overflow: hidden;
 }
 
-#services-row-images > .col-3 > div > img{
-    
+.s-round-image > span{
+    color: white;
 }
 
 

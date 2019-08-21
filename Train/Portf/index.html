@@ -21,119 +21,120 @@
 
 <body>
 
-  <div class="container-fluid">
-    <div id="header" class="row">
-      <div id="menu-col" class="col-12">
-        <nav class="navbar navbar-expand-sm navbar-light">
-          <div id="row-in-col-menu" class="row  align-items-center justify-content-between">
-            <div class="col">
-              <div class="label">
-                Creative <p>agency</p>
-              </div>
-            </div>
-            <div class="col">
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu"
-                aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
-                <div class="menu-icon">
-                  <i class="material-icons">menu</i>
-                </div>
-              </button>
-              <div class="collapse navbar-collapse" id="menu">
-                <div class="navbar-nav">
-                  <a class="nav-item nav-link spec-attr-menu active" href="#">HOME <span
-                      class="sr-only">(current)</span></a>
-                  <a class="nav-item nav-link spec-attr-menu" href="#">PAGE</a>
-                  <a class="nav-item nav-link spec-attr-menu" href="#">PORTFOLIO</a>
-                  <a class="nav-item nav-link spec-attr-menu" href="#">BLOG</a>
-                  <a class="nav-item nav-link" href="#" special-attribute="contact-us">CONTACT US</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
+  <header>
+    <nav class="navbar navbar-expand-md">
+      <div class="header-label">
+        Creative <p>agency</p>
       </div>
-    </div>
-    <div id="face-page" class="row">
-      <div class="col-12">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header-menu"
+        aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <img src="/images/menu-hide.gif" alt="">
+      </button>
+    
+      <div class="collapse navbar-collapse" id="header-menu">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active menu-mr">
+            <a class="nav-link" href="#">HOME <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item menu-mr">
+            <a class="nav-link" href="#">PAGE</a>
+          </li>
+          <li class="nav-item menu-mr">
+            <a class="nav-link" href="#">PORTFOLIO</a>
+          </li>
+          <li class="nav-item menu-mr">
+            <a class="nav-link" href="#">BLOG</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">CONTACT US</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 
-        <img id="img-map" src="/images/world-map.gif" class="img-fluid" alt="">
-
-        <div id="row-face" class="row">
-          <div class="col-6">
-            <div id="nice-content">
-              <img id="img-nice" src="/images/class.gif" class="img-fluid" alt="">
-              <img id="img-cloud" src="/images/cloud.png" class="img-fluid" alt="">
-            </div>
+  <section class="main-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="/images/class.gif"  class="main-nice">
+          <img src="/images/cloud.png" class="main-shadow">
+        </div>
+        <div class="col-sm-6">
+          <div class="main-bold-text">
+            DIGITALL <P>CREATIVE</P> <P>AGENCY</P>
           </div>
-          <div class="col-6">
-            <div id="text-name">DIGITAL <P>CREATIVE</P>
-              <P>AGENCY</P>
-            </div>
-            <div id="text-description">WE ARE THE CREATIVE WEB DESIGN AGENCY WHO MAKES <p>BEAUTIFUL WEBSITES FOR
-                THOUSANDS OF PEOPLES.</p>
-            </div>
-            <br />
-            <div id="text-know-more">
-              <div>
-                KNOW MORE
-              </div>
-            </div>
+          <div class="main-description">
+            WE ARE CREATIVE WEB DESIGN AGENCY WHO MAKES
+            <P>BEAUTIFUL WEBSITES FOR THOUSANDS OF PEOPLES.</P>
           </div>
-          <div class="row justify-content-center" style="width: 100%">
-            <div class="col-1">
-              <img id="img-dots" src="/images/dots.gif" alt="">
-            </div>
+          <div class="turned-label">
+            <div>
+              KNOW MORE
+            </div> 
           </div>
+        </div>
+        <div class="col-12 main-dots text-center">
+          <img src="/images/dots.gif" alt="">
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="row" id="services">
-      <img src="/images/services-background.gif" class="img-fluid" alt="">
+  <section class="services">
+    
+    <div class="container-fluid">
+    
+      <div class="row justify-content-center">
+        <div class="col-12 services-description">
+          <div class="s-bold-text">
+            YOU DREAM. <span>WE DESIGN.</span>
+          </div>
 
-      <div class="col-12">
+          <br/>
 
-        <div id="services-title">
-          YOU DREAM.
-          <span id="services-title-yellow">WE DESIGN.</span>
+          <div class="s-description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nam dolor modi sapiente
+              repellendus porro adipisci quis iste blanditiis exercitationem ipsa amet repudiandae placeat
+              vel quam accusantium, id, excepturi beatae! Fuga at quas non pariatur vero nam quidem 
+              santium, id, excepturi beatae! Fuga at quas non pariatur vero nam quidem
+          </div>
         </div>
 
-        <div id="services-description">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta laudantium nesciunt quas neque ex. 
-          Facere sequi praesentium, molestiae deleniti voluptatum enim? Sunt earum vitae aliquam ratione minima
-          deserunt ab expedita.
-        </div>
-
-      </div>
-
-      <div id="services-row-images" class="row justify-content-center">
-
-        <div class="col-3">
-          <div id="services-left">
+        <div class="col-sm-3">
+          <div class="s-round-image">
             <img src="/images/services-left.jpg" alt="">
-          </div>
-        </div>
-
-        <div class="col-3">
-          <div id="services-center">
-            <img src="/images/services-center.jpg" alt="">
-          </div>
-        </div>
-
-        <div class="col-3">
-          <div id="services-right">
-            <img src="/images/services-right.jpg" alt="">
+            <span>
+              BRANDING
+            </span>
           </div>
         </div>
         
+        <div class="col-sm-3">
+          <div class="s-round-image">
+            <img src="/images/services-center.jpg" alt="">
+            <span>
+              GRAPHIC DESIGN
+            </span>
+          </div>
+        </div>
+        
+        <div class="col-sm-3">
+          <div class="s-round-image">
+            <img src="/images/services-right.jpg" alt="">
+            <span>
+              CREATIVE IDEAS
+            </span>
+          </div>
+        </div>
+
+        <div class="col-12">
+
+        </div>
+
       </div>
-
-      <div class="col-12"></div>
     </div>
-
-
-  </div>
-
+  </section>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -1,23 +1,50 @@
 @media only screen and (max-width: 991px) {
-    /* #menu > .space-menu {
-        margin-left: -40px;
-        margin-right: 40px;
-    } */
-
-    /* #header > .col,
-    #header > .col > nav {
-        padding-right: 0px;
-        margin-right: 0px;
+    .menu-mr{
+        margin-right: 1vw;
     }
-
-    div[spec-attr="contact-us"]{
-        min-width: 140px;
-        margin-left: -40px;
-    } */
-}
-
-@media only screen and (max-width: 575px){
-    #menu > div > a{
-        color: black;
+    .header-label{
+        margin-left: 0;
     }
 }
+
+@media only screen and (max-width: 575px) {
+    .main-nice{
+        width: 80vw;
+        margin-top: 2vw;
+        margin-left: 7vw;
+    }
+    .main-shadow{
+        width: 80vw;
+    }
+
+    /* Bold text */
+.main-bold-text{
+    margin-left: 9vw;
+    margin-top: 1vw;
+    font-size: 16vw;
+}
+
+/* Description text */
+.main-description{
+    margin-top: 1vw;
+    margin-left: 9vw;
+    font-size: 3vw;
+}
+
+/* Know more label */
+
+.turned-label > div{
+    width: 45vw;
+    font-size: 7vw;
+    margin-left: 7vw;
+    height: 7vw;
+}
+
+.turned-label{
+    margin-left: 20vw;
+    margin-top: 1em;
+    height: 10vw;
+    width: 56vw;
+}
+}
+
