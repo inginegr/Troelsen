@@ -46,5 +46,22 @@
     height: 10vw;
     width: 56vw;
 }
+
+/* Image inside round */
+.s-round-image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+    height: 80vw;
+    border-radius: 40vw;
+}
+
+/* Text under images */
+.s-round-image + div{
+    font-size: 10vw;
+}
+
+
 }
 

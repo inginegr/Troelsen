@@ -126,7 +126,7 @@ header{
 /* Know more label */
 
 .turned-label > div{
-    width: 8vw;
+    width: 8.6vw;
     font-size: 1.3vw;
     color: white;
     background-color: black;
@@ -140,13 +140,14 @@ header{
     height: 2vw;
     background-color: black;
     transform: skewX(45deg);
-    width: 11vw;
+    width: 11.7vw;
     border-radius: .5em .2em .5em .2em;
 }
 
 /* Three dots */
 .main-dots > img{
     margin-top: 10vw;
+    margin-bottom: 4vw;
 }
 
 /*===================================================Services Block============================================*/
@@ -193,11 +194,96 @@ header{
     border-width: 1vw;
     border-color: white;
     overflow: hidden;
+    margin-top: 4vw;
 }
 
-.s-round-image > span{
-    color: white;
+.s-round-image.s-left{
+    background: url('/images/services-left.jpg') center no-repeat;
+    background-size: cover;
 }
+
+.s-round-image.s-center{
+    background: url('/images/services-center.jpg') center no-repeat;
+    background-size: cover;
+}
+
+.s-round-image.s-right{
+    background: url('/images/services-right.jpg') center no-repeat;
+    background-size: cover;
+}
+
+/* Text under images */
+.s-round-image + div{
+    color: white;
+    display: inline-block;
+    margin-top: 3vw;
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+.s-round-image + div + div{
+    margin-top: 2vw;
+}
+
+/* Know more button */
+.turned-label.yellow{
+    background: yellow;
+}
+
+.turned-label.yellow.know-center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.turned-label.yellow > div{
+    background: yellow;
+    color: black;
+}
+
+div > .yellow{
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+}
+
+/*===================================================Our Work Block============================================*/
+
+/* Bolt title */
+.ow-bold-title{
+    margin-top: 6vw;
+    font-size: 35px;
+    color: black;
+    font-weight: bold;
+}
+
+/* Description under title */
+.ow-description{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3.2vw;
+    font-size: 15px;
+    color: black;
+    width: 56vw;
+    text-align: center;
+}
+
+
+/* Three image in center */
+.ow-three-images{
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+/* .ow-three-images > img{
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 3.6vw;
+} */
+
 
 
 @font-face {
