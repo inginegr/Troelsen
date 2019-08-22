@@ -230,7 +230,7 @@ header{
     background: yellow;
 }
 
-.turned-label.yellow.know-center{
+.turned-label.know-center{
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -247,6 +247,13 @@ div > .yellow{
 }
 
 /*===================================================Our Work Block============================================*/
+
+/* Background */
+.our-work{
+    background: yellow url('/images/our-work-background-footer.png') bottom no-repeat;
+    background-size: contain;
+    position: relative;
+}
 
 /* Bolt title */
 .ow-bold-title{
@@ -278,11 +285,148 @@ div > .yellow{
 }
 
 
-/* .ow-three-images > img{
+.ow-three-images > img{
+    width: 100%;
+}
+
+
+/* Know more block */
+.ow-know-more{
+    margin-top: 2.5vw;
+    margin-bottom: 6vw;
+}
+
+/*===================================================Logos Block============================================*/
+
+/* Background */
+.logos{
+    background: url('/images/logos-background.gif') center no-repeat;
+    background-size: cover;
+}
+
+/* Images inside logos block */
+.l-row{
+    margin-top: 6vw;
+    margin-bottom: 7vw;
+}
+
+.l-row > img{
+    width: 15vw;
+}
+
+/*===================================================Our User Block============================================*/
+
+/* Background */
+.our-user{
+    background: url('/images/our-user-background.gif') center no-repeat;
+    background-size: cover;
+    margin-top: -5px;
+}
+
+/* Bold title */
+.ou-title{
+    text-align: center;
+    font-size: 65px;
+    font-weight: bold;
+    color: white;
+    margin-top: 7vw;
+}
+
+/* Description text */
+.ou-description > div{
+    width: 58vw;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    margin-top: 3.3vw;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4.3vw;
+}
+
+/* Label with user response */
+.user-response{
+    position: relative;
+    width: 21.5vw;
+    height: 21vw;
+    background-color: black;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+/* Twice quotas */
+.ur-twice-quotas{
+    position: absolute;
+    margin-left: 75%;
+    height: auto;
+    width: auto;
+}
+
+.ur-twice-quotas > img{
+    position: absolute;
+    width: 90px;
+}
+
+/* Info about user */
+.ur-user-info{
     margin-left: 0;
-    margin-right: 0;
-    margin-top: 3.6vw;
-} */
+    margin-top: 7%;
+    width: 95%;
+    height: 30%;
+}
+
+.ur-user-info > div{
+    display: inline-block;
+}
+
+/* Photo block */
+.ur-user-photo{
+    margin-left: 0;
+    margin-top: 0;
+    width: 30%;
+    height: auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.ur-user-photo > img{
+    width: 100%;
+    height: auto;
+}
+
+/* User data block */
+.ur-user-data{
+    width: 60%;
+    margin-left: 2%;
+    vertical-align: top;
+    height: 100%;
+}
+
+.ur-name,
+.ur-user-position{
+    width: 100%;
+    height: 45%;
+    margin-top: 0;
+    margin-left: 0;
+    color: white;
+    font-weight: bold;
+}
+
+.ur-name{
+    font-size: 40px;
+}
+
+.ur-user-position{
+    font-size: 30px;
+}
+
+.ur-response-text{
+    color: white;
+    font-size: 35px;
+    overflow: auto;
+}
 
 
 

@@ -63,5 +63,41 @@
 }
 
 
+/*---------------------------------------------------Our Works Block--------------------------------------------*/
+
+/* Bold title */
+.ow-bold-title{
+    text-align: center;
+}
+
+.ow-description{
+    padding-bottom: 5vw;
+}
+
+/* Three columns images */
+.ow-three-images > img{
+    width: 80%;
+    margin-top: 0%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ow-three-images{
+    padding-bottom: 0;
+    text-align: center;
+}
+
+/*=================================================Logos Block=======================================*/
+.l-row > img{
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.l-row{
+    text-align: center;
+}
+
 }
 
