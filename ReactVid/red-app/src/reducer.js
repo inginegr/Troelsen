@@ -1,22 +1,22 @@
 
-let reducer = (state = 0, action) => {
+let reducer = (state = 5, action) => {
 
-    switch (action.type) {
-        case 'rnd': {
-            return state + action.randomValue
-        }
-
-        case 'inc': {
-            return state + 1
-        }
-
-        case 'dec': {
-            return state - 1
-        }
-
-        default:
-            return state
+  switch (action.type) {
+    case 'rnd': {
+      return state + action.randomValue
     }
+
+    case 'inc': {
+      return state + 1
+    }
+
+    case 'dec': {
+      return state - 1
+    }
+
+    default:
+      return state
+  }
 
 }
 
