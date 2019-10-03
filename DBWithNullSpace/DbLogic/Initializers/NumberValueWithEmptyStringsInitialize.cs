@@ -9,19 +9,27 @@ namespace DbLogic.Initializers
 {
     /// <summary>
     /// Initialize database with empty 'value' rows
-    public class NumberValueWithEmptyStringsInitialize : DropCreateDatabaseAlways<NumberValueContext>
+    class NumberValueWithEmptyStringsInitialize : DropCreateDatabaseAlways<NumberValueContext>
     {
         protected override void Seed(NumberValueContext NVContext)
         {
-            NumberValueEntity nv2 = new NumberValueEntity() { NumberId = 2, Value = "собака" };
-            NumberValueEntity nv3 = new NumberValueEntity() { NumberId = 2, Value = "собака" };
-            NumberValueEntity nv9 = new NumberValueEntity() { NumberId = 2, Value = "собака" };
-            NumberValueEntity nv12 = new NumberValueEntity() { NumberId = 2, Value = "собака" };
+            List<NumberValueEntity> values = new List<NumberValueEntity>
+            {
+                new NumberValueEntity() { NumberId = 1, Value = "" },
+                new NumberValueEntity() { NumberId = 2, Value = "собака" },
+                new NumberValueEntity() { NumberId = 3, Value = "кошка" },
+                new NumberValueEntity() { NumberId = 4, Value = "" },
+                new NumberValueEntity() { NumberId = 5, Value = "" },
+                new NumberValueEntity() { NumberId = 6, Value = "" },
+                new NumberValueEntity() { NumberId = 7, Value = "" },
+                new NumberValueEntity() { NumberId = 8, Value = "" },
+                new NumberValueEntity() { NumberId = 9, Value = "слон" },
+                new NumberValueEntity() { NumberId = 10, Value = "" },
+                new NumberValueEntity() { NumberId = 11, Value = "" },
+                new NumberValueEntity() { NumberId = 12, Value = "утка" }
+            };
 
-            NVContext.NumberValue.Add(nv2);
-            NVContext.NumberValue.Add(nv3);
-            NVContext.NumberValue.Add(nv9);
-            NVContext.NumberValue.Add(nv12);
+            NVContext.NumberValue.AddRange(values);
 
             base.Seed(NVContext);
         }

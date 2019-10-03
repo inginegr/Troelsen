@@ -64,7 +64,6 @@
     <Compile Include="NumberValueContext.cs" />
     <Compile Include="Entities\NumberValueEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ServiceClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

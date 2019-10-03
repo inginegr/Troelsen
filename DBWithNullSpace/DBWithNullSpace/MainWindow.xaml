@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <ListBox Name="LogBox" HorizontalAlignment="Left" Height="80" Margin="10,230,0,0" VerticalAlignment="Top" Width="497"/>
+        <Button Content="Получить данные из БД" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="164" Height="28" Click="GetData_Click"/>
+        <Button Content="Исключить пустые строки" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="164" Height="28" Click="ExcludeEmptyStrings_Click"/>
+        <ListBox x:Name="lbDbContent" HorizontalAlignment="Left" Height="215" Margin="179,10,0,0" VerticalAlignment="Top" Width="328"/>
+
     </Grid>
 </Window>

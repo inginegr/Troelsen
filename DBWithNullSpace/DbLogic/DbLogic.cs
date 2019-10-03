@@ -5,16 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using DbLogic.Entities;
-using DbLogic.Services;
 
 namespace DbLogic
 {
     
-    public class DbLogic
+    public class DbHandle
     {
-        ServiceClass _service = new ServiceClass();
-        public TextBox logConsole = null;
-
         ///<summary>
         ///Add rows to DataBase
         /// </summary>
@@ -28,7 +24,7 @@ namespace DbLogic
                     nvc.SaveChanges();
                 }catch(Exception ex)
                 {
-                    _service.LogMessage(ex?.InnerException.Message, logConsole);
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -48,7 +44,7 @@ namespace DbLogic
                 }
                 catch (Exception ex)
                 {
-                    _service.LogMessage(ex?.InnerException.Message, logConsole);
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -71,11 +67,11 @@ namespace DbLogic
                     }
                     else
                     {
-                        _service.LogMessage($"The row with id {idToDelete} didn't found", logConsole);
+                        throw new Exception($"The row with id {idToDelete} didn't found");
                     }
                 }catch(Exception ex)
                 {
-                    _service.LogMessage(ex?.InnerException.Message, logConsole);
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -95,7 +91,7 @@ namespace DbLogic
                 }
                 catch (Exception ex)
                 {
-                    _service.LogMessage(ex?.InnerException.Message, logConsole);
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -117,32 +113,33 @@ namespace DbLogic
                     nvc.SaveChanges();
                 }catch(Exception ex)
                 {
-                    _service.LogMessage(ex?.InnerException.Message, logConsole);
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
         /// <summary>
-        /// Take some recprds from db
+        /// Take all records from db
         /// </summary>
         /// <param name=""></param>
-        public NumberValueEntity GetAllRecords()
+        public IEnumerable<NumberValueEntity> GetAllRecords()
         {
-            NumberValueEntity nve = null;
+            List<NumberValueEntity> entitiesList = new List<NumberValueEntity>();
 
+            using(NumberValueContext nvc =new NumberValueContext())
+            {
+                foreach(NumberValueEntity n in nvc.NumberValue)
+                {
+                    entitiesList.Add(n);
+                }
+            }
 
-
-            return nve;
+            return entitiesList;
         }
 
-        DbLogic()
+        public DbHandle()
         {
 
-        }
-
-        DbLogic(TextBox tbx)
-        {
-            logConsole = tbx;
         }
     }
 }

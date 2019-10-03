@@ -7,11 +7,14 @@ namespace DbLogic
     using global::DbLogic.Initializers;
 
 
-    public class NumberValueContext : DbContext
+    class NumberValueContext : DbContext
     {
         public DbSet<NumberValueEntity> NumberValue { get; set; }
 
-        public NumberValueContext() : base("name=NumberValueContext")
+
+        public NumberValueContext() : this(null) { }
+
+        public NumberValueContext(string connectionString) : base($"name={connectionString}")
         {
             Database.SetInitializer<NumberValueContext>(new NumberValueWithEmptyStringsInitialize());
         }
