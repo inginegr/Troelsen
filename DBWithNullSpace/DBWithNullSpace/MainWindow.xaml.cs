@@ -12,10 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Security;
 
-
-namespace SCN_App
+namespace DBWithNullSpace
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,9 +23,6 @@ namespace SCN_App
         public MainWindow()
         {
             InitializeComponent();
-
-            SLCryptography slc = new SLCryptography();
-            slc.
         }
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCN_App.Properties {
+namespace SecurerityLibrary.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

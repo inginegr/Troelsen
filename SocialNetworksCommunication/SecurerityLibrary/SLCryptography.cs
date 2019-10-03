@@ -12,22 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Security;
 
-
-namespace SCN_App
+namespace Security
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class SLCryptography
     {
-        public MainWindow()
+        /// <summary>
+        /// Handles the MouseClick event of the btn control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
+        public void EncryptData(string dataParam)
         {
-            InitializeComponent();
 
-            SLCryptography slc = new SLCryptography();
-            slc.
         }
     }
 }

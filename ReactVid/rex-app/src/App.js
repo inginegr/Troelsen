@@ -1,13 +1,15 @@
 import React from 'react';
 import Spinner from './components/loadingspinner'
 import Error from './components/errorexception'
+import ErrorBoundry from './components/errorboundry/errorboundry';
 
 
 const App = () => {
   return (
     <div>
-      <Spinner />
-      <Error/>
+      <ErrorBoundry>
+        <Spinner/>
+      </ErrorBoundry>
     </div>
   )
 }
