@@ -137,9 +137,6 @@ namespace DbLogic
             return entitiesList;
         }
 
-        public DbHandle()
-        {
-
-        }
+        public DbHandle() { }
     }
 }

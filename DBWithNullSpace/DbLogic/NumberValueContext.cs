@@ -11,10 +11,7 @@ namespace DbLogic
     {
         public DbSet<NumberValueEntity> NumberValue { get; set; }
 
-
-        public NumberValueContext() : this(null) { }
-
-        public NumberValueContext(string connectionString) : base($"name={connectionString}")
+        public NumberValueContext() : base($"name=NumberValueContext")
         {
             Database.SetInitializer<NumberValueContext>(new NumberValueWithEmptyStringsInitialize());
         }

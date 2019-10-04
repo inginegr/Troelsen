@@ -111,6 +111,7 @@ namespace DBWithNullSpace.TaskLogic
         public DataBaseOperations(ListBox tb)
         {
             tbConsolle = tb;
+            
             dbh = new DbHandle();
         }
     }
