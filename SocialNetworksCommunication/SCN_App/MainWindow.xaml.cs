@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Security;
+using ServiceLibrary;
 
 
 namespace SCN_App
@@ -22,12 +23,25 @@ namespace SCN_App
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Service object
+        FileService serv = new FileService();
+
+        //Cryptography
+        SLCryptography slc = new SLCryptography();
+
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            SLCryptography slc = new SLCryptography();
-            slc.
+        private void One_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Two_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
