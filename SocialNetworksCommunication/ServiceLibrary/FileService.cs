@@ -18,9 +18,9 @@ namespace ServiceLibrary
         {
             try
             {
-                using (StreamWriter fs = File.AppendText(pathToLog))
+                using (StreamWriter fs = File.CreateText(pathToLog))
                 {
-                    fs.WriteLine(dataToLog);
+                    fs.Write(dataToLog);
                 }
             }catch(Exception ex)
             {

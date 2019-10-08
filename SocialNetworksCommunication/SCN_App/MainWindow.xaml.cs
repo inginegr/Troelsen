@@ -12,22 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Security;
-using ServiceLibrary;
+using System.ComponentModel;
+
 
 
 namespace SCN_App
-{
+{   
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Service object
-        FileService serv = new FileService();
+        HandleClass localHandle = new HandleClass();
 
-        //Cryptography
-        SLCryptography slc = new SLCryptography();
+        private string tokenString = String.Empty;
+
 
         public MainWindow()
         {
@@ -36,12 +35,22 @@ namespace SCN_App
 
         private void One_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void SaveToken_Click(object sender, RoutedEventArgs e)
+        {
+            localHandle.SaveKeySafely(this.InputTextBox.Text);
+        }
+
+        private void LoadToken_Click(object sender, RoutedEventArgs e)
+        {
+            tokenString = localHandle.LoadToken();
         }
     }
 }

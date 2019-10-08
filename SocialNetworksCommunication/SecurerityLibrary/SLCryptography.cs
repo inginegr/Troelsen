@@ -43,10 +43,34 @@ namespace Security
         /// <returns>encrypted data</returns>
         public byte[] EncryptData(string dataParam)
         {
-
             GenerateKeyAndIV();            
 
             return EncryptStringToBytes_Aes(dataParam, localKey, localIV);
+        }
+
+        /// <summary>
+        /// Encrypts data with secret key
+        /// </summary>
+        /// <param name="dataParam">Data to encrypt</param>
+        /// <param name="key">Secure key</param>
+        /// <returns>encrypted data</returns>
+        public byte[] EncryptData(string dataParam, byte[] key)
+        {
+            GenerateKeyAndIV();
+
+            return EncryptStringToBytes_Aes(dataParam, key, localIV);
+        }
+
+        /// <summary>
+        /// Encrypts data with secret key and public key
+        /// </summary>
+        /// <param name="dataParam">Data to encrypt</param>
+        /// <param name="key">Secure key</param>
+        /// <param name="IV">Secure public key</param>
+        /// <returns>encrypted data</returns>
+        public byte[] EncryptData(string dataParam, byte[] key, byte[] IV)
+        {
+            return EncryptStringToBytes_Aes(dataParam, key, IV);
         }
 
 

@@ -43,5 +43,34 @@ namespace ServiceLibrary
 
             return retString;
         }
+
+        /// <summary>
+        /// Convert string massive to massive of some type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="stringToConvert">String, that must to be converted</param>
+        /// <param name="separatorString">Separator, that between string's elements </param>
+        /// <param name="typeToConvert">Source type </param>
+        /// <returns>List of converted elements</returns>
+        public IEnumerable<T> StringToMassive<T>(string stringToConvert, string separatorString, Type t)
+        {
+            List<T> returmList = new List<T>();
+
+            try
+            {
+                string[] massiveStringToHandle = stringToConvert.Split(separatorString.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i=0; i < massiveStringToHandle.Length; i++)
+                {
+                    returmList.Add((T)Convert.ChangeType(massiveStringToHandle[i], t));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return returmList;
+        }
     }
 }
