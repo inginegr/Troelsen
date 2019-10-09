@@ -87,6 +87,20 @@ namespace Security
         }
 
         /// <summary>
+        /// Decrypt data
+        /// </summary>
+        /// <param name="encryptedData"> Encrypted data</param>
+        /// <param name="secretKey">Secret key to decrypt</param>
+        /// <returns>Decrypted string</returns>
+        public string DecryptData(byte[] encryptedData, byte[] secretKey)
+        {
+            GenerateKeyAndIV();
+
+            return DecryptStringFromBytes_Aes(encryptedData, secretKey, localIV);
+        }
+
+
+        /// <summary>
         /// Generates key and iv local parameters
         /// </summary>
         private void GenerateKeyAndIV()

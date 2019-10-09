@@ -33,9 +33,9 @@ namespace SCN_App
             InitializeComponent();
         }
 
-        private void One_Click(object sender, RoutedEventArgs e)
+        private void SendCommand_Click(object sender, RoutedEventArgs e)
         {
-            
+            localHandle.SendCommand(OutTextBox);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
@@ -45,12 +45,24 @@ namespace SCN_App
 
         private void SaveToken_Click(object sender, RoutedEventArgs e)
         {
-            localHandle.SaveKeySafely(this.InputTextBox.Text);
+            try
+            {
+                localHandle.SaveKeySafely(this.InputTextBox.Text);
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LoadToken_Click(object sender, RoutedEventArgs e)
         {
-            tokenString = localHandle.LoadToken();
+            try
+            {
+                localHandle.LoadVkLibrary(CommandList);
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

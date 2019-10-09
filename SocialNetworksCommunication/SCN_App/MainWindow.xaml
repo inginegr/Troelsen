@@ -8,11 +8,12 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid Margin="0,1,0,-1">
         <TextBox Name="InputTextBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="497"/>
-        <Button Content="One" HorizontalAlignment="Left" Margin="432,38,0,0" VerticalAlignment="Top" Width="75" Click="One_Click"/>
+        <Button Content="Send Command" HorizontalAlignment="Left" Margin="414,38,0,0" VerticalAlignment="Top" Width="93" Click="SendCommand_Click"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="497"/>
         <Button Content="Two" HorizontalAlignment="Left" Margin="432,93,0,0" VerticalAlignment="Top" Width="75" Click="Two_Click"/>
         <TextBox Name="OutTextBox" HorizontalAlignment="Left" Height="191" Margin="10,119,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="497"/>
-        <Button Content="Save Token" HorizontalAlignment="Left" Margin="352,38,0,0" VerticalAlignment="Top" Width="75" Click="SaveToken_Click"/>
-        <Button Content="LoadToken" HorizontalAlignment="Left" Margin="272,38,0,0" VerticalAlignment="Top" Width="75" Click="LoadToken_Click"/>
+        <Button Content="Save Token" HorizontalAlignment="Left" Margin="334,38,0,0" VerticalAlignment="Top" Width="75" Click="SaveToken_Click"/>
+        <Button Content="LoadVK" HorizontalAlignment="Left" Margin="254,38,0,0" VerticalAlignment="Top" Width="75" Click="LoadToken_Click"/>
+        <ComboBox Name="CommandList" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="239"/>
     </Grid>
 </Window>
