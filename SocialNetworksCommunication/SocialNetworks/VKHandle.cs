@@ -72,7 +72,7 @@ namespace VKLibrary
         /// <param name="stringToDeserialize">Deserialized string</param>
         /// <returns>T object</returns>
         private T DeserializeObject<T>(string stringToDeserialize)
-        {
+        {            
             try
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();

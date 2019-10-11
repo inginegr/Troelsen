@@ -114,22 +114,36 @@ namespace SCN_App
         /// Sends selected command to server
         /// </summary>
         /// <param name="control"></param>
-        public void SendCommand(Control control)
+        public IEnumerable<string> SendCommand(Control control)
         {
             try
             {
-                TextBox tbx = (TextBox)control;
+                ComboBox cbx = (ComboBox)control;
 
                 MethodInfo mi = vkMethods.Find(e => e.Name == cbx.SelectedItem.ToString());
                 
-                List<string> list = (List<string>)mi.Invoke(vkc, null);
-
-                tbx. = list;
+                return (List<string>)mi.Invoke(vkc, null);
 
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Display text insisde textbox
+        /// </summary>
+        /// <param name="list">List to display</param>
+        /// <param name="control">Textbox for display</param>
+        public void FillData(IEnumerable<string> list, Control control)
+        {
+            string st = String.Empty;
+            foreach(string s in list)
+            {
+                st += s + "\n";
+            }
+
+            ((TextBox)control).Text = st;
         }
     }
 }
