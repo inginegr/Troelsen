@@ -35,9 +35,12 @@ namespace SCN_App
 
         private void SendCommand_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<string> list = localHandle.SendCommand(CommandList);
+            string list = localHandle.SendCommand(CommandList);
 
-            localHandle.FillData(list, OutTextBox);
+            List<string> ls = new List<string>();
+            ls.Add(list);
+
+            localHandle.FillData(ls, OutTextBox);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)

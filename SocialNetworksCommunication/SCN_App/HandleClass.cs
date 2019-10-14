@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Reflection;
 using Security;
 using ServiceLibrary;
 using System.Windows.Controls;
-using VKLibrary;
-using SocialNetworks.VKObjects;
+using SocialNetworks;
+using System.Net.Http;
+
 
 
 namespace SCN_App
@@ -21,9 +25,12 @@ namespace SCN_App
         SLCryptography localCrypto = new SLCryptography();
 
         VKComunicate vkc = null;
+        TGCommunicate tgc = null;
+        
+        
 
         // Methods of loaded library
-        List<MethodInfo> vkMethods = new List<MethodInfo>();
+        List<MethodInfo> Methods = new List<MethodInfo>();
 
 
         /// <summary>
@@ -35,7 +42,7 @@ namespace SCN_App
             try
             {                
                 byte[] encryptedData = localCrypto.EncryptData(stringToSave);
-
+                
                 string s = comServ.MassivToString(encryptedData, " ");
 
                 fServ.LogData("tkn.txt", s);
@@ -75,9 +82,10 @@ namespace SCN_App
         /// <param name="control"></param>
         public void LoadVkLibrary(Control control)
         {
-            vkc = new VKComunicate(LoadToken());
+            //vkc = new VKComunicate(LoadToken());
+            tgc = new TGCommunicate(LoadToken());
 
-            LoadCommandList(control, vkc);
+            LoadCommandList(control, new TGCommunicate(LoadToken()));
         }
 
         /// <summary>
@@ -85,7 +93,7 @@ namespace SCN_App
         /// </summary>
         /// <param name="control"></param>
         /// <param name="vk"></param>
-        private void LoadCommandList(Control control, VKComunicate vk)
+        private void LoadCommandList<T>(Control control, T server)
         {
             try
             {
@@ -93,9 +101,9 @@ namespace SCN_App
 
                 List<string> commandList = new List<string>();
 
-                vkMethods = vk.GetType().GetMethods().ToList();
+                Methods = server.GetType().GetMethods().ToList();
 
-                foreach (MethodInfo m in vkMethods)
+                foreach (MethodInfo m in Methods)
                 {
                     commandList.Add(m.Name.ToString());
                 }
@@ -114,15 +122,15 @@ namespace SCN_App
         /// Sends selected command to server
         /// </summary>
         /// <param name="control"></param>
-        public IEnumerable<string> SendCommand(Control control)
+        public string SendCommand(Control control)
         {
             try
             {
                 ComboBox cbx = (ComboBox)control;
-
-                MethodInfo mi = vkMethods.Find(e => e.Name == cbx.SelectedItem.ToString());
                 
-                return (List<string>)mi.Invoke(vkc, null);
+                MethodInfo mi = Methods.Find(e => e.Name == cbx.SelectedItem.ToString());
+                
+                return (string)mi.Invoke(tgc, null);
 
             }catch(Exception ex)
             {

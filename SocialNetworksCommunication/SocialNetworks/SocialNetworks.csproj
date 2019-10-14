@@ -51,7 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServerObjects\VKObjects.cs" />
+    <Compile Include="Services\InternetService.cs" />
     <Compile Include="Services\KeysHandle.cs" />
+    <Compile Include="TGHandle.cs" />
     <Compile Include="VKHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
