@@ -23,8 +23,11 @@ namespace SocialNetworks.Services
             try
             {
                 WebRequest request = WebRequest.Create(requestString);
-                WebProxy wpr = new WebProxy(new Uri(proxyUrl));
-                request.Proxy = proxyUrl != null ? wpr : null;
+                if (proxyUrl != null)
+                {
+                    WebProxy wpr = new WebProxy(new Uri(proxyUrl));
+                    request.Proxy = wpr;
+                }
                 request.Method = "GET";
                 request.Timeout = 90000;
 

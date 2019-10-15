@@ -37,10 +37,11 @@ namespace SocialNetworks
                     {
                         requestParams += $"{s.Key}={s.Value}&";
                     }
+                    requestParams = requestParams.TrimEnd('&');
                 }
 
                 string reqString = $"{BaseQeruestString}{Token}/{methodName}{requestParams}"; 
-                return inetService.SendInternetRequest(reqString, "http://76.250.137.241:8080");
+                return inetService.SendInternetRequest(reqString, "http://166.62.83.129:12383");
             }
             catch(Exception ex)
             {
@@ -65,8 +66,8 @@ namespace SocialNetworks
             try
             {
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("offset", "13");
-                dictionary.Add("timeout", "60");
+                //dictionary.Add("offset", "13");
+                //dictionary.Add("timeout", "60");
                 return SendRequest("getUpdates", dictionary);
             }catch(Exception ex)
             {
