@@ -2,6 +2,9 @@
 using System.Net;
 using System.IO;
 using System.Collections;
+using Org.Mentalis.Network.ProxySocket;
+using System.Net.Sockets;
+using System.Text;
 
 namespace SocialNetworks.Services
 {
@@ -19,13 +22,13 @@ namespace SocialNetworks.Services
         public string SendInternetRequest(string requestString, string proxyUrl = null)
         {
             string returnString = String.Empty;
-
+            
             try
             {
                 WebRequest request = WebRequest.Create(requestString);
                 if (proxyUrl != null)
                 {
-                    WebProxy wpr = new WebProxy(new Uri(proxyUrl));
+                    WebProxy wpr = new WebProxy(proxyUrl, true);
                     request.Proxy = wpr;
                 }
                 request.Method = "GET";
@@ -49,5 +52,41 @@ namespace SocialNetworks.Services
 
             return returnString;
         }
+
+        public string SendInternetRequestWithSOCKS(string requestString, int proxyPort, string proxyIP = null)
+        {
+            string returnString = String.Empty;
+
+            try
+            {
+                // create a new ProxySocket
+                ProxySocket s = new ProxySocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                // set the proxy settings
+                s.ProxyEndPoint = new IPEndPoint(IPAddress.Parse(proxyIP), proxyPort);
+                s.ProxyType = ProxyTypes.Socks5;    // if you set this to ProxyTypes.None, 
+                                                    // the ProxySocket will act as a normal Socket
+                                                    // connect to the remote server
+                                                    // (note that the proxy server will resolve the domain name for us)
+                s.Connect("https://api.telegram.org", 443);
+                
+                // send an HTTP request
+                s.Send(Encoding.ASCII.GetBytes($"GET / HTTP/1.0\r\nHost: {requestString}\r\n\r\n"));
+                // read the HTTP reply
+                int recv = 0;
+                byte[] buffer = new byte[1024];
+                recv = s.Receive(buffer);
+                while (recv > 0)
+                {
+                    returnString+=Encoding.ASCII.GetString(buffer, 0, recv);
+                    recv = s.Receive(buffer);
+                }                
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return returnString;
+        }
+
     }
 }
