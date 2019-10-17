@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
-
+using System.Threading;
 
 
 namespace SCN_App
@@ -35,12 +35,12 @@ namespace SCN_App
 
         private void SendCommand_Click(object sender, RoutedEventArgs e)
         {
-            string list = localHandle.SendCommand(CommandList);
+            localHandle.SendCommand(CommandList);
 
-            List<string> ls = new List<string>();
-            ls.Add(list);
-
-            localHandle.FillData(ls, OutTextBox);
+            //List<string> ls = new List<string>();
+            //ls.Add(list);
+            Thread.Sleep(1000);
+            localHandle.FillData(OutTextBox);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)

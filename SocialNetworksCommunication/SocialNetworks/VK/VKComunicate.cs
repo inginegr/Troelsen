@@ -14,7 +14,7 @@ using SocialNetworks.VKObjects;
 using System.Web.Script.Serialization;
 
 
-namespace SocialNetworks
+namespace SocialNetworks.VK
 {
     /// <summary>
     /// Class to komunicate with VK social networc

@@ -5,67 +5,23 @@ using System.Text;
 using SocialNetworks.Services;
 using ServiceLibrary.Serialization;
 using SocialNetworks.TGObjects;
+using ServiceLibrary.Various;
+using SocialNetworks.Telegramm;
+using System.Threading;
 
-
-namespace SocialNetworks
+namespace SocialNetworks.Telegramm
 {
     /// <summary>
     /// Class to communicate with telegramm social network
     /// </summary>
-    public class TGCommunicate
+    public partial class TGCommunicate
     {
-        //Deserializator of json string
-        private JsonDeserializer jso = new JsonDeserializer();
-
-        // Timeout between requests
-        private int timeOut = 120;
-
-        // Current offset
-        private int currentOffset = 0;
-
-        //Limit of updates
-        private int lim = 100;
-
-        private int updadesLimit
-        {
-            get => lim;
-            set
-            {
-                if (value > 100)
-                {
-                    lim = 100;
-                }else if (value < 0)
-                {
-                    lim = 0;
-                }
-                else
-                {
-                    lim = value;
-                }
-
-            }
-        }
-
-        //Crypto service to operate by secret key
-        KeysTGHandle keysHandle = null;
-
-        //To send commands using interent
-        InternetService inetService = new InternetService();
-
-        // Secret key to communicate with telegram server
-        private string Token { get => keysHandle.GetSecretKey(); }
-
-        //Base string to communicate with bot
-        private string BaseQeruestString = "https://api.telegram.org/bot";
-
-        // Send internet request function
         /// <summary>
-        /// Send request to bot
+        ///  Form string with params
         /// </summary>
-        /// <param name="methodName">Name of method</param>
-        /// <param name="dictionary">Parametres of method</param>
-        /// <returns>Json string, answer from bot</returns>
-        private string SendRequest(string methodName, IDictionary<string, string> dictionary=null)
+        /// <param name="dictionary">Dictionary with params</param>
+        /// <returns>String with params</returns>
+        private string FormParamsString(IDictionary<string, string> dictionary = null)
         {
             try
             {
@@ -80,7 +36,26 @@ namespace SocialNetworks
                     requestParams = requestParams.TrimEnd('&');
                 }
 
-                string reqString = $"{BaseQeruestString}{Token}/{methodName}{requestParams}"; 
+                return requestParams;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        // Send internet request function
+        /// <summary>
+        /// Send request to bot
+        /// </summary>
+        /// <param name="methodName">Name of method</param>
+        /// <param name="dictionary">Parametres of method</param>
+        /// <returns>Json string, answer from bot</returns>
+        private string SendRequest(string methodName, IDictionary<string, string> dictionary=null)
+        {
+            try
+            {
+                string requestParams = FormParamsString(dictionary);
+                string reqString = $"{BaseQeruestString}{Token}/{methodName}{requestParams}";
                 return inetService.SendInternetRequest(reqString);
             }
             catch(Exception ex)
@@ -160,31 +135,38 @@ namespace SocialNetworks
             }
         }
 
-
         /// <summary>
-        /// Get updates from bot
+        /// Control of current offset parameter
         /// </summary>
-        /// <param name="dictionaryParams">Set of the parametres value</param>
-        /// <returns>Answer from bot (Update object)</returns>
-        private string getUpdatesFromBot(IDictionary<string, string> dictionaryParams)
+        /// <param name="updateId">update_id gotten from bot</param>
+        private void setUpdateId(List<TGUpdate> updateList)
         {
             try
             {
-                Dictionary<string, string> parametresDictionary = (Dictionary<string, string>)dictionaryParams;
+                if (updateList.Count == 0)
+                    return;
 
-                return SendRequest("getUpdates", parametresDictionary);
-            }catch(Exception ex)
+                int firsUpdateId = int.Parse(updateList?.First().Update_id);
+                int lastUpdateId = int.Parse(updateList?.Last().Update_id);
+
+                currentOffset = firsUpdateId > lastUpdateId ? firsUpdateId : lastUpdateId;
+                currentOffset++;
+            }
+            catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        
 
-        public string getUpdates()
+        /// <summary>
+        /// Geat updates from bot and add to queue
+        /// </summary>
+        private void getUpdates()
         {
             try
             {
+                HandleIsNextUpdateEnabled = true;
                 // Set of params
                 Dictionary<string, string> setOfParams = null;
                 do
@@ -192,18 +174,83 @@ namespace SocialNetworks
                     // If first request to bot
                     if (currentOffset != 0)
                     {
-                        setOfParams = SetParams(AddParams("offset", currentOffset.ToString()), AddParams("timeout", timeOut.ToString()), AddParams("limit", updadesLimit.ToString()));
+                        setOfParams = SetParams(AddParams("offset", currentOffset.ToString()), AddParams("timeout", timeOut.ToString()), AddParams("limit", updatesLimit.ToString()));
                     }
                     else
                     {
-                        setOfParams = SetParams(AddParams("timeout",timeOut.ToString()), AddParams("limit", updadesLimit.ToString()));
+                        setOfParams = SetParams(AddParams("timeout",timeOut.ToString()), AddParams("limit", updatesLimit.ToString()));
                     }
 
                     string jsonFromServer = SendRequest("getUpdates", setOfParams);
-
+                                        
                     List<TGUpdate> updateObjects = (List<TGUpdate>)jso.DeserializeToT<TGUpdate>(jsonFromServer, new string[] { "result" });
 
-                } while (true);
+                    setUpdateId(updateObjects);
+
+                    foreach (TGUpdate upd in updateObjects)
+                    {
+                        HandleQueueMessages.Enqueue(upd);
+                    }
+
+                } while (HandleIsNextUpdateEnabled);
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                HandleIsNextUpdateEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Start to listen bot and get messages
+        /// </summary>
+        public void StartGettingMessages()
+        {
+            try
+            {
+                if (HandleIsGetUpdatesStarted == true)
+                {
+                    throw new Exception("The getting of messages is started allready");
+                }
+                else
+                {
+                    HandleIsGetUpdatesStarted = true;
+                    getUpdates();
+                }                
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                HandleIsGetUpdatesStarted = false;
+            }            
+        }
+
+        /// <summary>
+        /// Stop listen bot and get messages
+        /// </summary>
+        public bool StopGettingMessages()
+        {
+            try
+            {
+                if (HandleIsGetUpdatesStarted)
+                {
+                    HandleIsNextUpdateEnabled = false;
+                }
+
+                do
+                {
+                    Thread.Sleep(1000);
+                } while (HandleIsGetUpdatesStarted);
+
+                if (!HandleIsGetUpdatesStarted)
+                    return true;
+                else
+                    return false;
 
             }catch(Exception ex)
             {

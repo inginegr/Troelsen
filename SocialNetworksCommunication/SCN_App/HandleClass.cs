@@ -7,12 +7,15 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Reflection;
 using Security;
-using ServiceLibrary;
+using ServiceLibrary.Various;
 using System.Windows.Controls;
-using SocialNetworks;
+using SocialNetworks.Telegramm;
+using SocialNetworks.VK;
 using System.Net.Http;
-
-
+using SocialNetworks.TGObjects;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace SCN_App
 {
@@ -24,10 +27,10 @@ namespace SCN_App
 
         SLCryptography localCrypto = new SLCryptography();
 
-        VKComunicate vkc = null;
+        //VKComunicate vkc = null;
         TGCommunicate tgc = null;
-        
-        
+
+
 
         // Methods of loaded library
         List<MethodInfo> Methods = new List<MethodInfo>();
@@ -40,14 +43,15 @@ namespace SCN_App
         public void SaveKeySafely(string stringToSave)
         {
             try
-            {                
+            {
                 byte[] encryptedData = localCrypto.EncryptData(stringToSave);
-                
+
                 string s = comServ.MassivToString(encryptedData, " ");
 
                 fServ.LogData("tkn.txt", s);
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -68,7 +72,8 @@ namespace SCN_App
                 byte[] bt = comServ.StringToMassive<byte>(tkn, " ", typeof(byte)).ToArray();
 
                 returnString = localCrypto.DecryptData(bt);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -122,17 +127,53 @@ namespace SCN_App
         /// Sends selected command to server
         /// </summary>
         /// <param name="control"></param>
-        public string SendCommand(Control control)
+        public async void SendCommand(Control control)
         {
             try
             {
                 ComboBox cbx = (ComboBox)control;
-                
-                MethodInfo mi = Methods.Find(e => e.Name == cbx.SelectedItem.ToString());
-                
-                return (string)mi.Invoke(tgc, null);
 
-            }catch(Exception ex)
+                MethodInfo mi = Methods.Find(e => e.Name == cbx.SelectedItem.ToString());
+
+                await Task.Run(() => mi.Invoke(tgc, null));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void GetQueueTGUpdatesCollection(TextBox tbx)
+        {
+            try
+            {
+                do
+                {
+                    Thread.Sleep(1000);
+
+                    MethodInfo mi = Methods.Find(e => e.Name == "get_HandleQueueMessages");
+                    Queue<TGUpdate> messageList = (Queue<TGUpdate>)mi.Invoke(tgc, null);
+
+                    string s = String.Empty;
+
+                    bool flg = false;
+                    while (messageList.Count != 0)
+                    {
+                        flg = true;
+                        s += messageList.Dequeue().ToString();
+                    }
+                    if (flg)
+                    {
+                        tbx.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            tbx.Text = s;
+                        }));
+                    }
+                } while (true);
+
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -143,15 +184,10 @@ namespace SCN_App
         /// </summary>
         /// <param name="list">List to display</param>
         /// <param name="control">Textbox for display</param>
-        public void FillData(IEnumerable<string> list, Control control)
+        public async void FillData(Control control)
         {
-            string st = String.Empty;
-            foreach(string s in list)
-            {
-                st += s + "\n";
-            }
+            await Task.Run(() => GetQueueTGUpdatesCollection((TextBox)control));
 
-            ((TextBox)control).Text = st;
         }
     }
 }

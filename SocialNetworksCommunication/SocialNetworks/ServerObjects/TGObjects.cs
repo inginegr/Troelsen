@@ -8,12 +8,12 @@ namespace SocialNetworks.TGObjects
     public class TGUpdate
     {
         public string Update_id { get; set; }
-        public string Date { get; set; }
-        public string Text { get; set; }
+        
+        public TGMessage Message { get; set; }        
 
         public override string ToString()
         {
-            return $"update_id - {Update_id};  date - {Date};  text - {Text}\n\r";
+            return $"update_id - {Update_id};  \n\r" + Message.ToString();
         }
     }
 
@@ -21,9 +21,16 @@ namespace SocialNetworks.TGObjects
     {
         public string Message_id { get; set; }
 
+        public TGFrom From { get; set; }
+
+        public TGChat Chat { get; set; }
+
+        public string Date { get; set; }
+        public string Text { get; set; }
+
         public override string ToString()
         {
-            return $"message_id - {Message_id} \n\r";
+            return $"message_id - {Message_id}; date - {Date};  text - {Text} \n\r" + From.ToString() + Chat.ToString();
         }
     }
 
