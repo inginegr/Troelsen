@@ -43,6 +43,7 @@ namespace SocialNetworks.Telegramm
                 throw new Exception(ex.Message);
             }
         }
+
         // Send internet request function
         /// <summary>
         /// Send request to bot
@@ -183,14 +184,23 @@ namespace SocialNetworks.Telegramm
 
                     string jsonFromServer = SendRequest("getUpdates", setOfParams);
                                         
-                    List<TGUpdate> updateObjects = (List<TGUpdate>)jso.DeserializeToT<TGUpdate>(jsonFromServer, new string[] { "result" });
+                    List<TGUpdate> updateObjects = (List<TGUpdate>)jso.DeserializeToList<TGUpdate>(jsonFromServer, new string[] { "result" });
 
                     setUpdateId(updateObjects);
 
+                    bool flg = false;
                     foreach (TGUpdate upd in updateObjects)
                     {
                         HandleQueueMessages.Enqueue(upd);
+                        flg = true;
                     }
+
+                    // If Queue changed
+                    if (flg)
+                    {
+                        OnQueueEvent();
+                    }
+
 
                 } while (HandleIsNextUpdateEnabled);
 

@@ -71,7 +71,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TelegrammBot.cs" />
+    <Compile Include="Telegram\TelegrammBot.cs" />
+    <Compile Include="Telegram\TelegrammBotPartial.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

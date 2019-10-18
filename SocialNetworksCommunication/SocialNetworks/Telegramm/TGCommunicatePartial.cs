@@ -136,5 +136,25 @@ namespace SocialNetworks.Telegramm
             }
         }
 
+        //Delegate Queue operate
+        public delegate void OnQueueDelegate();
+
+        // Change unhandled messages Queue event 
+        private event OnQueueDelegate OnQueueEvent;
+
+        //Register event Queue
+        public void RegisterOnQueueEvent(OnQueueDelegate onQueue)
+        {
+            OnQueueEvent += onQueue;
+        }
+
+        //Unregister event Queue
+        public void UnRegisterOnQueueEvent(OnQueueDelegate onQueue)
+        {
+            OnQueueEvent -= onQueue;
+        }
+
+
+
     }
 }

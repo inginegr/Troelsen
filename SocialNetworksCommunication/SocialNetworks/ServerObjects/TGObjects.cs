@@ -58,4 +58,9 @@ namespace SocialNetworks.TGObjects
             return $"id - {Id};  first_name - {First_name};  type - {Type}; \n\r";
         }
     }
+
+    public struct TGAnswerToRequest
+    {
+        public string text { get; set; }
+    }
 }

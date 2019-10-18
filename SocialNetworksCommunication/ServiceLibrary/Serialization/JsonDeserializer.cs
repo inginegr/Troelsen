@@ -19,17 +19,14 @@ namespace ServiceLibrary.Serialization
         /// <param name="jsonString">String in json format</param>
         /// <param name="pathParam">Path to deserialized object in the total string</param>
         /// <returns>Deserialized objects</returns>
-        public IList<T> DeserializeToT<T>(string jsonString, string[] pathParam)
+        public IList<T> DeserializeToList<T>(string jsonString, string[] pathParam)
         {            
             try
             {
-                if (pathParam.Length == 0)
-                {
-                    throw new Exception("Set parametres to parse please");
-                }
+
 
                 JObject JoToParse = JObject.Parse(@jsonString);
-
+                
                 JToken jtk = JoToParse[pathParam[0]];
 
                 for(int i=1; i<pathParam.Length;i++)
@@ -56,5 +53,23 @@ namespace ServiceLibrary.Serialization
                 throw new Exception(ex.Message);
             }
         }
+
+
+        //public T DeserializeToObject<T>(string jsonString)
+        //{
+        //    try
+        //    {
+
+
+        //        JObject JoToParse = JObject.Parse(@jsonString);
+                
+        //        return JoToParse.Children().
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }

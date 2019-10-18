@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Threading;
+using SCN_App.Telegram;
 
 
 namespace SCN_App
@@ -26,6 +27,8 @@ namespace SCN_App
         HandleClass localHandle = new HandleClass();
 
         private string tokenString = String.Empty;
+
+        TelegrammBot tgb = new TelegrammBot();
 
 
         public MainWindow()
@@ -43,9 +46,14 @@ namespace SCN_App
             localHandle.FillData(OutTextBox);
         }
 
-        private void Two_Click(object sender, RoutedEventArgs e)
+        private void StartListen_Click(object sender, RoutedEventArgs e)
         {
-            
+            tgb.StartListenBot();
+        }
+
+        private void StopListen_Click(object sender, RoutedEventArgs e)
+        {
+            tgb.StopListenBot();
         }
 
         private void SaveToken_Click(object sender, RoutedEventArgs e)

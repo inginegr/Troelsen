@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 namespace SCN_App
 {
-    class HandleClass
+    public class HandleClass
     {
         FileService fServ = new FileService();
 
@@ -62,7 +62,7 @@ namespace SCN_App
         /// Load saved token
         /// </summary>
         /// <returns></returns>
-        private string LoadToken()
+        public string LoadToken()
         {
             string returnString = null;
             try

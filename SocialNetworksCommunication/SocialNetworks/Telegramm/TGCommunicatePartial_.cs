@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SocialNetworks.TGObjects;
 
 
 
@@ -23,6 +24,8 @@ namespace SocialNetworks.Telegramm
             try
             {
                 string answer = SendRequest("sendMessage", dictionary);
+
+                List<TGAnswerToRequest> updateObjects = (List<TGAnswerToRequest>)jso.DeserializeToList<TGAnswerToRequest>(answer, new string[] { "result" });
 
                 if (string.Compare(answer, dictionary["text"]) > 0)
                     return true;
