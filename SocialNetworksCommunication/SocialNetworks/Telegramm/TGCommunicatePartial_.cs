@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SocialNetworks.TGObjects;
+using SocialNetworks.TelegrammObjects;
+using ServiceLibrary.Various;
 
 
 
@@ -25,9 +26,13 @@ namespace SocialNetworks.Telegramm
             {
                 string answer = SendRequest("sendMessage", dictionary);
 
-                List<TGAnswerToRequest> updateObjects = (List<TGAnswerToRequest>)jso.DeserializeToList<TGAnswerToRequest>(answer, new string[] { "result" });
+                TGAnswerToRequest updateObjects = jso.DeserializeToObjectT<TGAnswerToRequest>(answer);
 
-                if (string.Compare(answer, dictionary["text"]) > 0)
+                if (
+                    string.Compare(StringService.RemoveSymbols(new char[] { '\n', '\r' }, updateObjects.Result.Text).TrimEnd(' '), 
+                    StringService.RemoveSymbols(new char[] { '\n', '\r' }, dictionary["text"]).TrimEnd(' ')
+                    ) == 0
+                    )
                     return true;
                 else
                     return false;

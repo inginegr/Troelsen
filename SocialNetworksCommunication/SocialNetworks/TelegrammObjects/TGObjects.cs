@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SocialNetworks.TGObjects
+namespace SocialNetworks.TelegrammObjects
 {
     public class TGUpdate
     {
         public string Update_id { get; set; }
         
-        public TGMessage Message { get; set; }        
+        public TGMessage Message { get; set; }
 
         public override string ToString()
         {
-            return $"update_id - {Update_id};  \n\r" + Message.ToString();
+            return $"update_id -> {Update_id}  \n\r Message -> {Message.ToString()}";
         }
     }
 
@@ -30,7 +30,7 @@ namespace SocialNetworks.TGObjects
 
         public override string ToString()
         {
-            return $"message_id - {Message_id}; date - {Date};  text - {Text} \n\r" + From.ToString() + Chat.ToString();
+            return $"message_id -> {Message_id}; date -> {Date};  text -> {Text} \n\r From -> {From.ToString()}  \n\r  Chat -> {Chat.ToString()}";
         }
     }
 
@@ -43,7 +43,7 @@ namespace SocialNetworks.TGObjects
 
         public override string ToString()
         {
-            return $"id - {Id};  is_bot - {Is_bot};  first_name - {First_name};  language_code - {Language_code} \n\r";
+            return $"id -> {Id};  is_bot -> {Is_bot};  first_name -> {First_name};  language_code -> {Language_code} \n\r";
         }
     }
 
@@ -55,12 +55,27 @@ namespace SocialNetworks.TGObjects
 
         public override string ToString()
         {
-            return $"id - {Id};  first_name - {First_name};  type - {Type}; \n\r";
+            return $"id -> {Id};  first_name -> {First_name};  type -> {Type}; \n\r";
         }
     }
 
-    public struct TGAnswerToRequest
+    public class TGAnswerToRequest
     {
-        public string text { get; set; }
+        public TGAnswerContent Result { get; set; }
+
+        public override string ToString()
+        {
+            return $"Result -> {Result.ToString()} \n\r";
+        }
+    }
+
+    public class TGAnswerContent
+    {
+        public string Text { get; set; }
+
+        public override string ToString()
+        {
+            return $"Text -> {Text} \n\r";
+        }
     }
 }

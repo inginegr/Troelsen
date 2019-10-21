@@ -13,6 +13,26 @@ namespace ServiceLibrary.Serialization
     public class JsonDeserializer
     {
         /// <summary>
+        /// Deserializes string to T object
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="jsonString">String to deserialize</param>
+        /// <returns></returns>
+        public T DeserializeToObjectT<T>(string jsonString)
+        {
+            try
+            {
+                JObject JotoParse = JObject.Parse(jsonString);
+
+                return JotoParse.ToObject<T>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Deserialize object T
         /// </summary>
         /// <typeparam name="T">Type of object to deserialize</typeparam>
@@ -23,15 +43,13 @@ namespace ServiceLibrary.Serialization
         {            
             try
             {
-
-
                 JObject JoToParse = JObject.Parse(@jsonString);
-                
-                JToken jtk = JoToParse[pathParam[0]];
 
-                for(int i=1; i<pathParam.Length;i++)
+                JToken jtk = null;
+
+                for(int i=0; i<pathParam.Length;i++)
                 {
-                    jtk = jtk[pathParam[i]];
+                    jtk = JoToParse[pathParam[i]];
                 }
 
                 IList<JToken> results = jtk.Children().ToList();

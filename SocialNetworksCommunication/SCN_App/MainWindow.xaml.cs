@@ -48,12 +48,12 @@ namespace SCN_App
 
         private void StartListen_Click(object sender, RoutedEventArgs e)
         {
-            tgb.StartListenBot();
+            Task.Run(() => tgb.StartListenBot());
         }
 
         private void StopListen_Click(object sender, RoutedEventArgs e)
         {
-            tgb.StopListenBot();
+            Task.Run(() => tgb.StopListenBot());
         }
 
         private void SaveToken_Click(object sender, RoutedEventArgs e)

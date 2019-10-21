@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SocialNetworks.TGObjects;
+using SocialNetworks.TelegrammObjects;
 using SocialNetworks.Telegramm;
 using ServiceLibrary.Various;
 using Security;
@@ -19,7 +19,7 @@ namespace SCN_App.Telegram
         private SLCryptography localCrypto = new SLCryptography();
 
         // Enabled commands of bot
-        private string[] commandsBot = new string[] { "bottime", "givemessage" };
+        private string[] commandsBot = new string[] { "/bottime", "/givemessage" };
 
         //Service class
         private HandleClass hc { get; set; }
@@ -95,10 +95,15 @@ namespace SCN_App.Telegram
         {
             switch (userCommand)
             {
-                case "bottime":
+                case "/bottime":
                     {
                         BotTimeCommand(tG);
+                        break;
+                    }
 
+                case "/givemessage":
+                    {
+                        GiveMessageCommand(tG);
                         break;
                     }
 
@@ -133,7 +138,8 @@ namespace SCN_App.Telegram
                 sendParams.Add("chat_id", userId);
                 sendParams.Add("text", mes);
 
-                telegramComunicate.SendMessage(sendParams);
+                if (!telegramComunicate.SendMessage(sendParams))
+                    throw new Exception("The message does nt sent");
             }
             catch (Exception ex)
             {
@@ -170,12 +176,12 @@ namespace SCN_App.Telegram
         }
 
 
-        public void StartListenBot()
+        public async Task StartListenBot()
         {
             try
             {
-                telegramComunicate.RegisterOnQueueEvent(ReadMessagesHandler);
-                telegramComunicate.StartGettingMessages();
+                await Task.Run(() => telegramComunicate.RegisterOnQueueEvent(ReadMessagesHandler));
+                await Task.Run(() => telegramComunicate.StartGettingMessages());
             }
             catch (Exception ex)
             {
@@ -183,14 +189,13 @@ namespace SCN_App.Telegram
             }
         }
 
-        public void StopListenBot()
+        public async Task StopListenBot()
         {
             try
             {
-                telegramComunicate.StopGettingMessages();
-                telegramComunicate.UnRegisterOnQueueEvent(ReadMessagesHandler);
-                IsNextQueueIterationEnabled = false;
-
+                await Task.Run(() => telegramComunicate.StopGettingMessages());
+                await Task.Run(() => telegramComunicate.UnRegisterOnQueueEvent(ReadMessagesHandler));
+                await Task.Run(() => IsNextQueueIterationEnabled = false);
             }
             catch (Exception ex)
             {

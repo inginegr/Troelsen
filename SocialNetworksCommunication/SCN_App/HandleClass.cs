@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using SocialNetworks.Telegramm;
 using SocialNetworks.VK;
 using System.Net.Http;
-using SocialNetworks.TGObjects;
+using SocialNetworks.TelegrammObjects;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
