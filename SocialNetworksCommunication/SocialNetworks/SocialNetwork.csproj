@@ -60,6 +60,9 @@
   <ItemGroup>
     <Compile Include="TelegrammObjects\KeyBoards\TGKeyBoard.cs" />
     <Compile Include="TelegrammObjects\TGObjects.cs" />
+    <Compile Include="Viber\Comunicate\ViberComunicate.cs" />
+    <Compile Include="Viber\Objects\ViberCallBackData.cs" />
+    <Compile Include="Viber\Objects\ViberWebhookResponse.cs" />
     <Compile Include="VKObjects\VKObjects.cs" />
     <Compile Include="Services\InternetService.cs" />
     <Compile Include="Services\KeysHandle.cs" />
@@ -75,5 +78,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

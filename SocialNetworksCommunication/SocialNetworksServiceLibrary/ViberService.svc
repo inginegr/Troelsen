@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="SocialNetworksServiceLibrary.ViberService" CodeBehind="ViberService.svc.cs" %>

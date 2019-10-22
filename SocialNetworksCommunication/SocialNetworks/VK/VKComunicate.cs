@@ -119,11 +119,7 @@ namespace SocialNetworks.VK
             MessageBox.Show("GetUsersOnline");
             return new List<string>();
         }
-
-
-
-
-
+        
 
         public VKComunicate()
         {
