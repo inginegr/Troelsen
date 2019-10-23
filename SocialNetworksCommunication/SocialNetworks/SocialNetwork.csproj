@@ -61,7 +61,11 @@
     <Compile Include="TelegrammObjects\KeyBoards\TGKeyBoard.cs" />
     <Compile Include="TelegrammObjects\TGObjects.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicate.cs" />
+    <Compile Include="Viber\Objects\VeberMessage.cs" />
     <Compile Include="Viber\Objects\ViberCallBackData.cs" />
+    <Compile Include="Viber\Objects\ViberEventType.cs" />
+    <Compile Include="Viber\Objects\ViberReceiveMessageFromUser.cs" />
+    <Compile Include="Viber\Objects\ViberSender.cs" />
     <Compile Include="Viber\Objects\ViberWebhookResponse.cs" />
     <Compile Include="VKObjects\VKObjects.cs" />
     <Compile Include="Services\InternetService.cs" />

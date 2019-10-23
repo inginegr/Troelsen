@@ -16,7 +16,7 @@ namespace SocialNetworks.Viber.Objects
 
         public override string ToString()
         {
-            return $"WebHooks -> {Webhook} TimeStamp -> {Timestamp} Message Token -> {Message_token}";
+            return $"WebHooks -> {Webhook.ToString()} TimeStamp -> {Timestamp} Message Token -> {Message_token}";
         }
     }
 }

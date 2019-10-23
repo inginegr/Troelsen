@@ -13,29 +13,32 @@ namespace SocialNetworksServiceLibrary
     public class ViberService : IViberService
     {
 
-        public void GetDataHook(ViberCallBackData callBackData)
+        public string GetDataHook()
         {
             FileService fs = new FileService();
 
-            fs.LogData("serviceLog.txt", callBackData.ToString());
+            return "dsfdsfdfsdfsdf";
+            //fs.LogData("serviceLog.txt", callBackData.ToString());
         }
 
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
+        //public string GetData(int value)
+        //{
+        //    return string.Format("You entered: {0}", value);
+        //}
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
+        //public CompositeType GetDataUsingDataContract(CompositeType composite)
+        //{
+        //    if (composite == null)
+        //    {
+        //        throw new ArgumentNullException("composite");
+        //    }
+
+        //    if (composite.BoolValue)
+        //    {
+        //        composite.StringValue += "Suffix";
+        //    }
+
+        //    return composite;
+        //}
     }
 }

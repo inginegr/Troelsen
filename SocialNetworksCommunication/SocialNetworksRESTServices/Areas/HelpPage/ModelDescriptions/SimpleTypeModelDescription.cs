@@ -1,0 +1,6 @@
+namespace SocialNetworksRESTServices.Areas.HelpPage.ModelDescriptions
+{
+    public class SimpleTypeModelDescription : ModelDescription
+    {
+    }
+}
