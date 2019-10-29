@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace Security
+namespace ServiceLibrary.Security
 {
     public class SLCryptography
     {

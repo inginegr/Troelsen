@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SocialNetworks.TelegrammObjects;
 using SocialNetworks.Telegramm;
 using ServiceLibrary.Various;
-using Security;
+using ServiceLibrary.Security;
 
 
 

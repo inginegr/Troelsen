@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Net;
 
-using Security;
+using ServiceLibrary.Security;
 using SocialNetworks.Services;
 using System.IO;
 using SocialNetworks.VKObjects;
