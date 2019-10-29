@@ -178,7 +178,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TelegramController.cs" />
     <Compile Include="Controllers\ViberController.cs" />
+    <Compile Include="Controllers\VKController.cs" />
+    <Compile Include="Controllers\WhatsAppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

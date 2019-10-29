@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetworks.Viber.Objects
+namespace SocialNetworks.Viber.Objects.SendMessageTypes
 {
-    public class ViberMessage
+    public class ViberTextMessage : ViberMessageBasic 
     {
         public string Text { get; set; }
-        public string Type { get; set; }
     }
 }

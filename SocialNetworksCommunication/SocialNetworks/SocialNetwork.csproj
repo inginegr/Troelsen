@@ -41,9 +41,6 @@
     <Reference Include="ProxySocket, Version=1.1.2.0, Culture=neutral, PublicKeyToken=966874d7118d1436, processorArchitecture=MSIL">
       <HintPath>..\packages\ProxySocket.1.1.2\lib\net40\ProxySocket.dll</HintPath>
     </Reference>
-    <Reference Include="SecurerityLibrary">
-      <HintPath>..\SecurerityLibrary\bin\Debug\SecurerityLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceLibrary">
       <HintPath>..\ServiceLibrary\bin\Debug\ServiceLibrary.dll</HintPath>
     </Reference>
@@ -64,14 +61,31 @@
     <Compile Include="Telegramm\Objects\KeyBoards\TGKeyBoard.cs" />
     <Compile Include="Telegramm\Objects\TGObjects.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicate.cs" />
-    <Compile Include="Viber\Objects\VeberMessage.cs" />
+    <Compile Include="Viber\Comunicate\ViberComunicatePartialProperties.cs" />
+    <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberLocation.cs" />
+    <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberMessage.cs" />
+    <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberSender.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberButtons.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberContact.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberContactMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberFileMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberLocation.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberLocationMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberMessageBasic.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberPictureMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberRichMedia.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberRichMediaMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberStickerMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberTextMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberUrlMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberVideoMessage.cs" />
     <Compile Include="Viber\Objects\ViberCallBackData.cs" />
     <Compile Include="Viber\Objects\ViberEventType.cs" />
-    <Compile Include="Viber\Objects\ViberReceiveMessageFromUser.cs" />
-    <Compile Include="Viber\Objects\ViberSender.cs" />
+    <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberReceiveMessageFromUser.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberMessageSender.cs" />
+    <Compile Include="Viber\Objects\ViberSetWebHook.cs" />
     <Compile Include="Viber\Objects\ViberWebhookResponse.cs" />
     <Compile Include="VK\Objects\VKObjects.cs" />
-    <Compile Include="Services\InternetService.cs" />
     <Compile Include="Services\KeysHandle.cs" />
     <Compile Include="Telegramm\Comunicate\TGCommunicate.cs" />
     <Compile Include="Telegramm\Comunicate\TGCommunicatePartial.cs" />

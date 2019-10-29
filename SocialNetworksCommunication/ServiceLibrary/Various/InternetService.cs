@@ -13,13 +13,44 @@ namespace SocialNetworks.Services
     /// </summary>
     public class InternetService
     {
+
+        /// <summary>
+        /// Send internet request using POST method
+        /// </summary>
+        /// <param name="request">Webrequest parameters</param>
+        /// <param name="jsonRequest">body of request</param>
+        /// <returns>Response from server</returns>
+        public string SendPostInternetRequest(string jsonRequest, WebRequest request)
+        {
+            try
+            {
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+                    streamWriter.Write(jsonRequest);
+                }
+
+                var httpResponse = (HttpWebResponse)request.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                return string.Empty;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         /// <summary>
         /// Send request using internet connection
         /// </summary>
         /// <param name="requestString">String, that passed</param>
         /// <param name="proxyUrl">http://address:port_name</param>
         /// <returns>JSON answer from server</returns>
-        public string SendInternetRequest(string requestString, string proxyUrl = null)
+        public string SendGetInternetRequest(string requestString, string proxyUrl = null)
         {
             string returnString = String.Empty;
             

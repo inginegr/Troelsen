@@ -57,7 +57,7 @@ namespace SocialNetworks.Telegramm
             {
                 string requestParams = FormParamsString(dictionary);
                 string reqString = $"{BaseQeruestString}{Token}/{methodName}{requestParams}";
-                return inetService.SendInternetRequest(reqString);
+                return inetService.SendGetInternetRequest(reqString);
             }
             catch(Exception ex)
             {
