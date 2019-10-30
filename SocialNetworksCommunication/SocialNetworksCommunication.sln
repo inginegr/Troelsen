@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLibrary", "ServiceLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork", "SocialNetworks\SocialNetwork.csproj", "{280D122D-105B-4CC5-98B2-4AC0A8542258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetworksRESTServices", "SocialNetworksRESTServices\SocialNetworksRESTServices.csproj", "{D2A871FA-5F96-484F-9739-BD1231169C8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialRestService", "SocialRestService\SocialRestService.csproj", "{877F15F8-D955-4355-A883-028E3461868A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{280D122D-105B-4CC5-98B2-4AC0A8542258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280D122D-105B-4CC5-98B2-4AC0A8542258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{280D122D-105B-4CC5-98B2-4AC0A8542258}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2A871FA-5F96-484F-9739-BD1231169C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2A871FA-5F96-484F-9739-BD1231169C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2A871FA-5F96-484F-9739-BD1231169C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2A871FA-5F96-484F-9739-BD1231169C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{877F15F8-D955-4355-A883-028E3461868A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877F15F8-D955-4355-A883-028E3461868A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877F15F8-D955-4355-A883-028E3461868A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877F15F8-D955-4355-A883-028E3461868A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
