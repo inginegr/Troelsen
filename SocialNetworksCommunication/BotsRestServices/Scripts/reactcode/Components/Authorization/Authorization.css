@@ -8,8 +8,3 @@
     width: 100%;
     height: 100%;
 }
-
-.auth-texts > div > div,
-.auth-buttons > div > div{
-    padding: 0;
-}
