@@ -1,25 +1,27 @@
 import React from 'react'
 
+import ServerService from '../../Services/ServerService.jsx'
+
 import './ButtonsRow.css'
 
 
 const ButtonsRow = ({ buttons }) => {
 
-  let k=0
+  let srv=new ServerService()
 
-  let el = <input key={k++} type="button" value={buttons[1]} />
-  // buttons.map(
-  //   (lbl)=>{
-  //     <input key={k++} type="button" value={lbl} />
-  //   }
-  // )  
+  let k = 0
 
-  return(
+  let el = buttons.map(
+    (a) =>
+      <div key={k++} className="col">
+        <input className="br-button" type="button" value={a} onClick={()=>{srv.logIn()}} />
+      </div>
+  )
+
+  return (
     <div id="buttons-row" className="container">
       <div className="row justify-content-between">
-        <div className="col">
-          {el}
-        </div>
+        {el}
       </div>
     </div>
   )

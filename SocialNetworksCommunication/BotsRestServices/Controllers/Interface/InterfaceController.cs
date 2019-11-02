@@ -15,15 +15,27 @@ namespace WebApplication9.Controllers.Interface
         }
 
         // GET: Interface/Details/5
-        public ActionResult Details(int id)
+        public string Authorize()
         {
-            return View();
+            return "asdasdasdas";
         }
 
-        // GET: Interface/Create
-        public ActionResult Create()
+        // GET: Interface/Details/5
+        public string GetBotList(int id)
         {
-            return View();
+            return "dsadasd";
+        }
+
+        // GET: Interface/Details/5
+        public JsonResult StartBot(int id)
+        {
+            return Json("dsfsd", @"application/json");
+        }
+
+        // GET: Interface/Details/5
+        public JsonResult StopBot(int id)
+        {
+            return Json("dsfsd", @"application/json");
         }
 
         // POST: Interface/Create

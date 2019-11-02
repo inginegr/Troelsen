@@ -16,28 +16,15 @@ class Authorization extends React.Component {
 
     }
 
-    onLooseFocus(e){
-        // let val = e.target.value
-        // if (val == "") {
-        //     val = this.state.textValue
-        // }
-    }
-
-    onGetFocus(e){
-
-        this.setState({ textValue: e.target.value })
-        e.target.value = ""
-    }
-
     render() {
         return (
             <div className="container" id="authorization">
-                <div className="row justify-content-center align-items-center">
+                <div className="row justify-content-center align-content-center">
                     <div className="col-6">
                         <InputWithLabel label="Enter login please" inputType="text"/>
                         <InputWithLabel label="Enter password please" inputType="password"/>
                         
-                        <ButtonsRow buttons={['Remember password', 'Register', 'Log in']} />
+                        <ButtonsRow buttons={['Remind password', 'Register', 'Log in']} />
                     </div>
                 </div>
             </div>

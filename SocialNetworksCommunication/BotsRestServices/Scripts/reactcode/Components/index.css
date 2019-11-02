@@ -1,4 +1,13 @@
-.index{
-    width: 100vw;
+body{
+    background-color: rgb(159, 159, 218);
+}
+
+
+.index #authorization{
     height: 100vh;
 }
+
+#authorization > .row{
+    height: 100vh;
+}
+
