@@ -1,13 +1,12 @@
 import React from 'react'
 
-import ServerService from '../../Services/ServerService.jsx'
 
 import './ButtonsRow.css'
 
 
 const ButtonsRow = ({ buttons }) => {
 
-  let srv=new ServerService()
+
 
   let k = 0
 
