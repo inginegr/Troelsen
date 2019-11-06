@@ -2,41 +2,37 @@ import React from 'react'
 
 import './index.css'
 
-//import ServerService from '../Services/ServerService.jsx'
+import ServerService from '../Services/ServerService.js'
 
 import Authorization from './Authorization/Authorization.jsx'
 
 
-const el=()=><h1>Hello</h1>
-
 class Index extends React.Component {
 
-  // server 
-  
-  // constructor(props) {
-  //   super(props)
+  service = new ServerService()
 
-  //   this.server = new ServerService()
+  state = {
+    IsAuthorized: false,
+    IsLoading: false
+  }
 
-  //   this.state = {
-  //     IaAuthorized: false
-  //   }
-
-  // }
+  login = ({ login, password }) => {
+    this.service.sendRequest()
+  }
 
   componentDidMount() {
 
     // const response = fetch("http://localhost:49492/interface/authorize")
     // console.log(response)
 
-  //   this.setState(
-  //     (state, props) => {
-  //       return {
-  //         IsAuthorized: props.IsAuthorized
-  //       }
-  //     }
-  //   )
-  // }
+    //   this.setState(
+    //     (state, props) => {
+    //       return {
+    //         IsAuthorized: props.IsAuthorized
+    //       }
+    //     }
+    //   )
+  }
 
 
 
@@ -46,11 +42,10 @@ class Index extends React.Component {
 
     return (
       <div className="index">
-        <el/>
+        <Authorization login={this.login} />
       </div>
     )
   }
 }
-
 
 export default Index

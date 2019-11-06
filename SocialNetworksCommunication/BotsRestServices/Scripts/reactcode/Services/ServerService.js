@@ -1,40 +1,53 @@
-class ServerService {
+//import GlobalProperties from './GlobalProperties'
 
-    _port
-    _url
-    _controller
-    _login
-    constructor(){
-        this._port=49492
-        this._url="localhost:"
-        this._login="authorize"
-        this._controller="interface"
-    }
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
-    async sendRequest() {
-        const response = fetch("http://localhost:49492/interface/authorize")
+export default class ServerService {
 
-        // if (!response.ok) {
-        //     throw new Error("Can not connect to")
-        // }
+    //global=new GlobalProperties()
 
-        const body= await response.json();
-        console.log(body)
+    _port = 49492
+    _url = "localhost:"
+    _controller = "interface"
+    _ControllerMethod = "index"
+    _MethodParameter = ""
+    _login = ""
+    _password = ""
+
+
+
+
+    sendRequest = async (addres) => {
+        localUrl = this.formUrl(addres)
+        const response = fetch(localUrl)
+
+        if (!response.ok) {
+            throw new Error("Can not connect to")
+        }
+
+        const body = await response.json();
         return body
     }
 
-    formUrl(url, prefix) {
-        return url + this._port + "/" + this._controller + "/" + prefix
+    formUrl = ({ url = "", port = "", controller = "", method = "", param = "" }) => {
+
+        lUrl = url == "" ? this._url : url
+        lPort = port == "" ? this._port : port
+        lController = controller == "" ? this._controller : controller
+        lMethod = method == "" ? this._ControllerMethod : method
+        lParam = param == "" ? this._MethodParameter : param
+
+        return `${lUrl+lPort}/${lController}/${lMethod}/${lParam}`
     }
 
-    async logIn() {
-        const res = await this.sendRequest()
-    }
+    // logIn = async ({loginInput, passwordInput}) => {
 
-    testFunc(){
+    //     const res = await this.sendRequest({_ControllerMethod: "Authorize"})
+    // }
+
+    testFunc = () => {
         alert("Test")
     }
+
 }
-
-
-export default ServerService

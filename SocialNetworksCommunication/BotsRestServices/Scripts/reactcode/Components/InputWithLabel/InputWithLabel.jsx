@@ -2,18 +2,18 @@ import React from 'react'
 
 import './InputWithLabel.css'
 
-const InputWithLabel = ({ inputType, label, key }) => {
+const InputWithLabel = ({ inputType, label, key, inputId }) => {
     
     return (
         <div className="container" id="input-with-label">
             <div className="row">
                 <div className="col-12">
-                    <text key={key} id="iwl-label">
+                    <label key={key} id="iwl-label">
                         {label}
-                    </text>
+                    </label>
                 </div>
                 <div className="col-12">
-                    <input type={inputType} className="iwl-input-type" />
+                    <input id={inputId} type={inputType} className="iwl-input-type" />
                 </div>
             </div>
         </div>
