@@ -37,7 +37,7 @@ class Authorization extends React.Component {
     }
 
     onRegister = () => {
-
+        const x=2
     }
 
     render() {

@@ -10,7 +10,7 @@ namespace Security
         ///<summary>
         ///Key parameter
         /// </summary>
-        private int blockSize = 16;
+        public int BlockSize = 128;
 
         ///<summary>
         ///Key parameter
@@ -92,7 +92,7 @@ namespace Security
         /// </summary>
         private void GenerateKeyAndIV()
         {            
-            for (int i = 0; i < blockSize; i++)
+            for (int i = 0; i < BlockSize; i++)
             {
                 localKey[i] = (byte)(i % 8);
                 localIV[i] = (byte)(i % 5);
@@ -104,7 +104,7 @@ namespace Security
         /// </summary>
         /// <param name="blockSize">BlockSize of encryption</param>
         /// <returns>Returns massive of bytes values</returns>
-        public byte[] GenerateKey(int blockSize)
+        public byte[] GenerateRandom(int blockSize)
         {
             byte[] returnKey = new byte[blockSize];
 
@@ -151,8 +151,8 @@ namespace Security
             // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.KeySize = 128;
-                aesAlg.BlockSize = 128;
+                //aesAlg.KeySize = 128;
+                aesAlg.BlockSize = BlockSize;
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 
@@ -206,6 +206,7 @@ namespace Security
             // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
             {
+                aesAlg.BlockSize = BlockSize;
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 

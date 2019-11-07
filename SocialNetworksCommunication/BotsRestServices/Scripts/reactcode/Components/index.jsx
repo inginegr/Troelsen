@@ -17,7 +17,7 @@ class Index extends React.Component {
   }
 
   login = ({ login, password }) => {
-    this.service.sendRequest()
+    this.service.logIn({ login, password })
   }
 
   componentDidMount() {

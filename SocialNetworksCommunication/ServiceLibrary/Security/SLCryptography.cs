@@ -10,7 +10,7 @@ namespace ServiceLibrary.Security
         ///<summary>
         ///Key parameter
         /// </summary>
-        private int blockSize = 16;
+        public int BlockSize = 128;
 
         ///<summary>
         ///Key parameter
@@ -30,7 +30,7 @@ namespace ServiceLibrary.Security
         /// <returns>encrypted data</returns>
         public byte[] EncryptData(string dataParam)
         {
-            GenerateKeyAndIV();            
+            GenerateKeyAndIV();
 
             return EncryptStringToBytes_Aes(dataParam, localKey, localIV);
         }
@@ -91,8 +91,8 @@ namespace ServiceLibrary.Security
         /// Generates key and iv local parameters
         /// </summary>
         private void GenerateKeyAndIV()
-        {            
-            for (int i = 0; i < blockSize; i++)
+        {
+            for (int i = 0; i < BlockSize; i++)
             {
                 localKey[i] = (byte)(i % 8);
                 localIV[i] = (byte)(i % 5);
@@ -104,7 +104,7 @@ namespace ServiceLibrary.Security
         /// </summary>
         /// <param name="blockSize">BlockSize of encryption</param>
         /// <returns>Returns massive of bytes values</returns>
-        public byte[] GenerateKey(int blockSize)
+        public byte[] GenerateRandom(int blockSize)
         {
             byte[] returnKey = new byte[blockSize];
 
@@ -116,11 +116,12 @@ namespace ServiceLibrary.Security
             try
             {
                 Random rand = new Random();
-                for(int i = 0; i < blockSize; i++)
+                for (int i = 0; i < blockSize; i++)
                 {
                     returnKey[i] = (byte)rand.Next(0, 255);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -151,8 +152,8 @@ namespace ServiceLibrary.Security
             // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.KeySize = 128;
-                aesAlg.BlockSize = 128;
+                //aesAlg.KeySize = 128;
+                aesAlg.BlockSize = BlockSize;
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 
@@ -206,6 +207,7 @@ namespace ServiceLibrary.Security
             // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
             {
+                aesAlg.BlockSize = BlockSize;
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 

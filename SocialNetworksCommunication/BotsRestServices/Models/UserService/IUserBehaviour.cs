@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication9.Models.UserService
+namespace BotsRestServices.Models.UserService
 {
     /// <summary>
     /// The user basic behaviour

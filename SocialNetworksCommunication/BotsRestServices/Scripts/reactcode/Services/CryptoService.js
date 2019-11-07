@@ -1,19 +1,22 @@
 import CryptoJS from 'crypto-js'
 
 
-class CryptoClass{
+export default class CryptoClass{
     
     
 
     encryptData=(message, key, iv)=>{
-        lKey = CryptoJS.enc.Hex.parse(key); 
-        lIV = CryptoJS.enc.Hex.parse(iv); 
-        return CryptoJS.AES.encrypt("Message", lKey, lIV);
+        const lKey = CryptoJS.enc.Hex.parse(key); 
+        const lIV = CryptoJS.enc.Hex.parse(iv);
+        
+        console.log(`${key}  ${iv}`)
+        
+        return CryptoJS.AES.encrypt(message, lKey, lIV)
     }
 
     decryptData=(message, key, iv)=>{
-        lKey = CryptoJS.enc.Hex.parse(key); 
-        lIV = CryptoJS.enc.Hex.parse(iv); 
-        return CryptoJS.AES.encrypt("Message", lKey, lIV);
+        const lKey = CryptoJS.enc.Hex.parse(key);
+        const lIV = CryptoJS.enc.Hex.parse(iv);
+        return CryptoJS.AES.encrypt(message, lKey, lIV);
     }
 }

@@ -45,7 +45,7 @@ namespace SocialNetworks.Services
 
         public KeysHandle(string stringParam)
         {
-            secretKey = crypto.GenerateKey(16);
+            secretKey = crypto.GenerateRandom(16);
             token = crypto.EncryptData(stringParam, secretKey);
         }
     }

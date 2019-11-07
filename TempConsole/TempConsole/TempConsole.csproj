@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonClasses.cs" />
+    <Compile Include="LocalCryptography.cs" />
     <Compile Include="IStoreDB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
