@@ -32,5 +32,29 @@ namespace ServiceLibrary.Various
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Cenverts byte array to string
+        /// </summary>
+        /// <param name="byteArray">Array to convert</param>
+        /// <param name="spaceParam">Symbol between shars</param>
+        /// <returns>Converted string</returns>
+        public static string ConvertBytesToString(byte[] byteArray, string spaceParam="")
+        {
+            try
+            {
+                string retString = string.Empty;
+
+                foreach(byte b in byteArray)
+                {
+                    retString += $"{b.ToString()}{spaceParam}";
+                }
+
+                return retString;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

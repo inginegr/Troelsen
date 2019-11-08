@@ -23,14 +23,13 @@ export default class ServerService {
         const localUrl = this.formUrl(addres)
         const response = await fetch(localUrl, body)
 
-        alert(body)
 
-        if (!response.ok) {
-            throw new Error("Can not connect to")
-        }
+        // if (!response.ok) {
+        //     throw new Error("Can not connect to")
+        // }
+
 
         const myJson = await response.json();
-        console.log(myJson)
         return myJson
     }
 
@@ -47,13 +46,12 @@ export default class ServerService {
 
     logIn = async ({ login, password }) => {
 
-        const body = this.formRequest({login, password})
+        const body = this.formRequest({ login, password})
 
         const res = await this.sendRequest({ _ControllerMethod: "Authorize" }, body)
     }
 
     formRequest = ({ dataToSend, login, password }) => {
-        
         const encryptedData = this.formBody({dataToSend, login, password})
         
         return {
@@ -81,9 +79,12 @@ export default class ServerService {
             data: dataToSend
         }
 
+        
 
         return this.crypto.encryptData(body, this.getKey(), this.getIV())
-
+        //console.log(s)
+        //const r=this.crypto.decryptData(s,this.getKey(),this.getIV())
+        //console.log(r)
     }
 
 

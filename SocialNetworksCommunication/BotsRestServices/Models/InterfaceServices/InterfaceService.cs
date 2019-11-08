@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using ServiceLibrary.Security;
 using ServiceLibrary.Serialization;
+using ServiceLibrary.Various;
 
 
 namespace BotsRestServices.Models.InterfaceServices
@@ -25,8 +27,11 @@ namespace BotsRestServices.Models.InterfaceServices
 
         public void SendDataToStartPage(Controller ctr)
         {
-            ctr.ViewData["key"] = js.SerializeObjectT<byte[]>(_crypto.GenerateRandom(_keySize));
-            ctr.ViewData["iv"] = js.SerializeObjectT<byte[]>(_crypto.GenerateRandom(_keySize));
+            byte[] k= _crypto.GenerateRandom(_keySize);
+            byte[] i = _crypto.GenerateRandom(_keySize);
+
+            ctr.ViewData["key"] = StringService.ConvertBytesToString(k, "_");
+            ctr.ViewData["iv"] = StringService.ConvertBytesToString(k, "_");
             ctr.ViewData["isauthorized"] = false;
         }
 
