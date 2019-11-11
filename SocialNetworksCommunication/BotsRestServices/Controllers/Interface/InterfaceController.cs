@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BotsRestServices.Models.InterfaceServices;
+using System.IO;
 
 
 namespace BotsRestServices.Controllers.Interface
@@ -26,10 +27,20 @@ namespace BotsRestServices.Controllers.Interface
 
         // GET: Interface/Details/5
         [HttpPost]
-        public JsonResult Authorize()
+        public JsonResult Authorize(object ob)
         {
-            string name = "Tom";
-            return Json(name);
+            try
+            {
+                string name = "Tom";
+
+                Stream sr = Request.InputStream;
+
+                return Json(name);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         

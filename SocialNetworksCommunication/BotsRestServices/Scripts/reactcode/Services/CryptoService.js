@@ -32,6 +32,7 @@ export default class CryptoClass{
         // console.log("sdfdsf")
 
 
+
         const k = key.toString().replace(/_/g, ' ')      
         const lKey = CryptoJS.enc.Base64.parse(k); 
         

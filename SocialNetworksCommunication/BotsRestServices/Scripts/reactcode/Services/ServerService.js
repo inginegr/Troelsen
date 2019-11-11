@@ -1,7 +1,7 @@
-import CryptoService from './CryptoService'
-
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+
+import Glob from './GlobalProperties.js'
 
 export default class ServerService {
 
@@ -19,15 +19,29 @@ export default class ServerService {
 
 
     sendRequest = async (addres, body) => {
-
+        const data = { username: 'example' };
         const localUrl = this.formUrl(addres)
-        const response = await fetch(localUrl, body)
-
+        // const response = await fetch(
+        //     'http://localhost:49492/Interface/Authorize',
+        //     {
+        //         method: 'POST', // или 'PUT'
+        //         body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+        //         headers: {
+        //           'Content-Type': 'application/json'
+        //         }
+        //       }
+        //  )
+        // const response = await fetch('http://localhost:49492/Interface/Authoridfgdfgzed', {
+        //     method: 'POST', // или 'PUT'
+        //     body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //     }
+        //   })
 
         // if (!response.ok) {
         //     throw new Error("Can not connect to")
         // }
-
 
         const myJson = await response.json();
         return myJson
@@ -46,17 +60,26 @@ export default class ServerService {
 
     logIn = async ({ login, password }) => {
 
-        const body = this.formRequest({ login, password})
+        const body = this.formRequest({ login, password })
 
-        const res = await this.sendRequest({ _ControllerMethod: "Authorize" }, body)
+        return await this.sendRequest({
+            controller: Glob.InterfaceControllerName,
+            method: Glob.Authorize
+        }, body)
     }
 
     formRequest = ({ dataToSend, login, password }) => {
-        const encryptedData = this.formBody({dataToSend, login, password})
-        
+
         return {
             method: "POST",
-            data: encryptedData
+            headers: {
+                'Accept': 'application/json; charset=utf-8',
+                'Content-Type': 'application/json;charset=UTF-8'
+              },
+              body: JSON.stringify("sadsadsad")
+            // login: login,
+            // password: password,
+            // data: dataToSend
         }
     }
 
@@ -73,18 +96,11 @@ export default class ServerService {
 
     formBody = ({ dataToSend, login, password }) => {
 
-        const body = {
+        return body = {
             login: login,
             password: password,
             data: dataToSend
         }
-
-        
-
-        return this.crypto.encryptData(body, this.getKey(), this.getIV())
-        //console.log(s)
-        //const r=this.crypto.decryptData(s,this.getKey(),this.getIV())
-        //console.log(r)
     }
 
 
