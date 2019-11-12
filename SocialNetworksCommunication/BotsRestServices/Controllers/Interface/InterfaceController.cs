@@ -25,22 +25,22 @@ namespace BotsRestServices.Controllers.Interface
             return View();
         }
 
-        // GET: Interface/Details/5
+        // POST: Interface/Authorize
         [HttpPost]
-        public JsonResult Authorize(object ob)
+        public JsonResult Authorize()
         {
-            try
-            {
-                string name = "Tom";
+            string jsonPostData;
 
-                Stream sr = Request.InputStream;
-
-                return Json(name);
-            }
-            catch (Exception ex)
+            using (Stream sr = Request.InputStream)
             {
-                throw new Exception(ex.Message);
+                sr.Position = 0;
+                using(StreamReader rd = new StreamReader(sr))
+                {                    
+                    jsonPostData = rd.ReadToEnd();
+                }
             }
+
+            return Json("sdf");
         }
 
         

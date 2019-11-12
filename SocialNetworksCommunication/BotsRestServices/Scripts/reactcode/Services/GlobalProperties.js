@@ -1,6 +1,6 @@
 
 
-class GlobalProperties {
+export default class GlobalProperties {
     //============================Controllers=================================//
     InterfaceControllerName = "Interface"
 

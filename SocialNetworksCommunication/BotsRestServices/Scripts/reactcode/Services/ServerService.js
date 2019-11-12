@@ -5,9 +5,11 @@ import Glob from './GlobalProperties.js'
 
 export default class ServerService {
 
-    crypto = new CryptoService()
+    //crypto = new CryptoService()
 
-    _port = 49492
+    glob =new Glob()
+
+    _port = 50117
     _url = "http://localhost:"
     _controller = "Interface"
     _ControllerMethod = "Authorize"
@@ -20,17 +22,17 @@ export default class ServerService {
 
     sendRequest = async (addres, body) => {
         const data = { username: 'example' };
-        const localUrl = this.formUrl(addres)
-        // const response = await fetch(
-        //     'http://localhost:49492/Interface/Authorize',
-        //     {
-        //         method: 'POST', // или 'PUT'
-        //         body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
-        //         headers: {
-        //           'Content-Type': 'application/json'
-        //         }
-        //       }
-        //  )
+
+        const response = await fetch(
+            'http://localhost:50117/Interface/Authorize',
+            {
+                method: 'POST', // или 'PUT'
+                body: JSON.stringify({sdfsdf:"DSfdsfdsf"}), // данные могут быть 'строкой' или {объектом}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+              }
+         )
         // const response = await fetch('http://localhost:49492/Interface/Authoridfgdfgzed', {
         //     method: 'POST', // или 'PUT'
         //     body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
@@ -62,10 +64,12 @@ export default class ServerService {
 
         const body = this.formRequest({ login, password })
 
-        return await this.sendRequest({
-            controller: Glob.InterfaceControllerName,
-            method: Glob.Authorize
-        }, body)
+        return await this.sendRequest(this.formUrl(
+            {
+            controller: this.glob.InterfaceControllerName,
+            method: this.glob.Authorize
+        }
+        ), body)
     }
 
     formRequest = ({ dataToSend, login, password }) => {
@@ -76,7 +80,7 @@ export default class ServerService {
                 'Accept': 'application/json; charset=utf-8',
                 'Content-Type': 'application/json;charset=UTF-8'
               },
-              body: JSON.stringify("sadsadsad")
+              body: JSON.stringify({dsfsdfsdf:"sdfsdfsdhjhgjghjhgghghjfsdf"})
             // login: login,
             // password: password,
             // data: dataToSend

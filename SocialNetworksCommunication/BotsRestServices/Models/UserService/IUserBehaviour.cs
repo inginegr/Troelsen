@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BotsRestServices.Models.JsonObjects;
 
 namespace BotsRestServices.Models.UserService
 {
@@ -24,9 +25,9 @@ namespace BotsRestServices.Models.UserService
         /// <summary>
         /// Login to the system
         /// </summary>
-        /// <param name="dataToLogin">User login and password</param>
+        /// <param name="authorize">User login and password</param>
         /// <returns>True if authorized, else false</returns>
-        bool LogIn(string dataToLogin);
+        bool LogIn(Authorize authorize);
 
     }
 }
