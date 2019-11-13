@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BotsRestServices.Models.JsonObjects;
+using BotsRestServices.Models.Objects;
+using BotsRestServices.Models.DataBase.Infrastructure;
 
-namespace BotsRestServices.Models.UserService
+namespace BotsRestServices.Models.UserServices
 {
-    public class UserService : IUserBehaviour, IUserBotHandle
+    public class ClientService 
     {
+
+        private DbHandle db = new DbHandle();
+
         /// <summary>
         /// Id of choosed bot
         /// </summary>
-        public int ChoosedBotId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int ChoosedBotId { get; set; }
 
         /// <summary>
         /// Is iser authorized in the system
         /// </summary>
-        public bool IsAuthorized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsAuthorized { get; set; }
 
         /// <summary>
         /// Is user registered in the system
         /// </summary>
-        public bool IsRegistered { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        private bool IsRegistered = false;
+        
         /// <summary>
         /// Choose selected bot
         /// </summary>
@@ -43,16 +47,24 @@ namespace BotsRestServices.Models.UserService
             throw new NotImplementedException();
         }
 
+
         /// <summary>
         /// Login to the system
         /// </summary>
-        /// <param name="dataToLogin">User login and password</param>
+        /// <param name="authorize">User login and password</param>
         /// <returns>True if authorized, else false</returns>
-        public bool LogIn(Authorize dataToLogin)
+        public bool LogIn(User authorize)
         {
-
-            throw new NotImplementedException();
+            try
+            {
+                return db.FindUser(authorize);
+            }catch(Exception ex)
+            {
+                return false;
+            }
         }
+
+
 
         /// <summary>
         /// Start choosed bot

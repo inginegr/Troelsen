@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BotsRestServices.Models.InterfaceServices;
 using System.IO;
+using ServiceLibrary.Serialization;
 
 
 namespace BotsRestServices.Controllers.Interface
@@ -17,10 +18,7 @@ namespace BotsRestServices.Controllers.Interface
         [HttpGet]
         public ActionResult Index()
         {
-            Random rn = new Random();
-
             iserv.SendDataToStartPage(this);
-
 
             return View();
         }
@@ -29,17 +27,6 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public JsonResult Authorize()
         {
-            string jsonPostData;
-
-            using (Stream sr = Request.InputStream)
-            {
-                sr.Position = 0;
-                using(StreamReader rd = new StreamReader(sr))
-                {                    
-                    jsonPostData = rd.ReadToEnd();
-                }
-            }
-
             return Json("sdf");
         }
 

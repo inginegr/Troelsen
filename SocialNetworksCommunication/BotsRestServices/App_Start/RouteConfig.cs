@@ -18,6 +18,18 @@ namespace WebApplication9
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Interface", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Admin",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Admin", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "User",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "User", id = UrlParameter.Optional }
+            );
         }
     }
 }
