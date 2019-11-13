@@ -7,7 +7,7 @@ export default class ServerService {
 
     //crypto = new CryptoService()
 
-    glob =new Glob()
+    glob = new Glob()
 
     _port = 50117
     _url = "http://localhost:"
@@ -21,29 +21,8 @@ export default class ServerService {
 
 
     sendRequest = async (addres, body) => {
-        const data = { username: 'example' };
 
-        const response = await fetch(
-            'http://localhost:50117/Interface/Authorize',
-            {
-                method: 'POST', // или 'PUT'
-                body: JSON.stringify({sdfsdf:"DSfdsfdsf"}), // данные могут быть 'строкой' или {объектом}!
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-              }
-         )
-        // const response = await fetch('http://localhost:49492/Interface/Authoridfgdfgzed', {
-        //     method: 'POST', // или 'PUT'
-        //     body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     }
-        //   })
-
-        // if (!response.ok) {
-        //     throw new Error("Can not connect to")
-        // }
+        const response = await fetch( addres, body )
 
         const myJson = await response.json();
         return myJson
@@ -66,9 +45,9 @@ export default class ServerService {
 
         return await this.sendRequest(this.formUrl(
             {
-            controller: this.glob.InterfaceControllerName,
-            method: this.glob.Authorize
-        }
+                controller: this.glob.InterfaceControllerName,
+                method: this.glob.Authorize
+            }
         ), body)
     }
 
@@ -79,11 +58,15 @@ export default class ServerService {
             headers: {
                 'Accept': 'application/json; charset=utf-8',
                 'Content-Type': 'application/json;charset=UTF-8'
-              },
-              body: JSON.stringify({dsfsdfsdf:"sdfsdfsdhjhgjghjhgghghjfsdf"})
-            // login: login,
-            // password: password,
-            // data: dataToSend
+            },
+            body: JSON.stringify(
+                {
+                    LogPas: {
+                        Login: login,
+                        Password: password
+                    }
+                }
+            )
         }
     }
 

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BotsRestServices.Models.Objects;
+
+using BotsRestServices.Models.Objects.DbObjects;
+using BotsRestServices.Models.Objects.AnswersFromServer;
+
+
 
 namespace BotsRestServices.Models.DataBase.Infrastructure
 {
@@ -12,7 +16,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// Add user to DB
         /// </summary>
         /// <param name="userParam">User object</param>
-        public void AddUser(User userParam)
+        public void AddUser(UserData userParam)
         {
             try
             {
@@ -32,7 +36,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// Deletes user from DB
         /// </summary>
         /// <param name="userParam">User object</param>
-        public void DeleteUser(User userParam)
+        public void DeleteUser(UserData userParam)
         {
             try
             {
@@ -55,13 +59,17 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         {
             try
             {
-                bool retAnsw = false;
+                UserData retAnsw = null;
                 using(UserContext context=new UserContext())
                 {
-                    retAnsw = context.UserTable.Contains(userParam);
+                    retAnsw = context.UserTable.Where(a => ((a.Login == userParam.Login) && (a.Password == userParam.Password))).FirstOrDefault<UserData>();
                 }
 
-                return retAnsw;
+                if (retAnsw == null)
+                    return false;
+                else
+                    return true;
+
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);

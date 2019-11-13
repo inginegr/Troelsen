@@ -8,5 +8,6 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
     public class IsTrueAnswer
     {
         public string IsTrue { get; set; }
+        public string Text { get; set; }
     }
 }

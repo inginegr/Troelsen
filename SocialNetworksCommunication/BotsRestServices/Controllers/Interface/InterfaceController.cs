@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BotsRestServices.Models.InterfaceServices;
 using System.IO;
 using ServiceLibrary.Serialization;
+using BotsRestServices.Models.UserServices;
 
 
 namespace BotsRestServices.Controllers.Interface
@@ -13,6 +14,8 @@ namespace BotsRestServices.Controllers.Interface
     public class InterfaceController : Controller
     {
         InterfaceService iserv = new InterfaceService();
+
+        UserService us = new UserService();
 
         // GET: Interface
         [HttpGet]
@@ -27,9 +30,7 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public JsonResult Authorize()
         {
-            return Json("sdf");
+            return Json(us.ReactToLogin(this));
         }
-
-        
     }
 }

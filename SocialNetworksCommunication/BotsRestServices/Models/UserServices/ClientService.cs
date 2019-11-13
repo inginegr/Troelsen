@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BotsRestServices.Models.Objects;
+using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.DataBase.Infrastructure;
 
 namespace BotsRestServices.Models.UserServices
@@ -25,7 +25,7 @@ namespace BotsRestServices.Models.UserServices
         /// <summary>
         /// Is user registered in the system
         /// </summary>
-        private bool IsRegistered = false;
+        //private bool IsRegistered = false;
         
         /// <summary>
         /// Choose selected bot
@@ -58,7 +58,7 @@ namespace BotsRestServices.Models.UserServices
             try
             {
                 return db.FindUser(authorize);
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 return false;
             }

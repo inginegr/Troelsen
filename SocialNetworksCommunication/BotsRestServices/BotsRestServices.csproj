@@ -21,8 +21,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -193,6 +195,7 @@
     </Compile>
     <Compile Include="Models\DataBase\Infrastructure\DbHandle.cs" />
     <Compile Include="Models\DataBase\Infrastructure\UserContext.cs" />
+    <Compile Include="Models\DataBase\Initializers\ClientsInitializer.cs" />
     <Compile Include="Models\InterfaceServices\InterfaceService.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\ErrorResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\IsAdmin.cs" />
@@ -200,6 +203,7 @@
     <Compile Include="Models\Objects\AnswersFromServer\IsTrueAnswer.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\TotalResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\User.cs" />
+    <Compile Include="Models\Objects\DbObjects\UserData.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
     <Compile Include="Models\UserServices\UserService.cs" />
     <Compile Include="Models\UserServices\ClientService.cs" />
