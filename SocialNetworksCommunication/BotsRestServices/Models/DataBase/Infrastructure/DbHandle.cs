@@ -5,13 +5,16 @@ using System.Web;
 
 using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.Objects.AnswersFromServer;
-
-
+using BotsRestServices.Models.DataBase.Initializers;
+using System.Data.Entity.Core;
 
 namespace BotsRestServices.Models.DataBase.Infrastructure
 {
     public class DbHandle
     {
+        
+
+
         /// <summary>
         /// Add user to DB
         /// </summary>
@@ -43,6 +46,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 using(UserContext context=new UserContext())
                 {
                     context.UserTable.Remove(userParam);
+                    context.SaveChanges();
                 }
             }catch(Exception ex)
             {
@@ -71,6 +75,59 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                     return true;
 
             }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets all users from table
+        /// </summary>
+        /// <returns>All users in table</returns>
+        public List<UserData> GetUsers()
+        {
+            try
+            {
+                List<UserData> retAnsw = new List<UserData>();
+                using (UserContext context = new UserContext())
+                {
+                    var ans = context.UserTable;
+                    foreach(UserData u in ans)
+                    {
+                        retAnsw.Add(u);
+                    }
+                }
+
+                return retAnsw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Edits user in the table
+        /// </summary>
+        /// <returns>All users in table</returns>
+        public void EditUser(List<UserData> userData)
+        {
+            try
+            {
+                using (UserContext context = new UserContext())
+                {
+                    foreach(UserData u in userData)
+                    {
+                        context.UserTable.SingleOrDefault(a => ((a.Login == u.Login) && (a.Password == u.Password) && (a.Id == u.Id))) = u;
+                    }
+                    //context.UserTable.SingleOrDefault(a => { (a.Login  })
+                    //UserData userToEdit=context.UserTable.
+                }
+
+                //return retAnsw;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

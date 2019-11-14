@@ -34,8 +34,7 @@ class Authorization extends React.Component {
         const login = this.takeData(this.loginId)
         const password = this.takeData(this.passwordId)        
         
-        console.log(`${login}  ${password}`)
-        this.props.login({login, password})
+        const inf = this.props.login({login, password})
     }
 
     onRegister = () => {

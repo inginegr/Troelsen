@@ -9,21 +9,40 @@ using System.Configuration;
 using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.DataBase.Infrastructure;
+using BotsRestServices.Models.Objects.RequestToServer;
 
 
 namespace BotsRestServices.Models.UserServices
 {
     public class UserService
     {
-
-        DbHandle dbHandle = new DbHandle();
+        // DataBase service
+        protected DbHandle dbHandle = new DbHandle();
 
         // Cryptography functions
         SLCryptography _crypto = new SLCryptography();
 
-        JsonSerializer js = new JsonSerializer();
+        protected JsonSerializer js = new JsonSerializer();
 
-        JsonDeserializer jsd = new JsonDeserializer();
+        protected JsonDeserializer jsd = new JsonDeserializer();
+        
+        /// <summary>
+        /// Deserializes to object with request parameters
+        /// </summary>
+        /// <param name="s">Request string</param>
+        /// <returns>TotalRequest object</returns>
+        protected TotalRequest GetRequestObject(string s)
+        {
+            try
+            {
+                return jsd.DeserializeToObjectT<TotalRequest>(s);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// Login to the system
@@ -47,11 +66,32 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userParam">Login and password </param>
         /// <returns>TotalResponse filled by login and password</returns>
-        public TotalResponse FormLogPas(User userParam)
+        protected TotalResponse FormLogPas(User userParam)
+        {            
+            try
+            {
+                TotalResponse response = new TotalResponse();
+                response.Users[0] = (UserData)userParam;
+                return response;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Forms status and message 
+        /// </summary>
+        /// <param name="response">Message object</param>
+        /// <param name="isTrue">Status answer</param>
+        /// <param name="answer">Answer text</param>
+        /// <returns>Object, filled with status and answer text</returns>
+        protected TotalResponse FormResponseStatus(TotalResponse response, bool isTrue, string answer)
         {
             try
             {
-                return new TotalResponse { LogPas = userParam };                                
+                response.IsTrue = new IsTrueAnswer { IsTrue = isTrue.ToString(), Text = answer };
+                return response;
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -195,7 +235,7 @@ namespace BotsRestServices.Models.UserServices
 
                 TotalResponse userRequest = jsd.DeserializeToObjectT<TotalResponse>(jsonPostData);
 
-                return CheckIfRegistered(userRequest.LogPas);
+                return CheckIfRegistered(userRequest.Users[0]);
             }
             catch (Exception ex)
             {

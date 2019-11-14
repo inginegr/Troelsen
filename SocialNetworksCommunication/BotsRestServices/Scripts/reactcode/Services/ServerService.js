@@ -25,6 +25,9 @@ export default class ServerService {
         const response = await fetch( addres, body )
 
         const myJson = await response.json();
+
+        console.log(myJson)
+
         return myJson
     }
 
@@ -89,11 +92,6 @@ export default class ServerService {
             data: dataToSend
         }
     }
-
-
-
-
-
 
     getKey = () => {
         return document.getElementById("key").value

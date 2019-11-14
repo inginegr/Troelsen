@@ -21,10 +21,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -204,6 +202,8 @@
     <Compile Include="Models\Objects\AnswersFromServer\TotalResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\User.cs" />
     <Compile Include="Models\Objects\DbObjects\UserData.cs" />
+    <Compile Include="Models\Objects\RequestToServer\CommandData.cs" />
+    <Compile Include="Models\Objects\RequestToServer\TotalRequest.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
     <Compile Include="Models\UserServices\UserService.cs" />
     <Compile Include="Models\UserServices\ClientService.cs" />
