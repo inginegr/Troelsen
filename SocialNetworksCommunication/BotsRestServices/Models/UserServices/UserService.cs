@@ -233,9 +233,9 @@ namespace BotsRestServices.Models.UserServices
                     }
                 }
 
-                TotalResponse userRequest = jsd.DeserializeToObjectT<TotalResponse>(jsonPostData);
+                TotalRequest userRequest = jsd.DeserializeToObjectT<TotalRequest>(jsonPostData);
 
-                return CheckIfRegistered(userRequest.Users[0]);
+                return CheckIfRegistered(userRequest.User);
             }
             catch (Exception ex)
             {

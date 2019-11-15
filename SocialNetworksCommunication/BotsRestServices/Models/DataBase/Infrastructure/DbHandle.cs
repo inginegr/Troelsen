@@ -117,12 +117,15 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 using (UserContext context = new UserContext())
                 {
+                    List<UserData> users = new List<UserData>();
                     foreach(UserData u in userData)
                     {
-                        context.UserTable.SingleOrDefault(a => ((a.Login == u.Login) && (a.Password == u.Password) && (a.Id == u.Id))) = u;
+                        UserData user = context.UserTable.SingleOrDefault(a => ((a.Login == u.Login) && (a.Password == u.Password) && (a.Id == u.Id)));
+                        user = u;
+                        users.Add(user);
                     }
-                    //context.UserTable.SingleOrDefault(a => { (a.Login  })
-                    //UserData userToEdit=context.UserTable.
+
+                    context.SaveChanges();
                 }
 
                 //return retAnsw;

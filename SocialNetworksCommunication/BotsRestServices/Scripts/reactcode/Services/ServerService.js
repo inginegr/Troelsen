@@ -3,6 +3,47 @@ import "regenerator-runtime/runtime";
 
 import Glob from './GlobalProperties.js'
 
+
+const UserData = {
+    Login: "login",
+    Password: "password",
+    Id: "id",
+    VkBot: "false",
+    TelegramBot: "false",
+    ViberBot: "false",
+    WhatsAppBot: "false"
+}
+
+const ServerResponse = {
+    Admin: {
+        IsUserAdmin: "status"
+    },
+    Client: {
+        IsUserClient: "status"
+    },
+    Users: [
+        { UserData },
+        { UserData }
+    ],
+    IsTrue: {
+        IsTrue: "false",
+        Text: "text message"
+    }
+}
+
+const TotalRequest = {
+    User: {
+        Login: "login",
+        Password: "password",
+        Id: "id",
+        VkBot: "false",
+        TelegramBot: "false",
+        ViberBot: "false",
+        WhatsAppBot: "false"
+    },
+    CommandType: "command"
+}
+
 export default class ServerService {
 
     //crypto = new CryptoService()
@@ -22,12 +63,11 @@ export default class ServerService {
 
     sendRequest = async (addres, body) => {
 
-        const response = await fetch( addres, body )
+        const response = await fetch(addres, body)
 
         const myJson = await response.json();
-
-        console.log(myJson)
-
+        
+        //console.log(myJson)
         return myJson
     }
 
@@ -46,12 +86,14 @@ export default class ServerService {
 
         const body = this.formRequest({ login, password })
 
-        return await this.sendRequest(this.formUrl(
+        const ans = await this.sendRequest(this.formUrl(
             {
                 controller: this.glob.InterfaceControllerName,
                 method: this.glob.Authorize
             }
         ), body)
+
+        return ans
     }
 
     formRequest = ({ dataToSend, login, password }) => {
@@ -64,7 +106,7 @@ export default class ServerService {
             },
             body: JSON.stringify(
                 {
-                    LogPas: {
+                    User: {
                         Login: login,
                         Password: password
                     }

@@ -5,7 +5,7 @@ using System.Web;
 using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.Objects.RequestToServer;
-using ServiceLibrary.Serialization;;
+using ServiceLibrary.Serialization;
 
 
 namespace BotsRestServices.Models.UserServices
@@ -21,7 +21,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>Json string answer text</returns>
-        public string AddUserToDb(string requestString)
+        public string AddClientToDb(string requestString)
         {
             TotalRequest request = new TotalRequest();
             TotalResponse resp = new TotalResponse();
@@ -49,7 +49,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="s">Request string</param>
         /// <returns>Total response object</returns>
-        public string GetUserList(string s)
+        public string GetClientsList(string s)
         {
             TotalRequest req = GetRequestObject(s);
             TotalResponse resp = FormLogPas(req.User);
@@ -71,7 +71,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>TotalResponse object with answer</returns>
-        public string RemoveUserFromDb(string requestString)
+        public string RemoveClientFromDb(string requestString)
         {
             TotalRequest request = GetRequestObject(requestString);
             TotalResponse response = FormLogPas(request.User);
@@ -89,22 +89,29 @@ namespace BotsRestServices.Models.UserServices
             return js.SerializeObjectT(response);
         }
 
-
-        public string EditUser(string requestString)
+        /// <summary>
+        /// Edits user in table
+        /// </summary>
+        /// <param name="requestString">Request string with user to update</param>
+        /// <returns>Response with status and message</returns>
+        public string EditClient(string requestString)
         {
             TotalRequest request = GetRequestObject(requestString);
             TotalResponse response = FormLogPas(request.User);
 
             try
             {
+                List<UserData> usersToUpdate = new List<UserData>();
+                usersToUpdate.Add(request.DataRequest.User);
+                dbHandle.EditUser(usersToUpdate);
 
+                response = FormResponseStatus(response, true, $"The user {request.DataRequest.User.Login} is updated");
             }catch(Exception ex)
             {
-
+                response = FormResponseStatus(response, false, ex.Message);
             }
-            return "sdfsddsf";
+            return js.SerializeObjectT(response);
         }
-
 
     }
 }
