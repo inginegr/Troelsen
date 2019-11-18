@@ -35,27 +35,27 @@ export default class ClientList extends React.Component{
 
     render(){
 
-        if(this.props.IsAdmin==false){
+        if(this.props.IsAdmin==true){
             return <div className="empty"></div>
         }
 
         return(
             <div className="container" id="manage-admin">
                 <div className="row justify-content-center align-content-center">
-                    <div className="col-6">
-                        <table class="table table-hover table-dark">
+                    <div className="col-12">
+                        <table className="table table-hover table-dark">
                             <thead>
-                                <th scope="col">Id</th>
-                                <th scope="col">VK Bot</th>
-                                <th scope="col">Telegram Bot</th>
-                                <th scope="col">Viber Bot</th>
-                                <th scope="col">WhatsApp Bot</th>
-                                <th scope="col">Login</th>
-                                <th scope="col">Password</th>
+                                <th scope="col"><p className="text-center">Id</p></th>
+                                <th scope="col"><p className="text-center">VK Bot</p></th>
+                                <th scope="col"><p className="text-center">Telegram Bot</p></th>
+                                <th scope="col"><p className="text-center">Viber Bot</p></th>
+                                <th scope="col"><p className="text-center">WhatsApp Bot</p></th>
+                                <th scope="col"><p className="text-center">Login</p></th>
+                                <th scope="col"><p className="text-center">Password</p></th>
                             </thead>
 
                             <tbody>
-                                {this.Elements()}
+                                {/* {this.Elements()} */}
                             </tbody>
                         </table>
                     </div>

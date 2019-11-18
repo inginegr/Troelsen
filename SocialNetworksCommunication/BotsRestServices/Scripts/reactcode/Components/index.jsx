@@ -42,27 +42,25 @@ class Index extends React.Component {
 
   login = ({ login, password }) => {
     const response = this.service.logIn({ login, password })
-
+    
     response.then(
       (serverAnswer) => {
         const {Admin, Client} =JSON.parse(serverAnswer)
+        console.log(Admin)
+        console.log(Admin.IsUserAdmin)
         
         if (Admin.IsUserAdmin == true) {
           this.setState({ IsAuthorized: true, IsAdmin: true })
         } else if (Client.IsUserClient == true) {
           this.setState({ IsAuthorized: true, IsClient: true })
         }
-
       }
     )
-
-
-
-
   }
 
   componentDidMount() {
 
+    console.log("dsfsdf")
     // const response = fetch("http://localhost:49492/interface/authorize")
     // console.log(response)
 
@@ -70,7 +68,7 @@ class Index extends React.Component {
     //     (state, props) => {
     //       return {
     //         IsAuthorized: props.IsAuthorized
-    //       }
+    //       }l;'
     //     }
     //   )
   }
@@ -82,7 +80,7 @@ class Index extends React.Component {
 
     return (
       <div className="index">
-        <Authorization login={this.login} />
+        {/* <Authorization login={this.login} /> */}
         <ManageAdmin IsAdmin={this.state.IsAdmin} />
       </div>
     )

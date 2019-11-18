@@ -7,6 +7,6 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
 {
     public class IsAdmin
     {
-        public string IsUserAdmin { get; set; }
+        public bool IsUserAdmin { get; set; }
     }
 }

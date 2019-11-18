@@ -18,27 +18,27 @@ export default class ManageAdmin extends React.Component{
 
 
     render(){
-
-        if(this.props.IsAdmin==false){
+        // console.log(this.props)
+        if(this.props.IsAdmin==true){
             return <div className="empty"></div>
         }
 
         return(
             <div className="container" id="manage-admin">
                 <div className="row justify-content-center align-content-center">
-                    <div className="col-6">
+                    <div className="col-10">
                         <ClientList clientsList={this.props.clientsList} />
 
                         <div id="a-buttons-row" className="container">
                             <div className="row justify-content-between">
                                 <div key={0} className="col">
-                                    <input className="abr-button" type="button" value="AddClient" onClick={this.onRemind} />
+                                    <input className="abr-button" type="button" value="AddClient"  />
                                 </div>
                                 <div key={1} className="col">
-                                    <input className="abr-button" type="button" value="DelClient" onClick={this.onRegister} />
+                                    <input className="abr-button" type="button" value="DelClient"  />
                                 </div>
                                 <div key={2} className="col">
-                                    <input className="abr-button" type="button" value="EditClient" onClick={this.onLogin} />
+                                    <input className="abr-button" type="button" value="EditClient" />
                                 </div>
                             </div>
                         </div>

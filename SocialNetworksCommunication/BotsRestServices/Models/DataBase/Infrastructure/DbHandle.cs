@@ -13,8 +13,6 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
     public class DbHandle
     {
         
-
-
         /// <summary>
         /// Add user to DB
         /// </summary>
@@ -79,8 +77,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 throw new Exception(ex.Message);
             }
         }
-
-
+        
         /// <summary>
         /// Gets all users from table
         /// </summary>

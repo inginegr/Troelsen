@@ -19,13 +19,13 @@ const TrueFalse = ({ IsTrue, IsEdited }) => {
 
     if (IsEdited) {
         return (
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="dropdown">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {sign({ IsTrue })}
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Подключить</a>
-                    <a class="dropdown-item" href="#">Отключить</a>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a className="dropdown-item" href="#">Подключить</a>
+                    <a className="dropdown-item" href="#">Отключить</a>
                 </div>
             </div>
         )

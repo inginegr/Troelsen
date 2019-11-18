@@ -90,7 +90,7 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                response.IsTrue = new IsTrueAnswer { IsTrue = isTrue.ToString(), Text = answer };
+                response.IsTrue = new IsTrueAnswer { IsTrue = isTrue, Text = answer };
                 return response;
             }catch(Exception ex)
             {
@@ -182,10 +182,10 @@ namespace BotsRestServices.Models.UserServices
                 TotalResponse tr = new TotalResponse();
                 if (CheckIfEmpty(userRequest))
                 {
-                    tr.IsTrue.IsTrue = false.ToString();
+                    tr.IsTrue.IsTrue = false;
                     tr.IsTrue.Text = "User is not registered";
-                    tr.Client.IsUserClient = false.ToString();
-                    tr.Admin.IsUserAdmin = false.ToString();
+                    tr.Client.IsUserClient = false;
+                    tr.Admin.IsUserAdmin = false;
                     tr.Error.ErrorMessage= $"Login or password are invalid";
 
                     return js.SerializeObjectT(tr);
@@ -195,22 +195,22 @@ namespace BotsRestServices.Models.UserServices
 
                 if (CheckIfAdmin(userRequest))
                 {
-                    tr.Admin.IsUserAdmin = true.ToString();
-                    tr.IsTrue.IsTrue = true.ToString();
+                    tr.Admin.IsUserAdmin = true;
+                    tr.IsTrue.IsTrue = true;
                     tr.IsTrue.Text = "User is admin";
                 }
                 else if (CheckIfClient(userRequest))
                 {
-                    tr.Client.IsUserClient = true.ToString();
-                    tr.IsTrue.IsTrue = true.ToString();
+                    tr.Client.IsUserClient = true;
+                    tr.IsTrue.IsTrue = true;
                     tr.IsTrue.Text = "User is client";
                 }
                 else
                 {
-                    tr.IsTrue.IsTrue = false.ToString();
+                    tr.IsTrue.IsTrue = false;
                     tr.IsTrue.Text = "User is not registered";
-                    tr.Client.IsUserClient = false.ToString();
-                    tr.Admin.IsUserAdmin = false.ToString();
+                    tr.Client.IsUserClient = false;
+                    tr.Admin.IsUserAdmin = false;
                 }
                 return js.SerializeObjectT(tr);
             }
