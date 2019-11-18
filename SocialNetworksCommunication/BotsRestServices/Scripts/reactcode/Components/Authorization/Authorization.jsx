@@ -26,10 +26,6 @@ class Authorization extends React.Component {
 
     }
 
-    onRemind = (e) => {
-
-    }
-
     onLogin = () => {
         const login = this.takeData(this.loginId)
         const password = this.takeData(this.passwordId)        
@@ -37,11 +33,11 @@ class Authorization extends React.Component {
         const inf = this.props.login({login, password})
     }
 
-    onRegister = () => {
-        const x=2
-    }
 
     render() {
+        if(this.props.IsAuthorized){
+            return <div className="empty"></div>
+        }
         return (
             <div className="container" id="authorization">
                 <div className="row justify-content-center align-content-center">

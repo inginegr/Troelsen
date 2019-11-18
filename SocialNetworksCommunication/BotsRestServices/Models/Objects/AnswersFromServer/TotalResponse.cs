@@ -7,12 +7,14 @@ using BotsRestServices.Models.Objects.DbObjects;
 
 namespace BotsRestServices.Models.Objects.AnswersFromServer
 {
-    public class TotalResponse
+    public class TotalResponse 
     {
         public IsAdmin Admin { get; set; }
         public IsClient Client { get; set; }
         public UserData[] Users { get; set; }
+        public User UserAuth { get; set; }
         public IsTrueAnswer IsTrue { get; set; }
+        public ErrorResponse Error { get; set; }
 
         public TotalResponse() : this(usersCount: 1) { }
 
@@ -21,7 +23,9 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
             Admin = new IsAdmin();
             Client = new IsClient();
             Users = new UserData[usersCount];
+            UserAuth = new User();
             IsTrue = new IsTrueAnswer();
+            Error = new ErrorResponse();
         }
     }
 }

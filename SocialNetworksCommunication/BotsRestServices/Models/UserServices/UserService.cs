@@ -71,7 +71,7 @@ namespace BotsRestServices.Models.UserServices
             try
             {
                 TotalResponse response = new TotalResponse();
-                response.Users[0] = (UserData)userParam;
+                response.UserAuth = userParam;
                 return response;
             }catch(Exception ex)
             {
@@ -179,12 +179,19 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
+                TotalResponse tr = new TotalResponse();
                 if (CheckIfEmpty(userRequest))
                 {
-                    return $"Login or password are invalid";
+                    tr.IsTrue.IsTrue = false.ToString();
+                    tr.IsTrue.Text = "User is not registered";
+                    tr.Client.IsUserClient = false.ToString();
+                    tr.Admin.IsUserAdmin = false.ToString();
+                    tr.Error.ErrorMessage= $"Login or password are invalid";
+
+                    return js.SerializeObjectT(tr);
                 }
 
-                TotalResponse tr = FormLogPas(userRequest);
+                tr = FormLogPas(userRequest);
 
                 if (CheckIfAdmin(userRequest))
                 {
