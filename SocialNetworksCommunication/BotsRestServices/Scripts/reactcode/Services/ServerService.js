@@ -82,9 +82,10 @@ export default class ServerService {
         return `${lUrl + lPort}/${lController}/${lMethod}/${lParam}`
     }
 
-    logIn = async ({ login, password }) => {
+    //Login to server
+    logIn = async ({ Login, Password }) => {
 
-        const body = this.formRequest({ login, password })
+        const body = this.formRequest({ Login, Password })
 
         const ans = await this.sendRequest(this.formUrl(
             {
@@ -96,7 +97,7 @@ export default class ServerService {
         return ans
     }
 
-    formRequest = ({ dataToSend, login, password }) => {
+    formRequest = ({ dataToSend, Login, Password }) => {
 
         return {
             method: "POST",
@@ -107,24 +108,13 @@ export default class ServerService {
             body: JSON.stringify(
                 {
                     User: {
-                        Login: login,
-                        Password: password
+                        Login: Login,
+                        Password: Password
                     }
                 }
             )
         }
     }
-
-    // formLogPasPair = ({ login, password }) => {
-
-    //     const log = this.crypto.encryptData(login, this.getKey(), this.getIV())
-    //     const passw = this.crypto.encryptData(password, this.getKey(), this.getIV())
-
-    //     return {
-    //         login: log,
-    //         password: passw
-    //     }
-    // }
 
     formBody = ({ dataToSend, login, password }) => {
 
@@ -145,6 +135,21 @@ export default class ServerService {
 
     testFunc = () => {
         alert("Test")
+    }
+
+    //Get list of clients from server
+    getClientsList= async ({Login, Password})=>{
+
+        const body = this.formRequest({ Login, Password })
+
+        const ans = await this.sendRequest(this.formUrl(
+            {
+                controller: this.glob.AdminController,
+                method: this.glob.GetClientsList
+            }
+        ), body)
+
+        return ans
     }
 
 }

@@ -37,22 +37,21 @@ class Index extends React.Component {
     IsAuthorized: false,
     IsLoading: false,
     IsAdmin: false,
-    IsClient: false
+    IsClient: false,
+    UserAuth: null
   }
 
-  login = ({ login, password }) => {
-    const response = this.service.logIn({ login, password })
+  login = ({ Login,Password }) => {
+    const response = this.service.logIn({ Login, Password })
     
     response.then(
       (serverAnswer) => {
-        const {Admin, Client} =JSON.parse(serverAnswer)
-        console.log(Admin)
-        console.log(Admin.IsUserAdmin)
+        const {Admin, Client, UserAuth} =JSON.parse(serverAnswer)
         
         if (Admin.IsUserAdmin == true) {
-          this.setState({ IsAuthorized: true, IsAdmin: true })
+          this.setState({ IsAuthorized: true, IsAdmin: true, UserAuth: UserAuth })
         } else if (Client.IsUserClient == true) {
-          this.setState({ IsAuthorized: true, IsClient: true })
+          this.setState({ IsAuthorized: true, IsClient: true, UserAuth: UserAuth })
         }
       }
     )
@@ -60,7 +59,6 @@ class Index extends React.Component {
 
   componentDidMount() {
 
-    console.log("dsfsdf")
     // const response = fetch("http://localhost:49492/interface/authorize")
     // console.log(response)
 
@@ -80,8 +78,8 @@ class Index extends React.Component {
 
     return (
       <div className="index">
-        {/* <Authorization login={this.login} /> */}
-        <ManageAdmin IsAdmin={this.state.IsAdmin} />
+        <Authorization login={this.login} IsAuthorized={this.state.IsAuthorized} />
+        <ManageAdmin IsAdmin={this.state.IsAdmin} UserAuth={this.state.UserAuth} />
       </div>
     )
   }

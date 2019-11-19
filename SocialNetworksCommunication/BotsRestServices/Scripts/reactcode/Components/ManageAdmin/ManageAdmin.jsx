@@ -1,38 +1,49 @@
 import React from 'react'
 
 import ClientList from '../ClientList/ClientList.jsx'
+import ServerService from '../../Services/ServerService.js'
 
 import '../ManageAdmin/ManageAdmin.css'
 
 
 export default class ManageAdmin extends React.Component{
-
+    
     state={
-        IdSelected: null,
-        VkBotStatus: false,
-        TelegramBotStatus: false,
-        ViberBotStatus: false,
-        WhatsAppBotStatus: false
+        clientsList: null
     }
 
+    service =new ServerService()
 
+    getClientsList=()=>{
+        
+        const response = this.service.getClientsList(this.props.UserAuth)
+        
+        response.then(
+            (a)=>{
+                const {Users} = JSON.parse(a)
+                this.setState({clientsList: Users})
+            }
+        )        
+    }
 
     render(){
-        // console.log(this.props)
-        if(this.props.IsAdmin==true){
+
+        if(this.props.IsAdmin==false){
             return <div className="empty"></div>
         }
 
+        
         return(
+            
             <div className="container" id="manage-admin">
                 <div className="row justify-content-center align-content-center">
                     <div className="col-10">
-                        <ClientList clientsList={this.props.clientsList} />
+                        <ClientList clientsList={this.state.clientsList} />
 
                         <div id="a-buttons-row" className="container">
                             <div className="row justify-content-between">
                                 <div key={0} className="col">
-                                    <input className="abr-button" type="button" value="AddClient"  />
+                                    <input className="abr-button" type="button" value="AddClient" onClick={this.getClientsList} />
                                 </div>
                                 <div key={1} className="col">
                                     <input className="abr-button" type="button" value="DelClient"  />

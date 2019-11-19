@@ -70,7 +70,7 @@ namespace BotsRestServices.Models.UserServices
         {            
             try
             {
-                TotalResponse response = new TotalResponse();
+                TotalResponse response = CheckIfRegistered(userParam);
                 response.UserAuth = userParam;
                 return response;
             }catch(Exception ex)
@@ -175,7 +175,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userRequest">User object</param>
         /// <returns>Json string with answer to client</returns>
-        private string CheckIfRegistered(User userRequest)
+        private TotalResponse CheckIfRegistered(User userRequest)
         {
             try
             {
@@ -188,10 +188,8 @@ namespace BotsRestServices.Models.UserServices
                     tr.Admin.IsUserAdmin = false;
                     tr.Error.ErrorMessage= $"Login or password are invalid";
 
-                    return js.SerializeObjectT(tr);
+                    return tr;
                 }
-
-                tr = FormLogPas(userRequest);
 
                 if (CheckIfAdmin(userRequest))
                 {
@@ -206,13 +204,14 @@ namespace BotsRestServices.Models.UserServices
                     tr.IsTrue.Text = "User is client";
                 }
                 else
-                {
+                {                    
                     tr.IsTrue.IsTrue = false;
                     tr.IsTrue.Text = "User is not registered";
                     tr.Client.IsUserClient = false;
                     tr.Admin.IsUserAdmin = false;
+                    throw new Exception(js.SerializeObjectT(tr));
                 }
-                return js.SerializeObjectT(tr);
+                return tr;
             }
             catch (Exception ex)
             {
@@ -229,6 +228,29 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
+                string req = ReadDataFromBrowser(ctr);
+                TotalRequest userRequest = GetRequestObject(req);
+                return js.SerializeObjectT(FormLogPas(userRequest.User));
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse error = new ErrorResponse { ErrorMessage = ex.Message };
+
+                string s = js.SerializeObjectT<ErrorResponse>(error);
+
+                return $"The error is {s}";
+            }
+        }
+
+        /// <summary>
+        /// Reads browser request body
+        /// </summary>
+        /// <param name="ctr">Controller class</param>
+        /// <returns>body data string</returns>
+        protected string ReadDataFromBrowser(Controller ctr)
+        {
+            try
+            {
                 string jsonPostData;
 
                 using (Stream sr = ctr.Request.InputStream)
@@ -240,17 +262,11 @@ namespace BotsRestServices.Models.UserServices
                     }
                 }
 
-                TotalRequest userRequest = jsd.DeserializeToObjectT<TotalRequest>(jsonPostData);
+                return jsonPostData;
 
-                return CheckIfRegistered(userRequest.User);
-            }
-            catch (Exception ex)
+            }catch(Exception ex)
             {
-                ErrorResponse error = new ErrorResponse { ErrorMessage = ex.Message };
-
-                string s = js.SerializeObjectT<ErrorResponse>(error);
-
-                return $"The error is {s}";
+                throw new Exception(ex.Message);
             }
         }
     }

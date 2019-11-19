@@ -2,82 +2,108 @@ import React from 'react'
 
 import '../ClientItem/ClientItem.css'
 
-const TrueFalse = ({ IsTrue, IsEdited }) => {
+const TrueFalse = ({IsTrue, ky, onChange}) => {
 
-    const sign = (IsTrue) => {
-        if (IsTrue == true) {
-            return (
-                Подключен
-            )
-        } else {
-            return (
-                Отключен
-            )
-        }
-
-    }
-
-    if (IsEdited) {
-        return (
-            <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {sign({ IsTrue })}
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="#">Подключить</a>
-                    <a className="dropdown-item" href="#">Отключить</a>
-                </div>
-            </div>
-        )
+  const sign = () => {
+    if (IsTrue) {
+      console.log("this.props")
+      return (
+        "Подключен"
+      )
     } else {
-        return (
-            sign({ IsTrue })
-        )
+      return (
+        "Отключен"
+      )
     }
+  }
+
+  const turnOn = () => {
+    const key = ky
+    onChange(key, true)
+  }
+
+  const turnOff = () => {
+    const key = ky
+    onChange(key, false)
+  }
+
+  return (
+
+    <div className="dropdown" >
+      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {sign}
+      </button>
+      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a className="dropdown-item" href="#" onClick={turnOn} >Подключить</a>
+        <a className="dropdown-item" href="#" onClick={turnOff} >Отключить</a>
+      </div>
+    </div>
+  )
 }
 
-export default class ClientItem extends React.Component{
 
-    state={
-        IsEdited: false,
-        VkBot: false,
-        TelegramBot: false,
-        ViberBot: false,
-        WhatsAppBot: false
+export default class ClientItem extends React.Component {
+
+  state = {
+    User: null
+  }
+
+
+  componentDidMount() {
+    this.setState({ User: this.props.clientData })
+  }
+
+  setStatus = (key, IsTrue) => {
+    this.setState({ [key]: IsTrue })
+  }
+
+  setText = (key, e) => {
+    this.setState({ [key]: e.target.value })
+  }
+
+  render() {
+    if (this.state.User == null) {
+      return null
     }
 
-    render(){
+    const {
+      Id,
+      VkBot,
+      TelegramBot,
+      ViberBot,
+      WhatsAppBot,
+      Login,
+      Password
+    } = this.state.User
 
-        const {
-            Id,
-            VkBot,
-            TelegramBot,
-            ViberBot,
-            WhatsAppBot,    
-        } = this.props
+    // if(this.props.IsAdmin==false){
+    //     return <div className="empty"></div>
+    // }
 
-        if(this.props.IsAdmin==false){
-            return <div className="empty"></div>
-        }
-
-        return (
-            <tr>
-                <th scope="row">
-                    {Id}
-                </th>
-                <td>
-                    <TrueFalse IsTrue={VkBot} IsEdited={this.state.IsEdited} />
-                </td>
-                <td>
-                    <TrueFalse IsTrue={TelegramBot} IsEdited={this.state.IsEdited} />
-                </td>
-                <td>
-                    <TrueFalse IsTrue={ViberBot} IsEdited={this.state.IsEdited} />
-                </td>
-                <td>
-                    <TrueFalse IsTrue={WhatsAppBot} IsEdited={this.state.IsEdited} />
-                </td>
-            </tr>
-        )
-    }
+    return (
+      <tr>
+        <th scope="row">
+          {Id}
+        </th>
+        <td>
+          <TrueFalse IsTrue={VkBot} onChange={this.setStatus} ky={'VkBot'} />
+        </td>
+        <td>
+          {/* <TrueFalse IsTrue={TelegramBot} onChange={this.setStatus} ky={'TelegramBot'} /> */}
+        </td>
+        <td>
+          {/* <TrueFalse IsTrue={ViberBot} onChange={this.setStatus} ky={'ViberBot'} /> */}
+        </td>
+        <td>
+          {/* <TrueFalse IsTrue={WhatsAppBot} onChange={this.setStatus} ky={'WhatsAppBot'} /> */}
+        </td>
+        <td>
+          {/* <input type="text" defaultValue={Login} onChange={(e)=>{this.setState({Login: e.target.value})}} /> */}
+        </td>
+        <td>
+          {/* <input type="text" defaultValue={Password} onChange={(e)=>{this.setState({Password: e.target.value})}} /> */}
+        </td>
+      </tr>
+    )
+  }
 }

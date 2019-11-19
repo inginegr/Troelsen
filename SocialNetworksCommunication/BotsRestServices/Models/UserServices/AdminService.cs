@@ -6,6 +6,7 @@ using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.Objects.RequestToServer;
 using ServiceLibrary.Serialization;
+using System.Web.Mvc;
 
 
 namespace BotsRestServices.Models.UserServices
@@ -15,24 +16,42 @@ namespace BotsRestServices.Models.UserServices
     /// </summary>
     public class AdminService : UserService
     {
+        /// <summary>
+        /// Forms basic response object with user login and password
+        /// </summary>
+        /// <param name="ctr">Controller class</param>
+        /// <returns>Return basic response object with login and password data</returns>
+        private TotalResponse FormResponse(Controller ctr)
+        {
+            try
+            {
+                string reqString = ReadDataFromBrowser(ctr);
+                TotalRequest req = GetRequestObject(reqString);
+                return FormLogPas(req.User);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         
         /// <summary>
         /// Add user to db
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>Json string answer text</returns>
-        public string AddClientToDb(string requestString)
+        public string AddClientToDb(Controller ctr)
         {
-            TotalRequest request = new TotalRequest();
-            TotalResponse resp = new TotalResponse();
+            TotalResponse resp = null;
 
             try
             {
-                request = GetRequestObject(requestString);
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                resp = FormLogPas(request.User);
 
                 dbHandle.AddUser(request.DataRequest.User);
 
-                resp = FormLogPas(request.User);
 
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
@@ -49,13 +68,13 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="s">Request string</param>
         /// <returns>Total response object</returns>
-        public string GetClientsList(string s)
+        public string GetClientsList(Controller ctr)
         {
-            TotalRequest req = GetRequestObject(s);
-            TotalResponse resp = FormLogPas(req.User);
+            TotalResponse resp = null; 
             
             try
             {
+                resp = FormResponse(ctr);
                 List<UserData> list = dbHandle.GetUsers();
                 resp = FormResponseStatus(resp, true, "Hire is the user list");
                 resp.Users = list.ToArray();
@@ -71,13 +90,17 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>TotalResponse object with answer</returns>
-        public string RemoveClientFromDb(string requestString)
+        public string RemoveClientFromDb(Controller ctr)
         {
-            TotalRequest request = GetRequestObject(requestString);
-            TotalResponse response = FormLogPas(request.User);
-            
+            TotalResponse response = null;
+
             try
             {
+
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                response = FormLogPas(request.User);
+
                 dbHandle.DeleteUser(request.DataRequest.User);
 
                 response = FormResponseStatus(response, true, $"The user with login {request.User.Login} is deleted");
@@ -94,13 +117,16 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">Request string with user to update</param>
         /// <returns>Response with status and message</returns>
-        public string EditClient(string requestString)
+        public string EditClient(Controller ctr)
         {
-            TotalRequest request = GetRequestObject(requestString);
-            TotalResponse response = FormLogPas(request.User);
+            TotalResponse response = null;
 
             try
             {
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                response = FormLogPas(request.User);
+
                 List<UserData> usersToUpdate = new List<UserData>();
                 usersToUpdate.Add(request.DataRequest.User);
                 dbHandle.EditUser(usersToUpdate);

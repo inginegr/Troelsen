@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BotsRestServices.Models.UserServices;
+
 
 namespace BotsRestServices.Controllers.Interface
 {
     public class AdminController : Controller
     {
+
+        AdminService admin = new AdminService();
+
         // GET: Admin
         public JsonResult AddUser()
         {
             return Json("fds");
+        }
+
+        [HttpPost]
+        public JsonResult GetUsersList()
+        {            
+            return Json(admin.GetClientsList(this));
         }
 
         public JsonResult DeleteUser()
