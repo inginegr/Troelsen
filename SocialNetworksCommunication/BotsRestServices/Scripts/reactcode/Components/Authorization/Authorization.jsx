@@ -48,6 +48,7 @@ class Authorization extends React.Component {
                         <div id="a-buttons-row" className="container">
                             <div className="row justify-content-between">
                                 <div key={0} className="col">
+                                <i className="fab fa-accessible-icon"></i>
                                     <input className="abr-button" type="button" value="Remind" onClick={this.onRemind} />
                                 </div>
                                 <div key={1} className="col">

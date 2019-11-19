@@ -19,8 +19,7 @@ export default class ClientList extends React.Component {
     WhatsAppBot: "WhatsApp Bot"
   }
 
-  Elements = () => {
-    console.log(this.props.clientsList)
+  Elements = () => {    
     if (this.props.clientsList==null || this.props.clientsList==undefined ) {
       return null
     }
