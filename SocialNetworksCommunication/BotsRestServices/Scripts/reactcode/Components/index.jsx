@@ -42,6 +42,7 @@ class Index extends React.Component {
   }
 
   login = ({ Login,Password }) => {
+    
     const response = this.service.logIn({ Login, Password })
     
     response.then(
@@ -76,12 +77,17 @@ class Index extends React.Component {
 
   render() {
 
-    return (
-      <div className="index">
-        <Authorization login={this.login} IsAuthorized={this.state.IsAuthorized} />
+    if(this.state.IsAdmin){
+      return(
         <ManageAdmin IsAdmin={this.state.IsAdmin} UserAuth={this.state.UserAuth} />
-      </div>
-    )
+      )
+    }else{
+      return (
+        <div className="index">
+          <Authorization login={this.login} IsAuthorized={this.state.IsAuthorized} />
+        </div>
+      )
+    }
   }
 }
 

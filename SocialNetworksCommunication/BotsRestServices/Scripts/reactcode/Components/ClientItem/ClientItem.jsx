@@ -1,6 +1,9 @@
 import React from 'react'
 
+
 import '../ClientItem/ClientItem.css'
+
+import ServerService from '../../Services/ServerService.js'
 
 const TrueFalse = ({IsTrue, ky, changeStatus}) => {
 
@@ -45,29 +48,66 @@ export default class ClientItem extends React.Component {
 
   state = {
     User: null,      // All properties of component
-    IsChanged: false // Show if any property in coponent is changed
+    IsChanged: false, // Show if any property in coponent is changed
+    UserAuth: null
   }
 
+  service=new ServerService()
+
   componentDidMount() {
-    this.setState({ User: this.props.clientData })
+    this.setState({ User: this.props.clientData, UserAuth: this.props.UserAuth })
   }
 
   setStatus = (key, IsTrue) => {
     let newUser=Object.assign(this.state.User)
+    
     newUser[key]=IsTrue
+
     this.setState(
       {
-        User: newUser
+        User: newUser,
+        IsChanged: true
       }
     )
-    console.log(this.state.User)
   }
 
   setText = (key, e) => {
     this.setState({ [key]: e.target.value })
   }
 
+  saveMouseOn = (e)=>{
+    e.target.className=e.target.className + " on";
+  }
 
+  saveMouseOff = (e)=>{
+    e.target.className = "material-icons save"
+  }
+
+  saveOnClick=(e)=>{
+    const response = this.service.saveClientData(this.state.UserAuth, this.state)
+
+    response.then(
+      (e)=>{
+        const resp = JSON.parse(e)
+        const {IsTrue} = resp
+        console.log(IsTrue)
+        if (IsTrue.IsTrue) {
+          this.setState({IsChanged: false})
+        }
+      }
+    )
+  }
+
+  showSave=()=>{
+    if(this.state.IsChanged){
+      return(
+        <i className="material-icons save" 
+        onMouseOver={(e)=>this.saveMouseOn(e)} 
+        onMouseLeave={(e)=>this.saveMouseOff(e)} 
+        onClick={(e)=>this.saveOnClick(e)} >save</i>
+      )
+    }
+  }
 
   render() {
 
@@ -86,7 +126,7 @@ export default class ClientItem extends React.Component {
     } = this.state.User
 
     return (
-      <tr>
+      <tr id="ma-client-item">
         <th scope="row">
           {Id}
         </th>
@@ -109,7 +149,7 @@ export default class ClientItem extends React.Component {
           <input type="text" defaultValue={Password} onChange={(e)=>{this.setState({Password: e.target.value})}} />
         </td>
         <td>
-          asdasd
+          {this.showSave()}
         </td>
       </tr>
     )

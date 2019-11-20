@@ -25,6 +25,12 @@ namespace BotsRestServices.Controllers.Interface
             return Json(admin.GetClientsList(this));
         }
 
+        [HttpPost]
+        public JsonResult SaveClientData()
+        {
+            return Json(admin.EditClient(this));
+        }
+
         public JsonResult DeleteUser()
         {
             return Json("fds");

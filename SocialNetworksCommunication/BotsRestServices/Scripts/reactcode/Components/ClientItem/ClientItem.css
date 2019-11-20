@@ -1,0 +1,17 @@
+#ma-client-item{
+  font-size: 1vw;
+}
+
+#ma-client-item button{
+  font-size: 1vw;
+}
+
+.material-icons.save {
+  font-size: 2vw;
+  cursor: default;
+}
+
+.material-icons.save.on {
+  font-size: 2.3vw;
+  cursor: default;
+}

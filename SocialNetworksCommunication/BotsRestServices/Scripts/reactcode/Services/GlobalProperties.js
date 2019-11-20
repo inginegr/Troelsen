@@ -1,15 +1,16 @@
 
 
 export default class GlobalProperties {
-    //============================Controllers=================================//
+    //============================Controller=================================//
     InterfaceControllerName = "Interface"
-
-    AdminController="Admin"
-
-
     //============================Methods=================================//
     Authorize = "Authorize"
-
+    
+        
+    //============================Controller=================================//
+    AdminController="Admin"
+    
+    //============================Methods=================================//
     GetClientsList="GetUsersList"
-
+    SaveClientData="SaveClientData"
 }

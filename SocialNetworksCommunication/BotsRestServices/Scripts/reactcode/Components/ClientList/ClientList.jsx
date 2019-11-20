@@ -8,7 +8,8 @@ import '../ClientList/ClientList.css'
 export default class ClientList extends React.Component {
 
   state = {
-    Users: null
+    Users: null,
+    UserAuth: null
   }
 
   userData = {
@@ -19,18 +20,19 @@ export default class ClientList extends React.Component {
     WhatsAppBot: "WhatsApp Bot"
   }
 
-  Elements = () => {    
-    if (this.props.clientsList==null || this.props.clientsList==undefined ) {
+  Elements = () => {
+    if (this.props.clientsList == null || this.props.clientsList == undefined || this.state.UserAuth==null) {
       return null
     }
-    let count=0
-    return(
-      
+
+    let count = 0
+
+    return (
       this.props.clientsList.map(
         (a) => {
           count++
           return (
-            <ClientItem key={count} clientData={a}  />
+            <ClientItem key={count} clientData={a} UserAuth={this.state.UserAuth} />
           )
         }
       )
@@ -38,14 +40,10 @@ export default class ClientList extends React.Component {
   }
 
   componentDidMount() {
-
+    this.setState({UserAuth: this.props.UserAuth})
   }
 
   render() {
-
-    if (this.props.IsAdmin == true) {
-      return <div className="empty"></div>
-    }
 
     return (
       <div className="container" id="manage-admin">

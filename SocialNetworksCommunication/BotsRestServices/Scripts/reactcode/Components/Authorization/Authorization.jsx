@@ -30,7 +30,7 @@ class Authorization extends React.Component {
         const Login = this.takeData(this.loginId)
         const Password = this.takeData(this.passwordId)        
         
-        const inf = this.props.login({Login, Password})
+        this.props.login({Login, Password})
     }
 
 
