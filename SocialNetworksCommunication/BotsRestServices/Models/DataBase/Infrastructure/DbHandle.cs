@@ -7,6 +7,7 @@ using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.DataBase.Initializers;
 using System.Data.Entity.Core;
+using System.Reflection;
 
 namespace BotsRestServices.Models.DataBase.Infrastructure
 {
@@ -114,12 +115,20 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 using (UserContext context = new UserContext())
                 {
-                    List<UserData> users = new List<UserData>();
+                    int[] elems = userData.Select(x => x.Id).ToArray();
+
+                    List<UserData> users = context.UserTable.Where(x => elems.Contains(x.Id)).ToList();
+                    
                     foreach(UserData u in userData)
                     {
-                        UserData user = context.UserTable.SingleOrDefault(a => ((a.Login == u.Login) && (a.Password == u.Password) && (a.Id == u.Id)));
-                        user = u;
-                        users.Add(user);
+                        UserData userToUpdate = context.UserTable.Where(x => x.Id == u.Id).FirstOrDefault();
+                        userToUpdate.Id = u.Id;
+                        userToUpdate.Login = u.Login;
+                        userToUpdate.Password = u.Password;
+                        userToUpdate.TelegramBot = u.TelegramBot;
+                        userToUpdate.ViberBot = u.ViberBot;
+                        userToUpdate.VkBot = u.VkBot;
+                        userToUpdate.WhatsAppBot = u.WhatsAppBot;
                     }
 
                     context.SaveChanges();

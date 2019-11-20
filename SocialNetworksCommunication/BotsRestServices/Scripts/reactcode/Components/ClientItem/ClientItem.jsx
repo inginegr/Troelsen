@@ -58,6 +58,10 @@ export default class ClientItem extends React.Component {
     this.setState({ User: this.props.clientData, UserAuth: this.props.UserAuth })
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({User: nextProps.clientData, UserAuth: nextProps.UserAuth})
+  }
+
   setStatus = (key, IsTrue) => {
     let newUser=Object.assign(this.state.User)
     
@@ -72,15 +76,22 @@ export default class ClientItem extends React.Component {
   }
 
   setText = (key, e) => {
-    this.setState({ [key]: e.target.value })
+    let newUser=Object.assign(this.state.User)
+    newUser[key] = e.target.value
+    this.setState(
+      {
+        User: newUser
+      }
+    )
+    this.setState({IsChanged: true})
   }
 
-  saveMouseOn = (e)=>{
+  encreaseIcon = (e)=>{
     e.target.className=e.target.className + " on";
   }
 
-  saveMouseOff = (e)=>{
-    e.target.className = "material-icons save"
+  decreaseIcon = (e)=>{
+    e.target.className = e.target.className.replace(" on", "")
   }
 
   saveOnClick=(e)=>{
@@ -90,7 +101,6 @@ export default class ClientItem extends React.Component {
       (e)=>{
         const resp = JSON.parse(e)
         const {IsTrue} = resp
-        console.log(IsTrue)
         if (IsTrue.IsTrue) {
           this.setState({IsChanged: false})
         }
@@ -98,15 +108,19 @@ export default class ClientItem extends React.Component {
     )
   }
 
-  showSave=()=>{
-    if(this.state.IsChanged){
-      return(
-        <i className="material-icons save" 
-        onMouseOver={(e)=>this.saveMouseOn(e)} 
-        onMouseLeave={(e)=>this.saveMouseOff(e)} 
-        onClick={(e)=>this.saveOnClick(e)} >save</i>
+  showSave = () => {
+    if (this.state.IsChanged) {
+      return (
+        <i className="material-icons save"
+          onMouseOver={(e) => this.encreaseIcon(e)}
+          onMouseLeave={(e) => this.decreaseIcon(e)}
+          onClick={(e) => this.saveOnClick(e)} >save</i>
       )
     }
+  }
+
+  removeClient=()=>{
+    this.props.removeClient(this.props.clientData)
   }
 
   render() {
@@ -125,13 +139,14 @@ export default class ClientItem extends React.Component {
       Password
     } = this.state.User
 
+    console.log(Id)
     return (
-      <tr id="ma-client-item">
+      <tr id="m-a-c-l-client-item">
         <th scope="row">
-          {Id}
+            {Id}
         </th>
         <td>
-          <TrueFalse IsTrue={VkBot} changeStatus={this.setStatus}  ky={'VkBot'} />
+            <TrueFalse IsTrue={VkBot} changeStatus={this.setStatus}  ky={'VkBot'} />            
         </td>
         <td>
           <TrueFalse IsTrue={TelegramBot} changeStatus={this.setStatus} ky={'TelegramBot'} />
@@ -143,13 +158,21 @@ export default class ClientItem extends React.Component {
           <TrueFalse IsTrue={WhatsAppBot} changeStatus={this.setStatus} ky={'WhatsAppBot'} />
         </td>
         <td>
-          <input type="text" defaultValue={Login} onChange={(e)=>{this.setState({Login: e.target.value})}} />
+          <input type="text" defaultValue={Login} onChange={(e)=>this.setText('Login', e)} />
         </td>
         <td>
-          <input type="text" defaultValue={Password} onChange={(e)=>{this.setState({Password: e.target.value})}} />
+          <input type="text" defaultValue={Password} onChange={(e)=>{this.setText('Password', e)}} />
         </td>
         <td>
           {this.showSave()}
+        </td>
+        <td>
+        <i className="material-icons" 
+        onMouseEnter={this.encreaseIcon} 
+        onMouseLeave={this.decreaseIcon}
+        onClick={this.removeClient}>
+          delete_forever
+        </i>
         </td>
       </tr>
     )

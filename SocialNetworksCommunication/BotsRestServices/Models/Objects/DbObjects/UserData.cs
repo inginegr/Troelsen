@@ -11,7 +11,7 @@ using BotsRestServices.Models.Objects.AnswersFromServer;
 
 namespace BotsRestServices.Models.Objects.DbObjects
 {
-    public class UserData : User
+    public class UserData : User, ICloneable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,5 +24,10 @@ namespace BotsRestServices.Models.Objects.DbObjects
         public bool ViberBot { get; set; }
 
         public bool WhatsAppBot { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

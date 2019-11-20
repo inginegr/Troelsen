@@ -1,17 +1,21 @@
-#ma-client-item{
-  font-size: 1vw;
+#m-a-c-l-client-item{
+  font-size: 1.5vw;
 }
 
-#ma-client-item button{
-  font-size: 1vw;
+#m-a-c-l-client-item button{
+  font-size: 1.5vw;
+  padding: 0.2em .4em;
 }
 
-.material-icons.save {
-  font-size: 2vw;
+#m-a-c-l-client-item input{
+  width: 8vw;
+}
+
+#m-a-c-l-client-item .material-icons{
   cursor: default;
+  font-size: 3vw;
 }
 
-.material-icons.save.on {
-  font-size: 2.3vw;
-  cursor: default;
+#m-a-c-l-client-item .material-icons.on{
+  font-size: 3.3vw;
 }

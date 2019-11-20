@@ -1,3 +1,24 @@
 #manage-admin{
   font-size: 1.2vw;
 }
+
+#manage-admin .btn.btn-primary{
+  font-size: 2vw;
+  width: auto;
+  margin-top: 3vw;
+}
+#manage-admin .btn.btn-primary + .btn.btn-primary{
+  margin-left: 3vw;
+}
+
+#manage-admin i{
+  font-size: 2vw;
+  margin-left: 0px;
+}
+
+#manage-admin div{
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}

@@ -17,7 +17,7 @@ export default class ManageAdmin extends React.Component {
 
   getClientsList = () => {
     const response = this.service.getClientsList(this.state.UserAuth)
-    
+
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
@@ -30,11 +30,10 @@ export default class ManageAdmin extends React.Component {
     this.setState({ UserAuth: this.props.UserAuth })
   }
 
-  listOut=()=>{
-    if (this.state.clientsList!=null) {
-      
+  listOut = () => {
+    if (this.state.clientsList != null) {
       return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} />
-    }else{
+    } else {
       return null
     }
   }
@@ -42,24 +41,23 @@ export default class ManageAdmin extends React.Component {
 
   render() {
 
-    return(
+    return (
       <div className="container" id="manage-admin">
         <div className="row justify-content-center align-content-center">
-          <div className="col-12">
+          <div className="col-10">
+            <button className="btn btn-primary" type="submit" onClick={this.getClientsList}>
+              <i className="material-icons">
+                cloud_download
+              </i>
+              GetList
+            </button>
+            <button className="btn btn-primary" type="submit">
+              <i className="material-icons">
+                perm_identity
+              </i>
+              AddUser
+            </button>
             {this.listOut()}
-            <div id="a-buttons-row" className="container">
-              <div className="row justify-content-between">
-                <div key={0} className="col">
-                  <input className="abr-button" type="button" value="AddClient" onClick={this.getClientsList} />
-                </div>
-                <div key={1} className="col">
-                  <input className="abr-button" type="button" value="DelClient" />
-                </div>
-                <div key={2} className="col">
-                  <input className="abr-button" type="button" value="EditClient" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
