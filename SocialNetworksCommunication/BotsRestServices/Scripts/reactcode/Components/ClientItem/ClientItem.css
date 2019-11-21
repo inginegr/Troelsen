@@ -12,6 +12,7 @@
 }
 
 #m-a-c-l-client-item .material-icons{
+  position: relative;
   cursor: default;
   font-size: 3vw;
 }

@@ -1,53 +1,106 @@
 import React from 'react'
 
 import ClientItem from '../ClientItem/ClientItem.jsx'
-
+import ServerService from '../../Services/ServerService.js'
 
 import '../ClientList/ClientList.css'
 
 export default class ClientList extends React.Component {
 
+  service =new ServerService()
+
   state = {
-    Users: null,
-    UserAuth: null
+    Users: [], // array of clients
+    UserAuth: null, // login and password
+    IsChangedArray: []  // Id of changed clients
   }
 
-  userData = {
-    Id: "ID",
-    VkBot: "VK Bot",
-    TelegramBot: "Telegram Bot",
-    ViberBot: "Viber Bot",
-    WhatsAppBot: "WhatsApp Bot"
-  }
-
-  removeClient=(a)=>{
-    const {Id} = a
-    let newUsers=[]
-    for(let i=0;i<this.state.Users.length;i++){
-      const el =this.state.Users[i] 
-      if(el.Id!=Id){
-        newUsers.push(Object.assign(el))
+  // Handle changes in client bots state
+  changeClient=(client)=>{
+    let newUsers = Object.assign(this.state.Users)
+    newUsers.forEach(newUser => {
+      if(newUser.Id==client.Id){
+        newUser=Object.assign(client)
       }
+    })
+
+    if(!this.state.IsChangedArray.includes(client.Id)){
+      let newChangeArray=Object.assign(this.state.IsChangedArray)
+      newChangeArray.push(client.Id)
+      this.setState({Users: newUsers, IsChangedArray: newChangeArray})
+    }else{
+      this.setState({Users: newUsers})
     }
-    console.log(newUsers)
-    this.setState({Users: newUsers})
   }
 
-  Elements = () => {
+  // Handle text changed in password and login fields
+  textChanged=(e, client, key)=>{
+    let newClient=Object.assign(client)
+    newClient[key]=e.target.value
+    this.changeClient(newClient)
+  }
+
+  // Remove save chancge icon from table
+  deleteSaveIcon=(client)=>{
+    let newArray=[null]
+    this.state.IsChangedArray.map(
+      (a)=>{
+        if(a.Id!=client.Id){
+          newArray.push(a.Id)
+        }
+      }
+    )
+
+    this.setState({IsChangedArray: newArray})
+  }
+
+  //Save change in client
+  saveChange=(client)=>{
     
-    if (this.props.clientsList == null || this.props.clientsList == undefined || this.state.UserAuth==null) {
+    let tempVar = null
+    this.state.Users.map(
+      (c)=>{
+        if(c.Id==client.Id){
+          tempVar=c
+        }
+      }
+    )
+
+    const newClient= {User: Object.assign(tempVar)} 
+    
+    const ans = this.service.saveClientData(this.state.UserAuth, newClient)
+
+    ans.then(
+      (ob)=>{
+        const {IsTrue} = JSON.parse(ob)
+        if(IsTrue.IsTrue){
+          this.deleteSaveIcon(client)
+        }
+      }
+    )
+  }
+  
+  Elements = () => {
+
+    if (this.state.Users == null || this.state.Users == undefined || this.state.UserAuth==null) {
       return null
     }
-
+    
     let count = 0
-
+    console.log(this.state.IsChangedArray)
     return (
       this.state.Users.map(
-        (a) => {
+        (client) => {
           count++
-          console.log(a)
+          const trueFalse=this.state.IsChangedArray.includes(client.Id)
+          
           return (
-            <ClientItem key={count} clientData={a} removeClient={(a)=>this.removeClient(a)} UserAuth={this.state.UserAuth} />
+            <ClientItem key={count} 
+              clientInfo={client} 
+              statusChanged={this.changeClient} 
+              IsChanged={trueFalse} 
+              textChanged={this.textChanged} 
+              saveChange={this.saveChange} />
           )
         }
       )
