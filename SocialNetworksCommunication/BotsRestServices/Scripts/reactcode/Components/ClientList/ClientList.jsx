@@ -24,7 +24,9 @@ export default class ClientList extends React.Component {
       }
     })
 
+    
     if(!this.state.IsChangedArray.includes(client.Id)){
+      
       let newChangeArray=Object.assign(this.state.IsChangedArray)
       newChangeArray.push(client.Id)
       this.setState({Users: newUsers, IsChangedArray: newChangeArray})
@@ -40,23 +42,22 @@ export default class ClientList extends React.Component {
     this.changeClient(newClient)
   }
 
-  // Remove save chancge icon from table
+  // Remove save change icon from table
   deleteSaveIcon=(client)=>{
-    let newArray=[null]
+    let newArray=[]
     this.state.IsChangedArray.map(
       (a)=>{
         if(a.Id!=client.Id){
           newArray.push(a.Id)
+          
         }
       }
-    )
-
+      )
     this.setState({IsChangedArray: newArray})
   }
 
   //Save change in client
   saveChange=(client)=>{
-    
     let tempVar = null
     this.state.Users.map(
       (c)=>{
@@ -68,14 +69,58 @@ export default class ClientList extends React.Component {
 
     const newClient= {User: Object.assign(tempVar)} 
     
+    console.log(newClient)
+    
     const ans = this.service.saveClientData(this.state.UserAuth, newClient)
-
+    
     ans.then(
       (ob)=>{
         const {IsTrue} = JSON.parse(ob)
         if(IsTrue.IsTrue){
-          this.deleteSaveIcon(client)
+          this.deleteSaveIcon(newClient)
         }
+        console.log(IsTrue.Text)          
+      }
+      )
+  }
+
+  // Delete client from interface table
+  deleteClient=(client)=>{
+    let newUsersList=[]
+    this.state.Users.map(
+      (c)=>{
+        if(client.Id!=c.Id){
+          newUsersList.push(c)
+        }
+      }
+    )
+    this.setState({Users: newUsersList})
+  }
+
+  // Delete client from db
+  deleteClientFromDb=(client)=>{
+    let clientToDelete=null
+    this.state.Users.map(
+      (c)=>{
+        if(c.Id==client.Id){
+          clientToDelete=Object.assign(c)
+        }
+      }
+      )
+    const ob={User: clientToDelete}
+    const resp = this.service.deleteClientFromDb(this.state.UserAuth, ob)
+    
+    resp.then(
+      (ans)=>{
+        const {IsTrue}=JSON.parse(ans)
+        if(IsTrue.IsTrue){
+          this.deleteClient(client)
+        }
+          console.log(IsTrue.Text)      
+      }
+    ).catch(
+      err=>{
+        console.log(`Cannot delete client from db: ${err}`)
       }
     )
   }
@@ -87,20 +132,22 @@ export default class ClientList extends React.Component {
     }
     
     let count = 0
-    console.log(this.state.IsChangedArray)
     return (
       this.state.Users.map(
         (client) => {
           count++
           const trueFalse=this.state.IsChangedArray.includes(client.Id)
-          
+
+          // console.log(client)
           return (
             <ClientItem key={count} 
               clientInfo={client} 
               statusChanged={this.changeClient} 
               IsChanged={trueFalse} 
               textChanged={this.textChanged} 
-              saveChange={this.saveChange} />
+              saveChange={this.saveChange}
+              deleteClient={this.deleteClientFromDb}
+              />
           )
         }
       )

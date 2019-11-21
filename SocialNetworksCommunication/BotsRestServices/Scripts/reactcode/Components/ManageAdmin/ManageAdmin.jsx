@@ -10,7 +10,8 @@ export default class ManageAdmin extends React.Component {
 
   state = {
     clientsList: null,
-    UserAuth: null
+    UserAuth: null,
+    IsNew: []
   }
 
   service = new ServerService()
@@ -26,13 +27,86 @@ export default class ManageAdmin extends React.Component {
     )
   }
 
+  defineId=()=>{
+    let prevId=0
+    let curId=1
+    this.state.clientsList.map(
+      ({Id})=>{
+        curId=Id
+        if((curId-prevId)>1){
+          return (prevId+1)
+        }else{
+          prevId=curId
+        }
+      }
+    )
+
+    if(this.state.clientsList.length>0){
+      return (prevId + 1)      
+    }else{
+      return 0
+    }
+  }
+
+  addClient=()=>{
+    let oldList= Object.assign(this.state.clientsList)
+    const id=this.defineId()
+    oldList.push(
+      {
+        Id: id,
+        Login: "login",
+        Password: "password",
+        VkBot: false,
+        TelegramBot: false,
+        ViberBot: false,
+        WhatsAppBot: false
+      }
+    )
+
+    let newIsNew=Object.assign(this.state.IsNew)   
+    newIsNew.push(id)
+
+    this.setState({clientsList: oldList, IsNew: newIsNew})
+  }
+
+  saveNew=(client)=>{
+    
+    const ans = this.service.addCleinToDb(this.state.UserAuth, client)
+    
+    ans.then(
+      (a)=>{
+        const {IsTrue}=JSON.parse(a)
+        
+        if(IsTrue.IsTrue){
+          
+          let newArr=[]
+          this.state.IsNew.map(
+            c=>{
+              if(c!=client.Id){
+                newArr.push(c)
+              }
+            }
+            )
+            console.log(IsTrue.Text)
+            this.setState({IsNew: newArr})
+          }else{
+            console.log(IsTrue.Text)
+          }
+      }
+    ).catch(
+      err=>console.log(err)
+    )
+
+
+  }
+
   componentDidMount() {
     this.setState({ UserAuth: this.props.UserAuth })
   }
 
   listOut = () => {
     if (this.state.clientsList != null) {
-      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} />
+      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth}  />
     } else {
       return null
     }
@@ -51,7 +125,7 @@ export default class ManageAdmin extends React.Component {
               </i>
               GetList
             </button>
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" type="submit" onClick={this.addClient}>
               <i className="material-icons">
                 perm_identity
               </i>

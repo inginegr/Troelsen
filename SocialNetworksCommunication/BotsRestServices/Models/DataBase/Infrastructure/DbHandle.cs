@@ -44,8 +44,16 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 using(UserContext context=new UserContext())
                 {
-                    context.UserTable.Remove(userParam);
-                    context.SaveChanges();
+                    UserData userToDelete = context.UserTable.Find(userParam.Id);
+                    if (userToDelete != null)
+                    {
+                        context.UserTable.Remove(userToDelete);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception($"User with Id {userParam.Id} not found in context");
+                    }
                 }
             }catch(Exception ex)
             {

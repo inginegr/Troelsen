@@ -13,4 +13,6 @@ export default class GlobalProperties {
     //============================Methods=================================//
     GetClientsList="GetUsersList"
     SaveClientData="SaveClientData"
+    DeleteClientFromDb="DeleteClient"
+    AddClient="AddUser"
 }

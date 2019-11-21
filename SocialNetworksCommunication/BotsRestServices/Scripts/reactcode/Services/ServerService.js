@@ -2,6 +2,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import Glob from './GlobalProperties.js'
+import { async } from "regenerator-runtime/runtime";
 
 
 const UserData = {
@@ -166,6 +167,41 @@ export default class ServerService {
       {
         controller: this.glob.AdminController,
         method: this.glob.SaveClientData
+      }
+    ), body)
+
+    return ans
+  }
+
+  // Delete client from db
+  deleteClientFromDb = async (a, b) => {
+
+    const { Login, Password } = a
+    const dataToSend = b
+    
+    const body = this.formRequest({ dataToSend, Login, Password })
+
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.AdminController,
+        method: this.glob.DeleteClientFromDb
+      }
+    ), body)
+
+    return ans
+  }
+
+  //Adds client to db
+  addCleinToDb= async (a,b)=>{
+    const { Login, Password } = a
+    const dataToSend = b
+    
+    const body = this.formRequest({ dataToSend, Login, Password })
+
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.AdminController,
+        method: this.glob.AddClient
       }
     ), body)
 

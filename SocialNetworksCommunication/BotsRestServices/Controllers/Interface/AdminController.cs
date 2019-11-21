@@ -13,10 +13,10 @@ namespace BotsRestServices.Controllers.Interface
 
         AdminService admin = new AdminService();
 
-        // GET: Admin
+        [HttpPost]
         public JsonResult AddUser()
         {
-            return Json("fds");
+            return Json(admin.AddClientToDb(this));
         }
 
         [HttpPost]
@@ -31,9 +31,10 @@ namespace BotsRestServices.Controllers.Interface
             return Json(admin.EditClient(this));
         }
 
-        public JsonResult DeleteUser()
+        [HttpPost]
+        public JsonResult DeleteClient()
         {
-            return Json("fds");
+            return Json(admin.RemoveClientFromDb(this));
         }
 
         public JsonResult BlockUser()

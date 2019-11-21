@@ -6,7 +6,7 @@ import '../ClientItem/ClientItem.css'
 import BotStatusItem from '../BotStatusItem/BotStatusItem.jsx'
 
 
-const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChange}) => {
+const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChange, deleteClient}) => {
 
   const {
     Id,
@@ -47,9 +47,11 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
     textChanged(e,clientInfo, key)
   }
 
-  return (
+  const deleteUser=()=>{
+    deleteClient(clientInfo)
+  }
 
-    
+  return (   
     <tr id="m-a-c-l-client-item">
       <th scope="row">
         {Id}
@@ -67,16 +69,20 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
         <BotStatusItem status={WhatsAppBot} setStatus={changeStatus} botKey={'WhataAppBot'} />
       </td>
       <td>
-        <input type="text" defaultValue={Login} onChange={(e)=>{changeText(e, 'Login')}}  />
+        <input type="text" value={Login} onChange={(e)=>{changeText(e, 'Login')}}  />
       </td>
       <td>
-        <input type="text" defaultValue={Password} onChange={(e)=>{changeText(e, 'Password')}}  />
+        <input type="text" value={Password} onChange={(e)=>{changeText(e, 'Password')}}  />
       </td>
       <td>
         {showSave()}
       </td>
       <td>
-        <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} >delete_forever</i>
+        <i className="material-icons" 
+        onMouseOver={(e)=>{encreaseIcon(e)}} 
+        onMouseLeave={(e)=>{decreaseIcon(e)}} 
+        onClick={deleteUser}
+        >delete_forever</i>
       </td>
     </tr>
   )

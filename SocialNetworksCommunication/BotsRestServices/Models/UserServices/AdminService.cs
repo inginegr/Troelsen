@@ -103,7 +103,7 @@ namespace BotsRestServices.Models.UserServices
 
                 dbHandle.DeleteUser(request.DataRequest.User);
 
-                response = FormResponseStatus(response, true, $"The user with login {request.User.Login} is deleted");
+                response = FormResponseStatus(response, true, $"The user with login {request.DataRequest.User.Login} is deleted");
             }
             catch(Exception ex)
             {
