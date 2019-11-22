@@ -193,6 +193,10 @@ export default class ServerService {
 
   //Adds client to db
   addCleinToDb= async (a,b)=>{
+    if(a==null||a==undefined||b==null||b==undefined){
+      console.log(`Cannot save empty user`)
+      return
+    }
     const { Login, Password } = a
     const dataToSend = b
     
@@ -207,5 +211,25 @@ export default class ServerService {
 
     return ans
   }
+  
+  //Adds client to db
+  getBotsList= async (a,b)=>{
+    if(a==null||a==undefined||b==null||b==undefined){
+      console.log(`Cannot get bots list of empty user`)
+      return
+    }
+    const { Login, Password } = a
+    const dataToSend = b
+    
+    const body = this.formRequest({ dataToSend, Login, Password })
 
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.ClientController,
+        method: this.glob.GetBots
+      }
+    ), body)
+
+    return ans
+  }
 }

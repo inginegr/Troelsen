@@ -6,7 +6,7 @@ import '../ClientItem/ClientItem.css'
 import BotStatusItem from '../BotStatusItem/BotStatusItem.jsx'
 
 
-const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChange, deleteClient}) => {
+const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChange, deleteClient, IsNew, saveNew}) => {
 
   const {
     Id,
@@ -31,7 +31,11 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
     if(IsChanged){
       return (
         <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={saveClient} >save</i>
-      )
+        )
+      }else if(IsNew) {
+        return(
+          <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={()=>saveNew(clientInfo)} >save</i>
+        )
     }
   }
 

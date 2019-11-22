@@ -9,12 +9,14 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
 {
     public class TotalResponse 
     {
+        private int numberBots = 4;
         public IsAdmin Admin { get; set; }
         public IsClient Client { get; set; }
         public UserData[] Users { get; set; }
         public User UserAuth { get; set; }
         public IsTrueAnswer IsTrue { get; set; }
         public ErrorResponse Error { get; set; }
+        public ActiveBot[] Bots { get; set; }
 
         public TotalResponse() : this(usersCount: 1) { }
 
@@ -26,6 +28,7 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
             UserAuth = new User();
             IsTrue = new IsTrueAnswer();
             Error = new ErrorResponse();
+            Bots = new ActiveBot[numberBots];
         }
     }
 }

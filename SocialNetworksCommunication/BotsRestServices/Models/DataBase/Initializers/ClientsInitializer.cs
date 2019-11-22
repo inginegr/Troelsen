@@ -23,7 +23,7 @@ namespace BotsRestServices.Models.DataBase.Initializers
             userList.Add(new UserData { Id = 1, Login = "Dima", Password = "12", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
             userList.Add(new UserData { Id = 1, Login = "Foty", Password = "1dsf2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
             userList.Add(new UserData { Id = 1, Login = "Bomk", Password = "1dsfsdf2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Molka", Password = "12fgh", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
+            userList.Add(new UserData { Id = 1, Login = "c", Password = "d", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
             userList.Add(new UserData { Id = 1, Login = "Jimmy", Password = "1245", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
             userList.Add(new UserData { Id = 1, Login = "Suzuki", Password = "143tr2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
             userList.Add(new UserData { Id = 1, Login = "Hodna", Password = "1ert2gfh", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });

@@ -2,88 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BotsRestServices.Models.Objects.AnswersFromServer;
+using System.Web.Mvc;
+
 using BotsRestServices.Models.DataBase.Infrastructure;
+using BotsRestServices.Models.Objects.DbObjects;
+using BotsRestServices.Models.Objects.AnswersFromServer;
+using BotsRestServices.Models.Objects.RequestToServer;
+
 
 namespace BotsRestServices.Models.UserServices
 {
-    public class ClientService 
+    public class ClientService: UserService
     {
-
-        private DbHandle db = new DbHandle();
-
-        /// <summary>
-        /// Id of choosed bot
-        /// </summary>
-        public int ChoosedBotId { get; set; }
-
-        /// <summary>
-        /// Is iser authorized in the system
-        /// </summary>
-        public bool IsAuthorized { get; set; }
-
-        /// <summary>
-        /// Is user registered in the system
-        /// </summary>
-        //private bool IsRegistered = false;
-        
-        /// <summary>
-        /// Choose selected bot
-        /// </summary>
-        /// <param name="dataToChoose">Data to choose bot</param>
-        /// <returns>Id of selected bot</returns>
-        public int ChooseBot(string dataToChoose)
+        public string GetClientBots(Controller ctr)
         {
-            throw new NotImplementedException();
-        }
+            TotalResponse response = null;
 
-        /// <summary>
-        /// Get list of registered bot, for user
-        /// </summary>
-        /// <param name="userData"></param>
-        /// <returns></returns>
-        public IEnumerable<string> GetBotList(string userData)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// Login to the system
-        /// </summary>
-        /// <param name="authorize">User login and password</param>
-        /// <returns>True if authorized, else false</returns>
-        public bool LogIn(User authorize)
-        {
             try
             {
-                return db.FindUser(authorize);
-            }catch(Exception)
-            {
-                return false;
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                response = FormLogPas(request.User);
+
+                UserData client = dbHandle.GetUsers()
+                    .Where(a => ((request.User.Id==a.Id)&&(request.User.Login==a.Login) && (request.User.Password == a.Password)))
+                    .FirstOrDefault();
+                
+                response.Bots[0] = new ActiveBot { BotName = "Viber Bot", BotStatus = client.ViberBot };
+                response.Bots[1] = new ActiveBot { BotName = "Vk Bot", BotStatus = client.VkBot };
+                response.Bots[2] = new ActiveBot { BotName = "Telegramm Bot", BotStatus = client.TelegramBot };
+                response.Bots[3] = new ActiveBot { BotName = "WhatsApp Bot", BotStatus = client.WhatsAppBot };
+
+
+                response = FormResponseStatus(response, true, $"The bots of client is gotten");
             }
-        }
-
-
-
-        /// <summary>
-        /// Start choosed bot
-        /// </summary>
-        /// <param name="dataParam">Bot data</param>
-        /// <returns>True if started</returns>
-        public bool StartBot(string dataParam)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Stop choosed bot
-        /// </summary>
-        /// <param name="dataToStop">Data to stop bot</param>
-        /// <returns>True if stopped</returns>
-        public bool StopBot(string dataToStop)
-        {
-            throw new NotImplementedException();
+            catch (Exception ex)
+            {
+                response = FormResponseStatus(response, false, ex.Message);
+            }
+            return js.SerializeObjectT(response);
         }
     }
 }

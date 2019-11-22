@@ -35,26 +35,6 @@ namespace BotsRestServices.Controllers.Interface
         public JsonResult DeleteClient()
         {
             return Json(admin.RemoveClientFromDb(this));
-        }
-
-        public JsonResult BlockUser()
-        {
-            return Json("fds");
-        }
-
-        public JsonResult BlockBot()
-        {
-            return Json("fds");
-        }
-
-        public JsonResult AddBotToUser()
-        {
-            return Json("fds");
-        }
-
-        public JsonResult DeleteBotFromUser()
-        {
-            return Json("fds");
-        }
+        }        
     }
 }

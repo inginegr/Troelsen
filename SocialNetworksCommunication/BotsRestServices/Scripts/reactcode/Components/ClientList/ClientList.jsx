@@ -137,8 +137,9 @@ export default class ClientList extends React.Component {
         (client) => {
           count++
           const trueFalse=this.state.IsChangedArray.includes(client.Id)
-
-          // console.log(client)
+          const IsNew=this.props.IsNew.includes(client.Id)
+          // console.log(`first ${this.props.IsNew}`)
+          // console.log(`second ${IsNew}`)
           return (
             <ClientItem key={count} 
               clientInfo={client} 
@@ -147,6 +148,8 @@ export default class ClientList extends React.Component {
               textChanged={this.textChanged} 
               saveChange={this.saveChange}
               deleteClient={this.deleteClientFromDb}
+              saveNew={this.props.saveNew}
+              IsNew={IsNew}
               />
           )
         }

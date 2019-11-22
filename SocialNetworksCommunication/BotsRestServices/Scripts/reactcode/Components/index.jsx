@@ -6,7 +6,7 @@ import ServerService from '../Services/ServerService.js'
 
 import Authorization from './Authorization/Authorization.jsx'
 import ManageAdmin from './ManageAdmin/ManageAdmin.jsx'
-
+import ManageClient from './ManageClient/ManageClient.jsx'
 
 let UserObjects = {
   IdSelected: null,
@@ -44,7 +44,6 @@ class Index extends React.Component {
   login = ({ Login,Password }) => {
     
     const response = this.service.logIn({ Login, Password })
-    
     response.then(
       (serverAnswer) => {
         const {Admin, Client, UserAuth} =JSON.parse(serverAnswer)
@@ -60,16 +59,6 @@ class Index extends React.Component {
 
   componentDidMount() {
 
-    // const response = fetch("http://localhost:49492/interface/authorize")
-    // console.log(response)
-
-    //   this.setState(
-    //     (state, props) => {
-    //       return {
-    //         IsAuthorized: props.IsAuthorized
-    //       }l;'
-    //     }
-    //   )
   }
 
 
@@ -80,6 +69,10 @@ class Index extends React.Component {
     if(this.state.IsAdmin){
       return(
         <ManageAdmin IsAdmin={this.state.IsAdmin} UserAuth={this.state.UserAuth} />
+      )
+    }else if(this.state.IsClient){
+      return(
+        <ManageClient UserAuth={this.state.UserAuth} />
       )
     }else{
       return (

@@ -49,6 +49,10 @@ export default class ManageAdmin extends React.Component {
   }
 
   addClient=()=>{
+    if(this.state.clientsList==null||this.state.clientsList==undefined){
+      console.log(`Cannot add user to empty list`)
+      return
+    }
     let oldList= Object.assign(this.state.clientsList)
     const id=this.defineId()
     oldList.push(
@@ -70,11 +74,12 @@ export default class ManageAdmin extends React.Component {
   }
 
   saveNew=(client)=>{
-    
-    const ans = this.service.addCleinToDb(this.state.UserAuth, client)
+
+    const ans = this.service.addCleinToDb(this.state.UserAuth, {User: client})
     
     ans.then(
       (a)=>{
+        console.log(a)
         const {IsTrue}=JSON.parse(a)
         
         if(IsTrue.IsTrue){
@@ -106,7 +111,7 @@ export default class ManageAdmin extends React.Component {
 
   listOut = () => {
     if (this.state.clientsList != null) {
-      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth}  />
+      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} saveNew={this.saveNew} IsNew={this.state.IsNew} />
     } else {
       return null
     }

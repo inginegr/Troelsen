@@ -15,4 +15,13 @@ export default class GlobalProperties {
     SaveClientData="SaveClientData"
     DeleteClientFromDb="DeleteClient"
     AddClient="AddUser"
+    
+    
+    //============================Controller=================================//
+    ClientController="Client"
+    
+    //============================Methods=================================//
+    GetBots="GetBots"
+    Restart="RestartBot"
+    Apply="ApplyStatus"
 }
