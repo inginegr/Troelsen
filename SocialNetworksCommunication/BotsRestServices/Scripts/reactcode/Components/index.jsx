@@ -42,7 +42,7 @@ class Index extends React.Component {
   }
 
   login = ({ Login,Password }) => {
-    
+
     const response = this.service.logIn({ Login, Password })
     response.then(
       (serverAnswer) => {
@@ -54,6 +54,8 @@ class Index extends React.Component {
           this.setState({ IsAuthorized: true, IsClient: true, UserAuth: UserAuth })
         }
       }
+    ).catch(
+      a=>console.log(a)
     )
   }
 
@@ -65,7 +67,6 @@ class Index extends React.Component {
 
 
   render() {
-
     if(this.state.IsAdmin){
       return(
         <ManageAdmin IsAdmin={this.state.IsAdmin} UserAuth={this.state.UserAuth} />

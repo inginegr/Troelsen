@@ -65,21 +65,18 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// Defines if user exists in the table
         /// </summary>
         /// <param name="userParam">User object</param>
-        /// <returns>True if exists else false</returns>
-        public bool FindUser(User userParam)
+        /// <returns>UserData object if found, null else</returns>
+        public UserData FindUser(User userParam)
         {
             try
             {
-                UserData retAnsw = null;
+                UserData retAnsw = new UserData();
                 using(UserContext context=new UserContext())
                 {
                     retAnsw = context.UserTable.Where(a => ((a.Login == userParam.Login) && (a.Password == userParam.Password))).FirstOrDefault<UserData>();
                 }
 
-                if (retAnsw == null)
-                    return false;
-                else
-                    return true;
+                return retAnsw;
 
             }catch(Exception ex)
             {

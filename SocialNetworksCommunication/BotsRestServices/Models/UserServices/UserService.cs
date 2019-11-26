@@ -53,11 +53,14 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                return dbHandle.FindUser((UserData)authorize);
-            }
-            catch (Exception)
+                UserData user = dbHandle.FindUser((UserData)authorize);
+                if (user != null)
+                    return true;
+                else
+                    return false;
+            }catch(Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -71,7 +74,7 @@ namespace BotsRestServices.Models.UserServices
             try
             {
                 TotalResponse response = CheckIfRegistered(userParam);
-                response.UserAuth = userParam;
+                response.UserAuth = (UserData)userParam;
                 return response;
             }catch(Exception ex)
             {
@@ -92,7 +95,8 @@ namespace BotsRestServices.Models.UserServices
             {
                 response.IsTrue = new IsTrueAnswer { IsTrue = isTrue, Text = answer };
                 return response;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -150,19 +154,12 @@ namespace BotsRestServices.Models.UserServices
         /// Checks if user is client
         /// </summary>
         /// <param name="userParam">User object</param>
-        /// <returns>true if client else false</returns>
-        private bool CheckIfClient(User userParam)
+        /// <returns>UserData if found, else null</returns>
+        private UserData CheckIfClient(User userParam)
         {
             try
             {
-                if (dbHandle.FindUser(userParam))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return dbHandle.FindUser(userParam);
             }
             catch (Exception ex)
             {
@@ -196,12 +193,16 @@ namespace BotsRestServices.Models.UserServices
                     tr.Admin.IsUserAdmin = true;
                     tr.IsTrue.IsTrue = true;
                     tr.IsTrue.Text = "User is admin";
+                    return tr;
                 }
-                else if (CheckIfClient(userRequest))
+
+                UserData user = CheckIfClient(userRequest);
+
+                if (user!=null)
                 {
-                    tr.Client.IsUserClient = true;
-                    tr.IsTrue.IsTrue = true;
+                    tr.UserAuth = user;
                     tr.IsTrue.Text = "User is client";
+                    return tr;
                 }
                 else
                 {                    
@@ -211,7 +212,6 @@ namespace BotsRestServices.Models.UserServices
                     tr.Admin.IsUserAdmin = false;
                     throw new Exception(js.SerializeObjectT(tr));
                 }
-                return tr;
             }
             catch (Exception ex)
             {

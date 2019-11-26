@@ -45,6 +45,19 @@ const TotalRequest = {
   CommandType: "command"
 }
 
+const dataToSend = {
+  User:{
+    Login: '',
+    Password: '',
+    Id: 0,
+    VkBot: false,
+    TelegramBot: false,
+    ViberBot: false,
+    WhatsAppBot: false
+  },
+  ClientCommand: b
+}
+
 export default class ServerService {
 
   //crypto = new CryptoService()
@@ -85,21 +98,23 @@ export default class ServerService {
 
   //Login to server
   logIn = async ({ Login, Password }) => {
-
-    const body = this.formRequest({ Login, Password })
-
+    const User={Login: Login, Password: Password}
+    const body = this.formRequest('empty', User)
+    console.log(User)
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.InterfaceControllerName,
         method: this.glob.Authorize
       }
-    ), body)
-
-    return ans
-  }
-
-  formRequest = ({ dataToSend, Login, Password }) => {
-
+      ), body)
+      
+      return ans
+    }
+    
+    formRequest = ({ dataToSend, User }) => {
+      
+      console.log(dataToSend)
+      console.log(User)
     return {
       method: "POST",
       headers: {
@@ -108,10 +123,7 @@ export default class ServerService {
       },
       body: JSON.stringify(
         {
-          User: {
-            Login: Login,
-            Password: Password
-          },
+          User: User,
           DataRequest: dataToSend
         }
       )
@@ -142,8 +154,9 @@ export default class ServerService {
   //Get list of clients from server
   getClientsList = async ({ Login, Password }) => {
 
+    const User={Login: Login, Password: Password}
 
-    const body = this.formRequest({ Login, Password })
+    const body = this.formRequest(User)
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -158,10 +171,11 @@ export default class ServerService {
   // Save changed client data
   saveClientData = async (a, b) => {
 
-    const { Login, Password } = a
+    const User={Login: a.Login, Password: a.Password}
+
     const dataToSend = b
     
-    const body = this.formRequest({ dataToSend, Login, Password })
+    const body = this.formRequest({ dataToSend, User })
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -177,9 +191,10 @@ export default class ServerService {
   deleteClientFromDb = async (a, b) => {
 
     const { Login, Password } = a
+    const User={Login: Login, Password: Password}
     const dataToSend = b
     
-    const body = this.formRequest({ dataToSend, Login, Password })
+    const body = this.formRequest({ dataToSend, User })
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -198,9 +213,10 @@ export default class ServerService {
       return
     }
     const { Login, Password } = a
+    const User={Login: Login, Password: Password}
     const dataToSend = b
     
-    const body = this.formRequest({ dataToSend, Login, Password })
+    const body = this.formRequest({ dataToSend, User })
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -218,10 +234,10 @@ export default class ServerService {
       console.log(`Cannot get bots list of empty user`)
       return
     }
-    const { Login, Password } = a
-    const dataToSend = b
+    const { User } = a
+
     
-    const body = this.formRequest({ dataToSend, Login, Password })
+    const body = this.formRequest({ dataToSend, User })
 
     const ans = await this.sendRequest(this.formUrl(
       {

@@ -107,13 +107,17 @@ export default class ManageClient extends React.Component {
   }
 
   loadBots=()=>{ 
-    console.log(this.props.UserAuth)
-    const answer = this.service.getBotsList(this.props.UserAuth,"empty")
+
+    const answer = this.service.getBotsList(this.props.UserAuth, "empty")
 
     answer.then(
       (e) => {
-        const { Bots } = JSON.parse(e)
-        this.setState({ clientBots: Bots })
+        const {IsTrue, Bots } = JSON.parse(e)
+        if(IsTrue.IsTrue){
+          this.setState({ clientBots: Bots })
+        }else{
+          console.log(IsTrue.Text)
+        }
       }
     )
   }

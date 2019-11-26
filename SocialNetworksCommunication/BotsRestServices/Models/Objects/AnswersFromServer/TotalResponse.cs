@@ -13,7 +13,7 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
         public IsAdmin Admin { get; set; }
         public IsClient Client { get; set; }
         public UserData[] Users { get; set; }
-        public User UserAuth { get; set; }
+        public UserData UserAuth { get; set; }
         public IsTrueAnswer IsTrue { get; set; }
         public ErrorResponse Error { get; set; }
         public ActiveBot[] Bots { get; set; }
@@ -25,7 +25,7 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
             Admin = new IsAdmin();
             Client = new IsClient();
             Users = new UserData[usersCount];
-            UserAuth = new User();
+            UserAuth = new UserData();
             IsTrue = new IsTrueAnswer();
             Error = new ErrorResponse();
             Bots = new ActiveBot[numberBots];
