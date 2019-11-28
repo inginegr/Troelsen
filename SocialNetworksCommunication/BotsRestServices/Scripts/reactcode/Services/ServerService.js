@@ -55,7 +55,7 @@ const dataToSend = {
     ViberBot: false,
     WhatsAppBot: false
   },
-  ClientCommand: b
+  ClientCommand: "command"
 }
 
 export default class ServerService {
@@ -99,8 +99,8 @@ export default class ServerService {
   //Login to server
   logIn = async ({ Login, Password }) => {
     const User={Login: Login, Password: Password}
-    const body = this.formRequest('empty', User)
-    console.log(User)
+    const body = this.formRequest( User)
+    
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.InterfaceControllerName,
@@ -111,10 +111,11 @@ export default class ServerService {
       return ans
     }
     
-    formRequest = ({ dataToSend, User }) => {
-      
-      console.log(dataToSend)
-      console.log(User)
+    formRequest = (a, b=null) => {
+    let dts=dataToSend
+      if(b!=null){
+        dts=b
+    }
     return {
       method: "POST",
       headers: {
@@ -123,8 +124,8 @@ export default class ServerService {
       },
       body: JSON.stringify(
         {
-          User: User,
-          DataRequest: dataToSend
+          User: a,
+          DataRequest: dts
         }
       )
     }
@@ -175,7 +176,7 @@ export default class ServerService {
 
     const dataToSend = b
     
-    const body = this.formRequest({ dataToSend, User })
+    const body = this.formRequest(User, dataToSend)
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -192,9 +193,17 @@ export default class ServerService {
 
     const { Login, Password } = a
     const User={Login: Login, Password: Password}
-    const dataToSend = b
+
+    const dataSend = dataToSend
+
+    dataSend.User=b.User
+
+    console.log(User)
+    console.log(dataSend)
     
-    const body = this.formRequest({ dataToSend, User })
+    const body = this.formRequest(User, dataSend)
+
+    //console.log(body)
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -216,7 +225,7 @@ export default class ServerService {
     const User={Login: Login, Password: Password}
     const dataToSend = b
     
-    const body = this.formRequest({ dataToSend, User })
+    const body = this.formRequest(User, dataToSend)
 
     const ans = await this.sendRequest(this.formUrl(
       {
@@ -235,9 +244,8 @@ export default class ServerService {
       return
     }
     const { User } = a
-
     
-    const body = this.formRequest({ dataToSend, User })
+    const body = this.formRequest(User, dataToSend)
 
     const ans = await this.sendRequest(this.formUrl(
       {
