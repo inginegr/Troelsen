@@ -28,13 +28,13 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
   }
 
   const showSave=()=>{
-    if(IsChanged){
+    if(IsNew){
       return (
-        <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={saveClient} >save</i>
+        <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={()=>saveNew(clientInfo)} >save</i>
         )
-      }else if(IsNew) {
+      }else if(IsChanged) {
         return(
-          <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={()=>saveNew(clientInfo)} >save</i>
+          <i className="material-icons" onMouseOver={(e)=>{encreaseIcon(e)}} onMouseLeave={(e)=>{decreaseIcon(e)}} onClick={saveClient} >save</i>
         )
     }
   }

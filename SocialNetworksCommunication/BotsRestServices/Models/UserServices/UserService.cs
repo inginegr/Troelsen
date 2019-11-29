@@ -69,12 +69,13 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userParam">Login and password </param>
         /// <returns>TotalResponse filled by login and password</returns>
-        protected TotalResponse FormLogPas(User userParam)
+        protected TotalResponse FormLogPas(UserData userParam)
         {            
             try
             {
                 TotalResponse response = CheckIfRegistered(userParam);
-                response.UserAuth = (UserData)userParam;
+                response.UserAuth.Login = userParam.Login;
+                response.UserAuth.Password = userParam.Password;
                 return response;
             }catch(Exception ex)
             {
@@ -200,7 +201,9 @@ namespace BotsRestServices.Models.UserServices
 
                 if (user!=null)
                 {
+                    tr.Client.IsUserClient = true;
                     tr.UserAuth = user;
+                    tr.IsTrue.IsTrue = true;
                     tr.IsTrue.Text = "User is client";
                     return tr;
                 }

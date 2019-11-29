@@ -30,4 +30,12 @@ namespace BotsRestServices.Models.Objects.DbObjects
             return this.MemberwiseClone();
         }
     }
+
+    public class UserBots
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public List<string> Bots { get; set; }
+    }
 }

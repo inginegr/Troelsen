@@ -9,11 +9,11 @@ const Bot={
   BotStatus: false
 }
 
-const BotItem = ({ IsTrue, NameBot, changeState, onApply, onRestart }) => {
+const BotItem = ({ IsTrue, NameBot, changeState, onRestart }) => {
 
   const showStatus=()=>{
     if(IsTrue){
-      return "Оключен"
+      return "Включен"
     }
     else{
       return "Отключен"
@@ -25,7 +25,7 @@ const BotItem = ({ IsTrue, NameBot, changeState, onApply, onRestart }) => {
       return <span className="badge badge-pill badge-success">On</span>
     }
     else{
-      return <span className="badge badge-pill badge-success">Off</span>
+      return <span className="badge badge-pill badge-danger">Off</span>
     }
   }
 
@@ -49,9 +49,9 @@ const BotItem = ({ IsTrue, NameBot, changeState, onApply, onRestart }) => {
       <td>
         <button type="button" className="btn btn-secondary" onClick={()=>onRestart(NameBot)}>Перезагрузить</button>
       </td>
-      <td>
+      {/* <td>
         <button type="button" className="btn btn-success" onClick={()=>onApply(NameBot)}>Применить</button>
-      </td>
+      </td> */}
       <td>
         {showState()}
       </td>
@@ -69,22 +69,24 @@ export default class ManageClient extends React.Component {
 
   service =new ServerService()
 
-  changeState=(state, name)=>{
+  changeState = (state, name) => {
 
-    let newBots=Object.assign(this.state.clientBots)
+    let newBots = Object.assign(this.state.clientBots)
+
+
     newBots.map(
-      b=>{
-        if(b.Botname==name){
-          b.BotStatus=state
+      b => {
+        if (b.BotName == name) {
+          b.BotStatus = state
         }
       }
     )
-    this.setState({clientBots: newBots})
+    this.setState({ clientBots: newBots })
   }
 
-  onApplay=(name)=>{
+  // onApplay=(name)=>{
 
-  }
+  // }
   
   onRestart=(name)=>{
 
@@ -96,20 +98,25 @@ export default class ManageClient extends React.Component {
       return
     }
 
-    this.state.clientBots.map(
-      (b)=>{
-        const {BotStatus, Botname}=b
-        return(
-          <BotItem IsTrue={BotStatus} NameBot={Botname} changeState={this.changeState} onApply={this.onApplay} onRestart={this.onRestart} />
-        )
-      }
+    let count=0
+    return(
+      this.state.clientBots.map(
+        (b)=>{
+          const {BotStatus, BotName}=b
+          if(BotStatus){
+            return(
+              <BotItem key={count++} IsTrue={BotStatus} NameBot={BotName} changeState={(a,b)=>this.changeState(a,b)} onRestart={this.onRestart} />
+            )
+          }
+        }
+      )
     )
+
   }
 
   loadBots=()=>{ 
 
     const answer = this.service.getBotsList(this.props.UserAuth, "empty")
-
     answer.then(
       (e) => {
         const {IsTrue, Bots } = JSON.parse(e)
@@ -139,12 +146,12 @@ export default class ManageClient extends React.Component {
                   <th scope="col">Тип бота</th>
                   <th scope="col">Состояние</th>
                   <th scope="col">Перезагрузить</th>
-                  <th scope="col">Применить</th>
+                  {/* <th scope="col">Применить</th> */}
                   <th scope="col">Статус</th>
                 </tr>
               </thead>
               <tbody>
-
+                {this.renderBots()}
               </tbody>
             </table>
           </div>

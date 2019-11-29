@@ -75,11 +75,11 @@ export default class ManageAdmin extends React.Component {
 
   saveNew=(client)=>{
 
+    console.log("sad")
     const ans = this.service.addCleinToDb(this.state.UserAuth, {User: client})
     
     ans.then(
       (a)=>{
-        console.log(a)
         const {IsTrue}=JSON.parse(a)
         
         if(IsTrue.IsTrue){

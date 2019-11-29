@@ -67,7 +67,7 @@ export default class ClientList extends React.Component {
       }
     )
 
-    const newClient= {User: Object.assign(tempVar)} 
+    const newClient = { User: Object.assign(tempVar) } 
     
     console.log(newClient)
     

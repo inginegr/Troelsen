@@ -52,7 +52,6 @@ namespace BotsRestServices.Models.UserServices
 
                 dbHandle.AddUser(request.DataRequest.User);
 
-
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
             catch(Exception ex)

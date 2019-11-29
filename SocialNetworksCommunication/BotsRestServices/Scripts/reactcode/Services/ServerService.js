@@ -116,6 +116,7 @@ export default class ServerService {
       if(b!=null){
         dts=b
     }
+    // console.log(a)
     return {
       method: "POST",
       headers: {
@@ -198,8 +199,8 @@ export default class ServerService {
 
     dataSend.User=b.User
 
-    console.log(User)
-    console.log(dataSend)
+    // console.log(User)
+    // console.log(dataSend)
     
     const body = this.formRequest(User, dataSend)
 
@@ -243,9 +244,12 @@ export default class ServerService {
       console.log(`Cannot get bots list of empty user`)
       return
     }
-    const { User } = a
-    
-    const body = this.formRequest(User, dataToSend)
+    const {Login, Password} = a
+    const  User  = {Login: Login, Password: Password}
+
+    // console.log(a)
+
+    const body = this.formRequest(a)
 
     const ans = await this.sendRequest(this.formUrl(
       {
