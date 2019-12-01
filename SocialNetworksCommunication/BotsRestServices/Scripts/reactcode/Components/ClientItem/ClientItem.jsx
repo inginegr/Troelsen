@@ -24,6 +24,8 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
   }
 
   const saveClient=()=>{
+    console.log(`IsChanged`)
+    console.log(clientInfo)
     saveChange(clientInfo)
   }
 
@@ -70,7 +72,7 @@ const ClientItem = ({clientInfo, statusChanged, IsChanged, textChanged, saveChan
         <BotStatusItem status={ViberBot} setStatus={changeStatus} botKey={'ViberBot'} />
       </td>
       <td>
-        <BotStatusItem status={WhatsAppBot} setStatus={changeStatus} botKey={'WhataAppBot'} />
+        <BotStatusItem status={WhatsAppBot} setStatus={changeStatus} botKey={'WhatsAppBot'} />
       </td>
       <td>
         <input type="text" value={Login} onChange={(e)=>{changeText(e, 'Login')}}  />

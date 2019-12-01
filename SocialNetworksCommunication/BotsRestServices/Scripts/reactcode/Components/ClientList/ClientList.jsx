@@ -69,8 +69,6 @@ export default class ClientList extends React.Component {
 
     const newClient = { User: Object.assign(tempVar) } 
     
-    console.log(newClient)
-    
     const ans = this.service.saveClientData(this.state.UserAuth, newClient)
     
     ans.then(
