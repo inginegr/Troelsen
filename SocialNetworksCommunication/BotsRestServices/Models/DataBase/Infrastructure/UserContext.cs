@@ -11,15 +11,19 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 {
     class UserContext : DbContext 
     {
-        //static UserContext()
-        //{
-        //    System.Data.Entity.Database.SetInitializer<UserContext>(new ClientsInitializer());
-        //}
+        static UserContext()
+        {
+            System.Data.Entity.Database.SetInitializer<UserContext>(new ClientsInitializer());
+        }
 
         public UserContext() : base("DefaultConnection") { }
         public UserContext(string connectionString) : base(connectionString) { }
 
         public DbSet<UserData> UserTable { get; set; }
+
+        public DbSet<UserBot> BotsTable { get; set; }
+
+        public DbSet<BotObject> BotObjectsTable { get; set; }
 
     }
 }

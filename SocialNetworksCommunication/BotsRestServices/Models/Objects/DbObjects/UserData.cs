@@ -13,17 +13,9 @@ namespace BotsRestServices.Models.Objects.DbObjects
 {
     public class UserData : User, ICloneable
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        public bool VkBot { get; set; }
 
-        public bool TelegramBot { get; set; }
-
-        public bool ViberBot { get; set; }
-
-        public bool WhatsAppBot { get; set; }
+        public List<UserBot> Bots { get; set; }
 
         public object Clone()
         {

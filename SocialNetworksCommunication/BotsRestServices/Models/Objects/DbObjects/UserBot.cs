@@ -6,18 +6,16 @@ using System.Web;
 
 namespace BotsRestServices.Models.Objects.DbObjects
 {
-    public class UserBots
+    public class UserBot
     {
-        [Key]        
         public int Id { get; set; }
 
         public string BotName { get; set; }
 
         public bool BotStatus { get; set; }
-        
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+
+        public int? UserDataId { get; set; }
+
+        public UserData UserData { get; set; }        
     }
 }

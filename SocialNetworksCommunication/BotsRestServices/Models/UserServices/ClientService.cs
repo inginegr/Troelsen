@@ -28,11 +28,10 @@ namespace BotsRestServices.Models.UserServices
                     .Where(a => ((request.User.Id==a.Id)&&(request.User.Login==a.Login) && (request.User.Password == a.Password)))
                     .FirstOrDefault();
                 
-                response.Bots[0] = new ActiveBot { BotName = "Viber Bot", BotStatus = client.ViberBot };
-                response.Bots[1] = new ActiveBot { BotName = "Vk Bot", BotStatus = client.VkBot };
-                response.Bots[2] = new ActiveBot { BotName = "Telegramm Bot", BotStatus = client.TelegramBot };
-                response.Bots[3] = new ActiveBot { BotName = "WhatsApp Bot", BotStatus = client.WhatsAppBot };
-
+                foreach(UserBot u in client.Bots)
+                {
+                    response.Bots.Add(u);
+                }
 
                 response = FormResponseStatus(response, true, $"The bots of client is gotten");
             }

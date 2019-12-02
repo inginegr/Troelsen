@@ -130,10 +130,11 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                         userToUpdate.Id = u.Id;
                         userToUpdate.Login = u.Login;
                         userToUpdate.Password = u.Password;
-                        userToUpdate.TelegramBot = u.TelegramBot;
-                        userToUpdate.ViberBot = u.ViberBot;
-                        userToUpdate.VkBot = u.VkBot;
-                        userToUpdate.WhatsAppBot = u.WhatsAppBot;
+                        userToUpdate.Bots.Clear();
+                        foreach (UserBot ub in u.Bots)
+                        {
+                            userToUpdate.Bots.Add(ub);
+                        }
                     }
 
                     context.SaveChanges();
