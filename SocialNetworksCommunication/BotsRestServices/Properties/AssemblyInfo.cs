@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется следующим образом
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных с этой сборкой.
-[assembly: AssemblyTitle("WebApplication9")]
+[assembly: AssemblyTitle("BotsRestServices")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("WebApplication9")]
+[assembly: AssemblyProduct("BotsRestServices")]
 [assembly: AssemblyCopyright("© Microsoft, 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetworks.Viber.Objects
+namespace BotsLibrary
 {
-    public class ViberEventType
+    public class Bots
     {
-        public string Event { get; set; }
+
     }
 }

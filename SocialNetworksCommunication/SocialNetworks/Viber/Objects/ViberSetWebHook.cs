@@ -10,7 +10,7 @@ namespace SocialNetworks.Viber.Objects
     {
         public string Url { get; set; }
         public string[] Event_types { get; set; }
-        public string Send_name { get; set; }
-        public string Send_photo { get; set; }
+        public bool Send_name { get; set; }
+        public bool Send_photo { get; set; }
     }
 }

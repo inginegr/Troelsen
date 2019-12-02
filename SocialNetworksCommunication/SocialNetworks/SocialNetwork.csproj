@@ -80,7 +80,6 @@
     <Compile Include="Viber\Objects\SendMessageTypes\ViberUrlMessage.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberVideoMessage.cs" />
     <Compile Include="Viber\Objects\ViberCallBackData.cs" />
-    <Compile Include="Viber\Objects\ViberEventType.cs" />
     <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberReceiveMessageFromUser.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberMessageSender.cs" />
     <Compile Include="Viber\Objects\ViberSetWebHook.cs" />

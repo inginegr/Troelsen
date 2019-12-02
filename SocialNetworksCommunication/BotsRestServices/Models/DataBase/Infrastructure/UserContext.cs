@@ -20,5 +20,6 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         public UserContext(string connectionString) : base(connectionString) { }
 
         public DbSet<UserData> UserTable { get; set; }
+
     }
 }
