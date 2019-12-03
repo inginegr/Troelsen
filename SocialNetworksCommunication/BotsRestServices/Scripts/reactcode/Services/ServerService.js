@@ -64,10 +64,10 @@ export default class ServerService {
 
   glob = new Glob()
 
-  // _port = 50117
-  // _url = "http://localhost:"
-  _port = ""
-  _url = "https://fbszk.icu"
+  _port = 50117
+  _url = "http://localhost:"
+  // _port = ""
+  // _url = "https://fbszk.icu"
   _controller = "Interface"
   _ControllerMethod = "Authorize"
   _MethodParameter = ""

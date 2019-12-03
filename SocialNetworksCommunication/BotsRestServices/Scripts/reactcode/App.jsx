@@ -7,6 +7,6 @@ import "regenerator-runtime/runtime";
 import Index from './Components/index.jsx'
 
 ReactDOM.render(
-    <Index  />,
+    <Index />,
     document.getElementById("root")
 )

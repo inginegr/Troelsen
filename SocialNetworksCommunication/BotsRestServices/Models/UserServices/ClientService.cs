@@ -27,11 +27,18 @@ namespace BotsRestServices.Models.UserServices
                 UserData client = dbHandle.GetUsers()
                     .Where(a => ((request.User.Id==a.Id)&&(request.User.Login==a.Login) && (request.User.Password == a.Password)))
                     .FirstOrDefault();
-                
+
+                List<UserBot> botList = new List<UserBot>();
+
                 foreach(UserBot u in client.Bots)
                 {
-                    response.Bots.Add(u);
+                    botList.Add(u);
                 }
+
+                UserData user = new UserData();
+                user.Bots = botList;
+
+                response.Users.Add(user);
 
                 response = FormResponseStatus(response, true, $"The bots of client is gotten");
             }

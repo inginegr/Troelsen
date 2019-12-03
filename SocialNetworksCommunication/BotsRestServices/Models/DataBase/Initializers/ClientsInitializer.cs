@@ -19,22 +19,39 @@ namespace BotsRestServices.Models.DataBase.Initializers
             UserData user = new UserData();
             List<UserData> userList = new List<UserData>();
 
-            userList.Add(new UserData { Id = 0, Login = "Client", Password = "1234", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Dima", Password = "12", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Foty", Password = "1dsf2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Bomk", Password = "1dsfsdf2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "c", Password = "d", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Jimmy", Password = "1245", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Suzuki", Password = "143tr2", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Hodna", Password = "1ert2gfh", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Mitsubishi", Password = "12ert43", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Toyota", Password = "fgh", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "CSS", Password = "n", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "HTML", Password = "tert", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-            userList.Add(new UserData { Id = 1, Login = "Noty", Password = "xcvcxgf", TelegramBot = false, ViberBot = false, VkBot = false, WhatsAppBot = false });
-
-
+            UserData ud1 = new UserData { Login = "Navi", Password = "boti" };
+            UserData ud2 = new UserData { Login = "Godi", Password = "basdoti" };
+            UserData ud3 = new UserData { Login = "bavi", Password = "boewr" };
+            UserData ud4 = new UserData { Login = "Savi", Password = "345" };
+            userList.Add(ud1);
+            userList.Add(ud2);
+            userList.Add(ud3);
+            userList.Add(ud4);
             context.UserTable.AddOrUpdate(userList.ToArray());
+
+            List<UserBot> botList = new List<UserBot>();
+            UserBot ub1 = new UserBot { BotName = "Viber", BotStatus = true, UserData=ud1 };
+            UserBot ub2 = new UserBot { BotName = "VK", BotStatus = true, UserData=ud1 };
+            UserBot ub3 = new UserBot { BotName = "Telegram", BotStatus = true, UserData=ud1 };
+            UserBot ub4 = new UserBot { BotName = "WhatsApp", BotStatus = true, UserData=ud1 };
+            botList.Add(ub1);
+            botList.Add(ub2);
+            botList.Add(ub3);
+            botList.Add(ub4);
+            context.BotsTable.AddOrUpdate(botList.ToArray());
+
+            List<BotObject> objectList = new List<BotObject>();
+            BotObject bo1 = new BotObject { PathToObject = "dsfdsf", UserBot = ub1 };
+            BotObject bo2 = new BotObject { PathToObject = "aaaa", UserBot = ub1 };
+            BotObject bo3 = new BotObject { PathToObject = "vvvv", UserBot = ub1 };
+            BotObject bo4 = new BotObject { PathToObject = "yyyu", UserBot = ub2 };
+            BotObject bo5 = new BotObject { PathToObject = "3334e", UserBot = ub3 };
+            objectList.Add(bo1);
+            objectList.Add(bo2);
+            objectList.Add(bo3);
+            objectList.Add(bo4);
+            objectList.Add(bo5);
+            context.BotObjectsTable.AddOrUpdate(objectList.ToArray());
 
             base.Seed(context);
         }

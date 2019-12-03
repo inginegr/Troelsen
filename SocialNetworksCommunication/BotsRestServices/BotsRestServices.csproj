@@ -198,7 +198,6 @@
     <Compile Include="Models\DataBase\Infrastructure\UserContext.cs" />
     <Compile Include="Models\DataBase\Initializers\ClientsInitializer.cs" />
     <Compile Include="Models\InterfaceServices\InterfaceService.cs" />
-    <Compile Include="Models\Objects\AnswersFromServer\ErrorResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\IsAdmin.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\IsClient.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\IsTrueAnswer.cs" />
@@ -207,7 +206,6 @@
     <Compile Include="Models\Objects\DbObjects\BotObject.cs" />
     <Compile Include="Models\Objects\DbObjects\UserBot.cs" />
     <Compile Include="Models\Objects\DbObjects\UserData.cs" />
-    <Compile Include="Models\Objects\RequestToServer\CommandData.cs" />
     <Compile Include="Models\Objects\RequestToServer\TotalRequest.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
     <Compile Include="Models\UserServices\UserService.cs" />

@@ -14,8 +14,15 @@ namespace BotsRestServices.Models.Objects.DbObjects
 
         public bool BotStatus { get; set; }
 
+        public List<BotObject> BotObject { get; set; }
+
         public int? UserDataId { get; set; }
 
-        public UserData UserData { get; set; }        
+        public UserData UserData { get; set; }
+
+        public UserBot()
+        {
+            BotObject = new List<DbObjects.BotObject>();
+        }
     }
 }

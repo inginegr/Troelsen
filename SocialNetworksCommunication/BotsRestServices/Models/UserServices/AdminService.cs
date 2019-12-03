@@ -50,7 +50,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
 
-                dbHandle.AddUser(request.DataRequest.User);
+                dbHandle.AddUser(request.User);
 
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
@@ -75,8 +75,8 @@ namespace BotsRestServices.Models.UserServices
             {
                 resp = FormResponse(ctr);
                 List<UserData> list = dbHandle.GetUsers();
-                resp = FormResponseStatus(resp, true, "Hire is the user list");
-                resp.Users = list.ToArray();
+                resp = FormResponseStatus(resp, true, "Here is the user list");
+                resp.Users = list;
             } catch(Exception ex)
             {
                 resp = FormResponseStatus(resp, false, ex.Message);
@@ -100,9 +100,9 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                dbHandle.DeleteUser(request.DataRequest.User);
+                dbHandle.DeleteUser(request.UserList.FirstOrDefault());
 
-                response = FormResponseStatus(response, true, $"The user with login {request.DataRequest.User.Login} is deleted");
+                response = FormResponseStatus(response, true, $"The user with login {request.UserList.FirstOrDefault().Login} is deleted");
             }
             catch(Exception ex)
             {
@@ -127,10 +127,10 @@ namespace BotsRestServices.Models.UserServices
                 response = FormLogPas(request.User);
 
                 List<UserData> usersToUpdate = new List<UserData>();
-                usersToUpdate.Add(request.DataRequest.User);
+                usersToUpdate.Add(request.UserList.FirstOrDefault());
                 dbHandle.EditUser(usersToUpdate);
 
-                response = FormResponseStatus(response, true, $"The user {request.DataRequest.User.Login} is updated");
+                response = FormResponseStatus(response, true, $"The user {request.UserList.FirstOrDefault().Login} is updated");
             }catch(Exception ex)
             {
                 response = FormResponseStatus(response, false, ex.Message);

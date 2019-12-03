@@ -184,7 +184,7 @@ namespace BotsRestServices.Models.UserServices
                     tr.IsTrue.Text = "User is not registered";
                     tr.Client.IsUserClient = false;
                     tr.Admin.IsUserAdmin = false;
-                    tr.Error.ErrorMessage= $"Login or password are invalid";
+                    tr.IsTrue.Text= $"Login or password are invalid";
 
                     return tr;
                 }
@@ -237,9 +237,9 @@ namespace BotsRestServices.Models.UserServices
             }
             catch (Exception ex)
             {
-                ErrorResponse error = new ErrorResponse { ErrorMessage = ex.Message };
+                IsTrueAnswer error = new IsTrueAnswer { Text = ex.Message };
 
-                string s = js.SerializeObjectT<ErrorResponse>(error);
+                string s = js.SerializeObjectT<IsTrueAnswer>(error);
 
                 return $"The error is {s}";
             }

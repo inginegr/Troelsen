@@ -6,7 +6,8 @@ import ServerService from '../Services/ServerService.js'
 
 import Authorization from './Authorization/Authorization.jsx'
 import ManageAdmin from './ManageAdmin/ManageAdmin.jsx'
-import ManageClient from './ManageClient/ManageClient.jsx'
+//import ManageAdmin from './ManageAdmin/ManageAdmin.jsx'
+//import ManageClient from './ManageClient/ManageClient.jsx'
 
 let UserObjects = {
   IdSelected: null,
@@ -41,14 +42,12 @@ class Index extends React.Component {
     UserAuth: null
   }
 
-  login = ({ Login,Password }) => {
+  login = ({ Login, Password }) => {
 
     const response = this.service.logIn({ Login, Password })
     response.then(
       (serverAnswer) => {
-
-        const {Admin, Client, UserAuth} =JSON.parse(serverAnswer)
-        // console.log(UserAuth)
+        const { Admin, Client, UserAuth } = JSON.parse(serverAnswer)
         if (Admin.IsUserAdmin == true) {
           this.setState({ IsAuthorized: true, IsAdmin: true, UserAuth: UserAuth })
         } else if (Client.IsUserClient == true) {
@@ -56,7 +55,7 @@ class Index extends React.Component {
         }
       }
     ).catch(
-      a=>console.log(a)
+      a => console.log(a)
     )
   }
 
@@ -68,19 +67,13 @@ class Index extends React.Component {
 
 
   render() {
-    if(this.state.IsAdmin){
-      return(
-        <ManageAdmin IsAdmin={this.state.IsAdmin} UserAuth={this.state.UserAuth} />
-      )
-    }else if(this.state.IsClient){
-      return(
-        <ManageClient UserAuth={this.state.UserAuth} />
-      )
-    }else{
+    if (this.state.IsAdmin) {
       return (
-        <div className="index">
-          <Authorization login={this.login} IsAuthorized={this.state.IsAuthorized} />
-        </div>
+        <ManageAdmin UserAuth={this.state.UserAuth} />
+      )
+    } else {
+      return (
+        <Authorization login={this.login} IsAuthorized={this.state.IsAuthorized} />
       )
     }
   }

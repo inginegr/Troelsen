@@ -11,15 +11,15 @@ namespace BotsRestServices.Models.Objects.RequestToServer
     public class TotalRequest
     {
         public UserData User { get; set; }
-        public string ComandType { get; set; }
 
-        public CommandData DataRequest { get; set; }
+        public List<UserData> UserList { get; set; }
+
 
 
         public TotalRequest()
         {
             User = new UserData();
-            DataRequest = new CommandData();
+            UserList = new List<UserData>(); 
         }
     }
 }

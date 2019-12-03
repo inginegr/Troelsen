@@ -21,5 +21,10 @@ namespace BotsRestServices.Models.Objects.DbObjects
         {
             return this.MemberwiseClone();
         }
+
+        public UserData()
+        {
+            Bots = new List<UserBot>();
+        }
     }
 }
