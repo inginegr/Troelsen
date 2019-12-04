@@ -15,7 +15,7 @@ namespace BotsRestServices.Models.Objects.DbObjects
     {
         public int Id { get; set; }
 
-        public List<UserBot> Bots { get; set; }
+        public virtual List<UserBot> Bots { get; set; }
 
         public object Clone()
         {

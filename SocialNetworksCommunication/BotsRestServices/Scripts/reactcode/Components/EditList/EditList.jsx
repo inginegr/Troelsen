@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EditItem from '../EditItem/EditItem.jsx'
+import EditItems from '../EditItems/EditItems.jsx'
 
 import './EditList.css'
 
@@ -12,7 +12,8 @@ export default class EditList extends React.Component {
   }
 
   componentDidMount() {
-
+    console.log(this.props.clientsList)
+    this.setState({elements: this.props.clientsList})
   }
 
   // Gets and shows new list
@@ -42,14 +43,16 @@ export default class EditList extends React.Component {
 
   // Render elements to row. Editable and selectable (dropdown)
   outElements = () => {
+    let count = 0
     if((this.state.elements==null)||(this.state.elements==undefined)){
       return null
     }else{
       return (
         this.state.elements.map(
           e => {
+            count++
             return (
-              <EditItem elements={e} />
+              <EditItems key={count} elements={e} />
             )
           }
         )
@@ -62,7 +65,7 @@ export default class EditList extends React.Component {
       <div className="container" id="m-a-client-list">
         <div className="row justify-content-center align-content-center">
           <div className="col-12">
-            <table class="table table-dark">
+            <table className="table table-dark">
               <tbody>
                 {this.outElements()}
               </tbody>

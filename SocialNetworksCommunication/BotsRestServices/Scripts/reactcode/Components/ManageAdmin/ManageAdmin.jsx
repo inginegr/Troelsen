@@ -4,6 +4,7 @@ import React from 'react'
 import ServerService from '../../Services/ServerService.js'
 
 import '../ManageAdmin/ManageAdmin.css'
+import EditList from '../EditList/EditList.jsx'
 
 
 export default class ManageAdmin extends React.Component {
@@ -20,11 +21,98 @@ export default class ManageAdmin extends React.Component {
 
     response.then(
       (a) => {
-        console.log(JSON.parse(a))
         const { Users } = JSON.parse(a)
         this.setState({ clientsList: Users })
       }
     )
+  }
+
+  // Render users massive with data massive
+  renderUsers = () => {
+    let users = Object.assign(this.state.clientsList)
+
+    userDataList = []
+    users.map(
+      e => {
+        const { Id, Login, Password } = e
+        userDataList.push({ IsSelectable: false, currentValue: Id, type: 'text' })
+        userDataList.push({ IsSelectable: false, currentValue: Login, type: 'text' })
+        userDataList.push({ IsSelectable: false, currentValue: Password, type: 'password' })
+      }
+    )
+    return userDataList
+  }
+
+  // Render bots massive with data massive
+  renderBots = (UserId) => {
+    let users = Object.assign(this.state.clientsList)
+
+    botsDataList = []
+    users.map(
+      u => {
+        if (u.Id == UserId) {
+          return(
+            u.Bots.map(
+              b => {
+                const {
+                  BotName,
+                  BotStatus,
+                  Id,
+                  UserDataId
+                } = b
+                botsDataList.push({ IsSelectable: false, currentValue: Id, type: 'text' })
+                botsDataList.push({ IsSelectable: false, currentValue: BotName, type: 'text' })
+                botsDataList.push({ IsSelectable: true, currentValue: BotStatus, type: 'text', choice: ['On', 'Off'] })
+                botsDataList.push({ IsSelectable: false, currentValue: UserDataId, type: 'text' })
+              }
+            )
+          )
+        }
+      }
+    )
+  }
+
+  // Render users massive with data massive
+  renderBotObjects = (UserId, BotId) => {
+    let users = Object.assign(this.state.clientsList)
+
+    botObjectsDataList = []
+    users.map(
+      u => {
+        if (u.Id == UserId) {
+          u.Bots.map(
+            b => {
+              if (b.Id == BotId) {
+                return (
+                  b.BotObject.map(
+                    bo => {
+                      const {
+                        Id,
+                        PathToObject,
+                        UserBotId
+                      } = bo
+                      botObjectsDataList.push({ IsSelectable: false, currentValue: Id, type: 'text' })
+                      botObjectsDataList.push({ IsSelectable: false, currentValue: PathToObject, type: 'file' })
+                      botObjectsDataList.push({ IsSelectable: true, currentValue: UserBotId, type: 'text' })
+                    }
+                  )
+                )
+              }
+            }
+          )
+        }
+      }
+    )
+  }
+
+  renderItems=(type)=>{
+    if(type==1){
+      return this.renderUsers()
+    }else if(type==2){
+      return this.renderBots()
+    }else if(type==3){
+      return this.renderBotObjects()
+    }
   }
 
   componentDidMount() {
@@ -32,8 +120,9 @@ export default class ManageAdmin extends React.Component {
   }
 
   listOut = () => {
+
     if (this.state.clientsList != null) {
-      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} />
+      return <EditList clientsList={this.state.clientsList} renderUsers={this.renderUsers} />
     } else {
       return null
     }

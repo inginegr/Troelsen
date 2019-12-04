@@ -13,7 +13,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 {
     public class DbHandle
     {
-        
+
         /// <summary>
         /// Add user to DB
         /// </summary>
@@ -22,13 +22,14 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         {
             try
             {
-                using (UserContext context=new UserContext())
+                using (UserContext context = new UserContext())
                 {
                     context.UserTable.Add(userParam);
                     context.SaveChanges();
                 }
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -42,7 +43,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         {
             try
             {
-                using(UserContext context=new UserContext())
+                using (UserContext context = new UserContext())
                 {
                     UserData userToDelete = context.UserTable.Find(userParam.Id);
                     if (userToDelete != null)
@@ -55,7 +56,8 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                         throw new Exception($"User with Id {userParam.Id} not found in context");
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -71,19 +73,20 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             try
             {
                 UserData retAnsw = new UserData();
-                using(UserContext context=new UserContext())
+                using (UserContext context = new UserContext())
                 {
                     retAnsw = context.UserTable.Where(a => ((a.Login == userParam.Login) && (a.Password == userParam.Password))).FirstOrDefault<UserData>();
                 }
 
                 return retAnsw;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        
+
         /// <summary>
         /// Gets all users from table
         /// </summary>
@@ -96,10 +99,24 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 using (UserContext context = new UserContext())
                 {
                     var ans = context.UserTable;
-                    foreach(UserData u in ans)
+                    foreach (UserData u in ans)
                     {
                         retAnsw.Add(u);
                     }
+
+                    retAnsw.ForEach(
+                        x =>
+                        {
+                            List<UserBot> bts = x.Bots;
+                            bts.ForEach(
+                                b =>
+                                {
+                                    List<BotObject> bo = b.BotObject;
+                                }
+                                );
+                        }
+                        );
+
                 }
 
                 return retAnsw;
@@ -123,8 +140,8 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                     int[] elems = userData.Select(x => x.Id).ToArray();
 
                     List<UserData> users = context.UserTable.Where(x => elems.Contains(x.Id)).ToList();
-                    
-                    foreach(UserData u in userData)
+
+                    foreach (UserData u in userData)
                     {
                         UserData userToUpdate = context.UserTable.Where(x => x.Id == u.Id).FirstOrDefault();
                         userToUpdate.Id = u.Id;

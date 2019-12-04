@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Data.Entity;
+using System.Linq;
 
 
 
@@ -25,7 +26,7 @@ namespace TempConsole
         public int Id { get; set; }
         public string Name { get; set; } // название команды
 
-        public ICollection<Player> Players { get; set; }
+        public virtual List<Player> Players { get; set; }
         public Team()
         {
             Players = new List<Player>();
@@ -47,21 +48,41 @@ namespace TempConsole
             using (SoccerContext db = new SoccerContext())
             {
                 // создание и добавление моделей
-                
-                //List<Player> pol = new List<Player>
-                //{
-                //    new Player { Id=1, Name="Fona", Position="sdf", Age=34},
-                //    new Player {Id=2, Name="Lond", Position="rrr", Age=45}
-                //};
 
-                //db.Players.AddRange(pol);
+                List<Team> tm = new List<Team>();
 
-                //db.SaveChanges();
+                Team t1 = new Team { Name = "asdasd" };
+                Team t2 = new Team { Name = "213123" };
+                Team t3 = new Team { Name = "3432sdf" };
+                tm.Add(t1);
+                tm.Add(t2);
+                tm.Add(t3);
+                db.Teams.AddRange(tm);
 
-                db.Players.ForEachAsync(x =>
+
+                List<Player> pol = new List<Player>
                 {
-                    Console.WriteLine($"{x.Id}   {x.Name}");
-                });
+                    new Player { Id=1, Name="Fona", Position="sdf", Age=34, Team=t1},
+                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t1},
+                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t1},
+                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t2},
+                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t2}
+                };
+
+                db.Players.AddRange(pol);
+
+                db.SaveChanges();
+
+                List<Team> list = new List<Team>();
+
+                Team lt = db.Teams.Where(x => x.Name == "asdasd").FirstOrDefault();
+
+                Console.WriteLine($"The team is {lt.Name}");
+
+                foreach(Player p in lt.Players)
+                {
+                    Console.WriteLine($"{p.Name}   {p.TeamId}");
+                }
 
                 Console.ReadLine();
             }

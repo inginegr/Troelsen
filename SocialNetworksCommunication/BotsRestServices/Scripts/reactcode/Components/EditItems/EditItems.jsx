@@ -1,9 +1,7 @@
 import React from 'react'
 
-import EditList from '../EditList/EditList.jsx'
-import ServerService from '../../Services/ServerService.js'
 
-import './EditItem.css'
+import './EditItems.css'
 
 
 
@@ -13,8 +11,8 @@ export default class EditItem extends React.Component {
     // Elements, that rendered
     elements: [
       {
-        // Id of element
-        id,
+        // Id element
+        Id,
         //Is selectable element
         IsSelectable,
         currentValue, //Text that seen 
@@ -67,7 +65,7 @@ export default class EditItem extends React.Component {
     return (
       this.state.elements.map(
         (el) => {
-          const { IsSelectable, id, currentValue } = el
+          const { IsSelectable, currentValue } = el
           count++
           if(count>1){
             firstElement=""
@@ -81,7 +79,7 @@ export default class EditItem extends React.Component {
                     {currentValue}
                   </button>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {this.renderChoice(choice, this.changeDropDawnText, id)}
+                    {this.renderChoice(choice, this.changeDropDawnText)}
                   </div>
                 </div>
               </th>

@@ -268,7 +268,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Media\" />
+    <Folder Include="App_Data\TextFiles\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Client\" />
   </ItemGroup>
