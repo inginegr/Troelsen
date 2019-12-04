@@ -1,6 +1,6 @@
 import React from 'react'
 
-
+import EditList from '../EditList/EditList.jsx'
 import ServerService from '../../Services/ServerService.js'
 
 import './EditItem.css'
@@ -103,7 +103,13 @@ export default class EditItem extends React.Component {
     if(this.props.IsNew){
       return(
         <th>
-          <i class="material-icons">save</i>
+          <i class="material-icons" onClick={this.props.doSaveNew}>save</i>
+        </th>
+      )
+    }else if(this.props.IsUpdated){
+      return(
+        <th>
+          <i class="material-icons" onClick={this.props.doUpdateExisting}>save</i>
         </th>
       )
     }
@@ -116,7 +122,7 @@ export default class EditItem extends React.Component {
         {this.outElements()}
         {this.showSave()}
         <th>
-          <i class="material-icons">build</i>
+          <i class="material-icons" onClick={this.props.doShowChildrenList}>build</i>
         </th>
       </tr>
     )

@@ -20,12 +20,12 @@ export default class ManageAdmin extends React.Component {
 
     response.then(
       (a) => {
+        console.log(JSON.parse(a))
         const { Users } = JSON.parse(a)
         this.setState({ clientsList: Users })
       }
     )
   }
-
 
   componentDidMount() {
     this.setState({ UserAuth: this.props.UserAuth })
@@ -33,7 +33,7 @@ export default class ManageAdmin extends React.Component {
 
   listOut = () => {
     if (this.state.clientsList != null) {
-      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} saveNew={this.saveNew} IsNew={this.state.IsNew} />
+      return <ClientList clientsList={this.state.clientsList} UserAuth={this.state.UserAuth} />
     } else {
       return null
     }
