@@ -1,58 +1,86 @@
 import React from 'react'
 
-import EditItems from '../EditItems/EditItems.jsx'
-
 import './EditList.css'
 
-export default class EditList extends React.Component {
+const EditItem = (objectToRender, k, showChange) => {
 
-  state = {
-    elements: [],
-    stack:[]
+
+
+  // const renderElements=()=>{
+  //   return(
+  //     this.props.listToRender.map(
+  //       l=>{
+  //         return <td>l</td>
+  //       }
+  //     )
+
+  //   )
+  // }
+
+  // const  showSave=()=>{
+  //   if(this.props.IsNew){
+  //     return(
+  //       <th>
+  //         <i className="material-icons" onClick={this.props.doSaveNew}>save</i>
+  //       </th>
+  //     )
+  //   }else if(this.props.IsUpdated){
+  //     return(
+  //       <th>
+  //         <i className="material-icons" onClick={this.props.doUpdateExisting}>save</i>
+  //       </th>
+  //     )
+  //   }
+  // }
+
+  // Form massive from object
+  const formMassive = (ob) => {
+    let retMas = []
+    for (let key in ob) {
+      retMas.push(ob[key])
+    }
+    return retMas
   }
 
-  componentDidMount() {
-    console.log(this.props.clientsList)
-    this.setState({elements: this.props.clientsList})
-  }
+  let renderObject = () => {
+    const renderMassive = formMassive(objectToRender)
 
-  // Gets and shows new list
-  showNewList=()=>{
-    let list = this.props.showNewList()
-
-    this.setState(
-      (e)=>{
-        let {elements, stack}=e
-        stack.push(elements)
-        elements=list
-        return e
-      }
-    )
-  }
-
-  //Shows previous list items
-  showPrevList=()=>{
-    this.setState(
-      (e)=>{
-        let {elements, stack}=e
-        elements = stack.pop()
-        return e
-      }
-    )
-  }
-
-  // Render elements to row. Editable and selectable (dropdown)
-  outElements = () => {
     let count = 0
-    if((this.state.elements==null)||(this.state.elements==undefined)){
-      return null
-    }else{
-      return (
-        this.state.elements.map(
-          e => {
-            count++
+    return (
+      renderMassive.map(
+        el => {
+          if (!Array.isArray(el)) {
             return (
-              <EditItems key={count} elements={e} />
+              <th key={count++}>
+                <input type="text" defaultValue={el.toString()} onChange={()=>showChange()} />
+              </th>
+            )
+          }
+        }
+      )
+    )
+  }
+
+  return (
+    <tr key={k}>
+      {renderObject()}
+    </tr>
+  )
+}
+
+
+const EditList = ({ renderItems, showChange }) => {
+  // Render elements to row. Editable and selectable (dropdown)
+  const outElements = () => {
+    let count = 0
+    if ((renderItems == null) || (renderItems == undefined)) {
+      return null
+    } else {
+      return (
+        renderItems.map(
+          e => {
+            return (
+              EditItem(e, count++, showChange)
             )
           }
         )
@@ -60,19 +88,19 @@ export default class EditList extends React.Component {
     }
   }
 
-  render() {
-    return (
-      <div className="container" id="m-a-client-list">
-        <div className="row justify-content-center align-content-center">
-          <div className="col-12">
-            <table className="table table-dark">
-              <tbody>
-                {this.outElements()}
-              </tbody>
-            </table>
-          </div>
+  return (
+    <div className="container" id="m-a-client-list">
+      <div className="row justify-content-center align-content-center">
+        <div className="col-12">
+          <table className="table table-dark">
+            <tbody>
+              {outElements()}
+            </tbody>
+          </table>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
+
+export default EditList

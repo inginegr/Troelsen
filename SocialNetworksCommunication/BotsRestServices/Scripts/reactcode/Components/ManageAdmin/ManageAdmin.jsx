@@ -4,13 +4,13 @@ import React from 'react'
 import ServerService from '../../Services/ServerService.js'
 
 import '../ManageAdmin/ManageAdmin.css'
-import EditList from '../EditList/EditList.jsx'
 
+import EditList from '../EditList/EditList.jsx'
 
 export default class ManageAdmin extends React.Component {
 
   state = {
-    clientsList: null,
+    listToRender: null,
     UserAuth: null
   }
 
@@ -22,7 +22,7 @@ export default class ManageAdmin extends React.Component {
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
-        this.setState({ clientsList: Users })
+        this.setState({ listToRender: Users })
       }
     )
   }
@@ -106,13 +106,22 @@ export default class ManageAdmin extends React.Component {
   }
 
   renderItems=(type)=>{
+    let renderList=null
     if(type==1){
-      return this.renderUsers()
+      renderList = this.renderUsers()
     }else if(type==2){
-      return this.renderBots()
+      renderList = this.renderBots()
     }else if(type==3){
-      return this.renderBotObjects()
+      renderList = this.renderBotObjects()
     }
+
+
+
+    this.setState({ListToRender: renderList})
+  }
+
+  showChange=()=>{
+    console.log(this.state.listToRender)
   }
 
   componentDidMount() {
@@ -120,17 +129,14 @@ export default class ManageAdmin extends React.Component {
   }
 
   listOut = () => {
+    if ((this.state.listToRender != null)&&(this.state.listToRender != undefined)) {
 
-    if (this.state.clientsList != null) {
-      return <EditList clientsList={this.state.clientsList} renderUsers={this.renderUsers} />
-    } else {
-      return null
-    }
+      return <EditList renderItems={this.state.listToRender} showChange={this.showChange} />
+    } 
   }
 
 
   render() {
-
     return (
       <div className="container" id="manage-admin">
         <div className="row justify-content-center align-content-center">
