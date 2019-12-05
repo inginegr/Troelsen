@@ -121,7 +121,7 @@ export default class ManageAdmin extends React.Component {
   }
 
   showChange=()=>{
-    console.log(this.state.listToRender)
+    //console.log(this.state.listToRender)
   }
 
   componentDidMount() {

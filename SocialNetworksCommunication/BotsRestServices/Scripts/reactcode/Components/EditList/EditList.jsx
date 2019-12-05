@@ -2,7 +2,7 @@ import React from 'react'
 
 import './EditList.css'
 
-const EditItem = (objectToRender, k, showChange) => {
+class EditItem extends React.Component {
 
 
 
@@ -34,16 +34,17 @@ const EditItem = (objectToRender, k, showChange) => {
   // }
 
   // Form massive from object
-  const formMassive = (ob) => {
+  formMassive = (ob) => {
     let retMas = []
     for (let key in ob) {
+      console.log(key)
       retMas.push(ob[key])
     }
     return retMas
   }
 
-  let renderObject = () => {
-    const renderMassive = formMassive(objectToRender)
+  renderObject = () => {
+    const renderMassive = this.formMassive(this.props.objectToRender)
 
     let count = 0
     return (
@@ -52,7 +53,7 @@ const EditItem = (objectToRender, k, showChange) => {
           if (!Array.isArray(el)) {
             return (
               <th key={count++}>
-                <input type="text" defaultValue={el.toString()} onChange={()=>showChange()} />
+                <input type="text" defaultValue={el.toString()} onChange={()=>this.props.showChange()} />
               </th>
             )
           }
@@ -61,11 +62,13 @@ const EditItem = (objectToRender, k, showChange) => {
     )
   }
 
-  return (
-    <tr key={k}>
-      {renderObject()}
-    </tr>
-  )
+  render() {
+    return (
+      <tr key={this.props.k}>
+        {this.renderObject()}
+      </tr>
+    )
+  }
 }
 
 
@@ -80,7 +83,7 @@ const EditList = ({ renderItems, showChange }) => {
         renderItems.map(
           e => {
             return (
-              EditItem(e, count++, showChange)
+              <EditItem objectToRender={e} k={count++} showChange={showChange}   />
             )
           }
         )
