@@ -1,78 +1,13 @@
 import React from 'react'
 
+import EditItem from '../EditItem/EditItem.jsx'
+
 import './EditList.css'
 
-class EditItem extends React.Component {
-
-
-
-  // const renderElements=()=>{
-  //   return(
-  //     this.props.listToRender.map(
-  //       l=>{
-  //         return <td>l</td>
-  //       }
-  //     )
-
-  //   )
-  // }
-
-  // const  showSave=()=>{
-  //   if(this.props.IsNew){
-  //     return(
-  //       <th>
-  //         <i className="material-icons" onClick={this.props.doSaveNew}>save</i>
-  //       </th>
-  //     )
-  //   }else if(this.props.IsUpdated){
-  //     return(
-  //       <th>
-  //         <i className="material-icons" onClick={this.props.doUpdateExisting}>save</i>
-  //       </th>
-  //     )
-  //   }
-  // }
-
-  // Form massive from object
-  formMassive = (ob) => {
-    let retMas = []
-    for (let key in ob) {
-      console.log(key)
-      retMas.push(ob[key])
-    }
-    return retMas
-  }
-
-  renderObject = () => {
-    const renderMassive = this.formMassive(this.props.objectToRender)
-
-    let count = 0
-    return (
-      renderMassive.map(
-        el => {
-          if (!Array.isArray(el)) {
-            return (
-              <th key={count++}>
-                <input type="text" defaultValue={el.toString()} onChange={()=>this.props.showChange()} />
-              </th>
-            )
-          }
-        }
-      )
-    )
-  }
-
-  render() {
-    return (
-      <tr key={this.props.k}>
-        {this.renderObject()}
-      </tr>
-    )
-  }
-}
 
 
 const EditList = ({ renderItems, showChange }) => {
+
   // Render elements to row. Editable and selectable (dropdown)
   const outElements = () => {
     let count = 0
