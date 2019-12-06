@@ -10,7 +10,7 @@ import EditList from '../EditList/EditList.jsx'
 export default class ManageAdmin extends React.Component {
 
   state = {
-    listToRender: null,
+    currentList: null,
     UserAuth: null
   }
 
@@ -22,7 +22,7 @@ export default class ManageAdmin extends React.Component {
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
-        this.setState({ listToRender: Users })
+        this.setState({ currentList: Users })
       }
     )
   }
@@ -117,11 +117,11 @@ export default class ManageAdmin extends React.Component {
 
 
 
-    this.setState({ListToRender: renderList})
+    this.setState({currentList: renderList})
   }
 
   showChange=()=>{
-    //console.log(this.state.listToRender)
+    //console.log(this.state.currentList)
   }
 
   componentDidMount() {
@@ -129,9 +129,9 @@ export default class ManageAdmin extends React.Component {
   }
 
   listOut = () => {
-    if ((this.state.listToRender != null)&&(this.state.listToRender != undefined)) {
+    if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
 
-      return <EditList renderItems={this.state.listToRender} showChange={this.showChange} />
+      return <EditList renderItems={this.state.currentList} showChange={this.showChange} />
     } 
   }
 

@@ -18,7 +18,7 @@ const EditList = ({ renderItems, showChange }) => {
         renderItems.map(
           e => {
             return (
-              <EditItem objectToRender={e} k={count++} showChange={showChange}   />
+              <EditItem key={count++} objectToRender={e} k={count++} showChange={showChange}   />
             )
           }
         )
