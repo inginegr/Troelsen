@@ -5,17 +5,20 @@ import '../EditItem/EditItem.css'
 
 
 export default class EditItem extends React.Component {
-
+  
   state={
     renderObject: null,
     IsNew: false,
     IsEdited: false
   }
-
+  
   componentDidMount() {
     this.setState({ renderObject: this.props.objectToRender })
   }
+  
+  componentDidUpdate(){
 
+  }
   // Form massive from object
   formMassive = () => {
     if((this.state.renderObject==null)||(this.state.renderObject==undefined)){
@@ -60,7 +63,7 @@ export default class EditItem extends React.Component {
 
   // Renders all elements in object
   renderObject = () => {
-    const ob = this.formMassive(this.props.objectToRender)
+    const ob = this.formMassive(this.state.renderObject)
 
     if((ob==null)||(ob==undefined)){
       return null
@@ -74,7 +77,7 @@ export default class EditItem extends React.Component {
         el => {
           if (!Array.isArray(el)) {
             count++
-            const elem=null
+            let elem=null
             if(count<2){
               elem = el.toString()
             }else{
@@ -97,38 +100,50 @@ export default class EditItem extends React.Component {
     if(this.state.IsNew){
       return(
         <th>
-          <i class="material-icons" onClick={()=>this.props.saveNew}> save </i>
+          <i className="material-icons" onClick={()=>this.props.saveNew}> save </i>
         </th>
       )
     }else if(this.state.IsEdited){
       return(
         <th>
-          <i class="material-icons" onClick={this.props.saveEdited}> save </i>
+          <i className="material-icons" onClick={this.props.saveEdited}> save </i>
         </th>
       )
     }
+  }
+
+  shwoInsertedList=()=>{
+    const retObj = this.props.listObjectChanged(Object.assign(this.state.renderObject))
+    console.log(retObj)
   }
 
   //Shows edit icon
   showEditIcon=()=>{
     return(
       <th>
-        <i className="material-icons" onClick={this.props.showNewList} > build </i>
+        <i className="material-icons" onClick={this.shwoInsertedList} > build </i>
       </th>
     )
   }
 
+
   render() {
-    return (
-      <tr key={this.props.k}>
-        {this.renderObject()}
-        {this.showSaveIcon()}
-        {this.showEditIcon()}
-      </tr>
-    )
+    if(this.state.renderObject!=null){
+      return (
+        <tr key={this.props.k}>
+          {this.renderObject()}
+          {this.showSaveIcon()}
+          {this.showEditIcon()}
+        </tr>
+      )
+    }else{
+      return(
+        null
+      )
+    }
   }
 }
 
-{/* <i class="material-icons">
+{/* <i className="material-icons">
 build
 </i> */}

@@ -10,7 +10,8 @@ import EditList from '../EditList/EditList.jsx'
 export default class ManageAdmin extends React.Component {
 
   state = {
-    currentList: null,
+    currentList: [],
+    listStack: [],
     UserAuth: null
   }
 
@@ -43,95 +44,23 @@ export default class ManageAdmin extends React.Component {
     return userDataList
   }
 
-  // Render bots massive with data massive
-  renderBots = (UserId) => {
-    let users = Object.assign(this.state.clientsList)
-
-    botsDataList = []
-    users.map(
-      u => {
-        if (u.Id == UserId) {
-          return(
-            u.Bots.map(
-              b => {
-                const {
-                  BotName,
-                  BotStatus,
-                  Id,
-                  UserDataId
-                } = b
-                botsDataList.push({ IsSelectable: false, currentValue: Id, type: 'text' })
-                botsDataList.push({ IsSelectable: false, currentValue: BotName, type: 'text' })
-                botsDataList.push({ IsSelectable: true, currentValue: BotStatus, type: 'text', choice: ['On', 'Off'] })
-                botsDataList.push({ IsSelectable: false, currentValue: UserDataId, type: 'text' })
-              }
-            )
-          )
-        }
-      }
-    )
-  }
-
-  // Render users massive with data massive
-  renderBotObjects = (UserId, BotId) => {
-    let users = Object.assign(this.state.clientsList)
-
-    botObjectsDataList = []
-    users.map(
-      u => {
-        if (u.Id == UserId) {
-          u.Bots.map(
-            b => {
-              if (b.Id == BotId) {
-                return (
-                  b.BotObject.map(
-                    bo => {
-                      const {
-                        Id,
-                        PathToObject,
-                        UserBotId
-                      } = bo
-                      botObjectsDataList.push({ IsSelectable: false, currentValue: Id, type: 'text' })
-                      botObjectsDataList.push({ IsSelectable: false, currentValue: PathToObject, type: 'file' })
-                      botObjectsDataList.push({ IsSelectable: true, currentValue: UserBotId, type: 'text' })
-                    }
-                  )
-                )
-              }
-            }
-          )
-        }
-      }
-    )
-  }
-
-  renderItems=(type)=>{
-    let renderList=null
-    if(type==1){
-      renderList = this.renderUsers()
-    }else if(type==2){
-      renderList = this.renderBots()
-    }else if(type==3){
-      renderList = this.renderBotObjects()
-    }
-
-
-
-    this.setState({currentList: renderList})
-  }
-
-  showChange=()=>{
-    //console.log(this.state.currentList)
-  }
-
   componentDidMount() {
     this.setState({ UserAuth: this.props.UserAuth })
   }
 
+  listObjectChanged=(obj)=>{
+    let retObj=null
+    for(let key in obj){
+      if(Array.isArray(obj[key])){
+        retObj=obj[key]    
+        this.setState({currentList: retObj})
+      }
+    }
+  }
+
   listOut = () => {
     if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
-
-      return <EditList renderItems={this.state.currentList} showChange={this.showChange} />
+      return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} />
     } 
   }
 

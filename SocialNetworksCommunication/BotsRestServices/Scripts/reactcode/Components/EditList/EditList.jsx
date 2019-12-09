@@ -6,7 +6,7 @@ import './EditList.css'
 
 
 
-const EditList = ({ renderItems, showChange }) => {
+const EditList = ({ renderItems, listObjectChanged, updateState }) => {
 
   // Render elements to row. Editable and selectable (dropdown)
   const outElements = () => {
@@ -17,8 +17,9 @@ const EditList = ({ renderItems, showChange }) => {
       return (
         renderItems.map(
           e => {
+
             return (
-              <EditItem key={count++} objectToRender={e} k={count++} showChange={showChange}   />
+              <EditItem key={count++} objectToRender={e} k={count++}  listObjectChanged={listObjectChanged} />
             )
           }
         )
