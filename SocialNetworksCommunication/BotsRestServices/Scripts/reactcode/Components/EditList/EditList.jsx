@@ -19,7 +19,7 @@ const EditList = ({ renderItems, listObjectChanged, updateState }) => {
           e => {
 
             return (
-              <EditItem key={count++} objectToRender={e} k={count++}  listObjectChanged={listObjectChanged} />
+              <EditItem key={count++} objectToRender={e} k={count++} listObjectChanged={listObjectChanged} />
             )
           }
         )

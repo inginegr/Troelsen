@@ -57,11 +57,11 @@ export default class ManageAdmin extends React.Component {
       }
     }
   }
-
+  
   listOut = () => {
     if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
       return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} />
-    } 
+    }
   }
 
 

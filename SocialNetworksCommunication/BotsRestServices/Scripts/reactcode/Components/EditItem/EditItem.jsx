@@ -4,41 +4,26 @@ import '../EditItem/EditItem.css'
 
 
 
-export default class EditItem extends React.Component {
+const EditItem = () => {
   
-  state={
-    renderObject: null,
-    IsNew: false,
-    IsEdited: false
-  }
-  
-  componentDidMount() {
-    this.setState({ renderObject: this.props.objectToRender })
-  }
-  
-  componentDidUpdate(){
-
-  }
   // Form massive from object
   formMassive = () => {
-    if((this.state.renderObject==null)||(this.state.renderObject==undefined)){
+    if((objectToRender==null)||(objectToRender==undefined)){
       return null
     }
 
     let massiveToRender = []
     let massiveOfKeys = []
 
-    for (let key in this.state.renderObject) {
+    for (let key in objectToRender) {
       massiveOfKeys.push(key)
-      massiveToRender.push(this.state.renderObject[key])
+      massiveToRender.push(objectToRender[key])
     }
 
-    let retObj={
+    return {
       massiveOfKeys,
       massiveToRender
     }
-
-    return retObj
   }
 
   // Change state 
@@ -46,11 +31,11 @@ export default class EditItem extends React.Component {
     const {massiveOfKeys, massiveToRender} = this.formMassive()
     const ind=e.target.dataset.ind
     const val=e.target.value
-    let tempState=Object.assign(this.state.renderObject)
-    let count=0
+    let tempState=objectToRender
+    let count = 0
     
     massiveOfKeys.map(
-      i=>{
+      i=>{        
         if(count==ind){
           tempState[i]=val
           this.setState({renderObject: tempState, IsEdited: true})
@@ -63,7 +48,10 @@ export default class EditItem extends React.Component {
 
   // Renders all elements in object
   renderObject = () => {
-    const ob = this.formMassive(this.state.renderObject)
+    const ob = this.formMassive(renderObject)
+
+    console.log(ob)
+    console.log(`====================== ${renderObject.Id}`)
 
     if((ob==null)||(ob==undefined)){
       return null
@@ -80,8 +68,26 @@ export default class EditItem extends React.Component {
             let elem=null
             if(count<2){
               elem = el.toString()
+            }else if((typeof el)=="boolean"){
+              let trueFalse=null
+              if(el){
+                trueFalse="Включен"
+              }else{
+                trueFalse="Выключен"
+              }
+              elem = (
+                <div className="dropdown">
+                  <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {trueFalse}
+                  </a>
+                  <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a className="dropdown-item" href="#">Включить</a>
+                    <a className="dropdown-item" href="#">Отключить</a>
+                  </div>
+                </div>
+              )
             }else{
-              elem = <input type="text" defaultValue={el.toString()} onChange={this.contentChanged} data-ind={count} />
+              elem = <input type="text" value={el.toString()} onChange={this.contentChanged} data-ind={count} />              
             }
             return (
               <th key={count}>
@@ -97,13 +103,13 @@ export default class EditItem extends React.Component {
 
   //Shows save icon
   showSaveIcon=()=>{
-    if(this.state.IsNew){
+    if(IsNew){
       return(
         <th>
           <i className="material-icons" onClick={()=>this.props.saveNew}> save </i>
         </th>
       )
-    }else if(this.state.IsEdited){
+    }else if(IsEdited){
       return(
         <th>
           <i className="material-icons" onClick={this.props.saveEdited}> save </i>
@@ -113,8 +119,8 @@ export default class EditItem extends React.Component {
   }
 
   shwoInsertedList=()=>{
-    const retObj = this.props.listObjectChanged(Object.assign(this.state.renderObject))
-    console.log(retObj)
+    this.setState({IsToUpdateObject: true})
+    this.props.listObjectChanged(Object.assign(renderObject))
   }
 
   //Shows edit icon
@@ -126,24 +132,26 @@ export default class EditItem extends React.Component {
     )
   }
 
-
-  render() {
-    if(this.state.renderObject!=null){
+  const mainRender = () => {
+    if (renderObject != null) {
       return (
         <tr key={this.props.k}>
           {this.renderObject()}
-          {this.showSaveIcon()}
-          {this.showEditIcon()}
+          {/* {this.showSaveIcon()}
+          {this.showEditIcon()} */}
         </tr>
       )
-    }else{
-      return(
+    } else {
+      return (
         null
       )
     }
   }
+
+  return(
+    {mainRender}
+  )
+    
 }
 
-{/* <i className="material-icons">
-build
-</i> */}
+export default EditItem
