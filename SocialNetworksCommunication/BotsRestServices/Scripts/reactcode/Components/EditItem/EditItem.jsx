@@ -4,10 +4,10 @@ import '../EditItem/EditItem.css'
 
 
 
-const EditItem = () => {
+const EditItem = ({objectToRender, k}) => {
   
   // Form massive from object
-  formMassive = () => {
+  const formMassive = () => {
     if((objectToRender==null)||(objectToRender==undefined)){
       return null
     }
@@ -27,37 +27,36 @@ const EditItem = () => {
   }
 
   // Change state 
-  contentChanged=(e)=>{
-    const {massiveOfKeys, massiveToRender} = this.formMassive()
-    const ind=e.target.dataset.ind
-    const val=e.target.value
-    let tempState=objectToRender
+  const contentChanged=(e)=>{
+    const { massiveOfKeys, massiveToRender } = formMassive()
+    const ind = e.target.dataset.ind
+    const val = e.target.value
+    let tempState = objectToRender
     let count = 0
     
-    massiveOfKeys.map(
-      i=>{        
-        if(count==ind){
-          tempState[i]=val
-          this.setState({renderObject: tempState, IsEdited: true})
-        }
-        count++
-      }
-    )
-
+    // massiveOfKeys.map(
+    //   i=>{        
+    //     if(count==ind){
+    //       tempState[i]=val
+    //       this.setState({renderObject: tempState, IsEdited: true})
+    //     }
+    //     count++
+    //   }
+    // )
   }
 
   // Renders all elements in object
-  renderObject = () => {
-    const ob = this.formMassive(renderObject)
+  const renderObject = () => {
+    const ob = formMassive(objectToRender)
 
     console.log(ob)
     console.log(`====================== ${renderObject.Id}`)
 
-    if((ob==null)||(ob==undefined)){
+    if ((ob == null) || (ob == undefined)) {
       return null
     }
 
-    const {massiveToRender}=ob
+    const { massiveToRender } = ob
 
     let count = 0
     return (
@@ -65,11 +64,11 @@ const EditItem = () => {
         el => {
           if (!Array.isArray(el)) {
             count++
-            let elem=null
-            if(count<2){
+            let elem = null
+            if (count < 2) {
               elem = el.toString()
-            }else if((typeof el)=="boolean"){
-              let trueFalse=null
+            } else if ((typeof el) == "boolean") {
+              let trueFalse = null
               if(el){
                 trueFalse="Включен"
               }else{
@@ -87,7 +86,7 @@ const EditItem = () => {
                 </div>
               )
             }else{
-              elem = <input type="text" value={el.toString()} onChange={this.contentChanged} data-ind={count} />              
+              elem = <input type="text" value={el.toString()} onChange={contentChanged} data-ind={count} />              
             }
             return (
               <th key={count}>
@@ -101,56 +100,52 @@ const EditItem = () => {
   }
 
 
-  //Shows save icon
-  showSaveIcon=()=>{
-    if(IsNew){
-      return(
-        <th>
-          <i className="material-icons" onClick={()=>this.props.saveNew}> save </i>
-        </th>
-      )
-    }else if(IsEdited){
-      return(
-        <th>
-          <i className="material-icons" onClick={this.props.saveEdited}> save </i>
-        </th>
-      )
-    }
-  }
+  // //Shows save icon
+  // showSaveIcon=()=>{
+  //   if(IsNew){
+  //     return(
+  //       <th>
+  //         <i className="material-icons" onClick={()=>this.props.saveNew}> save </i>
+  //       </th>
+  //     )
+  //   }else if(IsEdited){
+  //     return(
+  //       <th>
+  //         <i className="material-icons" onClick={this.props.saveEdited}> save </i>
+  //       </th>
+  //     )
+  //   }
+  // }
 
-  shwoInsertedList=()=>{
-    this.setState({IsToUpdateObject: true})
-    this.props.listObjectChanged(Object.assign(renderObject))
-  }
+  // shwoInsertedList=()=>{
+  //   this.setState({IsToUpdateObject: true})
+  //   this.props.listObjectChanged(Object.assign(renderObject))
+  // }
 
-  //Shows edit icon
-  showEditIcon=()=>{
-    return(
-      <th>
-        <i className="material-icons" onClick={this.shwoInsertedList} > build </i>
-      </th>
+  // //Shows edit icon
+  // showEditIcon=()=>{
+  //   return(
+  //     <th>
+  //       <i className="material-icons" onClick={this.shwoInsertedList} > build </i>
+  //     </th>
+  //   )
+  // }
+
+
+  if (objectToRender != null) {
+    return (
+      <tr key={k}>
+        {renderObject()}
+        {/* {this.showSaveIcon()}
+          {this.showEditIcon()} */}
+      </tr>
+    )
+  } else {
+    return (
+      null
     )
   }
 
-  const mainRender = () => {
-    if (renderObject != null) {
-      return (
-        <tr key={this.props.k}>
-          {this.renderObject()}
-          {/* {this.showSaveIcon()}
-          {this.showEditIcon()} */}
-        </tr>
-      )
-    } else {
-      return (
-        null
-      )
-    }
-  }
-
-  return(
-    {mainRender}
-  )
     
 }
 
