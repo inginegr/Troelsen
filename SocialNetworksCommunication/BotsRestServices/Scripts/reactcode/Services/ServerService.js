@@ -9,10 +9,6 @@ const UserData = {
   Login: "login",
   Password: "password",
   Id: "id",
-  VkBot: "false",
-  TelegramBot: "false",
-  ViberBot: "false",
-  WhatsAppBot: "false"
 }
 
 const ServerResponse = {
@@ -262,4 +258,52 @@ export default class ServerService {
 
     return ans
   }
+
+  //Return user any object
+  getUserObject=()=>{
+    let result = null
+    result = Object.assign({}, UserAny)
+    return result
+  }
+}
+
+
+
+let UserAny = {
+
+  Bots: [
+
+    {
+
+      BotObject: [
+
+        {
+
+          Id: null,
+
+          PathToObject: null,
+
+          UserBotId: null
+
+        }
+
+      ],
+
+      Id: null,
+
+      BotName: null,
+
+      BotStatus: null,
+
+      UserDataId: null
+
+    }
+  ],
+
+  Id: null,
+
+  Login: null,
+
+  Password: null
+
 }

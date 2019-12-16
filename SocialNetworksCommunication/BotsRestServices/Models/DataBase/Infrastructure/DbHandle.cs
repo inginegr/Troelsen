@@ -36,6 +36,30 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
+        /// Add users to DB
+        /// </summary>
+        /// <param name="userList">Users to ad to db</param>
+        public void AddUsers(List<UserData> userList)
+        {
+            try
+            {
+                using (UserContext context = new UserContext())
+                {
+                    foreach(UserData ud in userList)
+                    {
+                        context.UserTable.Add(ud);
+                    }
+                    context.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Deletes user from DB
         /// </summary>
         /// <param name="userParam">User object</param>
@@ -128,20 +152,20 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
-        /// Edits user in the table
+        /// Edits users in the table
+        /// <paramref name="userData"/> users to edit 
         /// </summary>
-        /// <returns>All users in table</returns>
-        public void EditUser(List<UserData> userData)
+        public void EditUsers(List<UserData> usersToEdit)
         {
             try
             {
                 using (UserContext context = new UserContext())
                 {
-                    int[] elems = userData.Select(x => x.Id).ToArray();
+                    int[] elems = usersToEdit.Select(x => x.Id).ToArray();
 
                     List<UserData> users = context.UserTable.Where(x => elems.Contains(x.Id)).ToList();
 
-                    foreach (UserData u in userData)
+                    foreach (UserData u in usersToEdit)
                     {
                         UserData userToUpdate = context.UserTable.Where(x => x.Id == u.Id).FirstOrDefault();
                         userToUpdate.Id = u.Id;

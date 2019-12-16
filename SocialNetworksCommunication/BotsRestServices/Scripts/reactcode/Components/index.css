@@ -17,7 +17,7 @@ body{
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 
-.material-icons:hover{
+.material-icons.active-icon:hover{
     font-size: 2.6vw;
     position: absolute;
 }

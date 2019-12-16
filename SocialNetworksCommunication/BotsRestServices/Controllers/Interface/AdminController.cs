@@ -26,9 +26,9 @@ namespace BotsRestServices.Controllers.Interface
         }
 
         [HttpPost]
-        public JsonResult SaveClientData()
+        public JsonResult SaveClientsData()
         {
-            return Json(admin.EditClient(this));
+            return Json(admin.EditClients(this));
         }
 
         [HttpPost]

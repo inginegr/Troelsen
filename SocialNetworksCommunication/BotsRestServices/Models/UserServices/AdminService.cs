@@ -116,7 +116,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">Request string with user to update</param>
         /// <returns>Response with status and message</returns>
-        public string EditClient(Controller ctr)
+        public string EditClients(Controller ctr)
         {
             TotalResponse response = null;
 
@@ -128,7 +128,7 @@ namespace BotsRestServices.Models.UserServices
 
                 List<UserData> usersToUpdate = new List<UserData>();
                 usersToUpdate.Add(request.UserList.FirstOrDefault());
-                dbHandle.EditUser(usersToUpdate);
+                dbHandle.EditUsers(usersToUpdate);
 
                 response = FormResponseStatus(response, true, $"The user {request.UserList.FirstOrDefault().Login} is updated");
             }catch(Exception ex)

@@ -12,7 +12,7 @@ export default class GlobalProperties {
     
     //============================Methods=================================//
     GetClientsList="GetUsersList"
-    SaveClientData="SaveClientData"
+    SaveClientData="SaveClientsData"
     DeleteClientFromDb="DeleteClient"
     AddClient="AddUser"
     
@@ -25,3 +25,4 @@ export default class GlobalProperties {
     Restart="RestartBot"
     Apply="ApplyStatus"
 }
+

@@ -6,26 +6,61 @@ import ServerService from '../../Services/ServerService.js'
 import '../ManageAdmin/ManageAdmin.css'
 
 import EditList from '../EditList/EditList.jsx'
+import { Object } from 'core-js'
 
 export default class ManageAdmin extends React.Component {
 
   state = {
     currentList: [],
     listStack: [],
-    UserAuth: null
+    UserAuth: null,
+    UserPattern: null, // User pattern to add to state
+    IsToSave: false  // If element changed or created,
+    //IsUserList: false // If users rendered in present time
   }
 
   service = new ServerService()
 
+  // Get list of clients
   getClientsList = () => {
     const response = this.service.getClientsList(this.state.UserAuth)
 
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
-        this.setState({ currentList: Users })
+        console.log(a)
+        this.setState({ currentList: Users, IsUserList: true })
       }
     )
+  }
+
+  // Call if list object is changed
+  listObjectChanged = (id, newContent) => {
+
+    let isFound = false
+    this.setState(
+      (state)=>{
+        let count=0
+        state.currentList.map(
+          el=>{
+            if(count==id){
+              el=newContent
+              isFound=true
+            }
+            count++
+          }
+        )
+        if(isFound){
+          state.IsToSave=true
+        }
+        return state
+      }
+    )
+  }
+
+  // Send object to child component
+  getObject=(id)=>{
+    return Object.assign(this.state.currentList[id])
   }
 
   // Render users massive with data massive
@@ -48,21 +83,71 @@ export default class ManageAdmin extends React.Component {
     this.setState({ UserAuth: this.props.UserAuth })
   }
 
-  listObjectChanged=(obj)=>{
-    let retObj=null
-    for(let key in obj){
-      if(Array.isArray(obj[key])){
-        retObj=obj[key]    
-        this.setState({currentList: retObj})
-      }
-    }
-  }
-  
   listOut = () => {
     if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
-      return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} />
+      return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} getObject={this.getObject} />
     }
   }
+
+  // Save change in objects
+  saveChange = () => {
+    console.log("do save")
+  }
+  
+  // Shows save icon if changes made
+  showSaveIcon = () => {
+    if (this.state.IsToSave) {
+      return (
+        <button className="btn btn-primary" type="submit" onClick={this.saveChange} >
+          <i className="material-icons"> save </i>
+          Save
+        </button>
+      )
+    }
+  }
+
+  // Adds client to state
+  addClient=()=>{
+    this.setState(
+      state=>{
+        let user = this.service.getUserObject()
+        if(state.currentList.length==0){
+          user.Id=0
+        }else{
+          let chooseId=0
+          state.currentList.forEach(element => {
+            if(element.Id>=chooseId){
+              chooseId = element.Id + 1
+            }
+          });
+          
+          user.Id = chooseId
+        }
+        
+        user.Login="any"
+        user.Password="any"
+
+        state.currentList.push(user)
+        return state
+      }
+    )
+  }   
+  
+  // Shows add user icon 
+  showAddUserIcon = () => {
+    if (this.state.listStack.length < 1) {
+      return (
+        <button className="btn btn-primary" type="submit" onClick={this.addClient}>
+          <i className="material-icons">
+            perm_identity
+          </i>
+          AddUser
+        </button>
+      )
+    }
+  }
+
+
 
 
   render() {
@@ -75,13 +160,9 @@ export default class ManageAdmin extends React.Component {
                 cloud_download
               </i>
               GetList
-            </button>
-            <button className="btn btn-primary" type="submit" onClick={this.addClient}>
-              <i className="material-icons">
-                perm_identity
-              </i>
-              AddUser
-            </button>
+            </button>          
+            {this.showAddUserIcon()}  
+            {this.showSaveIcon()}
             {this.listOut()}
           </div>
         </div>

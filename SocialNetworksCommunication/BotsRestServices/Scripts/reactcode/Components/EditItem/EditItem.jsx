@@ -4,10 +4,10 @@ import '../EditItem/EditItem.css'
 
 
 
-const EditItem = ({objectToRender, k}) => {
+const EditItem = ({objectToRender, k, listObjectChanged , getObject }) => {
   
   // Form massive from object
-  const formMassive = () => {
+  const convertObjectToMassive = () => {
     if((objectToRender==null)||(objectToRender==undefined)){
       return null
     }
@@ -26,31 +26,22 @@ const EditItem = ({objectToRender, k}) => {
     }
   }
 
+
   // Change state 
   const contentChanged=(e)=>{
-    const { massiveOfKeys, massiveToRender } = formMassive()
+    const id = e.target.dataset.id
     const ind = e.target.dataset.ind
-    const val = e.target.value
-    let tempState = objectToRender
-    let count = 0
+    const value = e.target.value
+    let ob = getObject(id)
+    let { massiveOfKeys, massiveToRender } = convertObjectToMassive(ob)
+    ob[massiveOfKeys[ind]]=value
     
-    // massiveOfKeys.map(
-    //   i=>{        
-    //     if(count==ind){
-    //       tempState[i]=val
-    //       this.setState({renderObject: tempState, IsEdited: true})
-    //     }
-    //     count++
-    //   }
-    // )
+    listObjectChanged(id, ob)
   }
 
   // Renders all elements in object
-  const renderObject = () => {
-    const ob = formMassive(objectToRender)
-
-    console.log(ob)
-    console.log(`====================== ${renderObject.Id}`)
+  const renderObject = (k) => {
+    const ob = convertObjectToMassive(objectToRender)
 
     if ((ob == null) || (ob == undefined)) {
       return null
@@ -80,13 +71,13 @@ const EditItem = ({objectToRender, k}) => {
                     {trueFalse}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a className="dropdown-item" href="#">Включить</a>
-                    <a className="dropdown-item" href="#">Отключить</a>
+                    <a className="dropdown-item" href="#" data-id={k} >Включить</a>
+                    <a className="dropdown-item" href="#" data-id={k} >Отключить</a>
                   </div>
                 </div>
               )
             }else{
-              elem = <input type="text" value={el.toString()} onChange={contentChanged} data-ind={count} />              
+              elem = <input type="text" value={el.toString()} onChange={contentChanged} data-ind={count} data-id={k} />              
             }
             return (
               <th key={count}>
@@ -100,44 +91,21 @@ const EditItem = ({objectToRender, k}) => {
   }
 
 
-  // //Shows save icon
-  // showSaveIcon=()=>{
-  //   if(IsNew){
-  //     return(
-  //       <th>
-  //         <i className="material-icons" onClick={()=>this.props.saveNew}> save </i>
-  //       </th>
-  //     )
-  //   }else if(IsEdited){
-  //     return(
-  //       <th>
-  //         <i className="material-icons" onClick={this.props.saveEdited}> save </i>
-  //       </th>
-  //     )
-  //   }
-  // }
-
-  // shwoInsertedList=()=>{
-  //   this.setState({IsToUpdateObject: true})
-  //   this.props.listObjectChanged(Object.assign(renderObject))
-  // }
-
-  // //Shows edit icon
-  // showEditIcon=()=>{
-  //   return(
-  //     <th>
-  //       <i className="material-icons" onClick={this.shwoInsertedList} > build </i>
-  //     </th>
-  //   )
-  // }
+  //Shows edit icon
+  const showEditIcon = () => {
+    return (
+      <th>
+        <i className="material-icons active-icon" > build </i>
+      </th>
+    )
+  }
 
 
   if (objectToRender != null) {
     return (
       <tr key={k}>
-        {renderObject()}
-        {/* {this.showSaveIcon()}
-          {this.showEditIcon()} */}
+        {renderObject(k)}
+        {showEditIcon()}
       </tr>
     )
   } else {
