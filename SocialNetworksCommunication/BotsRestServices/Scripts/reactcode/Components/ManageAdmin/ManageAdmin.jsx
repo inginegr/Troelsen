@@ -11,11 +11,14 @@ import { Object } from 'core-js'
 export default class ManageAdmin extends React.Component {
 
   state = {
+    totalClientsList: null,
     currentList: [],
     listStack: [],
     UserAuth: null,
     UserPattern: null, // User pattern to add to state
-    IsToSave: false  // If element changed or created,
+    IsToSave: false,  // If client changed 
+    IsToAdd: false, // If client added
+    AddedClients: [] // Massive of added clients
     //IsUserList: false // If users rendered in present time
   }
 
@@ -29,7 +32,7 @@ export default class ManageAdmin extends React.Component {
       (a) => {
         const { Users } = JSON.parse(a)
         console.log(a)
-        this.setState({ currentList: Users, IsUserList: true })
+        this.setState({ currentList: Users, IsUserList: true, totalClientsList: Users })
       }
     )
   }
@@ -93,6 +96,11 @@ export default class ManageAdmin extends React.Component {
   saveChange = () => {
     console.log("do save")
   }
+
+  // List inserted massive
+  ListInsertedMassive=(ElementId)=>{
+    this.setState()
+  }
   
   // Shows save icon if changes made
   showSaveIcon = () => {
@@ -126,6 +134,9 @@ export default class ManageAdmin extends React.Component {
         
         user.Login="any"
         user.Password="any"
+
+        state.AddedClients.push(user)
+        state.IsToAdd=true
 
         state.currentList.push(user)
         return state

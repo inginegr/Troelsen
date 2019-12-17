@@ -63,6 +63,33 @@ namespace BotsRestServices.Models.UserServices
         }
 
         /// <summary>
+        /// Add users to db
+        /// </summary>
+        /// <param name="requestString">String from browser</param>
+        /// <returns>Json string answer text</returns>
+        public string AddClientsToDb(Controller ctr)
+        {
+            TotalResponse resp = null;
+
+            try
+            {
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                resp = FormLogPas(request.User);
+                
+                dbHandle.AddUsers(request.UserList);
+
+                resp = FormResponseStatus(resp, true, "The user is added");
+            }
+            catch (Exception ex)
+            {
+                resp = FormResponseStatus(resp, false, ex.Message);
+            }
+
+            return js.SerializeObjectT(resp);
+        }
+
+        /// <summary>
         /// Gets list of users
         /// </summary>
         /// <param name="s">Request string</param>

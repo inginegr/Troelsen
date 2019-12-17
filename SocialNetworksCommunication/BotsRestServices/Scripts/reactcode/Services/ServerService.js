@@ -220,6 +220,7 @@ export default class ServerService {
       console.log(`Cannot save empty user`)
       return
     }
+    
     const { Login, Password } = a
     const User={Login: Login, Password: Password}
     const dataToSend = b
@@ -261,7 +262,7 @@ export default class ServerService {
 
   //Return user any object
   getUserObject=()=>{
-    let result = null
+    let result = null                
     result = Object.assign({}, UserAny)
     return result
   }

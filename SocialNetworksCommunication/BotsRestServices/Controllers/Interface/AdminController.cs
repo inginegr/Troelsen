@@ -20,6 +20,12 @@ namespace BotsRestServices.Controllers.Interface
         }
 
         [HttpPost]
+        public JsonResult AddUsers()
+        {
+            return Json(admin.AddClientsToDb(this));
+        }
+
+        [HttpPost]
         public JsonResult GetUsersList()
         {            
             return Json(admin.GetClientsList(this));

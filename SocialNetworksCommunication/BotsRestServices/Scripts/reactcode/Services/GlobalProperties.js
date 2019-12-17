@@ -15,6 +15,7 @@ export default class GlobalProperties {
     SaveClientData="SaveClientsData"
     DeleteClientFromDb="DeleteClient"
     AddClient="AddUser"
+    AddClients="AddUsers"
     
     
     //============================Controller=================================//
