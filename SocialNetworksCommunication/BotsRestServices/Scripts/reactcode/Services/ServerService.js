@@ -271,7 +271,7 @@ export default class ServerService {
   // depth - depth to find element
   getCurrentObject=(depth)=>{
     
-    let currentObject=UserAny
+    let currentObject= UserAny  
 
     while (depth!=0) {
       depth--
@@ -281,7 +281,21 @@ export default class ServerService {
         }
       }
     }
-    return currentObject
+    return Object.assign({}, currentObject) 
+  }
+
+  // Search second int value in the щиоусе and return its key
+  searchSecondInt=(mas)=>{
+    let countInt=2
+    for(let key in mas){
+        if(typeof mas[key] == "number"){
+          countInt--
+        }
+        if (countInt==0) {
+          return key
+        }
+      }
+    return null
   }
 
 }

@@ -6,7 +6,7 @@ import './EditList.css'
 
 
 
-const EditList = ({ renderItems, listObjectChanged, getObject, state, listInsertedArray, deleteSomeItem }) => {
+const EditList = ({ renderItems, listObjectChanged, getObject, state, listInsertedArray, deleteItem }) => {
 
   // Render elements to row. Editable and selectable (dropdown)
   const outElements = () => {
@@ -19,8 +19,8 @@ const EditList = ({ renderItems, listObjectChanged, getObject, state, listInsert
           e =>{
             count++
             return (
-              <EditItem key={count} objectToRender={e} k={count} listObjectChanged={listObjectChanged} getObject={getObject} state={state} 
-              listInsertedArray={listInsertedArray} deleteSomeItem={deleteSomeItem} />
+              <EditItem key={count} objectToRender={e} k={count} listObjectChanged={listObjectChanged} getObject={getObject} 
+              listInsertedArray={listInsertedArray}  deleteItem={deleteItem} />
             )
           }
         )

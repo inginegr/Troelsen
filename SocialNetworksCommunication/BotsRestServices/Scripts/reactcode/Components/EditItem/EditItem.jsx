@@ -4,7 +4,7 @@ import '../EditItem/EditItem.css'
 
 
 
-const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInsertedArray, state, deleteSomeItem }) => {
+const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInsertedArray, deleteItem }) => {
   
   // Form massive from object
   const convertObjectToMassive = () => {
@@ -104,9 +104,9 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
     listInsertedArray(id)
   }
 
-  const deleteItem=(e)=>{
-    id=e.target.dataset.ind
-    deleteSomeItem(id)
+  const doDeleteItem=(e)=>{
+    const id=e.target.dataset.ind
+    deleteItem(id)
   }
   
   if (objectToRender != null) {
@@ -115,7 +115,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
         {renderObject(k)}
         {showEditIcon()}
         <th>
-          <i className="material-icons active-icon" data-ind={k} onClick={deleteItem} > delete_forever </i>
+          <i className="material-icons active-icon" data-ind={k} onClick={doDeleteItem} > delete_forever </i>
         </th>
       </tr>
     )

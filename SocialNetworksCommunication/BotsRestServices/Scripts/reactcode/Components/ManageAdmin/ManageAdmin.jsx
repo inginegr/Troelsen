@@ -21,6 +21,7 @@ export default class ManageAdmin extends React.Component {
     AddedItems: [], // Massive of added items
     IsToDelete: false, // Is there deleted item
     DeletedItems:[], // Massive with deleted clients
+    ParentItem: null // Parent item of rendered list
     
     //IsUserList: false // If users rendered in present time
   }
@@ -89,15 +90,11 @@ export default class ManageAdmin extends React.Component {
   }
 
 
-  //Delete element from rendered massive
-  deleteSomeItem=(id)=>{
-
-  }
-
   listOut = () => {
     if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
       return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} getObject={this.getObject} 
-      state={this.state} listInsertedArray={this.listInsertedMassive} deleteSomeItem={this.deleteSomeItem} />
+      state={this.state} listInsertedArray={this.listInsertedMassive} deleteSomeItem={this.deleteSomeItem} 
+      deleteItem={this.deleteItem} />
     }
   }
 
@@ -119,6 +116,8 @@ export default class ManageAdmin extends React.Component {
             s.currentList=currentElement[key]
           }
         }
+
+        s.ParentItem=currentElement
 
         return s
       }
@@ -168,11 +167,14 @@ export default class ManageAdmin extends React.Component {
               chooseId = element.Id + 1
             }
           });
-          
+          console.log(chooseId)
           item.Id = chooseId
         }
 
-        console.log(typeof item.Login)
+        if (state.listStack.length>0) {
+          const intKey=this.service.searchSecondInt(item)
+          item[intKey]=state.ParentItem.Id
+        }
         
         state.AddedItems.push(item)
         state.IsToAdd=true
@@ -182,6 +184,20 @@ export default class ManageAdmin extends React.Component {
       }
     )
   }   
+
+  // Delete item from currentList state
+  deleteItem=(id)=>{
+    this.setState(
+      (s)=>{
+        for(let key in s.currentList){
+          if (s.currentList[key].Id==id) {
+            delete s.currentList[key]
+          }
+        }
+        return s
+      }
+    )
+  }
   
   // Shows add user icon 
   showAddUserIcon = () => {
@@ -189,9 +205,9 @@ export default class ManageAdmin extends React.Component {
       <button className="btn btn-primary" type="submit" onClick={this.addItem}>
         <i className="material-icons">
           perm_identity
-          </i>
+        </i>
         AddItem
-        </button>
+      </button>
     )
   }
 
