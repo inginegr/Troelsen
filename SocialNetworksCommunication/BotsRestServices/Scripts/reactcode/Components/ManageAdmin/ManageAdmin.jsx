@@ -11,14 +11,17 @@ import { Object } from 'core-js'
 export default class ManageAdmin extends React.Component {
 
   state = {
-    totalClientsList: null,
+    totalClientsList: [], // Total clients list gotten from server. All edit user operations are influence on this object
     currentList: [],
     listStack: [],
     UserAuth: null,
     UserPattern: null, // User pattern to add to state
     IsToSave: false,  // If client changed 
-    IsToAdd: false, // If client added
-    AddedClients: [] // Massive of added clients
+    IsToAdd: false, // If item added
+    AddedItems: [], // Massive of added items
+    IsToDelete: false, // Is there deleted item
+    DeletedItems:[], // Massive with deleted clients
+    
     //IsUserList: false // If users rendered in present time
   }
 
@@ -31,7 +34,6 @@ export default class ManageAdmin extends React.Component {
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
-        console.log(a)
         this.setState({ currentList: Users, IsUserList: true, totalClientsList: Users })
       }
     )
@@ -86,9 +88,16 @@ export default class ManageAdmin extends React.Component {
     this.setState({ UserAuth: this.props.UserAuth })
   }
 
+
+  //Delete element from rendered massive
+  deleteSomeItem=(id)=>{
+
+  }
+
   listOut = () => {
     if ((this.state.currentList != null)&&(this.state.currentList != undefined)) {
-      return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} getObject={this.getObject} />
+      return <EditList renderItems={this.state.currentList} listObjectChanged={this.listObjectChanged} getObject={this.getObject} 
+      state={this.state} listInsertedArray={this.listInsertedMassive} deleteSomeItem={this.deleteSomeItem} />
     }
   }
 
@@ -97,9 +106,24 @@ export default class ManageAdmin extends React.Component {
     console.log("do save")
   }
 
-  // List inserted massive
-  ListInsertedMassive=(ElementId)=>{
-    this.setState()
+  // List inserted massive of selected element
+  listInsertedMassive=(ElementId)=>{
+    
+    this.setState(
+      s=>{
+        let currentElement=s.currentList[ElementId]
+
+        for(let key in currentElement){
+          if(Array.isArray(currentElement[key])){
+            s.listStack.push(s.currentList)
+            s.currentList=currentElement[key]
+          }
+        }
+
+        return s
+      }
+    )
+
   }
   
   // Shows save icon if changes made
@@ -114,13 +138,29 @@ export default class ManageAdmin extends React.Component {
     }
   }
 
-  // Adds client to state
-  addClient=()=>{
+  // Adds item to currentList
+  addItem=()=>{
     this.setState(
       state=>{
-        let user = this.service.getUserObject()
+        let item=null
+        if ((state.listStack == null) || (state.listStack == undefined)) {
+          item = this.service.getUserObject()
+        }else{
+          item=this.service.getCurrentObject(state.listStack.length)
+        }
+
+        for(let key in item){
+          let l=item[key]
+          if(typeof k == "boolean"){
+            k=false
+          }
+          if(typeof k == "string"){
+            k=""
+          }
+        }
+
         if(state.currentList.length==0){
-          user.Id=0
+          item.Id=0
         }else{
           let chooseId=0
           state.currentList.forEach(element => {
@@ -129,16 +169,15 @@ export default class ManageAdmin extends React.Component {
             }
           });
           
-          user.Id = chooseId
+          item.Id = chooseId
         }
-        
-        user.Login="any"
-        user.Password="any"
 
-        state.AddedClients.push(user)
+        console.log(typeof item.Login)
+        
+        state.AddedItems.push(item)
         state.IsToAdd=true
 
-        state.currentList.push(user)
+        state.currentList.push(item)
         return state
       }
     )
@@ -146,18 +185,15 @@ export default class ManageAdmin extends React.Component {
   
   // Shows add user icon 
   showAddUserIcon = () => {
-    if (this.state.listStack.length < 1) {
-      return (
-        <button className="btn btn-primary" type="submit" onClick={this.addClient}>
-          <i className="material-icons">
-            perm_identity
+    return (
+      <button className="btn btn-primary" type="submit" onClick={this.addItem}>
+        <i className="material-icons">
+          perm_identity
           </i>
-          AddUser
+        AddItem
         </button>
-      )
-    }
+    )
   }
-
 
 
 

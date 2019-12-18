@@ -266,6 +266,24 @@ export default class ServerService {
     result = Object.assign({}, UserAny)
     return result
   }
+
+  // Return type of element, to add to currentList
+  // depth - depth to find element
+  getCurrentObject=(depth)=>{
+    
+    let currentObject=UserAny
+
+    while (depth!=0) {
+      depth--
+      for(let key in currentObject){
+        if (Array.isArray(currentObject[key])) {
+          currentObject=currentObject[key][0]
+        }
+      }
+    }
+    return currentObject
+  }
+
 }
 
 
@@ -275,36 +293,20 @@ let UserAny = {
   Bots: [
 
     {
-
       BotObject: [
-
         {
-
-          Id: null,
-
-          PathToObject: null,
-
-          UserBotId: null
-
+          Id: 0,
+          PathToObject: "",
+          UserBotId: 0
         }
-
       ],
-
-      Id: null,
-
-      BotName: null,
-
-      BotStatus: null,
-
-      UserDataId: null
-
+      Id: 0,
+      BotName: "",
+      BotStatus: false,
+      UserDataId: 0
     }
   ],
-
-  Id: null,
-
-  Login: null,
-
-  Password: null
-
+  Id: 0,
+  Login: "",
+  Password: ""
 }
