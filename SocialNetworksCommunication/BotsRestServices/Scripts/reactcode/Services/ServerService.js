@@ -11,48 +11,31 @@ const UserData = {
   Id: "id",
 }
 
-const ServerResponse = {
-  Admin: {
-    IsUserAdmin: "status"
-  },
-  Client: {
-    IsUserClient: "status"
-  },
-  Users: [
-    { UserData },
-    { UserData }
-  ],
-  IsTrue: {
-    IsTrue: "false",
-    Text: "text message"
-  }
+const BotObjectRequest={
+  Id: 0,
+  PathToObject: "",
+  UserBotId: 0
 }
 
-const TotalRequest = {
-  User: {
-    Login: "login",
-    Password: "password",
-    Id: "id",
-    VkBot: "false",
-    TelegramBot: "false",
-    ViberBot: "false",
-    WhatsAppBot: "false"
-  },
-  CommandType: "command"
+const BotRequest={
+  Id: 0,
+  BotName: "",
+  BotStatus: false,
+  BotObject: [BotObjectRequest],
+  UserDataId: 0
 }
 
-const dataToSend = {
-  User:{
-    Login: '',
-    Password: '',
-    Id: 0,
-    VkBot: false,
-    TelegramBot: false,
-    ViberBot: false,
-    WhatsAppBot: false
-  },
-  ClientCommand: "command"
+const UserRequest={
+  Id: 0,
+  Login: "",
+  Password: "",
+  Bots: [BotRequest]
 }
+
+// const dataToSend = {
+//   User: UserRequest,
+//   UserList: [UserRequest]
+// }
 
 export default class ServerService {
 
@@ -98,7 +81,7 @@ export default class ServerService {
   logIn = async ({ Login, Password }) => {
     const User={Login: Login, Password: Password}
     const body = this.formRequest( User)
-    
+
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.InterfaceControllerName,
@@ -110,7 +93,9 @@ export default class ServerService {
     }
     
     formRequest = (a, b=null) => {
-    let dts=dataToSend
+
+    let dts=[UserRequest]
+
       if(b!=null){
         dts=b
     }
@@ -124,7 +109,7 @@ export default class ServerService {
       body: JSON.stringify(
         {
           User: a,
-          DataRequest: dts
+          UserList: dts
         }
       )
     }
@@ -169,14 +154,18 @@ export default class ServerService {
   }
 
   // Save changed client data
-  saveClientData = async (a, b) => {
+  saveClientsChange = async (a, b) => {
 
-    const User={Login: a.Login, Password: a.Password}
+    const User = { Login: a.Login, Password: a.Password }
 
-    const dataToSend = b
+
     
-    const body = this.formRequest(User, dataToSend)
-
+    console.log(b)
+    
+    const body = this.formRequest(User, b)
+    
+    console.log(`body`)
+    console.log(body)
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.AdminController,
@@ -188,26 +177,17 @@ export default class ServerService {
   }
 
   // Delete client from db
-  deleteClientFromDb = async (a, b) => {
+  deleteClientsFromDb = async (a, b) => {
 
     const { Login, Password } = a
     const User={Login: Login, Password: Password}
 
-    const dataSend = dataToSend
-
-    dataSend.User=b.User
-
-    // console.log(User)
-    // console.log(dataSend)
-    
-    const body = this.formRequest(User, dataSend)
-
-    //console.log(body)
+    const body = this.formRequest(User, b)
 
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.AdminController,
-        method: this.glob.DeleteClientFromDb
+        method: this.glob.DeleteClientsFromDb
       }
     ), body)
 

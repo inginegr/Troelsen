@@ -64,7 +64,7 @@ export default class ManageClient extends React.Component {
 
   state = {
     clientBots: [],
-    IsLoading: [],
+    IsLoading: []
   }
 
   service =new ServerService()

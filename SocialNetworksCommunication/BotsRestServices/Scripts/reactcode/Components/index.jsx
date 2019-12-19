@@ -48,7 +48,7 @@ class Index extends React.Component {
     response.then(
       (serverAnswer) => {
         const { Admin, Client, UserAuth } = JSON.parse(serverAnswer)
-        console.log(serverAnswer)
+        // console.log(serverAnswer)
         if (Admin.IsUserAdmin == true) {
           this.setState({ IsAuthorized: true, IsAdmin: true, UserAuth: UserAuth })
         } else if (Client.IsUserClient == true) {

@@ -88,6 +88,37 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
+        /// Deletes users from DB
+        /// </summary>
+        /// <param name="usersParam">Users object</param>
+        public void DeleteUsers(List<UserData> userParam)
+        {
+            try
+            {
+                using (UserContext context = new UserContext())
+                {
+                    string retString = string.Empty;
+                    foreach(UserData user in userParam)
+                    {
+                        UserData userToDelete = context.UserTable.Find(user.Id);
+                        if (userToDelete != null)
+                        {
+                            context.UserTable.Remove(userToDelete);
+                        }else
+                        {
+                            throw new Exception($"User with Id {userToDelete.Id} not found in context");
+                        }
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Defines if user exists in the table
         /// </summary>
         /// <param name="userParam">User object</param>

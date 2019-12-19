@@ -105,7 +105,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
   }
 
   const doDeleteItem=(e)=>{
-    const id=e.target.dataset.ind
+    const id = e.target.dataset.ind
     deleteItem(id)
   }
   
@@ -115,7 +115,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
         {renderObject(k)}
         {showEditIcon()}
         <th>
-          <i className="material-icons active-icon" data-ind={k} onClick={doDeleteItem} > delete_forever </i>
+          <i className="material-icons active-icon" data-ind={objectToRender.Id} onClick={doDeleteItem} > delete_forever </i>
         </th>
       </tr>
     )
@@ -124,8 +124,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
       null
     )
   }
-
-    
+      
 }
 
 export default EditItem

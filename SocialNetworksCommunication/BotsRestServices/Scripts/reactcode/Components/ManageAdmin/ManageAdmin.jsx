@@ -50,7 +50,7 @@ export default class ManageAdmin extends React.Component {
         state.currentList.map(
           el=>{
             if(count==id){
-              el=newContent
+              el = newContent
               isFound=true
             }
             count++
@@ -98,14 +98,26 @@ export default class ManageAdmin extends React.Component {
     }
   }
 
-  // Save change in objects
-  saveChange = () => {
+  // Save change in clients data 
+  saveChange=()=>{
+    if(this.state.IsToDelete){
+      this.service.deleteClientsFromDb(this.state.UserAuth, this.state.DeletedItems)
+    }
+    if(this.state.IsToSave){
+      this.service.saveClientsChange(this.state.UserAuth, this.state.totalClientsList)
+    }
+    if(this.state.IsToAdd){
+
+    }
+  }
+
+  // Save change all in objects
+  doSave = () => {
     console.log("do save")
   }
 
   // List inserted massive of selected element
   listInsertedMassive=(ElementId)=>{
-    
     this.setState(
       s=>{
         let currentElement=s.currentList[ElementId]
@@ -127,7 +139,7 @@ export default class ManageAdmin extends React.Component {
   
   // Shows save icon if changes made
   showSaveIcon = () => {
-    if (this.state.IsToSave) {
+    if (this.state.IsToSave||this.state.IsToAdd||this.state.IsToDelete) {
       return (
         <button className="btn btn-primary" type="submit" onClick={this.saveChange} >
           <i className="material-icons"> save </i>
@@ -167,14 +179,22 @@ export default class ManageAdmin extends React.Component {
               chooseId = element.Id + 1
             }
           });
+          state.DeletedItems.forEach(element => {
+            if(element.Id>=chooseId){
+              chooseId = element.Id + 1
+            }
+          });
           console.log(chooseId)
           item.Id = chooseId
         }
 
-        if (state.listStack.length>0) {
-          const intKey=this.service.searchSecondInt(item)
+        if (state.listStack.length > 0) {
+          const intKey = this.service.searchSecondInt(item)
           item[intKey]=state.ParentItem.Id
         }
+        // else{
+        //   state.totalClientsList.push(item)
+        // }
         
         state.AddedItems.push(item)
         state.IsToAdd=true
@@ -191,9 +211,11 @@ export default class ManageAdmin extends React.Component {
       (s)=>{
         for(let key in s.currentList){
           if (s.currentList[key].Id==id) {
+            s.DeletedItems.push(s.currentList[key])
             delete s.currentList[key]
           }
         }
+        s.IsToDelete = true
         return s
       }
     )

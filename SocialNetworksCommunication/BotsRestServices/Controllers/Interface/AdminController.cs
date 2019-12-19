@@ -38,9 +38,9 @@ namespace BotsRestServices.Controllers.Interface
         }
 
         [HttpPost]
-        public JsonResult DeleteClient()
+        public JsonResult DeleteClients()
         {
-            return Json(admin.RemoveClientFromDb(this));
+            return Json(admin.RemoveClientsFromDb(this));
         }        
     }
 }

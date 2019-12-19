@@ -139,6 +139,33 @@ namespace BotsRestServices.Models.UserServices
         }
 
         /// <summary>
+        /// Removes users from db
+        /// </summary>
+        /// <param name="requestString">String from browser</param>
+        /// <returns>TotalResponse object with answer</returns>
+        public string RemoveClientsFromDb(Controller ctr)
+        {
+            TotalResponse response = null;
+
+            try
+            {
+
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                response = FormLogPas(request.User);
+
+                dbHandle.DeleteUsers(request.UserList);
+
+                response = FormResponseStatus(response, true, $"The users is deleted");
+            }
+            catch (Exception ex)
+            {
+                response = FormResponseStatus(response, false, ex.Message);
+            }
+            return js.SerializeObjectT(response);
+        }
+
+        /// <summary>
         /// Edits user in table
         /// </summary>
         /// <param name="requestString">Request string with user to update</param>
@@ -154,7 +181,7 @@ namespace BotsRestServices.Models.UserServices
                 response = FormLogPas(request.User);
 
                 List<UserData> usersToUpdate = new List<UserData>();
-                usersToUpdate.Add(request.UserList.FirstOrDefault());
+                usersToUpdate.AddRange(request.UserList);
                 dbHandle.EditUsers(usersToUpdate);
 
                 response = FormResponseStatus(response, true, $"The user {request.UserList.FirstOrDefault().Login} is updated");
