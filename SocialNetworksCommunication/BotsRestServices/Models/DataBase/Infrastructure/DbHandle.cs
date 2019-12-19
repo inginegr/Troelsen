@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Objects;
 
 using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.Objects.AnswersFromServer;
@@ -103,6 +104,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                         UserData userToDelete = context.UserTable.Find(user.Id);
                         if (userToDelete != null)
                         {
+                            context.UserTable.DeleteObject(userToDelete);
                             context.UserTable.Remove(userToDelete);
                         }else
                         {
@@ -114,7 +116,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
         }
 
