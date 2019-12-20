@@ -41,6 +41,6 @@ namespace BotsRestServices.Controllers.Interface
         public JsonResult DeleteClients()
         {
             return Json(admin.RemoveClientsFromDb(this));
-        }        
+        }
     }
 }

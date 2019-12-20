@@ -15,13 +15,13 @@ export default class ManageAdmin extends React.Component {
     currentList: [],
     listStack: [],
     UserAuth: null,
-    UserPattern: null, // User pattern to add to state
-    IsToSave: false,  // If client changed 
-    IsToAdd: false, // If item added
-    AddedItems: [], // Massive of added items
-    IsToDelete: false, // Is there deleted item
-    DeletedItems:[], // Massive with deleted clients
-    ParentItem: null // Parent item of rendered list
+    UserPattern: null,    // User pattern to add to state
+    IsToSave: false,      // If client changed
+    IsToAdd: false,       // If item added
+    AddedItems: [],       // Massive of added items
+    IsToDelete: false,    // Is there deleted item
+    DeletedItems:[],      // Massive with deleted clients
+    ParentItem: null      // Parent item of rendered list
     
     //IsUserList: false // If users rendered in present time
   }
@@ -219,13 +219,18 @@ export default class ManageAdmin extends React.Component {
   deleteItem=(id)=>{
     this.setState(
       (s)=>{
-        for(let key in s.currentList){
-          if (s.currentList[key].Id==id) {
-            s.DeletedItems.push(s.currentList[key])
-            delete s.currentList[key]
+        if (s.listStack.length==0) {
+          for(let key in s.currentList){
+            if (s.currentList[key].Id==id) {
+              s.DeletedItems.push(s.currentList[key])
+              delete s.currentList[key]
+            }
           }
+          s.IsToDelete = true          
+        }else{
+          s.IsToSave = true
+          
         }
-        s.IsToDelete = true
         return s
       }
     )

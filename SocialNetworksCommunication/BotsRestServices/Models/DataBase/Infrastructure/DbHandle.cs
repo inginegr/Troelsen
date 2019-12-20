@@ -104,7 +104,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                         UserData userToDelete = context.UserTable.Find(user.Id);
                         if (userToDelete != null)
                         {
-                            context.UserTable.DeleteObject(userToDelete);
+                            //context.UserTable.Remove(userToDelete);
                             context.UserTable.Remove(userToDelete);
                         }else
                         {
