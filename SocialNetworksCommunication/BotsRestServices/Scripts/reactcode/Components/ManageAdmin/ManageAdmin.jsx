@@ -108,28 +108,16 @@ export default class ManageAdmin extends React.Component {
 
   // Save change in clients data 
   saveChange=()=>{
-    if (this.state.IsToDelete) {
-      let ans = this.service.deleteClientsFromDb(this.state.UserAuth, this.state.DeletedItems)
-      ans.then(
-        ret => {
-          const retObj=JSON.parse(ret)
-          if (retObj.IsTrue.IsTrue) {
-            this.setState({ IsToDelete: false, DeletedItems: [] })
-          }
-        }
-      )
-    }
-    if(this.state.IsToSave){
-      this.service.saveClientsChange(this.state.UserAuth, this.state.totalClientsList)
-    }
-    if(this.state.IsToAdd){
-      
-    }
-  }
+    const ans = this.service.saveClientsChange(this.state.UserAuth, this.state.totalClientsList)
 
-  // Save change all in objects
-  doSave = () => {
-    console.log("do save")
+    ans.then(
+      a=>{
+        const ans =JSON.parse(a)
+        if(ans.IsTrue.IsTrue){
+          this.setState({IsToSave: false})
+        }
+      }
+    )
   }
 
   // List inserted massive of selected element

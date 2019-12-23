@@ -180,6 +180,13 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
+                List<UserData> clients = dbHandle.GetUsers();
+
+                foreach(UserData client in clients)
+                {
+
+                }
+
                 List<UserData> usersToUpdate = new List<UserData>();
                 usersToUpdate.AddRange(request.UserList);
                 dbHandle.EditUsers(usersToUpdate);

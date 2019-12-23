@@ -153,19 +153,13 @@ export default class ServerService {
     return ans
   }
 
-  // Save changed client data
+    // Send request to save changes, that made by admin in clients data
   saveClientsChange = async (a, b) => {
 
     const User = { Login: a.Login, Password: a.Password }
-
-
-    
-    console.log(b)
-    
+   
     const body = this.formRequest(User, b)
-    
-    console.log(`body`)
-    console.log(body)
+
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.AdminController,

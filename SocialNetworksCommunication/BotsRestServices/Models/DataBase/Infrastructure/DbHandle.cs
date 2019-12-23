@@ -194,22 +194,47 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 using (UserContext context = new UserContext())
                 {
-                    int[] elems = usersToEdit.Select(x => x.Id).ToArray();
+                    //int[] elems = usersToEdit.Select(x => x.Id).ToArray();
 
-                    List<UserData> users = context.UserTable.Where(x => elems.Contains(x.Id)).ToList();
+                    List<UserData> users = context.UserTable.ToList();//.Where(x => elems.Contains(x.Id)).ToList();
 
-                    foreach (UserData u in usersToEdit)
+                    users.ForEach(client =>
                     {
-                        UserData userToUpdate = context.UserTable.Where(x => x.Id == u.Id).FirstOrDefault();
-                        userToUpdate.Id = u.Id;
-                        userToUpdate.Login = u.Login;
-                        userToUpdate.Password = u.Password;
-                        userToUpdate.Bots.Clear();
-                        foreach (UserBot ub in u.Bots)
+                        if (usersToEdit.Exists(x => x.Id == client.Id))
                         {
-                            userToUpdate.Bots.Add(ub);
+                            UserData editedClient = usersToEdit.Where(x => x.Id == client.Id).FirstOrDefault();
+
+                            client.Bots.ForEach(bot =>
+                            {
+                                if (editedClient.Bots.Exists(x => x.Id == bot.Id))
+                                {
+                                    UserBot editedBot = editedClient.Bots.Where(b => b.Id == bot.Id).FirstOrDefault();
+                                    bot.BotObject.ForEach(obj =>
+                                    {
+                                        if (editedBot.BotObject.Exists(o => o.Id == obj.Id))
+                                        {
+                                            BotObject editedObject = editedBot.BotObject.Where(x => x.Id == obj.Id).FirstOrDefault();
+                                            obj = editedObject;
+                                        }
+                                        else
+                                        {
+                                            context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
+                                        }
+                                    });
+                                    bot = editedBot;
+                                }
+                                else
+                                {
+                                    context.Entry(bot).State = System.Data.Entity.EntityState.Deleted;
+                                }
+                            });
+                            client = editedClient;
                         }
-                    }
+                        else
+                        {
+                            context.Entry(client).State = System.Data.Entity.EntityState.Deleted;
+                        }
+                    });
 
                     context.SaveChanges();
                 }
