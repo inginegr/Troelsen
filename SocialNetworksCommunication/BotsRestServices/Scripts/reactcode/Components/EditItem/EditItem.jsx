@@ -31,7 +31,16 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
   const contentChanged=(e)=>{
     const id = e.target.dataset.id
     const ind = e.target.dataset.ind
-    const value = e.target.value
+    let value=null
+    if(e.target.className=='dropdown-item ma'){
+      if (e.target.dataset.value=="true") {
+        value=true        
+      }else{
+        value=false
+      }
+    }else{
+      value = e.target.value
+    }
     let ob = getObject(id)
     let { massiveOfKeys, massiveToRender } = convertObjectToMassive(ob)
     ob[massiveOfKeys[ind]]=value
@@ -47,16 +56,16 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
       return null
     }
 
-    const { massiveToRender } = ob
+    const { massiveToRender, massiveOfKeys } = ob
 
-    let count = 0
+    let count = -1
     return (
       massiveToRender.map(
         el => {
+          count++
           if (!Array.isArray(el)) {
-            count++
             let elem = null
-            if (count < 2) {
+            if (massiveOfKeys[count]=='Id') {
               elem = el.toString()
             } else if ((typeof el) == "boolean") {
               let trueFalse = null
@@ -71,8 +80,8 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
                     {trueFalse}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a className="dropdown-item" href="#" data-id={k} >Включить</a>
-                    <a className="dropdown-item" href="#" data-id={k} >Отключить</a>
+                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={true} onClick={contentChanged} >Включить</a>
+                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={false} onClick={contentChanged} >Отключить</a>
                   </div>
                 </div>
               )
@@ -90,15 +99,6 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
     )
   }
 
-  //Shows edit icon
-  const showEditIcon = () => {
-    return (
-      <th>
-        <i className="material-icons active-icon" data-ind={k} onClick={showInsertedList} > build </i>
-      </th>
-    )
-  }
-  
   const showInsertedList=(e)=>{
     const id=e.target.dataset.ind
     listInsertedArray(id)
@@ -112,8 +112,10 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
   if (objectToRender != null) {
     return (
       <tr key={k}>
-        {renderObject(k)}
-        {showEditIcon()}
+        {renderObject(objectToRender.Id)}
+        <th>
+          <i className="material-icons active-icon" data-ind={objectToRender.Id} onClick={showInsertedList} > build </i>
+        </th>
         <th>
           <i className="material-icons active-icon" data-ind={objectToRender.Id} onClick={doDeleteItem} > delete_forever </i>
         </th>

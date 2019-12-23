@@ -261,7 +261,7 @@ export default class ServerService {
         }
       }
     }
-    return Object.assign({}, currentObject) 
+    return Object.assign({}, currentObject)
   }
 
   // Search second int value in the щиоусе and return its key
@@ -276,6 +276,17 @@ export default class ServerService {
         }
       }
     return null
+  }
+
+  // Remove element from massive return new array without signed element
+  remArEl=(arr, id)=>{
+    let newArr=[]
+    for (let index = 0; index < arr.length; index++) {
+      if(index!=id){
+        newArr.push(arr[index])
+      }
+    }
+    return newArr
   }
 
 }

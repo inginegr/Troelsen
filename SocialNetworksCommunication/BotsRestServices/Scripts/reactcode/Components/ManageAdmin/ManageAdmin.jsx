@@ -15,15 +15,9 @@ export default class ManageAdmin extends React.Component {
     currentList: [],
     listStack: [],
     UserAuth: null,
-    UserPattern: null,    // User pattern to add to state
     IsToSave: false,      // If client changed
-    IsToAdd: false,       // If item added
-    AddedItems: [],       // Massive of added items
-    IsToDelete: false,    // Is there deleted item
-    DeletedItems:[],      // Massive with deleted clients
-    ParentItem: null      // Parent item of rendered list
-    
-    //IsUserList: false // If users rendered in present time
+    DeletedItems:[],      // Deleted items and do not synchronized with server
+    ParentItem: null      // Parent item of current list
   }
 
   service = new ServerService()
@@ -35,7 +29,7 @@ export default class ManageAdmin extends React.Component {
     response.then(
       (a) => {
         const { Users } = JSON.parse(a)
-        this.setState({ currentList: Users, IsUserList: true, totalClientsList: Users })
+        this.setState({ currentList: Users, IsUserList: true, totalClientsList: Users, IsToSave: false })
       }
     )
   }
@@ -49,13 +43,22 @@ export default class ManageAdmin extends React.Component {
         let count=0
         state.currentList.map(
           el=>{
-            if(count==id){
-              el = newContent
+            if(el['Id']==id){
               isFound=true
             }
-            count++
+            if(!isFound){
+              count++
+            }
           }
         )
+        state.currentList[count]=newContent
+
+        if(state.listStack.length<1){
+          state.totalClientsList = state.currentList
+        }else{
+          state.totalClientsList = state.listStack[0]
+        }
+
         if(isFound){
           state.IsToSave=true
         }
@@ -66,7 +69,12 @@ export default class ManageAdmin extends React.Component {
 
   // Send object to child component
   getObject=(id)=>{
-    return Object.assign(this.state.currentList[id])
+    for (let index = 0; index < this.state.currentList.length; index++) {
+      if(this.state.currentList[index]['Id']==id){
+        return Object.assign({}, this.state.currentList[index]) 
+      }
+    }
+    return Object.assign(null)
   }
 
   // Render users massive with data massive
@@ -105,8 +113,6 @@ export default class ManageAdmin extends React.Component {
       ans.then(
         ret => {
           const retObj=JSON.parse(ret)
-          console.log(retObj)
-          console.log(this.state.DeletedItems)
           if (retObj.IsTrue.IsTrue) {
             this.setState({ IsToDelete: false, DeletedItems: [] })
           }
@@ -130,7 +136,12 @@ export default class ManageAdmin extends React.Component {
   listInsertedMassive=(ElementId)=>{
     this.setState(
       s=>{
-        let currentElement=s.currentList[ElementId]
+        let currentElement=null 
+        for (let index = 0; index < s.currentList.length; index++) {
+          if(s.currentList[index]['Id']==ElementId){
+            currentElement=s.currentList[index]
+          }
+        }
 
         for(let key in currentElement){
           if(Array.isArray(currentElement[key])){
@@ -139,7 +150,7 @@ export default class ManageAdmin extends React.Component {
           }
         }
 
-        s.ParentItem=currentElement
+        s.ParentItem = currentElement
 
         return s
       }
@@ -149,7 +160,7 @@ export default class ManageAdmin extends React.Component {
   
   // Shows save icon if changes made
   showSaveIcon = () => {
-    if (this.state.IsToSave||this.state.IsToAdd||this.state.IsToDelete) {
+    if (this.state.IsToSave) {
       return (
         <button className="btn btn-primary" type="submit" onClick={this.saveChange} >
           <i className="material-icons"> save </i>
@@ -194,7 +205,6 @@ export default class ManageAdmin extends React.Component {
               chooseId = element.Id + 1
             }
           });
-          console.log(chooseId)
           item.Id = chooseId
         }
 
@@ -206,8 +216,8 @@ export default class ManageAdmin extends React.Component {
         //   state.totalClientsList.push(item)
         // }
         
-        state.AddedItems.push(item)
-        state.IsToAdd=true
+        // state.AddedItems.push(item)
+        // state.IsToAdd=true
 
         state.currentList.push(item)
         return state
@@ -217,23 +227,30 @@ export default class ManageAdmin extends React.Component {
 
   // Delete item from currentList state
   deleteItem=(id)=>{
-    this.setState(
-      (s)=>{
-        if (s.listStack.length==0) {
-          for(let key in s.currentList){
-            if (s.currentList[key].Id==id) {
-              s.DeletedItems.push(s.currentList[key])
-              delete s.currentList[key]
-            }
-          }
-          s.IsToDelete = true          
-        }else{
-          s.IsToSave = true
-          
-        }
-        return s
+
+    let newCurrentList=[]
+    let newDeletedItems=[]
+    let newTotalClientList=[]
+        
+    for (let index = 0; index < this.state.currentList.length; index++) {
+      if (this.state.currentList[index]['Id'] == id) {
+        newDeletedItems.push(this.state.currentList[index])
+        newCurrentList = this.service.remArEl(this.state.currentList, index)
       }
-    )
+    }
+    if (this.state.listStack.length < 1) {
+      newTotalClientList = newCurrentList
+    } else {
+      newTotalClientList = this.state.listStack[0]
+    }
+    
+    this.setState({currentList: newCurrentList, totalClientsList:newTotalClientList, DeletedItems:newDeletedItems})
+  }
+
+  // Updates object, that send to server
+  updateOdkectWithUsers=()=>{
+    
+    
   }
   
   // Shows add user icon 
