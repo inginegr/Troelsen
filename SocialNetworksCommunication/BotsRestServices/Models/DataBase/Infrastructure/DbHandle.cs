@@ -231,10 +231,9 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// <param name="newEnums">Source of new data</param>
         private void EditClients<T>(List<T> oldEnums, List<T> newEnums)
         {
-            List<T> retList = new List<T>();
+            List<T> remainedItems = new List<T>();
             try
             {
-
                 int newCount = newEnums.Count;
                 int oldCount = oldEnums.Count;
 
@@ -242,10 +241,12 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 if (oldCount < newCount)
                 {
                     totalCount = oldCount;
+                    remainedItems = newEnums;
                 }
                 else
                 {
                     totalCount = newCount;
+                    remainedItems = oldEnums;
                 }
                 for (int i = 0; i < totalCount; i++)
                 {
@@ -274,17 +275,25 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                                 }
                             }
                         }
-                        newEnums.Remove(newElementInCollection);
-                    }
+                        int index = 0;
+                        if (oldCount < newCount)
+                        {
+                            index=newEnums.FindIndex(x=>)
+                        }
+                        else
+                        {
+                        }
 
+                        remainedItems.re
+                    }
                 }
                 if (oldCount < newCount)
                 {
-                    newEnums.AddRange(oldEnums);
+                    oldEnums.AddRange(remainedItems);
                 }
                 else
                 {
-                    newEnums.RemoveAll(newEl => oldEnums.Exists(ol => ol.GetType().GetProperty("Id").GetValue(ol) == newEl.GetType().GetProperty("Id").GetValue(newEl)));
+                    oldEnums.RemoveAll(oldEl=>remainedItems.Contains(oldEl));
                 }
             }catch(Exception ex)
             {
