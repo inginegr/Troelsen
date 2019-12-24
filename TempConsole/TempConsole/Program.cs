@@ -1,91 +1,46 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Security.Cryptography;
-using System.Data.Entity;
-using System.Linq;
 
 
-
-namespace TempConsole
+public class Planet
 {
-    public class Player
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Position { get; set; }
-        public int Age { get; set; }
+    public string planetName { get; set; }
+    public int Id { get; set; }
 
-        public int? TeamId { get; set; }
-        public Team Team { get; set; }
-    }
-    public class Team
+    public Planet(String name, int distance)
     {
-        public int Id { get; set; }
-        public string Name { get; set; } // название команды
+        planetName = name;
+        Id = distance;
+    }
 
-        public virtual List<Player> Players { get; set; }
-        public Team()
-        {
-            Players = new List<Player>();
-        }
-    }
-    public class SoccerContext : DbContext
-    {
-        public SoccerContext() : base("DefaultConnection")
-        { }
+    public Planet() { }
+}
 
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Team> Teams { get; set; }
-    }
-    class Program
+public class Example
+{
+    public static void Main()
     {
+        List<Planet> planets = new List<Planet>();
+        Planet jupiter = new Planet("Jupiter", 3);
+        Planet jupiter1 = new Planet("sdf", 5);
+        Planet jupiter2 = new Planet("xcv", 8);
+        Planet jupiter3 = new Planet("vdf", 2);
+        planets.Add(jupiter);
+        planets.Add(jupiter1);
+        planets.Add(jupiter2);
+        planets.Add(jupiter3);
+
+        GetPropertyValues(planets);
+    }
+
+    private static void GetPropertyValues<T>(List<T> planets)
+    {
+        T newEl = planets.Find(x => int.Parse(x.GetType().GetProperty("Id").GetValue(x).ToString()) == 48);
         
-        static void Main(string[] args)
-        {
-            using (SoccerContext db = new SoccerContext())
-            {
-                // создание и добавление моделей
+        Console.WriteLine(newEl);
 
-                List<Team> tm = new List<Team>();
+        Console.ReadLine();
 
-                Team t1 = new Team { Name = "asdasd" };
-                Team t2 = new Team { Name = "213123" };
-                Team t3 = new Team { Name = "3432sdf" };
-                tm.Add(t1);
-                tm.Add(t2);
-                tm.Add(t3);
-                db.Teams.AddRange(tm);
-
-
-                List<Player> pol = new List<Player>
-                {
-                    new Player { Id=1, Name="Fona", Position="sdf", Age=34, Team=t1},
-                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t1},
-                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t1},
-                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t2},
-                    new Player {Id=2, Name="Lond", Position="rrr", Age=45, Team=t2}
-                };
-
-                db.Players.AddRange(pol);
-
-                db.SaveChanges();
-
-                List<Team> list = new List<Team>();
-
-                Team lt = db.Teams.Where(x => x.Name == "asdasd").FirstOrDefault();
-
-                Console.WriteLine($"The team is {lt.Name}");
-
-                foreach(Player p in lt.Players)
-                {
-                    Console.WriteLine($"{p.Name}   {p.TeamId}");
-                }
-
-                Console.ReadLine();
-            }
-        }
     }
 }

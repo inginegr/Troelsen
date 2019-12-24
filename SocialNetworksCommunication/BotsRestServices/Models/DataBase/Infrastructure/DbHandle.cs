@@ -9,6 +9,8 @@ using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.DataBase.Initializers;
 using System.Data.Entity.Core;
 using System.Reflection;
+using System.Data.Entity;
+using System.Collections;
 
 namespace BotsRestServices.Models.DataBase.Infrastructure
 {
@@ -186,9 +188,9 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 
         /// <summary>
         /// Edits users in the table
-        /// <paramref name="userData"/> users to edit 
+        /// <paramref name="newUsersList"/> new users from client side 
         /// </summary>
-        public void EditUsers(List<UserData> usersToEdit)
+        public void EditUsers(List<UserData> newUsersList)
         {
             try
             {
@@ -196,44 +198,18 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 {
                     //int[] elems = usersToEdit.Select(x => x.Id).ToArray();
 
-                    List<UserData> users = context.UserTable.ToList();//.Where(x => elems.Contains(x.Id)).ToList();
+                    List<UserData> dbUsers = context.UserTable.Include(c=>c.Bots.Select(o=>o.BotObject)).ToList();
 
-                    users.ForEach(client =>
+                    EditClients(dbUsers, newUsersList);
+                    dbUsers.ForEach(oldUser =>
                     {
-                        if (usersToEdit.Exists(x => x.Id == client.Id))
+                        UserData newUser = newUsersList.Find(x => x.Id == oldUser.Id);
+                        EditClients(oldUser.Bots, newUser.Bots);
+                        oldUser.Bots.ForEach(oldBot =>
                         {
-                            UserData editedClient = usersToEdit.Where(x => x.Id == client.Id).FirstOrDefault();
-
-                            client.Bots.ForEach(bot =>
-                            {
-                                if (editedClient.Bots.Exists(x => x.Id == bot.Id))
-                                {
-                                    UserBot editedBot = editedClient.Bots.Where(b => b.Id == bot.Id).FirstOrDefault();
-                                    bot.BotObject.ForEach(obj =>
-                                    {
-                                        if (editedBot.BotObject.Exists(o => o.Id == obj.Id))
-                                        {
-                                            BotObject editedObject = editedBot.BotObject.Where(x => x.Id == obj.Id).FirstOrDefault();
-                                            obj = editedObject;
-                                        }
-                                        else
-                                        {
-                                            context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
-                                        }
-                                    });
-                                    bot = editedBot;
-                                }
-                                else
-                                {
-                                    context.Entry(bot).State = System.Data.Entity.EntityState.Deleted;
-                                }
-                            });
-                            client = editedClient;
-                        }
-                        else
-                        {
-                            context.Entry(client).State = System.Data.Entity.EntityState.Deleted;
-                        }
+                            UserBot newBot = newUser.Bots.Find(x => x.Id == oldBot.Id);
+                            EditClients(oldBot.BotObject, newBot.BotObject);
+                        });
                     });
 
                     context.SaveChanges();
@@ -242,6 +218,75 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 //return retAnsw;
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Copy data from one collection to other
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="oldEnums">Receiver of new data</param>
+        /// <param name="newEnums">Source of new data</param>
+        private void EditClients<T>(List<T> oldEnums, List<T> newEnums)
+        {
+            List<T> retList = new List<T>();
+            try
+            {
+
+                int newCount = newEnums.Count;
+                int oldCount = oldEnums.Count;
+
+                int totalCount = 0;
+                if (oldCount < newCount)
+                {
+                    totalCount = oldCount;
+                }
+                else
+                {
+                    totalCount = newCount;
+                }
+                for (int i = 0; i < totalCount; i++)
+                {
+
+                    // If element exists in new collection
+                    T newElementInCollection = newEnums
+                        .Find(a => int.Parse(a.GetType().GetProperty("Id").GetValue(a).ToString()) ==
+                        int.Parse(oldEnums[i].GetType().GetProperty("Id").GetValue(a).ToString()));
+
+                    // Assign all new properties to old element
+                    if (newElementInCollection != null)
+                    {
+                        PropertyInfo[] oldProps = oldEnums[i].GetType().GetProperties();
+                        PropertyInfo[] newProps = newElementInCollection.GetType().GetProperties();
+
+                        for(int a = 0; a < oldProps.Length; a++)
+                        {
+                            if (oldProps[a].PropertyType.Name != "List`1")
+                            {
+                                foreach(PropertyInfo newProp in newProps)
+                                {
+                                    if (newProp.Name == oldProps[a].Name)
+                                    {
+                                        oldProps[a].SetValue(oldEnums[i], newProp.GetValue(newElementInCollection));
+                                    }
+                                }
+                            }
+                        }
+                        newEnums.Remove(newElementInCollection);
+                    }
+
+                }
+                if (oldCount < newCount)
+                {
+                    newEnums.AddRange(oldEnums);
+                }
+                else
+                {
+                    newEnums.RemoveAll(newEl => oldEnums.Exists(ol => ol.GetType().GetProperty("Id").GetValue(ol) == newEl.GetType().GetProperty("Id").GetValue(newEl)));
+                }
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
