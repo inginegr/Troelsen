@@ -234,10 +234,20 @@ export default class ServerService {
     return ans
   }
 
+  // Make all massives by empty inside gotten object
+  makeArraysEmpty=(ob)=>{
+    for(let key in ob){
+      if(Array.isArray(ob[key])){
+        ob[key]=[]
+      }
+    }
+    return ob
+  }
+
   //Return user any object
   getUserObject=()=>{
     let result = null                
-    result = Object.assign({}, UserAny)
+    result = Object.assign({}, this.makeArraysEmpty(UserAny))
     return result
   }
 
@@ -255,7 +265,7 @@ export default class ServerService {
         }
       }
     }
-    return Object.assign({}, currentObject)
+    return Object.assign({}, this.makeArraysEmpty(currentObject))
   }
 
   // Search second int value in the щиоусе and return its key

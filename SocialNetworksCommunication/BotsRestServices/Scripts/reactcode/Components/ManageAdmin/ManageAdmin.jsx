@@ -200,12 +200,6 @@ export default class ManageAdmin extends React.Component {
           const intKey = this.service.searchSecondInt(item)
           item[intKey]=state.ParentItem.Id
         }
-        // else{
-        //   state.totalClientsList.push(item)
-        // }
-        
-        // state.AddedItems.push(item)
-        // state.IsToAdd=true
 
         state.currentList.push(item)
         return state
@@ -232,7 +226,7 @@ export default class ManageAdmin extends React.Component {
       newTotalClientList = this.state.listStack[0]
     }
     
-    this.setState({currentList: newCurrentList, totalClientsList:newTotalClientList, DeletedItems:newDeletedItems})
+    this.setState({currentList: newCurrentList, totalClientsList:newTotalClientList, DeletedItems:newDeletedItems, IsToSave: true})
   }
 
   // Updates object, that send to server

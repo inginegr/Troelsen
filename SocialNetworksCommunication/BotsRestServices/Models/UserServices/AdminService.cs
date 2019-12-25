@@ -77,7 +77,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
                 
-                dbHandle.AddUsers(request.UserList);
+                dbHandle.AddRows(request.UserList);
 
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
@@ -101,7 +101,7 @@ namespace BotsRestServices.Models.UserServices
             try
             {
                 resp = FormResponse(ctr);
-                List<UserData> list = dbHandle.GetUsers();
+                List<UserData> list = dbHandle.GetRows<UserData>();
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.Users = list;
             } catch(Exception ex)
@@ -127,7 +127,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                dbHandle.DeleteUser(request.UserList.FirstOrDefault());
+                dbHandle.DeleteRows<UserData>(request.UserList);
 
                 response = FormResponseStatus(response, true, $"The user with login {request.UserList.FirstOrDefault().Login} is deleted");
             }
@@ -143,7 +143,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>TotalResponse object with answer</returns>
-        public string RemoveClientsFromDb(Controller ctr)
+        public string RemoveRowsFromDb(Controller ctr)
         {
             TotalResponse response = null;
 
@@ -154,7 +154,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                dbHandle.DeleteUsers(request.UserList);
+                dbHandle.DeleteRows(request.UserList);
 
                 response = FormResponseStatus(response, true, $"The users is deleted");
             }
@@ -170,7 +170,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="requestString">Request string with user to update</param>
         /// <returns>Response with status and message</returns>
-        public string EditClients(Controller ctr)
+        public string EditEntries(Controller ctr)
         {
             TotalResponse response = null;
 
@@ -180,11 +180,15 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                List<UserData> clients = dbHandle.GetUsers();
-
-                foreach(UserData client in clients)
+                if (request.ClientsList.Count != 0)
                 {
-
+                    dbHandle.EditRows(request.ClientsList);
+                }else if (request.BotsList.Count != 0)
+                {
+                    dbHandle.EditRows(request.BotsList);
+                }else if (request.BotObjectsList.Count != 0)
+                {
+                    dbHandle.EditRows(request.BotObjectsList);
                 }
 
                 List<UserData> usersToUpdate = new List<UserData>();

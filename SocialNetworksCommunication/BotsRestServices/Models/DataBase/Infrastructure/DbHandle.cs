@@ -39,81 +39,87 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
-        /// Add users to DB
+        /// Add rows to DB
         /// </summary>
-        /// <param name="userList">Users to ad to db</param>
-        public void AddUsers(List<UserData> userList)
+        /// <param name="userList">Collection of rows</param>
+        public void AddRows<T>(List<T> rowsToAdd)
         {
             try
             {
                 using (UserContext context = new UserContext())
                 {
-                    foreach(UserData ud in userList)
+                    foreach(T t in rowsToAdd)
                     {
-                        context.UserTable.Add(ud);
+                        if(nameof(T) == nameof(UserData))
+                        {
+                            context.UserTable.Add((UserData)Activator.CreateInstance(t.GetType()));
+                        }else if (nameof(T) == nameof(UserBot))
+                        {
+                            context.BotsTable.Add((UserBot)Activator.CreateInstance(t.GetType()));
+                        }else if (nameof(T) == nameof(BotObject))
+                        {
+                            context.BotObjectsTable.Add((BotObject)Activator.CreateInstance(t.GetType()));
+                        }
                     }
                     context.SaveChanges();
                 }
-
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Deletes user from DB
-        /// </summary>
-        /// <param name="userParam">User object</param>
-        public void DeleteUser(UserData userParam)
-        {
-            try
-            {
-                using (UserContext context = new UserContext())
-                {
-                    UserData userToDelete = context.UserTable.Find(userParam.Id);
-                    if (userToDelete != null)
-                    {
-                        context.UserTable.Remove(userToDelete);
-                        context.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception($"User with Id {userParam.Id} not found in context");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
+        
         /// <summary>
         /// Deletes users from DB
         /// </summary>
         /// <param name="usersParam">Users object</param>
-        public void DeleteUsers(List<UserData> userParam)
+        public void DeleteRows<T>(List<T> rowsToDelete) where T: class
         {
             try
             {
                 using (UserContext context = new UserContext())
                 {
-                    string retString = string.Empty;
-                    foreach(UserData user in userParam)
+                    foreach (T t in rowsToDelete)
                     {
-                        UserData userToDelete = context.UserTable.Find(user.Id);
-                        if (userToDelete != null)
+                        if (nameof(T) == nameof(UserData))
                         {
-                            //context.UserTable.Remove(userToDelete);
-                            context.UserTable.Remove(userToDelete);
-                        }else
+                            UserData userToDelete = context.UserTable.Find(t.GetType().GetProperty("Id").GetValue(t));
+                            if (!checkIfNull(userToDelete))
+                            {
+                                context.UserTable.Remove(userToDelete);
+                            }
+                        }
+                        else if (nameof(T) == nameof(UserBot))
                         {
-                            throw new Exception($"User with Id {userToDelete.Id} not found in context");
+                            UserBot botToDelete = context.BotsTable.Find(t.GetType().GetProperty("Id").GetValue(t));
+                            if (!checkIfNull(botToDelete))
+                            {
+                                context.BotsTable.Remove(botToDelete);
+                            }
+                        }
+                        else if (nameof(T) == nameof(BotObject))
+                        {
+                            BotObject objectToDelete = context.BotObjectsTable.Find(t.GetType().GetProperty("Id").GetValue(t));
+                            if (checkIfNull(objectToDelete))
+                            {
+                                context.BotObjectsTable.Remove(objectToDelete);
+                            }
                         }
                     }
                     context.SaveChanges();
+                    
+                    bool checkIfNull<U>(U objectToCheck)
+                    {
+                        if (objectToCheck != null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            throw new Exception($"User with Id {nameof(objectToCheck)} not found in context");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -123,59 +129,34 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
-        /// Defines if user exists in the table
-        /// </summary>
-        /// <param name="userParam">User object</param>
-        /// <returns>UserData object if found, null else</returns>
-        public UserData FindUser(User userParam)
-        {
-            try
-            {
-                UserData retAnsw = new UserData();
-                using (UserContext context = new UserContext())
-                {
-                    retAnsw = context.UserTable.Where(a => ((a.Login == userParam.Login) && (a.Password == userParam.Password))).FirstOrDefault<UserData>();
-                }
-
-                return retAnsw;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Gets all users from table
         /// </summary>
         /// <returns>All users in table</returns>
-        public List<UserData> GetUsers()
+        public List<T> GetRows<T>() where T: class
         {
             try
             {
-                List<UserData> retAnsw = new List<UserData>();
+                List<T> retAnsw = new List<T>();
                 using (UserContext context = new UserContext())
                 {
-                    var ans = context.UserTable;
-                    foreach (UserData u in ans)
+                    T singleElement = null;
+
+                    if (nameof(T) == nameof(UserData))
                     {
-                        retAnsw.Add(u);
+                        retAnsw = (List<T>)context.UserTable.Take(context.UserTable.Count());                        
                     }
-
-                    retAnsw.ForEach(
-                        x =>
-                        {
-                            List<UserBot> bts = x.Bots;
-                            bts.ForEach(
-                                b =>
-                                {
-                                    List<BotObject> bo = b.BotObject;
-                                }
-                                );
-                        }
-                        );
-
+                    else if (nameof(T) == nameof(UserBot))
+                    {
+                        retAnsw = (List<T>)context.BotsTable.Take(context.BotsTable.Count());
+                    }
+                    else if (nameof(T) == nameof(BotObject))
+                    {
+                        retAnsw = (List<T>)context.BotObjectsTable.Take(context.BotObjectsTable.Count());
+                    }
+                    if (retAnsw == null)
+                    {
+                        throw new Exception($"Cannot find element of type: {nameof(T)}");
+                    }
                 }
 
                 return retAnsw;
@@ -187,118 +168,62 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
-        /// Edits users in the table
-        /// <paramref name="newUsersList"/> new users from client side 
+        /// Edits rows in the table
+        /// <paramref name="newUsersList"/> rows to edit from client side 
         /// </summary>
-        public void EditUsers(List<UserData> newUsersList)
+        public void EditRows<T>(List<T> rowsToEdit)
         {
             try
             {
                 using (UserContext context = new UserContext())
                 {
-                    //int[] elems = usersToEdit.Select(x => x.Id).ToArray();
-
-                    List<UserData> dbUsers = context.UserTable.Include(c=>c.Bots.Select(o=>o.BotObject)).ToList();
-
-                    EditClients(dbUsers, newUsersList);
-                    dbUsers.ForEach(oldUser =>
+                    List<T> tempCollection = new List<T>();
+                    if (nameof(T) == nameof(UserData))
                     {
-                        UserData newUser = newUsersList.Find(x => x.Id == oldUser.Id);
-                        EditClients(oldUser.Bots, newUser.Bots);
-                        oldUser.Bots.ForEach(oldBot =>
+                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
+                        rowsToEdit.Exists(ed =>
+                        int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
+                    }
+                    else if (nameof(T) == nameof(UserBot))
+                    {
+                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
+                       rowsToEdit.Exists(ed =>
+                       int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
+                    }
+                    else if (nameof(T) == nameof(BotObject))
+                    {
+                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
+                        rowsToEdit.Exists(ed =>
+                        int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
+                    }
+
+                    tempCollection.ForEach(elToEdit =>
+                    {
+                        PropertyInfo[] newProps = rowsToEdit.Find(e => int.Parse(e.GetType().GetProperty("Id").GetValue(e).ToString()) ==
+                          int.Parse(elToEdit.GetType().GetProperty("Id").GetValue(elToEdit).ToString())).GetType().GetProperties();
+                        PropertyInfo[] oldProps = elToEdit.GetType().GetProperties();
+
+                        for (int i = 0; i < oldProps.Length; i++)
                         {
-                            UserBot newBot = newUser.Bots.Find(x => x.Id == oldBot.Id);
-                            EditClients(oldBot.BotObject, newBot.BotObject);
-                        });
+                            foreach (PropertyInfo newProp in newProps)
+                            {
+                                if (oldProps[i].Name == newProp.Name)
+                                {
+                                    oldProps[i].SetValue(oldProps[i], newProp.GetValue(newProp));
+                                }
+                            }
+                        }
+
                     });
 
                     context.SaveChanges();
                 }
-
-                //return retAnsw;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Copy data from one collection to other
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="oldEnums">Receiver of new data</param>
-        /// <param name="newEnums">Source of new data</param>
-        private void EditClients<T>(List<T> oldEnums, List<T> newEnums)
-        {
-            List<T> remainedItems = new List<T>();
-            try
-            {
-                int newCount = newEnums.Count;
-                int oldCount = oldEnums.Count;
-
-                int totalCount = 0;
-                if (oldCount < newCount)
-                {
-                    totalCount = oldCount;
-                    remainedItems = newEnums;
-                }
-                else
-                {
-                    totalCount = newCount;
-                    remainedItems = oldEnums;
-                }
-                for (int i = 0; i < totalCount; i++)
-                {
-
-                    // If element exists in new collection
-                    T newElementInCollection = newEnums
-                        .Find(a => int.Parse(a.GetType().GetProperty("Id").GetValue(a).ToString()) ==
-                        int.Parse(oldEnums[i].GetType().GetProperty("Id").GetValue(a).ToString()));
-
-                    // Assign all new properties to old element
-                    if (newElementInCollection != null)
-                    {
-                        PropertyInfo[] oldProps = oldEnums[i].GetType().GetProperties();
-                        PropertyInfo[] newProps = newElementInCollection.GetType().GetProperties();
-
-                        for(int a = 0; a < oldProps.Length; a++)
-                        {
-                            if (oldProps[a].PropertyType.Name != "List`1")
-                            {
-                                foreach(PropertyInfo newProp in newProps)
-                                {
-                                    if (newProp.Name == oldProps[a].Name)
-                                    {
-                                        oldProps[a].SetValue(oldEnums[i], newProp.GetValue(newElementInCollection));
-                                    }
-                                }
-                            }
-                        }
-                        int index = 0;
-                        if (oldCount < newCount)
-                        {
-                            index=newEnums.FindIndex(x=>)
-                        }
-                        else
-                        {
-                        }
-
-                        remainedItems.re
-                    }
-                }
-                if (oldCount < newCount)
-                {
-                    oldEnums.AddRange(remainedItems);
-                }
-                else
-                {
-                    oldEnums.RemoveAll(oldEl=>remainedItems.Contains(oldEl));
-                }
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        
     }
 }
