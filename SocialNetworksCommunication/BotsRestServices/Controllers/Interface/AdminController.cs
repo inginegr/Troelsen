@@ -34,13 +34,13 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public JsonResult SaveClientsData()
         {
-            return Json(admin.EditClients(this));
+            return Json(admin.EditEntries(this));
         }
 
         [HttpPost]
         public JsonResult DeleteClients()
         {
-            return Json(admin.RemoveClientsFromDb(this));
+            return Json(admin.RemoveRowsFromDb(this));
         }
     }
 }

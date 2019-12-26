@@ -77,7 +77,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
                 
-                dbHandle.AddRows(request.UserList);
+                //dbHandle.AddRows(request.UserList);
 
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
@@ -127,9 +127,9 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                dbHandle.DeleteRows<UserData>(request.UserList);
+                //dbHandle.DeleteRows<UserData>(request.UserList);
 
-                response = FormResponseStatus(response, true, $"The user with login {request.UserList.FirstOrDefault().Login} is deleted");
+                //response = FormResponseStatus(response, true, $"The user with login {request.UserList.FirstOrDefault().Login} is deleted");
             }
             catch(Exception ex)
             {
@@ -154,7 +154,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                dbHandle.DeleteRows(request.UserList);
+                //dbHandle.DeleteRows(request.UserList);
 
                 response = FormResponseStatus(response, true, $"The users is deleted");
             }
@@ -191,11 +191,7 @@ namespace BotsRestServices.Models.UserServices
                     dbHandle.EditRows(request.BotObjectsList);
                 }
 
-                List<UserData> usersToUpdate = new List<UserData>();
-                usersToUpdate.AddRange(request.UserList);
-                dbHandle.EditUsers(usersToUpdate);
-
-                response = FormResponseStatus(response, true, $"The user {request.UserList.FirstOrDefault().Login} is updated");
+                response = FormResponseStatus(response, true, $"The user {request.ClientsList.FirstOrDefault().Login} is updated");
             }catch(Exception ex)
             {
                 response = FormResponseStatus(response, false, ex.Message);

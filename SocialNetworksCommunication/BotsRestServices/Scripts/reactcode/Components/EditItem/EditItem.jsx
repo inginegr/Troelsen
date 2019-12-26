@@ -34,7 +34,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
     let value=null
     if(e.target.className=='dropdown-item ma'){
       if (e.target.dataset.value=="true") {
-        value=true        
+        value=true
       }else{
         value=false
       }
@@ -80,8 +80,8 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
                     {trueFalse}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={true} onClick={contentChanged} >Включить</a>
-                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={false} onClick={contentChanged} >Отключить</a>
+                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={true} onClick={contentChanged} > Включить </a>
+                    <a className="dropdown-item ma" href="#" data-id={k} data-ind={count} data-value={false} onClick={contentChanged} > Отключить </a>
                   </div>
                 </div>
               )

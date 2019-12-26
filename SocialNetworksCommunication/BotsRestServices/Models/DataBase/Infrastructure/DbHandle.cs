@@ -16,6 +16,23 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 {
     public class DbHandle
     {
+        /// <summary>
+        /// Do checking of object is equal to null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="objectToCheck"></param>
+        /// <returns></returns>
+        private bool checkIfNull<T>(T objectToCheck)
+        {
+            if (objectToCheck != null)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception($"User with Id {nameof(objectToCheck)} not found in context");
+            }
+        }
 
         /// <summary>
         /// Add user to DB
@@ -33,6 +50,36 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public T FindRow<T>(T rowToFind) where T: class
+        {
+            try
+            {
+                T rowToReturn = null;
+
+                using(UserContext context=new UserContext())
+                {
+                    if (nameof(T) == nameof(UserData))
+                    {
+                        return (T)context.UserTable.Find((UserData)Activator.CreateInstance(rowToFind.GetType()));
+                    }
+                    else if (nameof(T) == nameof(UserBot))
+                    {
+                        context.BotsTable.Find((UserBot)Activator.CreateInstance(rowToFind.GetType()));
+                    }
+                    else if (nameof(T) == nameof(BotObject))
+                    {
+                        context.BotObjectsTable.Find((BotObject)Activator.CreateInstance(rowToFind.GetType()));
+                    }
+                }
+
+
+                return rowToFind;
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -75,7 +122,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// </summary>
         /// <param name="usersParam">Users object</param>
         public void DeleteRows<T>(List<T> rowsToDelete) where T: class
-        {
+        {            
             try
             {
                 using (UserContext context = new UserContext())
@@ -109,17 +156,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                     }
                     context.SaveChanges();
                     
-                    bool checkIfNull<U>(U objectToCheck)
-                    {
-                        if (objectToCheck != null)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            throw new Exception($"User with Id {nameof(objectToCheck)} not found in context");
-                        }
-                    }
+                    
                 }
             }
             catch (Exception ex)
