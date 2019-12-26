@@ -16,7 +16,7 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public JsonResult GetBots()
         {
-            return Json(client.GetClientBots(this));
+            return Json("sad");
         }
 
         [HttpPost]

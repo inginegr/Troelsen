@@ -55,30 +55,35 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             }
         }
 
-        public T FindRow<T>(T rowToFind) where T: class
+        /// <summary>
+        /// Find row in database
+        /// </summary>
+        /// <typeparam name="T">object to find</typeparam>
+        /// <param name="rowToFind">object to find</param>
+        /// <returns>Found object if exist, else null</returns>
+        public object FindRow<T>(T rowToFind) where T: class
         {
             try
             {
-                T rowToReturn = null;
+                object rowToReturn = null;
 
                 using(UserContext context=new UserContext())
                 {
                     if (nameof(T) == nameof(UserData))
                     {
-                        return (T)context.UserTable.Find((UserData)Activator.CreateInstance(rowToFind.GetType()));
+                        rowToReturn = context.UserTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
                     else if (nameof(T) == nameof(UserBot))
                     {
-                        context.BotsTable.Find((UserBot)Activator.CreateInstance(rowToFind.GetType()));
+                        rowToReturn = context.BotsTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
                     else if (nameof(T) == nameof(BotObject))
                     {
-                        context.BotObjectsTable.Find((BotObject)Activator.CreateInstance(rowToFind.GetType()));
+                        rowToReturn = context.BotObjectsTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
                 }
 
-
-                return rowToFind;
+                return rowToReturn;
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -178,7 +183,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 {
                     T singleElement = null;
 
-                    if (nameof(T) == nameof(UserData))
+                    if (nameof(T.GetType().name) == nameof(UserData))
                     {
                         retAnsw = (List<T>)context.UserTable.Take(context.UserTable.Count());                        
                     }

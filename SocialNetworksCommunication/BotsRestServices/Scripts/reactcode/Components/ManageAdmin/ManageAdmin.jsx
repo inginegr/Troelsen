@@ -14,7 +14,7 @@ export default class ManageAdmin extends React.Component {
     totalClientsList: [], // Total clients list gotten from server. All edit user operations are influence on this object
     currentList: {
       itemsToRender:[],     // Current items to render
-      IsToSave,             // If made changes in itemsToRender array
+      IsToSave: false,             // If made changes in itemsToRender array
       DeletedItems:[],      // Deleted items of itemsToRender array
       NewItems:[]           // Added items to itemsToRender array
     },
@@ -111,7 +111,7 @@ export default class ManageAdmin extends React.Component {
   
   // Shows save icon if changes made
   showSaveIcon = () => {
-    if (this.state.IsToSave) {
+    if (this.state.currentList.IsToSave) {
       return (
         <button className="btn btn-primary" type="submit" onClick={this.saveChange} >
           <i className="material-icons"> save </i>

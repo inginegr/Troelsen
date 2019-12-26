@@ -53,9 +53,16 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                UserData user = dbHandle.FindUser((UserData)authorize);
+                UserData user = (UserData)dbHandle.FindRow((UserData)authorize);
                 if (user != null)
-                    return true;
+                    if ((user.Login == authorize.Login) && (user.Password == authorize.Password))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 else
                     return false;
             }catch(Exception ex)
@@ -160,7 +167,7 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                return dbHandle.FindUser(userParam);
+                return (UserData)dbHandle.FindRow(userParam);
             }
             catch (Exception ex)
             {
