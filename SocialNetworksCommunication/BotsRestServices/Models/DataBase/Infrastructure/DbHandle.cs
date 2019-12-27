@@ -172,9 +172,10 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 
         /// <summary>
         /// Gets all users from table
+        /// <param name="rowType"/> Type of table to get
         /// </summary>
         /// <returns>All users in table</returns>
-        public List<T> GetRows<T>() where T: class
+        public List<T> GetRows<T>(T rowType) where T: class
         {
             try
             {
@@ -182,19 +183,27 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 using (UserContext context = new UserContext())
                 {
                     T singleElement = null;
+                    string ss = string.Empty;
+                    var b = context.GetType().GetProperty(rowType.GetType().Name);
+                    var eb = context.GetType().GetProperty("UserTable").GetValue(context).GetType().
+                        GetRuntimeMethods().ToList().Where(x => x.Name == "System.ComponentModel.IListSource.GetList").FirstOrDefault().Invoke(null, null);
+                        // Where(x => { ss += x.Name; return x.Name=="sdf"; });//.FirstOrDefault().Invoke(this, null);
 
-                    if (nameof(T.GetType().name) == nameof(UserData))
+                    var v = context.GetType().GetProperty("Id").GetValue(rowType).GetType().GetMethod("ToList").Invoke(this, null);
+
+                    if (rowType.GetType().Name == nameof(UserData))
                     {
-                        retAnsw = (List<T>)context.UserTable.Take(context.UserTable.Count());                        
+                        var redtAnsw = context.UserTable.ToList();
                     }
-                    else if (nameof(T) == nameof(UserBot))
+                    else if (rowType.GetType().Name == nameof(UserBot))
                     {
                         retAnsw = (List<T>)context.BotsTable.Take(context.BotsTable.Count());
                     }
-                    else if (nameof(T) == nameof(BotObject))
+                    else if (rowType.GetType().Name == nameof(BotObject))
                     {
                         retAnsw = (List<T>)context.BotObjectsTable.Take(context.BotObjectsTable.Count());
                     }
+
                     if (retAnsw == null)
                     {
                         throw new Exception($"Cannot find element of type: {nameof(T)}");

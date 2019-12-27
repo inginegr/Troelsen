@@ -100,8 +100,11 @@ namespace BotsRestServices.Models.UserServices
             
             try
             {
-                resp = FormResponse(ctr);
-                List<UserData> list = dbHandle.GetRows<UserData>();
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                resp = FormLogPas(request.User);
+                
+                List<UserData> list = dbHandle.GetRows(request.User);
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.Users = list;
             } catch(Exception ex)
