@@ -22,7 +22,7 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public JsonResult AddUsers()
         {
-            return Json(admin.AddClientsToDb(this));
+            return Json(admin.AddRowsToDb(this));
         }
 
         [HttpPost]
@@ -32,15 +32,33 @@ namespace BotsRestServices.Controllers.Interface
         }
 
         [HttpPost]
+        public JsonResult GetBotsList()
+        {
+            return Json(admin.GetBotsList(this));
+        }
+
+        [HttpPost]
+        public JsonResult GetBotObjectsList()
+        {
+            return Json(admin.GetBotObjectsList(this));
+        }
+
+        [HttpPost]
         public JsonResult SaveClientsData()
         {
             return Json(admin.EditEntries(this));
         }
 
         [HttpPost]
-        public JsonResult DeleteClients()
+        public JsonResult DeleteRows()
         {
             return Json(admin.RemoveRowsFromDb(this));
+        }
+
+        [HttpPost]
+        public JsonResult EditRows()
+        {
+            return Json(admin.EditEntries(this));
         }
     }
 }

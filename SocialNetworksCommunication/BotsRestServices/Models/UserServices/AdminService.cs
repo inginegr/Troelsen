@@ -63,11 +63,11 @@ namespace BotsRestServices.Models.UserServices
         }
 
         /// <summary>
-        /// Add users to db
+        /// Add rows to db
         /// </summary>
         /// <param name="requestString">String from browser</param>
         /// <returns>Json string answer text</returns>
-        public string AddClientsToDb(Controller ctr)
+        public string AddRowsToDb(Controller ctr)
         {
             TotalResponse resp = null;
 
@@ -76,8 +76,22 @@ namespace BotsRestServices.Models.UserServices
                 string requestString = ReadDataFromBrowser(ctr);
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
-                
-                //dbHandle.AddRows(request.UserList);
+
+                if (request.ClientsList.Count > 0)
+                {
+                    dbHandle.AddRows(request.ClientsList);
+                }
+
+                if (request.BotsList.Count > 0)
+                {
+                    dbHandle.AddRows(request.BotsList);
+                }
+
+                if (request.BotObjectsList.Count > 0)
+                {
+                    dbHandle.AddRows(request.BotObjectsList);
+                }
+
 
                 resp = FormResponseStatus(resp, true, "The user is added");
             }
@@ -88,6 +102,7 @@ namespace BotsRestServices.Models.UserServices
 
             return js.SerializeObjectT(resp);
         }
+
 
         /// <summary>
         /// Gets list of users
@@ -103,11 +118,65 @@ namespace BotsRestServices.Models.UserServices
                 string requestString = ReadDataFromBrowser(ctr);
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
-                
-                List<UserData> list = dbHandle.GetRows(request.User);
+
+                List<UserData> list = (List<UserData>)dbHandle.GetRows(request.User);
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.Users = list;
             } catch(Exception ex)
+            {
+                resp = FormResponseStatus(resp, false, ex.Message);
+            }
+            return js.SerializeObjectT(resp);
+        }
+
+        /// <summary>
+        /// Gets list of bots
+        /// </summary>
+        /// <param name="s">Request string</param>
+        /// <returns>Total response object</returns>
+        public string GetBotsList(Controller ctr)
+        {
+            TotalResponse resp = null;
+
+            try
+            {
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                resp = FormLogPas(request.User);
+
+                List<UserBot> list = ((List<UserBot>)dbHandle.GetRows(new UserBot { Id = 0 })).
+                    Where(item => item.UserDataId == request.User.Id).Cast<UserBot>().ToList();
+                resp = FormResponseStatus(resp, true, "Here is the user list");
+                resp.Bots = list;
+            }
+            catch (Exception ex)
+            {
+                resp = FormResponseStatus(resp, false, ex.Message);
+            }
+            return js.SerializeObjectT(resp);
+        }
+
+        /// <summary>
+        /// Gets list of BotObjects
+        /// </summary>
+        /// <param name="s">Request string</param>
+        /// <returns>Total response object</returns>
+        public string GetBotObjectsList(Controller ctr)
+        {
+            TotalResponse resp = null;
+
+            try
+            {
+                string requestString = ReadDataFromBrowser(ctr);
+                TotalRequest request = GetRequestObject(requestString);
+                resp = FormLogPas(request.User);
+
+                List<BotObject> list = ((List<BotObject>)dbHandle.GetRows(new BotObject { Id = 0 })).
+                    Where(item => item.UserBotId == request.User.Id).Cast<BotObject>().ToList();
+                resp = FormResponseStatus(resp, true, "Here is the user list");
+                resp.BotObjects = list;
+            }
+            catch (Exception ex)
             {
                 resp = FormResponseStatus(resp, false, ex.Message);
             }
@@ -157,9 +226,22 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                //dbHandle.DeleteRows(request.UserList);
+                if (request.ClientsList.Count > 0)
+                {
+                    dbHandle.DeleteRows(request.ClientsList);
+                }
 
-                response = FormResponseStatus(response, true, $"The users is deleted");
+                if (request.BotsList.Count > 0)
+                {
+                    dbHandle.DeleteRows(request.BotsList);
+                }
+
+                if (request.BotObjectsList.Count > 0)
+                {
+                    dbHandle.DeleteRows(request.BotObjectsList);
+                }
+
+                response = FormResponseStatus(response, true, $"The rows is deleted");
             }
             catch (Exception ex)
             {
@@ -169,9 +251,9 @@ namespace BotsRestServices.Models.UserServices
         }
 
         /// <summary>
-        /// Edits user in table
+        /// Edits entries in table
         /// </summary>
-        /// <param name="requestString">Request string with user to update</param>
+        /// <param name="requestString">Request string with entry to update</param>
         /// <returns>Response with status and message</returns>
         public string EditEntries(Controller ctr)
         {
@@ -183,18 +265,18 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 response = FormLogPas(request.User);
 
-                if (request.ClientsList.Count != 0)
+                if (request.ClientsList.Count > 0)
                 {
                     dbHandle.EditRows(request.ClientsList);
-                }else if (request.BotsList.Count != 0)
+                }else if (request.BotsList.Count > 0)
                 {
                     dbHandle.EditRows(request.BotsList);
-                }else if (request.BotObjectsList.Count != 0)
+                }else if (request.BotObjectsList.Count > 0)
                 {
                     dbHandle.EditRows(request.BotObjectsList);
                 }
 
-                response = FormResponseStatus(response, true, $"The user {request.ClientsList.FirstOrDefault().Login} is updated");
+                response = FormResponseStatus(response, true, $"The row is updated");
             }catch(Exception ex)
             {
                 response = FormResponseStatus(response, false, ex.Message);

@@ -12,17 +12,20 @@ export default class GlobalProperties {
     
     //============================Methods=================================//
     GetClientsList="GetUsersList"
+    GetBots="GetBotsList"
+    GetBotObjects="GetBotObjectsList"
     SaveClientData="SaveClientsData"
     DeleteClientsFromDb="DeleteClients"
-    AddClient="AddUser"
-    AddClients="AddUsers"
+    AddRows="AddUsers"
+    EditRows="EditRows"
+    DeleteRows="DeleteRows"
+
     
     
     //============================Controller=================================//
     ClientController="Client"
     
     //============================Methods=================================//
-    GetBots="GetBots"
     Restart="RestartBot"
     Apply="ApplyStatus"
 }

@@ -21,7 +21,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="objectToCheck"></param>
-        /// <returns></returns>
+        /// <returns>If not null return true, else false</returns>
         private bool checkIfNull<T>(T objectToCheck)
         {
             if (objectToCheck != null)
@@ -94,7 +94,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// Add rows to DB
         /// </summary>
         /// <param name="userList">Collection of rows</param>
-        public void AddRows<T>(List<T> rowsToAdd)
+        public void AddRows<T>(List<T> rowsToAdd) where T: class
         {
             try
             {
@@ -102,15 +102,15 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 {
                     foreach(T t in rowsToAdd)
                     {
-                        if(nameof(T) == nameof(UserData))
+                        if(t.GetType().Name == nameof(UserData))
                         {
-                            context.UserTable.Add((UserData)Activator.CreateInstance(t.GetType()));
-                        }else if (nameof(T) == nameof(UserBot))
+                            context.UserTable.Add(t as UserData);
+                        }else if (t.GetType().Name == nameof(UserBot))
                         {
-                            context.BotsTable.Add((UserBot)Activator.CreateInstance(t.GetType()));
-                        }else if (nameof(T) == nameof(BotObject))
+                            context.BotsTable.Add(t as UserBot);
+                        }else if (t.GetType().Name == nameof(BotObject))
                         {
-                            context.BotObjectsTable.Add((BotObject)Activator.CreateInstance(t.GetType()));
+                            context.BotObjectsTable.Add(t as BotObject);
                         }
                     }
                     context.SaveChanges();
@@ -134,25 +134,40 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 {
                     foreach (T t in rowsToDelete)
                     {
-                        if (nameof(T) == nameof(UserData))
+                        if (t.GetType().Name == nameof(UserData))
                         {
-                            UserData userToDelete = context.UserTable.Find(t.GetType().GetProperty("Id").GetValue(t));
-                            if (!checkIfNull(userToDelete))
+                            UserData userToDelete = context.UserTable.ToList().
+                                Where(user => user.Id == (t as UserData).Id).FirstOrDefault();
+                            if (checkIfNull(userToDelete))
                             {
+                                List<UserBot> botsToDelete = context.BotsTable.
+                                    Where(bot => bot.UserDataId == userToDelete.Id).ToList();
+                                botsToDelete.ForEach(bot =>
+                                {
+                                    List<BotObject> listToDelete = context.BotObjectsTable.
+                                    Where(obj => obj.UserBotId == bot.Id).ToList();
+                                    context.BotObjectsTable.RemoveRange(listToDelete);
+                                });
+                                context.BotsTable.RemoveRange(botsToDelete);
                                 context.UserTable.Remove(userToDelete);
                             }
                         }
-                        else if (nameof(T) == nameof(UserBot))
+                        else if (t.GetType().Name == nameof(UserBot))
                         {
-                            UserBot botToDelete = context.BotsTable.Find(t.GetType().GetProperty("Id").GetValue(t));
-                            if (!checkIfNull(botToDelete))
+                            UserBot botToDelete = context.BotsTable.ToList().
+                                Where(bot => bot.Id == (t as UserBot).Id).FirstOrDefault();
+                            if (checkIfNull(botToDelete))
                             {
+                                List<BotObject> objectsToDelete = context.BotObjectsTable.ToList().
+                                    Where(obj => obj.UserBotId == botToDelete.Id).ToList();
+                                context.BotObjectsTable.RemoveRange(objectsToDelete);
                                 context.BotsTable.Remove(botToDelete);
                             }
                         }
-                        else if (nameof(T) == nameof(BotObject))
+                        else if (t.GetType().Name == nameof(BotObject))
                         {
-                            BotObject objectToDelete = context.BotObjectsTable.Find(t.GetType().GetProperty("Id").GetValue(t));
+                            BotObject objectToDelete = context.BotObjectsTable.ToList().
+                                Where(botObj => botObj.Id == (t as BotObject).Id).FirstOrDefault();
                             if (checkIfNull(objectToDelete))
                             {
                                 context.BotObjectsTable.Remove(objectToDelete);
@@ -160,8 +175,6 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                         }
                     }
                     context.SaveChanges();
-                    
-                    
                 }
             }
             catch (Exception ex)
@@ -175,33 +188,25 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// <param name="rowType"/> Type of table to get
         /// </summary>
         /// <returns>All users in table</returns>
-        public List<T> GetRows<T>(T rowType) where T: class
+        public object GetRows<T>(T rowType) where T: class
         {
             try
             {
-                List<T> retAnsw = new List<T>();
+                object retAnsw=null;
                 using (UserContext context = new UserContext())
                 {
-                    T singleElement = null;
-                    string ss = string.Empty;
-                    var b = context.GetType().GetProperty(rowType.GetType().Name);
-                    var eb = context.GetType().GetProperty("UserTable").GetValue(context).GetType().
-                        GetRuntimeMethods().ToList().Where(x => x.Name == "System.ComponentModel.IListSource.GetList").FirstOrDefault().Invoke(null, null);
-                        // Where(x => { ss += x.Name; return x.Name=="sdf"; });//.FirstOrDefault().Invoke(this, null);
-
-                    var v = context.GetType().GetProperty("Id").GetValue(rowType).GetType().GetMethod("ToList").Invoke(this, null);
-
+                    
                     if (rowType.GetType().Name == nameof(UserData))
                     {
-                        var redtAnsw = context.UserTable.ToList();
+                        retAnsw = context.UserTable.ToList();
                     }
                     else if (rowType.GetType().Name == nameof(UserBot))
                     {
-                        retAnsw = (List<T>)context.BotsTable.Take(context.BotsTable.Count());
+                        retAnsw = context.BotsTable.ToList();
                     }
                     else if (rowType.GetType().Name == nameof(BotObject))
                     {
-                        retAnsw = (List<T>)context.BotObjectsTable.Take(context.BotObjectsTable.Count());
+                        retAnsw = context.BotObjectsTable.ToList();
                     }
 
                     if (retAnsw == null)
@@ -228,44 +233,34 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 using (UserContext context = new UserContext())
                 {
-                    List<T> tempCollection = new List<T>();
-                    if (nameof(T) == nameof(UserData))
+                    foreach(T t in rowsToEdit)
                     {
-                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
-                        rowsToEdit.Exists(ed =>
-                        int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
-                    }
-                    else if (nameof(T) == nameof(UserBot))
-                    {
-                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
-                       rowsToEdit.Exists(ed =>
-                       int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
-                    }
-                    else if (nameof(T) == nameof(BotObject))
-                    {
-                        tempCollection.AddRange((List<T>)context.UserTable.Where(a =>
-                        rowsToEdit.Exists(ed =>
-                        int.Parse(ed.GetType().GetProperty("Id").GetValue(ed).ToString()) == a.Id)));
-                    }
-
-                    tempCollection.ForEach(elToEdit =>
-                    {
-                        PropertyInfo[] newProps = rowsToEdit.Find(e => int.Parse(e.GetType().GetProperty("Id").GetValue(e).ToString()) ==
-                          int.Parse(elToEdit.GetType().GetProperty("Id").GetValue(elToEdit).ToString())).GetType().GetProperties();
-                        PropertyInfo[] oldProps = elToEdit.GetType().GetProperties();
-
-                        for (int i = 0; i < oldProps.Length; i++)
+                        if (t.GetType().Name == nameof(UserData))
                         {
-                            foreach (PropertyInfo newProp in newProps)
-                            {
-                                if (oldProps[i].Name == newProp.Name)
-                                {
-                                    oldProps[i].SetValue(oldProps[i], newProp.GetValue(newProp));
-                                }
-                            }
+                            UserData newClient = t as UserData;
+                            UserData clientToEdit = context.UserTable.ToList().Where(user =>
+                            user.Id == newClient.Id).FirstOrDefault();
+                            clientToEdit.Login = newClient.Login;
+                            clientToEdit.Password = newClient.Password;
                         }
-
-                    });
+                        else if (t.GetType().Name == nameof(UserBot))
+                        {
+                            UserBot newBot = t as UserBot;
+                            UserBot botToEdit = context.BotsTable.ToList().Where(bot =>
+                              bot.Id == newBot.Id).FirstOrDefault();
+                            botToEdit.BotName = newBot.BotName;
+                            botToEdit.BotStatus = newBot.BotStatus;
+                            botToEdit.UserDataId = newBot.UserDataId;
+                        }
+                        else if (t.GetType().Name == nameof(BotObject))
+                        {
+                            BotObject newObj = t as BotObject;
+                            BotObject objectToEdit = context.BotObjectsTable.ToList().Where(obj =>
+                              obj.Id == newObj.Id).FirstOrDefault();
+                            objectToEdit.PathToObject = newObj.PathToObject;
+                            objectToEdit.UserBotId = newObj.UserBotId;
+                        }
+                    }
 
                     context.SaveChanges();
                 }
@@ -274,7 +269,6 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
             {
                 throw new Exception(ex.Message);
             }
-        }
-        
+        }        
     }
 }

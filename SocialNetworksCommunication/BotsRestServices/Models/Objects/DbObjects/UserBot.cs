@@ -16,6 +16,7 @@ namespace BotsRestServices.Models.Objects.DbObjects
 
         public bool BotStatus { get; set; }
 
+        [JsonIgnore]
         public virtual List<BotObject> BotObject { get; set; }
 
         public int? UserDataId { get; set; }

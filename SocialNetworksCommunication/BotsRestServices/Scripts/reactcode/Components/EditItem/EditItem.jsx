@@ -42,6 +42,7 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
       value = e.target.value
     }
     let ob = getObject(id)
+
     let { massiveOfKeys, massiveToRender } = convertObjectToMassive(ob)
     ob[massiveOfKeys[ind]]=value
     

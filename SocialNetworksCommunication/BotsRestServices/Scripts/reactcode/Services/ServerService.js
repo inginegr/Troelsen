@@ -6,9 +6,10 @@ import { async } from "regenerator-runtime/runtime";
 
 
 const UserData = {
+  Id: "id",
   Login: "login",
   Password: "password",
-  Id: "id",
+  Bots: [BotRequest]
 }
 
 const BotObjectRequest={
@@ -26,10 +27,10 @@ const BotRequest={
 }
 
 const UserRequest={
-  Id: 0,
-  Login: "",
-  Password: "",
-  Bots: [BotRequest]
+  User: UserData,
+  ClientsList: [UserData],
+  BotsList: [BotRequest],
+  BotObjectsList: [BotObjectRequest]
 }
 
 // const dataToSend = {
@@ -95,21 +96,30 @@ export default class ServerService {
     formRequest = (a, b=null) => {
 
     let dts=[UserRequest]
-
+    
+    // console.log(b)
       if(b!=null){
         dts=b
-    }
-    // console.log(a)
+      }
+    // const UserRequest={
+    //   User: UserData,
+    //   ClientsList: [UserData],
+    //   BotsList: [BotRequest],
+    //   BotObjectsList: [BotObjectRequest]
+    // }
     return {
       method: "POST",
       headers: {
         'Accept': 'application/json; charset=utf-8',
         'Content-Type': 'application/json;charset=UTF-8'
       },
+
       body: JSON.stringify(
         {
           User: a,
-          UserList: dts
+          ClientsList: dts.ClientsList,
+          BotsList: dts.BotsList,
+          BotObjectsList: dts.BotObjectsList
         }
       )
     }
@@ -153,6 +163,48 @@ export default class ServerService {
     return ans
   }
 
+  //Get list of user bots
+  getBotsList= async (a,id)=>{
+    if(a==null||a==undefined||id==null||id==undefined){
+      console.log(`Cannot get bots list of empty user`)
+      return
+    }
+
+    const parentUser=a
+    parentUser.Id=id
+    const body = this.formRequest(parentUser)
+
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.AdminController,
+        method: this.glob.GetBots
+      }
+    ), body)
+    
+    return ans
+  }
+
+  // Get list of bot objects
+  getBotObjectsList=async(a,id)=>{
+    if (a == null || a == undefined || id == null || id == undefined) {
+      console.log(`Cannot get bots list of empty user`)
+      return
+    }
+
+    const parentUser=a
+    parentUser.Id=id
+    const body = this.formRequest(parentUser)
+
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.AdminController,
+        method: this.glob.GetBotObjects
+      }
+    ), body)
+    
+    return ans
+  }
+
     // Send request to save changes, that made by admin in clients data
   saveClientsChange = async (a, b) => {
 
@@ -187,53 +239,97 @@ export default class ServerService {
 
     return ans
   }
-
+  
   //Adds client to db
-  addCleinToDb= async (a,b)=>{
-    if(a==null||a==undefined||b==null||b==undefined){
-      console.log(`Cannot save empty user`)
+  addRowsToDb = async (a,clients=[],bots=[], botobj=[])=>{
+    if(a==null||a==undefined){
+      console.log(`Cannot send empty row to server`)
       return
+    }
+
+    let UserRequest={
+      User: UserData,
+      ClientsList: clients,
+      BotsList: bots,
+      BotObjectsList: botobj
     }
     
     const { Login, Password } = a
     const User={Login: Login, Password: Password}
-    const dataToSend = b
+    const dataToSend = UserRequest
     
     const body = this.formRequest(User, dataToSend)
 
     const ans = await this.sendRequest(this.formUrl(
       {
         controller: this.glob.AdminController,
-        method: this.glob.AddClient
+        method: this.glob.AddRows
+      }
+    ), body)
+
+    return ans
+  }
+
+    //Edit rows in db
+    editRowsInDb = async (a,clients=[],bots=[], botobj=[])=>{
+      if(a==null||a==undefined){
+        console.log(`Cannot send empty row to server`)
+        return
+      }
+  
+      let UserRequest={
+        User: UserData,
+        ClientsList: clients,
+        BotsList: bots,
+        BotObjectsList: botobj
+      }
+      
+      const { Login, Password } = a
+      const User={Login: Login, Password: Password}
+      const dataToSend = UserRequest
+      
+      const body = this.formRequest(User, dataToSend)
+  
+      const ans = await this.sendRequest(this.formUrl(
+        {
+          controller: this.glob.AdminController,
+          method: this.glob.EditRows
+        }
+      ), body)
+  
+      return ans
+    }
+  
+  //Delete rows from db
+  deleteRowsInDb = async (a, clients = [], bots = [], botobj = []) => {
+    if (a == null || a == undefined) {
+      console.log(`Cannot send empty row to server`)
+      return
+    }
+
+    let UserRequest = {
+      User: UserData,
+      ClientsList: clients,
+      BotsList: bots,
+      BotObjectsList: botobj
+    }
+
+    const { Login, Password } = a
+    const User = { Login: Login, Password: Password }
+    const dataToSend = UserRequest
+
+    const body = this.formRequest(User, dataToSend)
+
+    const ans = await this.sendRequest(this.formUrl(
+      {
+        controller: this.glob.AdminController,
+        method: this.glob.DeleteRows
       }
     ), body)
 
     return ans
   }
   
-  //Adds client to db
-  getBotsList= async (a,b)=>{
-    if(a==null||a==undefined||b==null||b==undefined){
-      console.log(`Cannot get bots list of empty user`)
-      return
-    }
-    const {Login, Password} = a
-    const  User  = {Login: Login, Password: Password}
-
-    // console.log(a)
-
-    const body = this.formRequest(a)
-
-    const ans = await this.sendRequest(this.formUrl(
-      {
-        controller: this.glob.ClientController,
-        method: this.glob.GetBots
-      }
-    ), body)
-
-    return ans
-  }
-
   // Make all massives by empty inside gotten object
   makeArraysEmpty=(ob)=>{
     for(let key in ob){
@@ -245,7 +341,7 @@ export default class ServerService {
   }
 
   //Return user any object
-  getUserObject=()=>{
+  getUserObjects=()=>{
     let result = null                
     result = Object.assign({}, this.makeArraysEmpty(UserAny))
     return result
@@ -254,18 +350,17 @@ export default class ServerService {
   // Return type of element, to add to currentList
   // depth - depth to find element
   getCurrentObject=(depth)=>{
-    
-    let currentObject= UserAny  
 
-    while (depth!=0) {
-      depth--
-      for(let key in currentObject){
-        if (Array.isArray(currentObject[key])) {
-          currentObject=currentObject[key][0]
-        }
-      }
+    let retObj=null
+    if(depth==0){
+      retObj=UserData
+    }else if(depth==1){
+      retObj=BotRequest
+    }else if(depth==2){
+      retObj=BotObjectRequest
     }
-    return Object.assign({}, this.makeArraysEmpty(currentObject))
+    
+    return Object.assign({}, retObj)
   }
 
   // Search second int value in the щиоусе and return its key

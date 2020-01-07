@@ -14,6 +14,8 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
         public UserData UserAuth { get; set; }
         public IsTrueAnswer IsTrue { get; set; }
         public List<UserData> Users { get; set; }
+        public List<UserBot> Bots { get; set; }
+        public List<BotObject> BotObjects { get; set; }
 
         public TotalResponse()
         {
@@ -22,6 +24,8 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
             UserAuth = new UserData();
             IsTrue = new IsTrueAnswer();
             Users = new List<UserData>();
+            Bots = new List<UserBot>();
+            BotObjects = new List<BotObject>();
         }
     }
 }
