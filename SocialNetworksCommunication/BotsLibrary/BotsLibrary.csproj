@@ -50,7 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bots.cs" />
+    <Compile Include="ViberBots\BasicViberClass.cs" />
+    <Compile Include="ViberBots\IViberBot.cs" />
+    <Compile Include="ViberBots\ViberBot1.cs" />
+    <Compile Include="ViberBots\ViberEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

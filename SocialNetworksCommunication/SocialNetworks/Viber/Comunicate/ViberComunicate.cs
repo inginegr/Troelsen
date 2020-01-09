@@ -90,7 +90,7 @@ namespace SocialNetworks.Viber.Comunicate
                 }
 
                 setWebHook.Send_name = isSendName;
-                setWebHook.Send_photo = isSendName;
+                setWebHook.Send_photo = isSendPhoto;
                 setWebHook.Url = urlParam;
 
                 retAns = SetWebHook(setWebHook);

@@ -2,20 +2,34 @@
 using System.Reflection;
 using System.Collections.Generic;
 
-
-
-public class Example
+namespace onespace
 {
-    public static void Main()
+    public static class Hm
     {
-        int y = 7;
-        for(int i = 0; i < y; i++)
+        public static void Hel(int st)
         {
-        Console.WriteLine("вндхъъщегмюкьяожидшпф");
-
+            Console.WriteLine(st.ToString());
         }
 
+        public static int retint(int u)
+        {
+            return u;
+        }
+    }
+    public class Example
+    {
 
-        Console.ReadLine();
+
+        public static void Main()
+        {
+            Type t = Type.GetType("onespace.Hm");
+            MethodInfo mi = t.GetMethod("Hel");
+
+            var v = t.InvokeMember("retint", BindingFlags.InvokeMethod, null, null, new object[] { 43 }, null);
+
+            Console.WriteLine(v);
+            
+            Console.ReadLine();
+        }
     }
 }

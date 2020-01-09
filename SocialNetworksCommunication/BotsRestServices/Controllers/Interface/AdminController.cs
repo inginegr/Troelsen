@@ -3,15 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows;
 using BotsRestServices.Models.UserServices;
+using System.Web.UI;
 
 
 namespace BotsRestServices.Controllers.Interface
 {
     public class AdminController : Controller
     {
-
         AdminService admin = new AdminService();
+
+        [HttpPost]
+        public JsonResult Res()
+        {
+            if (Session["count"] == null)
+            {
+                Session["count"] = 0;
+            }
+            Session["count"] = (int)Session["count"] + 1;
+            MessageBox.Show(Session["count"].ToString());
+            return Json(true);
+        }
 
         [HttpPost]
         public JsonResult AddUser()
