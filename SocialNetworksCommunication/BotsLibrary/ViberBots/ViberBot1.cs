@@ -15,7 +15,7 @@ namespace BotsLibrary.ViberBots
         /// Start function of viber bot. When message come from viber server, this fuction called first of all
         /// </summary>
         /// <param name="jsonString">Json string from server</param>
-        public void ViberStartPoint(string jsonString)
+        public void ViberBotsStartPoint(string jsonString)
         {
             try
             {

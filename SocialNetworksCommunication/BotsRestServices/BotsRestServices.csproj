@@ -186,16 +186,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Bots\ViberController.cs" />
     <Compile Include="Controllers\Interface\AdminController.cs" />
     <Compile Include="Controllers\Interface\ClientController.cs" />
     <Compile Include="Controllers\Interface\InterfaceController.cs" />
-    <Compile Include="Controllers\Rest\TelegramController.cs" />
-    <Compile Include="Controllers\Rest\ViberController.cs" />
-    <Compile Include="Controllers\Rest\VkController.cs" />
-    <Compile Include="Controllers\Rest\WhatsAppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BotServices\BaseBotService.cs" />
+    <Compile Include="Models\BotServices\ViberBotService.cs" />
     <Compile Include="Models\DataBase\Infrastructure\DbHandle.cs" />
     <Compile Include="Models\DataBase\Infrastructure\UserContext.cs" />
     <Compile Include="Models\DataBase\Initializers\ClientsInitializer.cs" />
@@ -205,13 +204,14 @@
     <Compile Include="Models\Objects\AnswersFromServer\IsTrueAnswer.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\TotalResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\User.cs" />
+    <Compile Include="Models\Objects\BotsLibRequest\BotsLibRequest.cs" />
     <Compile Include="Models\Objects\DbObjects\BotObject.cs" />
     <Compile Include="Models\Objects\DbObjects\UserBot.cs" />
     <Compile Include="Models\Objects\DbObjects\UserData.cs" />
     <Compile Include="Models\Objects\RequestToServer\TotalRequest.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
-    <Compile Include="Models\UserServices\UserService.cs" />
     <Compile Include="Models\UserServices\ClientService.cs" />
+    <Compile Include="Models\UserServices\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,8 +272,10 @@
   <ItemGroup>
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
+    <Folder Include="OutDlls\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Client\" />
+    <Folder Include="Views\Viber\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

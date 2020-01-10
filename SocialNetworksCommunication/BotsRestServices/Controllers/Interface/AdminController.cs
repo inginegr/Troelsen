@@ -15,18 +15,6 @@ namespace BotsRestServices.Controllers.Interface
         AdminService admin = new AdminService();
 
         [HttpPost]
-        public JsonResult Res()
-        {
-            if (Session["count"] == null)
-            {
-                Session["count"] = 0;
-            }
-            Session["count"] = (int)Session["count"] + 1;
-            MessageBox.Show(Session["count"].ToString());
-            return Json(true);
-        }
-
-        [HttpPost]
         public JsonResult AddUser()
         {
             return Json(admin.AddClientToDb(this));

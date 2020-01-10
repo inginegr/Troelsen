@@ -27,8 +27,11 @@ namespace onespace
 
             var v = t.InvokeMember("retint", BindingFlags.InvokeMethod, null, null, new object[] { 43 }, null);
 
-            Console.WriteLine(v);
-            
+            string st = "sdfsdfs fsd fss avhsfd sd fsd f";
+
+            Console.WriteLine(st.Contains("s favhsfd"));
+
+
             Console.ReadLine();
         }
     }

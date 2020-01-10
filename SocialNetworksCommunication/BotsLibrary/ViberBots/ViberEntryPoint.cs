@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using BotsRestServices.Models.Objects.BotsLibRequest;
 
 
 namespace ViberBots
@@ -25,13 +26,17 @@ namespace ViberBots
         /// </summary>
         /// <param name="botNumber">Number of bot, that created</param>
         /// <param name="jsonString">String, send by viber server</param>
-        public void CallFunctions(int botNumber, string jsonString)
+        public void CallFunctions(BotsLibRequest request)
         {
             try
             {
-                Type obj = Type.GetType($"{NameSpace}.{BaseBotName}{botNumber}");
-                MethodInfo mi = obj.GetMethod("ViberStartPoint");
-                mi.Invoke(null, new object[] { jsonString });
+                Type obj = Type.GetType($"{NameSpace}.{BaseBotName}{request.BotId}");
+
+                if (request.CommandToRun=="")
+                {
+                    MethodInfo mi = obj.GetMethod(request.CommandToRun);
+                    mi.Invoke(null, new object[] { request });
+                }
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);

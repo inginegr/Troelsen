@@ -11,6 +11,6 @@ namespace BotsLibrary.ViberBots
     /// </summary>
     interface IViberBot
     {
-        void ViberStartPoint(string jsonString);
+        void ViberBotsStartPoint(string jsonString);
     }
 }
