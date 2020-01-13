@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SocialNetworks.Viber.Comunicate;
 using SocialNetworks.Viber.Objects;
 using ServiceLibrary.Serialization;
-
+using BotsRestServices.Models.Objects.BotsLibRequest;
 
 
 namespace BotsLibrary.ViberBots
@@ -24,17 +24,20 @@ namespace BotsLibrary.ViberBots
         protected JsonSerializer serializeService = new JsonSerializer();
 
         /// <summary>
+        /// Deserializer
+        /// </summary>
+        protected JsonDeserializer deserializeService = new JsonDeserializer();
+
+        /// <summary>
         /// Startviber bot function
         /// </summary>
         /// <param name="stringParam">Parameters, that passed to bot</param>
-        void ViberServiceStartPoint(string stringParam, string[] param)
+        public BotsLibRequest ViberServiceStartPoint(BotsLibRequest request)
         {
+            BotsLibRequest returnRequest = new BotsLibRequest();
             try
             {
-                if (stringParam == "StartBot")
-                {
-
-                }
+                return returnRequest;
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -42,16 +45,17 @@ namespace BotsLibrary.ViberBots
         }
 
 
-        private void StartBot(string[] param)
-        {
-            try
-            {
-                viberService.SetToken = param[0];
-               // viberService.StartListen()
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //public BotsLibRequest StartBot(BotsLibRequest request)
+        //{
+        //    BotsLibRequest returnRequest = new BotsLibRequest();
+        //    try
+        //    {
+                
+        //        retu
+        //    }catch(Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }

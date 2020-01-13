@@ -5,6 +5,10 @@ using System.Web;
 using BotsRestServices.Models.UserServices;
 using System.Reflection;
 using System.Configuration;
+using System.IO;
+using System.Web.Mvc;
+using ServiceLibrary.Various;
+
 
 namespace BotsRestServices.Models.BotServices
 {
@@ -13,7 +17,29 @@ namespace BotsRestServices.Models.BotServices
         /// <summary>
         /// Path to library, that rules all bots
         /// </summary>
-        protected string pathToBotsLibrary { get => ConfigurationManager.AppSettings["PathBotsLibrary"]; }
+        protected string PathToBotsLibrary()
+        {
+            return ConfigurationManager.AppSettings["PathBotsLibrary"];
+        }
+
+        /// <summary>
+        /// Log errors to file
+        /// </summary>
+        /// <param name="data"> Data to log </param>
+        /// <param name="ctr"> Parent controller </param>
+        protected void LogData( string data, Controller ctr)
+        {
+            DirectoryInfo myDir = new DirectoryInfo(ctr.Server.MapPath(ConfigurationManager.AppSettings["LogDirectory"]));
+
+            FileService fs = new FileService();
+
+            if (myDir.Exists == false)
+            {
+                Directory.CreateDirectory(ctr.Server.MapPath(ConfigurationManager.AppSettings["LogDirectory"]));
+            }
+
+            fs.LogData($"{ConfigurationManager.AppSettings["LogDirectory"]}/{ConfigurationManager.AppSettings["LogErrorsFile"]}", ReadDataFromBrowser(ctr));
+        }
 
         /// <summary>
         /// Returns assembly

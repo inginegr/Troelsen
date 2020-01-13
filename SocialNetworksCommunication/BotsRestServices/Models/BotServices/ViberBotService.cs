@@ -5,6 +5,7 @@ using System.Web;
 using System.Reflection;
 using System.Web.Mvc;
 using BotsRestServices.Models.Objects.BotsLibRequest;
+using ServiceLibrary.Various;
 
 
 namespace BotsRestServices.Models.BotServices
@@ -13,8 +14,13 @@ namespace BotsRestServices.Models.BotServices
     {
         private string entryPointClass = "ViberBots.ViberEntryPoint";
         private string entryPointMethod = "CallFunctions";
+        /// <summary>
+        /// Object to exchange messages with bots library
+        /// </summary>
         private BotsLibRequest botsLib = new BotsLibRequest();
         private string viberAuth = "X-Viber-Auth-Token";
+
+        FileService fs = new FileService();
 
         /// <summary>
         /// Do basic settings request to bots livrary
@@ -41,24 +47,23 @@ namespace BotsRestServices.Models.BotServices
             {
                 string jsonString = ReadDataFromBrowser(ctr);
 
-                Assembly vBot = LoadAssembly(pathToBotsLibrary);
+                Assembly vBot = LoadAssembly(PathToBotsLibrary());
 
                 Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
 
-                object vBotObject = GetObject(vBotType);
-
-                MethodInfo entryMethod = vBotType.GetMethod(entryPointMethod);
-
+                object vBotObject = Activator.CreateInstance(vBotType);
+                
                 botsLib.BotId = botNumber;
                 botsLib.CommandToRun = "ViberBotsStartPoint";
                 botsLib.SecretKey = ctr.Request.Headers[viberAuth];
-                botsLib.
+                botsLib.JsonFromServer = jsonString;
 
-                entryMethod.Invoke(vBotObject, new object[] {  } );
-
-            }catch(Exception ex)
+                BotsLibRequest answerFromLib = (BotsLibRequest)vBotType.
+                    InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject, new object[] { botsLib }, null);
+            }
+            catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                LogData(ex.Message, ctr);
             }
         }
 
@@ -68,7 +73,7 @@ namespace BotsRestServices.Models.BotServices
             {
                 string jsonString = ReadDataFromBrowser(ctr);
 
-                Assembly vBot = LoadAssembly(pathToBotsLibrary);
+                Assembly vBot = LoadAssembly(PathToBotsLibrary());
 
                 Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
 

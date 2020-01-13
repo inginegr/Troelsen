@@ -8,9 +8,9 @@ namespace ClassLibrary1
 {
     public class Class1
     {
-        public void cnsl()
+        public void cnsl(int x)
         {
-            Console.WriteLine($"version {2}");
+            Console.WriteLine($"The x is {x}");
         }
     }
 }

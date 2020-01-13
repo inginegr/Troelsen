@@ -34,5 +34,25 @@ namespace BotsRestServices.Models.Objects.BotsLibRequest
         /// Command to start in bots library
         /// </summary>
         public string CommandToRun { get; set; }
+
+        /// <summary>
+        /// Is called method callback
+        /// </summary>
+        public bool IsCallBackMethod { get; set; }
+
+        /// <summary>
+        /// Json data from viber server
+        /// </summary>
+        public string JsonFromServer { get; set; }
+
+        /// <summary>
+        /// Status of operation
+        /// </summary>
+        public bool IsTrue { get; set; }
+
+        /// <summary>
+        /// Status message of opration
+        /// </summary>
+        public string IsTrueMessage { get; set; }
     }
 }

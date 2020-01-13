@@ -26,7 +26,6 @@ namespace ServiceLibrary.Various
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
         /// <summary>

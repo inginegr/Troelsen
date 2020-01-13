@@ -61,13 +61,13 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// <typeparam name="T">object to find</typeparam>
         /// <param name="rowToFind">object to find</param>
         /// <returns>Found object if exist, else null</returns>
-        public object FindRow<T>(T rowToFind) where T: class
+        public object FindRow<T>(T rowToFind) where T : class
         {
             try
             {
                 object rowToReturn = null;
 
-                using(UserContext context=new UserContext())
+                using (UserContext context = new UserContext())
                 {
                     if (nameof(T) == nameof(UserData))
                     {
@@ -84,7 +84,8 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                 }
 
                 return rowToReturn;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

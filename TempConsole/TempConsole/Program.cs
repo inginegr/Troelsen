@@ -22,14 +22,14 @@ namespace onespace
 
         public static void Main()
         {
-            Type t = Type.GetType("onespace.Hm");
-            MethodInfo mi = t.GetMethod("Hel");
+            Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
 
-            var v = t.InvokeMember("retint", BindingFlags.InvokeMethod, null, null, new object[] { 43 }, null);
+            Type tp = asm.GetType("ClassLibrary1.Class1");
 
-            string st = "sdfsdfs fsd fss avhsfd sd fsd f";
+            object inst = Activator.CreateInstance(tp);
 
-            Console.WriteLine(st.Contains("s favhsfd"));
+            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, inst, new object[] { 234 }, null);
+           
 
 
             Console.ReadLine();
