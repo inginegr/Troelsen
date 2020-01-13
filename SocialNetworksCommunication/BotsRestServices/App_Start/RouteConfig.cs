@@ -30,6 +30,12 @@ namespace WebApplication9
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "User", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Viber",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Viber", id=UrlParameter.Optional}
+            );
         }
     }
 }

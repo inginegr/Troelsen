@@ -17,25 +17,26 @@ namespace BotsRestServices.Controllers.Bots
     public class ViberController : Controller
     {
         ViberBotService botService = new ViberBotService();
-        JsonDeserializer deserializer = new JsonDeserializer();    
-        FileService fs = new FileService();
-
+        //JsonDeserializer deserializer = new JsonDeserializer();    
+        //FileService fs = new FileService();
+        
         [HttpPost]
-        public JsonResult BotAnswer(int botNumber)
+        public JsonResult BotAnswer(int id)
         {
-            return Json(botService.ViberEntryPoint(botNumber, this));
-        }
-
-        [HttpPost]
-        public JsonResult StartBot()
-        {
+            botService.ViberEntryPoint(id, this);
             return Json(true);
         }
 
         [HttpPost]
-        public JsonResult StopBot()
+        public JsonResult StartBot(int t)
         {
-            return Json(true);
+            return Json(t);
+        }
+
+        [HttpPost]
+        public JsonResult StopBot(string s)
+        {
+            return Json(s);
         }
     }
 }

@@ -46,20 +46,26 @@ namespace BotsRestServices.Models.BotServices
             try
             {
                 string jsonString = ReadDataFromBrowser(ctr);
-
-                Assembly vBot = LoadAssembly(PathToBotsLibrary());
-
+                //LogData(jsonString, ctr);
+                Assembly vBot = LoadAssembly(PathToBotsLibrary(ctr));
+                                
                 Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
 
                 object vBotObject = Activator.CreateInstance(vBotType);
-                
+
+                Assembly asem = Assembly.LoadFrom(PathToBotsLibrary(ctr));
+
+                Type tp = asem.GetType("ViberBots.ViberEntryPoint");
+
+                object ob = Activator.CreateInstance(tp);
+
                 botsLib.BotId = botNumber;
                 botsLib.CommandToRun = "ViberBotsStartPoint";
                 botsLib.SecretKey = ctr.Request.Headers[viberAuth];
                 botsLib.JsonFromServer = jsonString;
 
-                BotsLibRequest answerFromLib = (BotsLibRequest)vBotType.
-                    InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject, new object[] { botsLib }, null);
+                BotsLibRequest answerFromLib = (BotsLibRequest)tp.
+                    InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, ob, new object[] { new BotsLibRequest() }, null);
             }
             catch(Exception ex)
             {
@@ -73,7 +79,7 @@ namespace BotsRestServices.Models.BotServices
             {
                 string jsonString = ReadDataFromBrowser(ctr);
 
-                Assembly vBot = LoadAssembly(PathToBotsLibrary());
+                Assembly vBot = LoadAssembly(PathToBotsLibrary(ctr));
 
                 Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
 

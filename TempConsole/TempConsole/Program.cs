@@ -28,7 +28,7 @@ namespace onespace
 
             object inst = Activator.CreateInstance(tp);
 
-            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, inst, new object[] { 234 }, null);
+            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, inst, new object[] { 234 });
            
 
 

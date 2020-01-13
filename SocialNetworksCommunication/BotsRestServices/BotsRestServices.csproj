@@ -272,6 +272,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

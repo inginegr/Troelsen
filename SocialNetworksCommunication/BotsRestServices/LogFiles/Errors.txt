@@ -1,0 +1,1 @@
+Не найден метод "ViberBots.ViberEntryPoint.CallFunctions".

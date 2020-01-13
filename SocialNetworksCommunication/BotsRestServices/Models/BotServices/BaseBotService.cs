@@ -17,9 +17,9 @@ namespace BotsRestServices.Models.BotServices
         /// <summary>
         /// Path to library, that rules all bots
         /// </summary>
-        protected string PathToBotsLibrary()
+        protected string PathToBotsLibrary(Controller ctr)
         {
-            return ConfigurationManager.AppSettings["PathBotsLibrary"];
+            return ctr.Server.MapPath(ConfigurationManager.AppSettings["PathBotsLibrary"]);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace BotsRestServices.Models.BotServices
         /// </summary>
         /// <param name="data"> Data to log </param>
         /// <param name="ctr"> Parent controller </param>
-        protected void LogData( string data, Controller ctr)
+        public void LogData( string data, Controller ctr)
         {
             DirectoryInfo myDir = new DirectoryInfo(ctr.Server.MapPath(ConfigurationManager.AppSettings["LogDirectory"]));
 
@@ -38,7 +38,7 @@ namespace BotsRestServices.Models.BotServices
                 Directory.CreateDirectory(ctr.Server.MapPath(ConfigurationManager.AppSettings["LogDirectory"]));
             }
 
-            fs.LogData($"{ConfigurationManager.AppSettings["LogDirectory"]}/{ConfigurationManager.AppSettings["LogErrorsFile"]}", ReadDataFromBrowser(ctr));
+            fs.LogData(ctr.Server.MapPath($"{ConfigurationManager.AppSettings["LogDirectory"]}/{ConfigurationManager.AppSettings["LogErrorsFile"]}"), data);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace BotsRestServices.Models.BotServices
         {
             try
             {
-                return Assembly.Load(pathToAssembly);
+                return Assembly.LoadFrom(pathToAssembly);
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
