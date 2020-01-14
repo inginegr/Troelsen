@@ -115,7 +115,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="libs\" />
+    <Content Include="libs\AdditionalLib.dll" />
+    <Content Include="libs\ClassLibrary1.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

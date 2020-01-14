@@ -204,7 +204,6 @@
     <Compile Include="Models\Objects\AnswersFromServer\IsTrueAnswer.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\TotalResponse.cs" />
     <Compile Include="Models\Objects\AnswersFromServer\User.cs" />
-    <Compile Include="Models\Objects\BotsLibRequest\BotsLibRequest.cs" />
     <Compile Include="Models\Objects\DbObjects\BotObject.cs" />
     <Compile Include="Models\Objects\DbObjects\UserBot.cs" />
     <Compile Include="Models\Objects\DbObjects\UserData.cs" />
@@ -222,6 +221,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="OutDlls\BotsLibrary.dll" />
+    <Content Include="OutDlls\Newtonsoft.Json.dll" />
+    <Content Include="OutDlls\ProxySocket.dll" />
+    <Content Include="OutDlls\ServiceLibrary.dll" />
+    <Content Include="OutDlls\SocialNetworks.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

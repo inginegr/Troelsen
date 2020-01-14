@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using SocialNetworks.Viber.Comunicate;
 using SocialNetworks.Viber.Objects;
 using ServiceLibrary.Serialization;
-using BotsRestServices.Models.Objects.BotsLibRequest;
 
 
 namespace BotsLibrary.ViberBots
 {
-    class BasicViberClass
+    public class BasicViberClass
     {
         /// <summary>
         /// Service to communicate with viber server
@@ -32,12 +31,11 @@ namespace BotsLibrary.ViberBots
         /// Startviber bot function
         /// </summary>
         /// <param name="stringParam">Parameters, that passed to bot</param>
-        public BotsLibRequest ViberServiceStartPoint(BotsLibRequest request)
+        public void ViberServiceStartPoint()
         {
-            BotsLibRequest returnRequest = new BotsLibRequest();
             try
             {
-                return returnRequest;
+                
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);

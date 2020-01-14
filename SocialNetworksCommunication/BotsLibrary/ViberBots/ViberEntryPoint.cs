@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using BotsRestServices.Models.Objects.BotsLibRequest;
 using ServiceLibrary.Serialization;
 using SocialNetworks.Viber.Objects;
+using SocialNetworks.Viber.Comunicate;
 
-namespace ViberBots
+namespace BotsLibrary.ViberBots
 {
     public class ViberEntryPoint
     {
         /// <summary>
-        /// Deserialize object
+        /// Communicate with viber server
         /// </summary>
-        JsonDeserializer deserializer = new JsonDeserializer();
+        
 
         /// <summary>
         /// Name space, that contain all viber bots
         /// </summary>
-        private string NameSpace { get => nameof(ViberBots); }
+        private string NameSpace { get => "BotsLibrary.ViberBots"; }
 
         /// <summary>
         /// Basic bot name, that contained in all bots
@@ -32,20 +32,18 @@ namespace ViberBots
         /// </summary>
         /// <param name="botNumber">Number of bot, that created</param>
         /// <param name="jsonString">String, send by viber server</param>
-        public void CallFunctions(BotsLibRequest request)
+        public string CallFunctions(int BotId, string CommandToRun, string SecretKey, string JsonFromServer, string[] addsParams=null)
         {
-            BotsLibRequest returnRequest = new BotsLibRequest();
             try
-            {
-                ViberHelloMessage helloMessage = deserializer.DeserializeToObjectT<ViberHelloMessage>(request.JsonFromServer);
-                Type objWithMethods = Type.GetType($"{NameSpace}.{BaseBotName}{request.BotId}");
+            {   
+                Type objWithMethods = Type.GetType($"{NameSpace}.{BaseBotName}{BotId}");
                 object objectType = Activator.CreateInstance(objWithMethods);
 
-                objWithMethods.InvokeMember(request.CommandToRun, BindingFlags.InvokeMethod, null, objectType, new object[] { request }, null);
-
+                return objWithMethods.InvokeMember(CommandToRun, BindingFlags.InvokeMethod,
+                    null, objectType, new object[] { addsParams, JsonFromServer }, null).ToString();
             } catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                return ex.Message;
             }
         }
     }

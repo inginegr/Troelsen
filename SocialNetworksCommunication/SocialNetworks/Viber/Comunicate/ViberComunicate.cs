@@ -113,6 +113,41 @@ namespace SocialNetworks.Viber.Comunicate
         }
 
         /// <summary>
+        /// Check if jsonString is hello message grom viber server
+        /// </summary>
+        /// <param name="jsonString">Json string from server</param>
+        /// <returns>True if request from server is hello message, false else</returns>
+        public bool CheckIfHelloMessage(string jsonString)
+        {
+            try
+            {
+                if (jsonString == null || jsonString == "")
+                {
+                    return false;
+                }
+                else
+                {
+                    ViberHelloMessage helloMessage = _deserializer.DeserializeToObjectT<ViberHelloMessage>(jsonString);
+
+                    if (helloMessage.Event == null || helloMessage.Event == "")
+                    {
+                        return false;
+                    }else if(helloMessage.Event== "webhook")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Send message to bot
         /// </summary>
         /// <param name="jsonBody">Content to send</param>

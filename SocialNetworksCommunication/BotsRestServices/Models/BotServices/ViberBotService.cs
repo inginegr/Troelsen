@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Reflection;
 using System.Web.Mvc;
-using BotsRestServices.Models.Objects.BotsLibRequest;
 using ServiceLibrary.Various;
 
 
@@ -12,64 +11,55 @@ namespace BotsRestServices.Models.BotServices
 {
     public class ViberBotService : BaseBotService
     {
-        private string entryPointClass = "ViberBots.ViberEntryPoint";
+        private string entryPointClass = "BotsLibrary.ViberBots.ViberEntryPoint";
         private string entryPointMethod = "CallFunctions";
         /// <summary>
         /// Object to exchange messages with bots library
         /// </summary>
-        private BotsLibRequest botsLib = new BotsLibRequest();
         private string viberAuth = "X-Viber-Auth-Token";
 
         FileService fs = new FileService();
-
-        /// <summary>
-        /// Do basic settings request to bots livrary
-        /// </summary>
-        /// <param name="lib"></param>
-        /// <param name="botNumber"></param>
-        /// <param name="ctr"></param>
-        /// <returns></returns>
-        private BotsLibRequest BasicRequestSet(BotsLibRequest lib, int botNumber, Controller ctr)
-        {
-            lib.BotId = botNumber;
-            lib.SecretKey = ctr.Request.Headers[viberAuth];
-            return lib;
-        }
 
         /// <summary>
         /// Call entry point method of viber bot
         /// </summary>
         /// <param name="botNumber">Number of bot</param>
         /// <param name="jsonString">Json string from bot</param>
-        public void ViberEntryPoint(int botNumber, Controller ctr)
+        public bool ViberEntryPoint(int botNumber, Controller ctr, string commandToRun)
         {
+            string ansMessage = string.Empty;
             try
             {
                 string jsonString = ReadDataFromBrowser(ctr);
-                //LogData(jsonString, ctr);
-                Assembly vBot = LoadAssembly(PathToBotsLibrary(ctr));
-                                
-                Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
+
+                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
+
+                Type vBotType = vBot.GetType(entryPointClass);
 
                 object vBotObject = Activator.CreateInstance(vBotType);
 
-                Assembly asem = Assembly.LoadFrom(PathToBotsLibrary(ctr));
+                int BotId = botNumber;
+                string CommandToRun = commandToRun;
+                string SecretKey = ctr.Request.Headers[viberAuth];
+                string JsonFromServer = jsonString;
+                string[] addsParams = new string[] { };
 
-                Type tp = asem.GetType("ViberBots.ViberEntryPoint");
+                ansMessage = (string)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
+                    new object[] { BotId, CommandToRun, SecretKey, JsonFromServer, addsParams }, null);
 
-                object ob = Activator.CreateInstance(tp);
-
-                botsLib.BotId = botNumber;
-                botsLib.CommandToRun = "ViberBotsStartPoint";
-                botsLib.SecretKey = ctr.Request.Headers[viberAuth];
-                botsLib.JsonFromServer = jsonString;
-
-                BotsLibRequest answerFromLib = (BotsLibRequest)tp.
-                    InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, ob, new object[] { new BotsLibRequest() }, null);
+                if (ansMessage == true.ToString())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch(Exception ex)
             {
                 LogData(ex.Message, ctr);
+                return false;
             }
         }
 

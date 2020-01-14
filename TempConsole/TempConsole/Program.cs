@@ -18,20 +18,23 @@ namespace onespace
     }
     public class Example
     {
-
+        public class Par
+        {
+            public int y { get; set; }
+        }
 
         public static void Main()
         {
             Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
 
             Type tp = asm.GetType("ClassLibrary1.Class1");
+                        
+            object ob = Activator.CreateInstance(tp);
 
-            object inst = Activator.CreateInstance(tp);
+            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, ob, new object[] { 33 });
 
-            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, inst, new object[] { 234 });
-           
-
-
+                   
+            
             Console.ReadLine();
         }
     }

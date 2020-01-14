@@ -23,8 +23,8 @@ namespace BotsRestServices.Controllers.Bots
         [HttpPost]
         public JsonResult BotAnswer(int id)
         {
-            botService.ViberEntryPoint(id, this);
-            return Json(true);
+
+            return Json(botService.ViberEntryPoint(id, this, "ViberBotsStartPoint"));
         }
 
         [HttpPost]

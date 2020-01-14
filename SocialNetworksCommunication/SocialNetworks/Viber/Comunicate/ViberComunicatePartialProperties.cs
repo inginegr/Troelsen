@@ -16,6 +16,8 @@ namespace SocialNetworks.Viber.Comunicate
 
         JsonSerializer _serializer = new JsonSerializer();
 
+        JsonDeserializer _deserializer = new JsonDeserializer();
+
         //Basic url string
         private string commonReqString = @"https://chatapi.viber.com/pa/";
 
