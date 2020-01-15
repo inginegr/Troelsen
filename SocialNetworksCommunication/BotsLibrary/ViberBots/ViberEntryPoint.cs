@@ -13,11 +13,6 @@ namespace BotsLibrary.ViberBots
     public class ViberEntryPoint
     {
         /// <summary>
-        /// Communicate with viber server
-        /// </summary>
-        
-
-        /// <summary>
         /// Name space, that contain all viber bots
         /// </summary>
         private string NameSpace { get => "BotsLibrary.ViberBots"; }

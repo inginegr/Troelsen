@@ -16,6 +16,12 @@ namespace onespace
             return u;
         }
     }
+
+    public class Tmp
+    {
+        public string Tm { get => "hello"; }
+    }
+
     public class Example
     {
         public class Par
@@ -25,15 +31,10 @@ namespace onespace
 
         public static void Main()
         {
-            Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
 
-            Type tp = asm.GetType("ClassLibrary1.Class1");
-                        
-            object ob = Activator.CreateInstance(tp);
+            Tmp t = new Tmp();
 
-            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, ob, new object[] { 33 });
-
-                   
+            Console.WriteLine(t.Tm);
             
             Console.ReadLine();
         }

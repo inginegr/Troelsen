@@ -62,6 +62,8 @@
     <Compile Include="Telegramm\Objects\TGObjects.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicate.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicatePartialProperties.cs" />
+    <Compile Include="Viber\Events.cs" />
+    <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberConversationStarted.cs" />
     <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberLocation.cs" />
     <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberMessage.cs" />
     <Compile Include="Viber\Objects\ReceiveMessageTypes\ViberSender.cs" />

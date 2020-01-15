@@ -26,15 +26,16 @@ namespace BotsLibrary.ViberBots
                 if(jsonFromServer!="" && jsonFromServer != null)
                 {
                     viberHello = deserializeService.DeserializeToObjectT<ViberHelloMessage>(jsonFromServer);
-                    if(viberHello.Event != null && viberHello.Event != "")
+
+                    // If event not null and empty then it is callback message
+                    if (viberHello.Event != null && viberHello.Event != "")
                     {
-                        if(viberHello.Event== "webhook")
+                        switch (viberHello.Event)
                         {
-                            return true.ToString();
-                        }
-                        else
-                        {
-                            return false.ToString();
+                            // Hello message
+                            case "webhook":
+                                return true.ToString();
+                                case "conversation_started"
                         }
                     }
                 }
