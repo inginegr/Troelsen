@@ -5,6 +5,7 @@ using System.Web;
 using System.Reflection;
 using System.Web.Mvc;
 using ServiceLibrary.Various;
+using SharedObjectsLibrary;
 
 
 namespace BotsRestServices.Models.BotServices
@@ -25,11 +26,13 @@ namespace BotsRestServices.Models.BotServices
         /// </summary>
         /// <param name="botNumber">Number of bot</param>
         /// <param name="jsonString">Json string from bot</param>
-        public bool ViberEntryPoint(int botNumber, Controller ctr, string commandToRun)
+        public bool RequestToBot(int botNumber, Controller ctr, string commandToRun)
         {
-            string ansMessage = string.Empty;
+            AnswerFromBot ansMessage = null;
             try
             {
+                BotParameters parameters = new BotParameters();
+
                 string jsonString = ReadDataFromBrowser(ctr);
 
                 Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
@@ -38,16 +41,16 @@ namespace BotsRestServices.Models.BotServices
 
                 object vBotObject = Activator.CreateInstance(vBotType);
 
-                int BotId = botNumber;
-                string CommandToRun = commandToRun;
-                string SecretKey = ctr.Request.Headers[viberAuth];
-                string JsonFromServer = jsonString;
-                string[] addsParams = new string[] { };
+                parameters.BotId = botNumber;
+                parameters.CommandToRun = commandToRun;
+                parameters.SecretKey = ctr.Request.Headers[viberAuth];
+                parameters.JsonFromServer = jsonString;
+                parameters.AdditionParameters = null;
 
-                ansMessage = (string)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
-                    new object[] { BotId, CommandToRun, SecretKey, JsonFromServer, addsParams }, null);
+                ansMessage = (AnswerFromBot)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
+                    new object[] { parameters }, null);
 
-                if (ansMessage == true.ToString())
+                if (ansMessage.IsTrue)
                 {
                     return true;
                 }
@@ -63,28 +66,17 @@ namespace BotsRestServices.Models.BotServices
             }
         }
 
-        public string StartBot(int botNumber, Controller ctr)
+
+        public void AnswerOnBotRequest(AnswerFromBot botAnswer)
         {
             try
             {
-                string jsonString = ReadDataFromBrowser(ctr);
 
-                Assembly vBot = LoadAssembly(PathToBotsLibrary(ctr));
-
-                Type vBotType = GetSomeTypeInAssembly(vBot, entryPointClass);
-
-                object vBotObject = GetObject(vBotType);
-
-                MethodInfo entryMethod = vBotType.GetMethod(entryPointMethod);
-
-                entryMethod.Invoke(vBotObject, new object[] { botNumber, jsonString, "StartBot" });
-
-                return "";
-            }
-            catch(Exception ex)
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+        
     }
 }

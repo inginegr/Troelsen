@@ -295,6 +295,10 @@
       <Project>{ef48389d-7257-41d6-9dcb-da45b971473c}</Project>
       <Name>ServiceLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedObjectsLibrary\SharedObjectsLibrary.csproj">
+      <Project>{86d2adc8-ee70-434a-919a-2eddefda2254}</Project>
+      <Name>SharedObjectsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

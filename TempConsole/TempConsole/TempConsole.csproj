@@ -118,5 +118,11 @@
     <Content Include="libs\AdditionalLib.dll" />
     <Content Include="libs\ClassLibrary1.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharedObjectsLibrary\SharedObjectsLibrary.csproj">
+      <Project>{452bffee-b4f6-47c3-a43b-777b3b8c4074}</Project>
+      <Name>SharedObjectsLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

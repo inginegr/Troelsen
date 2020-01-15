@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20F88E08-6453-4929-AB59-F73462E1CD12}</ProjectGuid>
+    <ProjectGuid>{86D2ADC8-EE70-434A-919A-2EDDEFDA2254}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>SharedObjectsLibrary</RootNamespace>
+    <AssemblyName>SharedObjectsLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,18 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AnswerFromBot.cs" />
+    <Compile Include="BotObject.cs" />
+    <Compile Include="BotParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AdditionalLib\AdditionalLib.csproj">
-      <Project>{ed97e19f-e398-480c-875c-66c0b9b9a1b5}</Project>
-      <Name>AdditionalLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharedObjectsLibrary\SharedObjectsLibrary.csproj">
-      <Project>{452bffee-b4f6-47c3-a43b-777b3b8c4074}</Project>
-      <Name>SharedObjectsLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

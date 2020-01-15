@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdditionalLib;
+using SharedObjectsLibrary;
 
 namespace ClassLibrary1
 {    
@@ -11,10 +12,9 @@ namespace ClassLibrary1
     {
         AddLib adl = new AddLib();
 
-        public void cnsl(int x)
+        public void cnsl(SharedObject sh)
         {
-            int num = adl.mp(x);
-            Console.WriteLine($"The x is {num}");
+            Console.WriteLine($"The x is {sh.X} and string {sh.St}");
         }
     }
 }
