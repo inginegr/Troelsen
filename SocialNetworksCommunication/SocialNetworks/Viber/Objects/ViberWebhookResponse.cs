@@ -8,7 +8,7 @@ namespace SocialNetworks.Viber.Objects
 {
     public class ViberWebhookResponse
     {
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         public string Status_message { get; set; }
 
@@ -22,7 +22,7 @@ namespace SocialNetworks.Viber.Objects
                 mas += $"Event type -> {Event_types}  ";
             }
 
-            return $"Status -> {Status} Status Message -> {Status_message} Event Type -> {mas} \n\r";
+            return $"Status -> {Status} \n Status Message -> {Status_message} \n Subscribed to events type -> {mas} \n\r";
         }
     }
 }

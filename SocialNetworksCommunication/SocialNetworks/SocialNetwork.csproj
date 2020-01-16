@@ -87,6 +87,7 @@
     <Compile Include="Viber\Objects\ViberHelloMessage.cs" />
     <Compile Include="Viber\Objects\ViberSetWebHook.cs" />
     <Compile Include="Viber\Objects\ViberWebhookResponse.cs" />
+    <Compile Include="Viber\ResponseViberService.cs" />
     <Compile Include="VK\Objects\VKObjects.cs" />
     <Compile Include="Services\KeysHandle.cs" />
     <Compile Include="Telegramm\Comunicate\TGCommunicate.cs" />

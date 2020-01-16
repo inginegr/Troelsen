@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using ServiceLibrary.Various;
 using SharedObjectsLibrary;
-
+using SocialNetworks.Viber.Objects;
 
 namespace BotsRestServices.Models.BotServices
 {
@@ -22,35 +22,25 @@ namespace BotsRestServices.Models.BotServices
         FileService fs = new FileService();
 
         /// <summary>
-        /// Call entry point method of viber bot
+        /// Start function to all bots
         /// </summary>
-        /// <param name="botNumber">Number of bot</param>
-        /// <param name="jsonString">Json string from bot</param>
-        public bool RequestToBot(int botNumber, Controller ctr, string commandToRun)
-        {
-            AnswerFromBot ansMessage = null;
+        /// <param name="botNumber">Id of bot</param>
+        /// <param name="ctr">Controller</param>
+        public bool EntryFunction(int botNumber, Controller ctr)
+        {           
             try
             {
                 BotParameters parameters = new BotParameters();
 
-                string jsonString = ReadDataFromBrowser(ctr);
-
-                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
-
-                Type vBotType = vBot.GetType(entryPointClass);
-
-                object vBotObject = Activator.CreateInstance(vBotType);
-
                 parameters.BotId = botNumber;
-                parameters.CommandToRun = commandToRun;
+                parameters.CommandToRun = "ViberBotsStartPoint";
                 parameters.SecretKey = ctr.Request.Headers[viberAuth];
-                parameters.JsonFromServer = jsonString;
+                parameters.JsonFromServer = ReadDataFromBrowser(ctr);
                 parameters.AdditionParameters = null;
+                parameters.BotObjects = null;
 
-                ansMessage = (AnswerFromBot)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
-                    new object[] { parameters }, null);
-
-                if (ansMessage.IsTrue)
+                AnswerFromBot ans = RequestToBot(parameters, ctr);
+                if (ans.IsTrue)
                 {
                     return true;
                 }
@@ -59,22 +49,71 @@ namespace BotsRestServices.Models.BotServices
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogData(ex.Message, ctr);
                 return false;
             }
         }
 
+        /// <summary>
+        /// Make request to viber bot library
+        /// </summary>
+        /// <param name="botParameters">Structure with parameters to bot library entry function</param>
+        /// <param name="ctr">Controller</param>
+        /// <returns>AnswerFromBot structure</returns>
+        private AnswerFromBot RequestToBot(BotParameters botParameters, Controller ctr)
+        {
+            AnswerFromBot ansMessage = null;
+            try
+            {
+                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
 
-        public void AnswerOnBotRequest(AnswerFromBot botAnswer)
+                Type vBotType = vBot.GetType(entryPointClass);
+
+                object vBotObject = Activator.CreateInstance(vBotType);
+
+                return (AnswerFromBot)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
+                    new object[] { botParameters }, null);
+            }
+            catch(Exception ex)
+            {
+                ansMessage.LogMessage = ex.Message;
+                ansMessage.IsTrue = false;
+                return ansMessage;
+            }
+        }
+
+        /// <summary>
+        /// Start viber bot ans listen messages
+        /// </summary>
+        /// <param name="botId">Number of bot</param>
+        /// <param name="ctr">Controller</param>
+        /// <returns>True if success, else false</returns>
+        public bool StartViberBot(int botId, Controller ctr)
         {
             try
             {
+                BotParameters botParams = new BotParameters();
 
+                botParams.BotId = botId;
+                botParams.CommandToRun = "StartBot";
+                botParams.SecretKey = "4a7c5ca68627d7fa-7c9131063c57af80-1c15e271750463a8";
+
+                ViberSetWebHook setWebHook = new ViberSetWebHook() { Url = "https://fbszk.icu/Viber/BotAnswer/1",
+                    Event_types =new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
+                    Send_name = true,
+                    Send_photo = true
+                };
+
+                botParams.AdditionObject = setWebHook;
+                
+                AnswerFromBot ans = RequestToBot(botParams, ctr);
+                return ans.IsTrue;
             }catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                LogData(ex.Message, ctr);
+                return false;
             }
         }
         

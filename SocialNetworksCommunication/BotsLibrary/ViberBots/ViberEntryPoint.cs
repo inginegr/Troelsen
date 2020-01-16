@@ -7,6 +7,8 @@ using System.Reflection;
 using ServiceLibrary.Serialization;
 using SocialNetworks.Viber.Objects;
 using SocialNetworks.Viber.Comunicate;
+using SharedObjectsLibrary;
+
 
 namespace BotsLibrary.ViberBots
 {
@@ -27,18 +29,20 @@ namespace BotsLibrary.ViberBots
         /// </summary>
         /// <param name="botNumber">Number of bot, that created</param>
         /// <param name="jsonString">String, send by viber server</param>
-        public string CallFunctions(int BotId, string CommandToRun, string SecretKey, string JsonFromServer, string[] addsParams=null)
+        public AnswerFromBot CallFunctions(BotParameters botParameters)
         {
+            AnswerFromBot answer = new AnswerFromBot();
             try
             {   
-                Type objWithMethods = Type.GetType($"{NameSpace}.{BaseBotName}{BotId}");
+                Type objWithMethods = Type.GetType($"{NameSpace}.{BaseBotName}{botParameters.BotId}");
                 object objectType = Activator.CreateInstance(objWithMethods);
 
-                return objWithMethods.InvokeMember(CommandToRun, BindingFlags.InvokeMethod,
-                    null, objectType, new object[] { addsParams, JsonFromServer }, null).ToString();
+                return (AnswerFromBot)objWithMethods.InvokeMember(botParameters.CommandToRun, BindingFlags.InvokeMethod,
+                    null, objectType, new object[] { botParameters }, null);
             } catch(Exception ex)
             {
-                return ex.Message;
+                answer.LogMessage = ex.Message;
+                return answer;
             }
         }
     }

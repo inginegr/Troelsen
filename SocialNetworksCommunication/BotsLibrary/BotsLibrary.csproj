@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViberBots\BasicViberClass.cs" />
-    <Compile Include="ViberBots\IViberBot.cs" />
     <Compile Include="ViberBots\ViberBot1.cs" />
     <Compile Include="ViberBots\ViberEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +59,10 @@
     <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj">
       <Project>{ef48389d-7257-41d6-9dcb-da45b971473c}</Project>
       <Name>ServiceLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedObjectsLibrary\SharedObjectsLibrary.csproj">
+      <Project>{86d2adc8-ee70-434a-919a-2eddefda2254}</Project>
+      <Name>SharedObjectsLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocialNetworks\SocialNetwork.csproj">
       <Project>{280d122d-105b-4cc5-98b2-4ac0a8542258}</Project>

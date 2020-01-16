@@ -11,7 +11,7 @@ using System.IO;
 using System.Collections;
 using Org.Mentalis.Network.ProxySocket;
 using System.Net.Sockets;
-
+using SocialNetworks.Viber.Objects.SendMessageTypes;
 
 namespace SocialNetworks.Viber.Comunicate
 {
@@ -23,23 +23,41 @@ namespace SocialNetworks.Viber.Comunicate
         /// <param name="jsonBody">Body request</param>
         /// <param name="requestString">Request url string</param>
         /// <returns>Answer from server</returns>
-        private string SendRequest(string jsonBody, string requestString)
+        private ResponseViberService SendRequest(string jsonBody, string requestString)
         {
+            ResponseViberService ans = new ResponseViberService();
             try
             {
                 if (viberHeaderValue == string.Empty)
-                    throw new Exception("Please set X-Viber-Auth-Token property");
-
+                {
+                    ans.IsTrue = false;
+                    ans.LogData = "Please set X-Viber-Auth-Token property";
+                }
+                
                 WebRequest request = WebRequest.Create(requestString);
                 request.Method = "POST";
                 request.Headers[viberHeaderKey] = viberHeaderValue;
+                
+                string ansString = _internet.SendPostInternetRequest(jsonBody, request);
 
+                if (true)
+                {
+                    ans.IsTrue = true;
+                    ans.LogData = ansString;
+                }
+                else
+                {
+                    ans.IsTrue = false;
+                    ans.LogData = "Request didn't sent to viber server";
+                }
 
-                _internet.SendPostInternetRequest(jsonBody, request);
-                return string.Empty;
+                return ans;
+
             }catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                ans.IsTrue = false;
+                ans.LogData = ex.Message;
+                return ans;
             }
         }
 
@@ -48,122 +66,66 @@ namespace SocialNetworks.Viber.Comunicate
         /// </summary>
         /// <param name="webHookObject">Configure WebHook object</param>
         /// <returns>True if success, else false</returns>
-        private bool SetWebHook(ViberSetWebHook webHookObject)
+        public ResponseViberService SetWebHook(ViberSetWebHook webHookObject)
         {
-            //-----------------------------------------------To Finish return type  in future 
+            ResponseViberService ansReturn = new ResponseViberService();
             try
             {
-                bool returnAns = false;
+                string json = _serializer.SerializeObjectT(webHookObject);
 
-                string json = _serializer.SerializeObjectT<ViberSetWebHook>(webHookObject);
+                ResponseViberService resp = SendRequest(json, commonReqString + settingWebHook);
 
-                string serverAns = SendRequest(json, commonReqString + settingWebHook);
+                ViberWebhookResponse responseServer = _deserializer.DeserializeToObjectT<ViberWebhookResponse>(resp.LogData);
 
-                return returnAns;
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
-        /// <summary>
-        /// Start listen viber bot
-        /// </summary>
-        /// <param name="eventTypes">Event types, that send webhooks</param>
-        /// <param name="urlParam">Server, that will receive webhooks</param>
-        /// <param name="isSendName">Is send name option enabled</param>
-        /// <param name="isSendPhoto">Is send photo option enabled</param>
-        /// <returns>True if started listening succesfull, else false</returns>
-        public bool StartListen(string[] eventTypes, string urlParam, bool isSendName=true, bool isSendPhoto=true)
-        {
-            //-----------------------------------------------To Finish return type  in future 
-            try
-            {
-                bool retAns = false;
-                ViberSetWebHook setWebHook = new ViberSetWebHook();
-                setWebHook.Event_types = new string[eventTypes.Length];
-
-                for(int i = 0; i < eventTypes.Length; i++)
+                if (responseServer.Status == 0)
                 {
-                    setWebHook.Event_types[i] = eventTypes[i];
-                }
-
-                setWebHook.Send_name = isSendName;
-                setWebHook.Send_photo = isSendPhoto;
-                setWebHook.Url = urlParam;
-
-                retAns = SetWebHook(setWebHook);
-
-                return retAns;
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void StopListen()
-        {
-
-        }
-
-        public void GetUpdate()
-        {
-
-        }
-
-        /// <summary>
-        /// Check if jsonString is hello message grom viber server
-        /// </summary>
-        /// <param name="jsonString">Json string from server</param>
-        /// <returns>True if request from server is hello message, false else</returns>
-        public bool CheckIfHelloMessage(string jsonString)
-        {
-            try
-            {
-                if (jsonString == null || jsonString == "")
-                {
-                    return false;
+                    ansReturn.IsTrue = true;
+                    ansReturn.LogData = responseServer.ToString();
                 }
                 else
                 {
-                    ViberHelloMessage helloMessage = _deserializer.DeserializeToObjectT<ViberHelloMessage>(jsonString);
-
-                    if (helloMessage.Event == null || helloMessage.Event == "")
-                    {
-                        return false;
-                    }else if(helloMessage.Event== "webhook")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    ansReturn.IsTrue = false;
+                    ansReturn.LogData = "Cannot set webhooks";
                 }
+
+                return ansReturn;
             }catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                ansReturn.IsTrue = false;
+                ansReturn.LogData = ex.Message;
+                return ansReturn;
             }
         }
 
+        
+        private void StopListen()
+        {
+
+        }
+
+        private void GetUpdate()
+        {
+
+        }
+
+        
         /// <summary>
         /// Send message to bot
         /// </summary>
-        /// <param name="jsonBody">Content to send</param>
+        /// <param name="textMessage">Text message class</param>
         /// <returns>True if success, else false</returns>
-        private bool SendMessageToBot(string jsonBody)
+        public ResponseViberService SendTextMessageToBot(ViberTextMessage textMessage)
         {
-            //--------------------------------- Make in future return result
+            ResponseViberService ansReturn = new ResponseViberService();
             try
             {
-                bool retAns = false;
-                string botResponse = SendRequest(jsonBody, commonReqString + resourceUrl);
-
-                return retAns;
+                string messageToSend = _serializer.SerializeObjectT(textMessage);
+                return SendRequest(messageToSend, commonReqString + resourceUrl);                
             }catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                ansReturn.IsTrue = false;
+                ansReturn.LogData = ex.Message;
+                return ansReturn;
             }
         }
     }

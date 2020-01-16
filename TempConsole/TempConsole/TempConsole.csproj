@@ -47,6 +47,10 @@
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.1\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SocialNetworksCommunication\SocialNetworks\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -58,6 +62,15 @@
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="ProxySocket">
+      <HintPath>..\..\SocialNetworksCommunication\SocialNetworks\bin\Debug\ProxySocket.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceLibrary">
+      <HintPath>..\..\SocialNetworksCommunication\SocialNetworks\bin\Debug\ServiceLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SocialNetworks">
+      <HintPath>..\..\SocialNetworksCommunication\SocialNetworks\bin\Debug\SocialNetworks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

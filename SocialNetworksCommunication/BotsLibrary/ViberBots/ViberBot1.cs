@@ -5,45 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using SocialNetworks.Viber.Objects;
 using SocialNetworks.Viber.Comunicate;
-
+using SharedObjectsLibrary;
+using SocialNetworks.Viber;
+using SocialNetworks.Viber.Objects.ReceiveMessageTypes;
+using SocialNetworks.Viber.Objects.SendMessageTypes;
 
 namespace BotsLibrary.ViberBots
 {
     /// <summary>
     /// Test viber bot
     /// </summary>
-    public class ViberBot1 : BasicViberClass, IViberBot
+    public class ViberBot1 : BasicViberClass
     {
-        /// <summary>
-        /// Start function of viber bot. When message come from viber server, this fuction called first of all
-        /// </summary>
-        /// <param name="jsonString">Json string from server</param>
-        public string ViberBotsStartPoint(string[] addsParam, string jsonFromServer)
+        public override AnswerFromBot ConversationStartedHandle(BotParameters botParameters)
         {
+            AnswerFromBot ans = new AnswerFromBot();
             try
             {
-                ViberHelloMessage viberHello = null;
-                if(jsonFromServer!="" && jsonFromServer != null)
-                {
-                    viberHello = deserializeService.DeserializeToObjectT<ViberHelloMessage>(jsonFromServer);
+                ViberConversationStarted conversationStartedObject = deserializeService.DeserializeToObjectT<ViberConversationStarted>(botParameters.JsonFromServer);
 
-                    // If event not null and empty then it is callback message
-                    if (viberHello.Event != null && viberHello.Event != "")
-                    {
-                        switch (viberHello.Event)
-                        {
-                            // Hello message
-                            case "webhook":
-                                return true.ToString();
-                                case "conversation_started"
-                        }
-                    }
-                }
+                ViberTextMessage textMessage = new ViberTextMessage();
+                textMessage.Receiver = conversationStartedObject.User.Id;
+                textMessage.Text = "Hello man";
+                
+                ResponseViberService resp =  viberService.SendTextMessageToBot(textMessage);
+                
+                ans.IsTrue = resp.IsTrue;
+                ans.LogMessage = resp.LogData;
 
-                return true.ToString();
+                return ans;
             }catch(Exception ex)
             {
-                return ex.Message;
+                ans.IsTrue = false;
+                ans.LogMessage = ex.Message;
+                return ans;
             }
         }
     }

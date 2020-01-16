@@ -24,19 +24,19 @@ namespace BotsRestServices.Controllers.Bots
         public JsonResult BotAnswer(int id)
         {
 
-            return Json(botService.ViberEntryPoint(id, this, "ViberBotsStartPoint"));
+            return Json(botService.EntryFunction(id, this));
         }
 
         [HttpPost]
-        public JsonResult StartBot(int t)
+        public JsonResult StartBot(int id)
         {
-            return Json(t);
+            return Json(botService.StartViberBot(id, this));
         }
 
         [HttpPost]
-        public JsonResult StopBot(string s)
+        public JsonResult ReadLog(int id)
         {
-            return Json(s);
+            return Json(botService.ReadLogData(this));
         }
     }
 }

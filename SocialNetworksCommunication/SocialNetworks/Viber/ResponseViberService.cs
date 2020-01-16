@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedObjectsLibrary
+namespace SocialNetworks.Viber
 {
-    public class AnswerFromBot
+    public class ResponseViberService
     {
         /// <summary>
-        /// Success operation or no
+        /// Is succes amswer
         /// </summary>
         public bool IsTrue { get; set; }
 
         /// <summary>
-        /// Addition information from bot
+        /// Text answer
         /// </summary>
-        public string LogMessage { get; set; }
+        public string LogData { get; set; }
     }
 }

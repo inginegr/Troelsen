@@ -12,7 +12,8 @@ namespace SharedObjectsLibrary
         public string CommandToRun { get; set; }
         public string SecretKey { get; set; }
         public string JsonFromServer { get; set; }
-        public BotObject[] BotParams { get; set; }
+        public BotObject[] BotObjects { get; set; }
         public List<string> AdditionParameters { get; set; }
+        public object AdditionObject { get; set; }
     }
 }

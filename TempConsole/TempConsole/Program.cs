@@ -2,21 +2,39 @@
 using System.Reflection;
 using System.Collections.Generic;
 using SharedObjectsLibrary;
+using SocialNetworks.Viber.Comunicate;
+using SocialNetworks.Viber.Objects;
 
 namespace onespace
 {
+
+
     public class Example
     {
         public static void Main()
         {
-            Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
+            ViberComunicate viberComunicate = new ViberComunicate();
 
-            Type tp = asm.GetType("ClassLibrary1.Class1");
+            viberComunicate.SetToken = "4a7c5ca68627d7fa-7c9131063c57af80-1c15e271750463a8";
 
-            object obj = Activator.CreateInstance(tp);
+            ViberSetWebHook setWebHook = new ViberSetWebHook()
+            {
+                Url = "https://fbszk.icu/Viber/BotAnswer/1",
+                Event_types = new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
+                Send_name = true,
+                Send_photo = true
+            };
 
-            tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, obj, new object[] { new SharedObject { X = 3, St = "sss" } });
-                        
+            viberComunicate.SetWebHook(setWebHook);
+
+            //Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
+
+            //Type tp = asm.GetType("ClassLibrary1.Class1");
+
+            //object obj = Activator.CreateInstance(tp);
+
+            //tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, obj, new object[] { new SharedObject { X = 3, St = "sss" } });
+
             Console.ReadLine();
         }
     }

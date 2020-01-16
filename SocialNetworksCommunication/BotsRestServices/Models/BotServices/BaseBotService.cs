@@ -42,6 +42,18 @@ namespace BotsRestServices.Models.BotServices
         }
 
         /// <summary>
+        /// Read data from log file
+        /// </summary>
+        /// <param name="ctr">Controller</param>
+        /// <returns>String with log file's data</returns>
+        public string ReadLogData(Controller ctr)
+        {
+            FileService fs = new FileService();
+
+            return fs.ReadFileToString(ctr.Server.MapPath($"{ConfigurationManager.AppSettings["LogDirectory"]}/{ConfigurationManager.AppSettings["LogErrorsFile"]}"));
+        }
+
+        /// <summary>
         /// Returns assembly
         /// </summary>
         /// <param name="pathToAssembly">Path to assembly</param>
