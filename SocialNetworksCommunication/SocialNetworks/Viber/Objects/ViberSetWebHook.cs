@@ -8,27 +8,27 @@ namespace SocialNetworks.Viber.Objects
 {
     public class ViberSetWebHook
     {
-        public string Url { get; set; }
-        public string[] Event_types { get; set; }
-        public bool Send_name { get; set; }
-        public bool Send_photo { get; set; }
+        public string url { get; set; }
+        public string[] event_types { get; set; }
+        public bool send_name { get; set; }
+        public bool send_photo { get; set; }
 
         public override string ToString()
         {
             string stypes = string.Empty;
 
             stypes = "[";
-            foreach(string s in Event_types)
+            foreach(string s in event_types)
             {
                 stypes += $"{s} ,";
             }
             stypes += "]";
 
             return $"{{\n" +
-                $"Url: {Url} \n" +
+                $"Url: {url} \n" +
                 $"Event_types: {stypes},\n" +
-                $"Send_name: {Send_name}\n" +
-                $"Send_photo: {Send_photo}";
+                $"Send_name: {send_name}\n" +
+                $"Send_photo: {send_photo}";
         }
     }
 }

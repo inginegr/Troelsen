@@ -19,10 +19,10 @@ namespace onespace
 
             ViberSetWebHook setWebHook = new ViberSetWebHook()
             {
-                Url = "https://fbszk.icu/Viber/BotAnswer/1",
-                Event_types = new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
-                Send_name = true,
-                Send_photo = true
+                url = "https://fbszk.icu/Viber/BotAnswer/1",
+                event_types = new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
+                send_name = true,
+                send_photo = true
             };
 
             viberComunicate.SetWebHook(setWebHook);

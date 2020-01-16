@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Viber.Objects.SendMessageTypes
 {
-    public class ViberTextMessage : ViberMessageBasic 
+    public class ViberConversationStartedHelloMessage : ViberMessageBasic
     {
-        public string receiver { get; set; }
         public string text { get; set; }
-        public string min_api_version { get; set; }
+        public string media { get; set; }
+        public string thumbnail { get; set; }
     }
 }

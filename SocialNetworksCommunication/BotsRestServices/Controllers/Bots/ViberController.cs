@@ -11,6 +11,9 @@ using System.Web.Hosting;
 using System.IO;
 using ServiceLibrary.Serialization;
 using ServiceLibrary.Various;
+using System.Net;
+using SharedObjectsLibrary;
+using System.Text.RegularExpressions;
 
 namespace BotsRestServices.Controllers.Bots
 {
@@ -21,10 +24,22 @@ namespace BotsRestServices.Controllers.Bots
         //FileService fs = new FileService();
         
         [HttpPost]
-        public JsonResult BotAnswer(int id)
+        public ActionResult BotAnswer(int id)
         {
-
-            return Json(botService.EntryFunction(id, this));
+            AnswerFromBot ans = botService.EntryFunction(id, this);
+                        
+            if(ans.IsTrue)
+            {
+                Response.Headers.Add("X-Viber-Content-Signature", Request.Headers["X-Viber-Content-Signature"]);
+                Response.Headers.Add("X-Viber-Auth-Token", Request.Headers["X-Viber-Auth-Token"]);
+                string st = Regex.Replace(ans.LogMessage, "\\r|\\n", "");
+                return Json(st);
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(false);
+            }
         }
 
         [HttpPost]

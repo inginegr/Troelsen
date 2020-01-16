@@ -70,6 +70,7 @@
     <Compile Include="Viber\Objects\SendMessageTypes\ViberButtons.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberContact.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberContactMessage.cs" />
+    <Compile Include="Viber\Objects\SendMessageTypes\ViberConversationStartedHelloMessage.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberFileMessage.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberLocation.cs" />
     <Compile Include="Viber\Objects\SendMessageTypes\ViberLocationMessage.cs" />

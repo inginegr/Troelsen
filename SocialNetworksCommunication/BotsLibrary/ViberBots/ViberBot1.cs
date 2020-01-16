@@ -24,14 +24,17 @@ namespace BotsLibrary.ViberBots
             {
                 ViberConversationStarted conversationStartedObject = deserializeService.DeserializeToObjectT<ViberConversationStarted>(botParameters.JsonFromServer);
 
-                ViberTextMessage textMessage = new ViberTextMessage();
-                textMessage.Receiver = conversationStartedObject.User.Id;
-                textMessage.Text = "Hello man";
-                
-                ResponseViberService resp =  viberService.SendTextMessageToBot(textMessage);
-                
-                ans.IsTrue = resp.IsTrue;
-                ans.LogMessage = resp.LogData;
+                ViberConversationStartedHelloMessage textMessage = new ViberConversationStartedHelloMessage();
+                textMessage.media = "";
+                textMessage.sender.avatar = "";
+                textMessage.sender.name = "";
+                textMessage.thumbnail = "";
+                textMessage.tracking_data = "";
+                textMessage.type = "text";
+                textMessage.text = "Hello man";
+
+                ans.IsTrue = true;
+                ans.LogMessage = serializeService.SerializeObjectT(textMessage);
 
                 return ans;
             }catch(Exception ex)

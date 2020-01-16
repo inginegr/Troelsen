@@ -1,1 +1,8 @@
-Адресат вызова создал исключение.
+{
+  "text": "Hello man",
+  "media": null,
+  "thumbnail": null,
+  "sender": null,
+  "tracking_data": null,
+  "type": "text"
+}

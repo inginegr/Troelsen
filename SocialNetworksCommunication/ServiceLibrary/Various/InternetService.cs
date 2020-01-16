@@ -24,6 +24,8 @@ namespace SocialNetworks.Services
         {
             try
             {
+                string retString = string.Empty;
+
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     streamWriter.Write(jsonRequest);
@@ -33,10 +35,10 @@ namespace SocialNetworks.Services
 
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    var result = streamReader.ReadToEnd();
+                    retString = streamReader.ReadToEnd();
                 }
 
-                return string.Empty;
+                return retString;
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);

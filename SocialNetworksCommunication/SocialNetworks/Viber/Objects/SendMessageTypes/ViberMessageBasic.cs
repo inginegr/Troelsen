@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 namespace SocialNetworks.Viber.Objects.SendMessageTypes
 {
     public class ViberMessageBasic
-    {
-        public string Receiver { get; set; }
-        public string Min_api_version { get; set; }
-        public ViberMessageSender Sender { get; set; }
-        public string Tracking_data { get; set; }
-        public string Type { get; set; }
+    {        
+        public ViberMessageSender sender { get; set; }
+        public string tracking_data { get; set; }
+        public string type { get; set; }
+        public ViberMessageBasic()
+        {
+            sender = new ViberMessageSender();
+        }
     }
 }

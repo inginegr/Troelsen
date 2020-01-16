@@ -8,7 +8,7 @@ namespace SocialNetworks.Viber.Objects.SendMessageTypes
 {
     public class ViberMessageSender
     {
-        public string Name { get; set; }
-        public string Avatar { get; set; }
+        public string name { get; set; }
+        public string avatar { get; set; }
     }
 }
