@@ -25,13 +25,18 @@ namespace BotsLibrary.ViberBots
                 ViberConversationStarted conversationStartedObject = deserializeService.DeserializeToObjectT<ViberConversationStarted>(botParameters.JsonFromServer);
 
                 ViberConversationStartedHelloMessage textMessage = new ViberConversationStartedHelloMessage();
-                textMessage.media = "";
-                textMessage.sender.avatar = "";
-                textMessage.sender.name = "";
-                textMessage.thumbnail = "";
-                textMessage.tracking_data = "";
+                //textMessage.media = "";
+                //textMessage.sender.avatar = "";
+                //textMessage.sender.name = "";
+                //textMessage.thumbnail = "";
+                //textMessage.tracking_data = "";
                 textMessage.type = "text";
-                textMessage.text = "Hello man";
+                textMessage.text = "Hello";
+                //textMessage.receiver = conversationStartedObject.User.Id;
+
+                //viberService.SetToken = botParameters.SecretKey;
+
+                //ResponseViberService resp = viberService.SendTextMessageToBot(textMessage);
 
                 ans.IsTrue = true;
                 ans.LogMessage = serializeService.SerializeObjectT(textMessage);

@@ -42,7 +42,8 @@ namespace BotsRestServices.Models.BotServices
                 parameters.BotObjects = null;
 
                 retAns = RequestToBot(parameters, ctr);
-
+                LogData("                        ", ctr);
+                LogData(parameters.JsonFromServer, ctr);
                 return retAns;
             }
             catch (Exception ex)

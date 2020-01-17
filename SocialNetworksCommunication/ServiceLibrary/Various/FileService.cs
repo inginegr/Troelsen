@@ -18,7 +18,7 @@ namespace ServiceLibrary.Various
         {
             try
             {
-                using (StreamWriter fs = File.CreateText(pathToLog))
+                using (StreamWriter fs = File.AppendText(pathToLog))
                 {
                     fs.Write(dataToLog);
                 }
