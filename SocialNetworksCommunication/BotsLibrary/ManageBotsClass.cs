@@ -8,6 +8,8 @@ using ServiceLibrary.Serialization;
 using SocialNetworks.Viber.Objects;
 using SocialNetworks.Viber.Comunicate;
 using SharedObjectsLibrary;
+using BotsBaseLibrary;
+
 
 
 namespace ManageBotLibraries
@@ -15,14 +17,41 @@ namespace ManageBotLibraries
     public class ManageBotsClass
     {
         /// <summary>
-        /// Name space, that contain all viber bots
+        /// Basic name dependent on input request
         /// </summary>
-        private string NameSpace { get => "BotsLibrary.ViberBots"; }
+        private string GetBaseName(BotTypes bots)
+        {
+            string retAns = string.Empty;
+            switch (bots)
+            {
+                case BotTypes.FbBot:
+                    return "FaceBook";
+                case BotTypes.TgBot:
+                    return "Telegram";
+                case BotTypes.ViberBot:
+                    return "Viber";
+                case BotTypes.VkBot:
+                    return "VK";
+                default:
+                    return string.Empty;
+            }
+        }
+        
+        /// <summary>
+        /// Get name of library to load
+        /// </summary>
+        /// <param name="bots">enum of bots</param>
+        /// <param name="botNumber">number of bot</param>
+        /// <returns>name of library to load</returns>
+        private string GetClassName(BotTypes bots, int botNumber)
+        {
+            return $"{GetBaseName(bots)}Bot{botNumber}";
+        } 
 
         /// <summary>
         /// Basic bot name, that contained in all bots
         /// </summary>
-        private string BaseBotName { get => "ViberBot"; }
+        //private string BaseBotName { get => "ViberBot"; }
 
         /// <summary>
         /// Call 
@@ -31,18 +60,25 @@ namespace ManageBotLibraries
         /// <param name="jsonString">String, send by viber server</param>
         public AnswerFromBot CallFunctions(BotParameters botParameters)
         {
-            AnswerFromBot answer = new AnswerFromBot();
+            AnswerFromBot ansMessage = null;
             try
-            {   
-                Type objWithMethods = Type.GetType($"{NameSpace}.{BaseBotName}{botParameters.BotId}");
-                object objectType = Activator.CreateInstance(objWithMethods);
-
-                return (AnswerFromBot)objWithMethods.InvokeMember(botParameters.CommandToRun, BindingFlags.InvokeMethod,
-                    null, objectType, new object[] { botParameters }, null);
-            } catch(Exception ex)
             {
-                answer.LogMessage = ex.Message;
-                return answer;
+                string className = GetClassName(botParameters.BotType, botParameters.BotId);
+
+                Assembly vBot = Assembly.LoadFrom(className);
+
+                Type vBotType = vBot.GetType($"{className}.{className}");
+
+                object vBotObject = Activator.CreateInstance(vBotType);
+
+                return (AnswerFromBot)vBotType.InvokeMember("EnterPointMethod", BindingFlags.InvokeMethod, null, vBotObject,
+                    new object[] { botParameters }, null);
+            }
+            catch (Exception ex)
+            {
+                ansMessage.LogMessage = ex.Message;
+                ansMessage.IsTrue = false;
+                return ansMessage;
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SocialNetworks.Services;
 using ServiceLibrary.Serialization;
-using SocialNetworks.TelegrammObjects;
+using SocialNetworks.Telegramm.Objects;
 using ServiceLibrary.Various;
 using SocialNetworks.Telegramm.Objects;
 

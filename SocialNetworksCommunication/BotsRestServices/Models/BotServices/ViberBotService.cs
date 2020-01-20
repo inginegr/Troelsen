@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Web.Mvc;
 using ServiceLibrary.Various;
 using SharedObjectsLibrary;
-using SocialNetworks.Viber.Objects;
 using System.Text.RegularExpressions;
 
 namespace BotsRestServices.Models.BotServices
@@ -26,7 +25,7 @@ namespace BotsRestServices.Models.BotServices
         /// </summary>
         /// <param name="botNumber">Id of bot</param>
         /// <param name="ctr">Controller</param>
-        public AnswerFromBot EntryFunction(int botNumber, Controller ctr, BotParameters botParams)
+        public AnswerFromBot EntryFunction(int botNumber, Controller ctr)
         {
             AnswerFromBot retAns = new AnswerFromBot();
             try
@@ -61,32 +60,32 @@ namespace BotsRestServices.Models.BotServices
         /// <param name="botId">Number of bot</param>
         /// <param name="ctr">Controller</param>
         /// <returns>True if success, else false</returns>
-        public bool StartViberBot(int botId, Controller ctr)
-        {
-            try
-            {
-                BotParameters botParams = new BotParameters();
+        //public bool StartViberBot(int botId, Controller ctr)
+        //{
+        //    try
+        //    {
+        //        BotParameters botParams = new BotParameters();
 
-                botParams.BotId = botId;
-                botParams.CommandToRun = "StartBot";
-                botParams.SecretKey = "4a7c5ca68627d7fa-7c9131063c57af80-1c15e271750463a8";
+        //        botParams.BotId = botId;
+        //        botParams.CommandToRun = "StartBot";
+        //        botParams.SecretKey = "4a7c5ca68627d7fa-7c9131063c57af80-1c15e271750463a8";
 
-                ViberSetWebHook setWebHook = new ViberSetWebHook() { url = "https://fbszk.icu/Viber/BotAnswer/1",
-                    event_types =new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
-                    send_name = true,
-                    send_photo = true
-                };
+        //        ViberSetWebHook setWebHook = new ViberSetWebHook() { url = "https://fbszk.icu/Viber/BotAnswer/1",
+        //            event_types =new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
+        //            send_name = true,
+        //            send_photo = true
+        //        };
 
-                botParams.AdditionObject = setWebHook;
+        //        botParams.AdditionObject = setWebHook;
                 
-                AnswerFromBot ans = RequestToBot(botParams, ctr);
-                return ans.IsTrue;
-            }catch(Exception ex)
-            {
-                LogData(ex.Message, ctr);
-                return false;
-            }
-        }
+        //        AnswerFromBot ans = RequestToBot(botParams, ctr);
+        //        return ans.IsTrue;
+        //    }catch(Exception ex)
+        //    {
+        //        LogData(ex.Message, ctr);
+        //        return false;
+        //    }
+        //}
         
     }
 }

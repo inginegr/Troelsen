@@ -38,7 +38,7 @@ namespace ViberBotBaseLibrary
         /// Start function of viber bot. When message come from viber server, this fuction called first of all
         /// </summary>
         /// <param name="jsonString">Json string from server</param>
-        public AnswerFromBot ViberBotsStartPoint(BotParameters botParameters)
+        public AnswerFromBot EnterPointMethod(BotParameters botParameters)
         {
             AnswerFromBot answer = new AnswerFromBot();
             try

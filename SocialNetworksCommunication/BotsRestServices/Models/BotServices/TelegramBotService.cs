@@ -14,7 +14,7 @@ namespace BotsRestServices.Models.BotServices
         /// </summary>
         /// <param name="botNumber">Id of bot</param>
         /// <param name="ctr">Controller</param>
-        public AnswerFromBot EntryFunction(int botNumber, Controller ctr, BotParameters botParams)
+        public AnswerFromBot EntryFunction(int botNumber, Controller ctr)
         {
             AnswerFromBot retAns = new AnswerFromBot();
             try
@@ -22,7 +22,7 @@ namespace BotsRestServices.Models.BotServices
                 BotParameters parameters = new BotParameters();
 
                 parameters.BotId = botNumber;
-                parameters.CommandToRun = "BotsStartPoint";
+                parameters.CommandToRun = "EnterPointMethod";
                 parameters.SecretKey = "";
                 parameters.JsonFromServer = ReadDataFromBrowser(ctr);
                 parameters.AdditionParameters = null;

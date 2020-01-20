@@ -43,11 +43,11 @@ namespace BotsRestServices.Controllers.Bots
             }
         }
 
-        [HttpPost]
-        public JsonResult StartBot(int id)
-        {
-            return Json(botService.StartViberBot(id, this));
-        }
+        //[HttpPost]
+        //public JsonResult StartBot(int id)
+        //{
+        //    return Json(botService.StartViberBot(id, this));
+        //}
 
         [HttpPost]
         public JsonResult ReadLog(int id)

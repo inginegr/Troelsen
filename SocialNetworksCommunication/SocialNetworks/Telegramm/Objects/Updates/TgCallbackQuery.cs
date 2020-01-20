@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class TgUpdate
+    public class TgCallbackQuery
     {
-        public string update_id { get; set; }
+        public string id { get; set; }
+
+        public TgUser from { get; set; }
+
         public TgMessage message { get; set; }
 
-        public override string ToString()
-        {
-            return $"update_id is: --> {update_id},  \n\r message:  -->  {message}";
-        }
+        public string inline_message_id { get; set; }
+
+        public string data { get; set; }
     }
 }

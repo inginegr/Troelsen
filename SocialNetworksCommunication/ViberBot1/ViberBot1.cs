@@ -11,7 +11,7 @@ using SocialNetworks.Viber.Objects.ReceiveMessageTypes;
 using SocialNetworks.Viber.Objects.SendMessageTypes;
 using ViberBotBaseLibrary;
 
-namespace BotsLibrary.ViberBots
+namespace ViberBot1
 {
     /// <summary>
     /// Test viber bot

@@ -304,10 +304,6 @@
       <Project>{86d2adc8-ee70-434a-919a-2eddefda2254}</Project>
       <Name>SharedObjectsLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocialNetworks\SocialNetwork.csproj">
-      <Project>{280d122d-105b-4cc5-98b2-4ac0a8542258}</Project>
-      <Name>SocialNetwork</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
