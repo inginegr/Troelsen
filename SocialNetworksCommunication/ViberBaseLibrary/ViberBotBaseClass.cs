@@ -11,9 +11,9 @@ using SharedObjectsLibrary;
 
 
 
-namespace BotsLibrary.ViberBots
+namespace ViberBotBaseLibrary
 {
-    public class BasicViberClass
+    public class ViberBotBaseClass
     {
         private class EventViber
         {

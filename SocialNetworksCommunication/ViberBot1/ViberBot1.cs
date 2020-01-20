@@ -9,13 +9,14 @@ using SharedObjectsLibrary;
 using SocialNetworks.Viber;
 using SocialNetworks.Viber.Objects.ReceiveMessageTypes;
 using SocialNetworks.Viber.Objects.SendMessageTypes;
+using ViberBotBaseLibrary;
 
 namespace BotsLibrary.ViberBots
 {
     /// <summary>
     /// Test viber bot
     /// </summary>
-    public class ViberBot1 : BasicViberClass
+    public class ViberBot1 : ViberBotBaseClass
     {
         public override AnswerFromBot ConversationStartedHandle(BotParameters botParameters)
         {

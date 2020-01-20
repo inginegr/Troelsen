@@ -92,7 +92,7 @@ namespace ServiceLibrary.Security
         /// </summary>
         private void GenerateKeyAndIV()
         {
-            for (int i = 0; i < BlockSize; i++)
+            for (int i = 0; i < BlockSize/8; i++)
             {
                 localKey[i] = (byte)(i % 8);
                 localIV[i] = (byte)(i % 5);

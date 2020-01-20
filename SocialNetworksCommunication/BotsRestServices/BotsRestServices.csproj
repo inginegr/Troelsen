@@ -186,6 +186,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Bots\TelegramController.cs" />
     <Compile Include="Controllers\Bots\ViberController.cs" />
     <Compile Include="Controllers\Interface\AdminController.cs" />
     <Compile Include="Controllers\Interface\ClientController.cs" />
@@ -194,6 +195,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BotServices\BaseBotService.cs" />
+    <Compile Include="Models\BotServices\TelegramBotService.cs" />
     <Compile Include="Models\BotServices\ViberBotService.cs" />
     <Compile Include="Models\DataBase\Infrastructure\DbHandle.cs" />
     <Compile Include="Models\DataBase\Infrastructure\UserContext.cs" />
@@ -278,6 +280,7 @@
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
     <Folder Include="Views\Test\" />
+    <Folder Include="Views\Tg\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

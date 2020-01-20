@@ -2,17 +2,49 @@
 using System.Net;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using Org.Mentalis.Network.ProxySocket;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SocialNetworks.Services
+namespace ServiceLibrary.Various
 {
     /// <summary>
     /// Class to communicate with internet
     /// </summary>
     public class InternetService
     {
+        /// <summary>
+        /// Set headers of web request
+        /// </summary>
+        /// <param name="request">web request, where neccassary add headers</param>
+        /// <param name="headers">headers to set in webrequest</param>
+        /// <returns>Web reqyest class with headers</returns>
+        private WebRequest SetHeaders(WebRequest request, IDictionary<string, string> headers)
+        {
+            try
+            {
+                if (headers != null && request != null) 
+                {
+                    foreach(var s in headers)
+                    {
+                        if (s.Key.ToLower() == "content-type".ToLower())
+                        {
+                            request.ContentType = s.Value;
+                        }
+                        else
+                        {
+                            request.Headers[s.Key] = s.Value;
+                        }
+                    }
+                }
+
+                return request;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         /// <summary>
         /// Send internet request using POST method
@@ -40,6 +72,44 @@ namespace SocialNetworks.Services
 
                 return retString;
             }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Send internet request using POST method
+        /// </summary>
+        /// <param name="jsonRequest">JSon body of request</param>
+        /// <param name="requestString">url string to request</param>
+        /// <param name="headers">Collection of headers to set in internet request</param>
+        /// <returns>Response string from server</returns>
+        public string SendPostInternetRequest(string jsonRequest, string requestString, IDictionary<string, string> headers=null)
+        {
+            try
+            {
+                string retString = string.Empty;
+
+                WebRequest internetRequest = WebRequest.Create(requestString);
+
+                internetRequest = SetHeaders(internetRequest, headers);
+                internetRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(internetRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(jsonRequest);
+                }
+
+                var httpResponse = (HttpWebResponse)internetRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    retString = streamReader.ReadToEnd();
+                }
+
+                return retString;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

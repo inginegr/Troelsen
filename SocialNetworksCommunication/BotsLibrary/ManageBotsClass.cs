@@ -10,9 +10,9 @@ using SocialNetworks.Viber.Comunicate;
 using SharedObjectsLibrary;
 
 
-namespace BotsLibrary.ViberBots
+namespace ManageBotLibraries
 {
-    public class ViberEntryPoint
+    public class ManageBotsClass
     {
         /// <summary>
         /// Name space, that contain all viber bots

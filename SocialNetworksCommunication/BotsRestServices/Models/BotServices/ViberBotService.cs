@@ -12,13 +12,12 @@ using System.Text.RegularExpressions;
 namespace BotsRestServices.Models.BotServices
 {
     public class ViberBotService : BaseBotService
-    {
-        private string entryPointClass = "BotsLibrary.ViberBots.ViberEntryPoint";
-        private string entryPointMethod = "CallFunctions";
+    {        
         /// <summary>
         /// Object to exchange messages with bots library
         /// </summary>
         private string viberAuth = "X-Viber-Auth-Token";
+
 
         FileService fs = new FileService();
 
@@ -27,7 +26,7 @@ namespace BotsRestServices.Models.BotServices
         /// </summary>
         /// <param name="botNumber">Id of bot</param>
         /// <param name="ctr">Controller</param>
-        public AnswerFromBot EntryFunction(int botNumber, Controller ctr)
+        public AnswerFromBot EntryFunction(int botNumber, Controller ctr, BotParameters botParams)
         {
             AnswerFromBot retAns = new AnswerFromBot();
             try
@@ -35,15 +34,14 @@ namespace BotsRestServices.Models.BotServices
                 BotParameters parameters = new BotParameters();
 
                 parameters.BotId = botNumber;
-                parameters.CommandToRun = "ViberBotsStartPoint";
+                parameters.CommandToRun = "BotsStartPoint";
                 parameters.SecretKey = ctr.Request.Headers[viberAuth];
                 parameters.JsonFromServer = ReadDataFromBrowser(ctr);
                 parameters.AdditionParameters = null;
                 parameters.BotObjects = null;
+                parameters.BotType = BotTypes.ViberBot;
 
                 retAns = RequestToBot(parameters, ctr);
-                LogData("                        ", ctr);
-                LogData(parameters.JsonFromServer, ctr);
                 return retAns;
             }
             catch (Exception ex)
@@ -55,33 +53,7 @@ namespace BotsRestServices.Models.BotServices
             }
         }
 
-        /// <summary>
-        /// Make request to viber bot library
-        /// </summary>
-        /// <param name="botParameters">Structure with parameters to bot library entry function</param>
-        /// <param name="ctr">Controller</param>
-        /// <returns>AnswerFromBot structure</returns>
-        private AnswerFromBot RequestToBot(BotParameters botParameters, Controller ctr)
-        {
-            AnswerFromBot ansMessage = null;
-            try
-            {
-                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
-
-                Type vBotType = vBot.GetType(entryPointClass);
-
-                object vBotObject = Activator.CreateInstance(vBotType);
-
-                return (AnswerFromBot)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
-                    new object[] { botParameters }, null);
-            }
-            catch(Exception ex)
-            {
-                ansMessage.LogMessage = ex.Message;
-                ansMessage.IsTrue = false;
-                return ansMessage;
-            }
-        }
+        
 
         /// <summary>
         /// Start viber bot ans listen messages

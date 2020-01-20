@@ -1,8 +1,2 @@
-{
-  "text": "Hello man",
-  "media": null,
-  "thumbnail": null,
-  "sender": null,
-  "tracking_data": null,
-  "type": "text"
-}
+update_id is: --> ,  
+ message:  -->  Ссылка на объект не указывает на экземпляр объекта.

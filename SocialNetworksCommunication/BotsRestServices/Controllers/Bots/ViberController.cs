@@ -118,12 +118,13 @@ namespace BotsRestServices.Controllers.Bots
                         ConversationStartedMessage mes = new ConversationStartedMessage();
 
                         Response.Headers.Add("X-Viber-Content-Signature", Request.Headers["X-Viber-Content-Signature"]);
+                        Response.ContentType = "application/json";
 
-                        mes.media = "";
-                        mes.sender.avatar = "";
-                        mes.sender.name = "";
-                        mes.thumbnail = "";
-                        mes.tracking_data = "";
+                        //mes.media = "";
+                        //mes.sender.avatar = "";
+                        //mes.sender.name = "";
+                        //mes.thumbnail = "";
+                        //mes.tracking_data = "";
 
                         mes.text = "Hello";
                         mes.type = "text";
@@ -132,8 +133,8 @@ namespace BotsRestServices.Controllers.Bots
                     }
                 }
             }
-            Response.Output.Write(Regex.Replace(jsonAnswer , "\\r|\\n", ""));
-            return null;
+
+            return Json(jsonAnswer);
         }
     }
 }

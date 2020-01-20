@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SocialNetworks.TelegrammObjects
+namespace SocialNetworks.TelegrammObjectsdfdf
 {
     public class TGUpdate
     {

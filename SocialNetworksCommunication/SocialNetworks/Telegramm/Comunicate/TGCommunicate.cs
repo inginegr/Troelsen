@@ -8,13 +8,14 @@ using SocialNetworks.TelegrammObjects;
 using ServiceLibrary.Various;
 using SocialNetworks.Telegramm;
 using System.Threading;
+using SocialNetworks.Telegramm.Objects;
 
 namespace SocialNetworks.Telegramm
 {
     /// <summary>
     /// Class to communicate with telegramm social network
     /// </summary>
-    public partial class TGCommunicate
+    public partial class TgCommunicate
     {
         /// <summary>
         ///  Form string with params
@@ -135,146 +136,15 @@ namespace SocialNetworks.Telegramm
                 throw new Exception(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Control of current offset parameter
-        /// </summary>
-        /// <param name="updateId">update_id gotten from bot</param>
-        private void setUpdateId(List<TGUpdate> updateList)
-        {
-            try
-            {
-                if (updateList.Count == 0)
-                    return;
-
-                int firsUpdateId = int.Parse(updateList?.First().Update_id);
-                int lastUpdateId = int.Parse(updateList?.Last().Update_id);
-
-                currentOffset = firsUpdateId > lastUpdateId ? firsUpdateId : lastUpdateId;
-                currentOffset++;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+                            
 
 
-        /// <summary>
-        /// Geat updates from bot and add to queue
-        /// </summary>
-        private void getUpdates()
-        {
-            try
-            {
-                HandleIsNextUpdateEnabled = true;
-                // Set of params
-                Dictionary<string, string> setOfParams = null;
-                do
-                {
-                    // If first request to bot
-                    if (currentOffset != 0)
-                    {
-                        setOfParams = SetParams(AddParams("offset", currentOffset.ToString()), AddParams("timeout", timeOut.ToString()), AddParams("limit", updatesLimit.ToString()));
-                    }
-                    else
-                    {
-                        setOfParams = SetParams(AddParams("timeout",timeOut.ToString()), AddParams("limit", updatesLimit.ToString()));
-                    }
-
-                    string jsonFromServer = SendRequest("getUpdates", setOfParams);
-                                        
-                    List<TGUpdate> updateObjects = (List<TGUpdate>)jso.DeserializeToList<TGUpdate>(jsonFromServer, new string[] { "result" });
-
-                    setUpdateId(updateObjects);
-
-                    bool flg = false;
-                    foreach (TGUpdate upd in updateObjects)
-                    {
-                        HandleQueueMessages.Enqueue(upd);
-                        flg = true;
-                    }
-
-                    // If Queue changed
-                    if (flg)
-                    {
-                        OnQueueEvent();
-                    }
-
-
-                } while (HandleIsNextUpdateEnabled);
-
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                HandleIsNextUpdateEnabled = false;
-            }
-        }
-
-        /// <summary>
-        /// Start to listen bot and get messages
-        /// </summary>
-        public void StartGettingMessages()
-        {
-            try
-            {
-                if (HandleIsGetUpdatesStarted == true)
-                {
-                    throw new Exception("The getting of messages is started allready");
-                }
-                else
-                {
-                    HandleIsGetUpdatesStarted = true;
-                    getUpdates();
-                }                
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                HandleIsGetUpdatesStarted = false;
-            }            
-        }
-
-        /// <summary>
-        /// Stop listen bot and get messages
-        /// </summary>
-        public bool StopGettingMessages()
-        {
-            try
-            {
-                if (HandleIsGetUpdatesStarted)
-                {
-                    HandleIsNextUpdateEnabled = false;
-                }
-
-                do
-                {
-                    Thread.Sleep(1000);
-                } while (HandleIsGetUpdatesStarted);
-
-                if (!HandleIsGetUpdatesStarted)
-                    return true;
-                else
-                    return false;
-
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
-        public TGCommunicate()
+        public TgCommunicate()
         {
             throw new Exception("Please choose a correct constructor");
         }
 
-        public TGCommunicate(string tokenParam)
+        public TgCommunicate(string tokenParam)
         {
             keysHandle = new KeysTGHandle(tokenParam);
         }

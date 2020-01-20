@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace SharedObjectsLibrary
 {
+    public enum BotTypes
+    {
+        VkBot,
+        TgBot,
+        ViberBot,
+        FbBot
+    }
+
     public class BotParameters
     {
         public int BotId { get; set; }
@@ -15,5 +23,6 @@ namespace SharedObjectsLibrary
         public BotObject[] BotObjects { get; set; }
         public List<string> AdditionParameters { get; set; }
         public object AdditionObject { get; set; }
+        public BotTypes BotType { get; set; }
     }
 }

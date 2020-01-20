@@ -8,12 +8,14 @@ using System.Configuration;
 using System.IO;
 using System.Web.Mvc;
 using ServiceLibrary.Various;
-
+using SharedObjectsLibrary;
 
 namespace BotsRestServices.Models.BotServices
 {
     public class BaseBotService : UserService
     {
+        private string entryPointClass = "ManageBotLibraries.ManageBotsClass";
+        private string entryPointMethod = "CallFunctions";
         /// <summary>
         /// Path to library, that rules all bots
         /// </summary>
@@ -99,6 +101,34 @@ namespace BotsRestServices.Models.BotServices
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Make request to viber bot library
+        /// </summary>
+        /// <param name="botParameters">Structure with parameters to bot library entry function</param>
+        /// <param name="ctr">Controller</param>
+        /// <returns>AnswerFromBot structure</returns>
+        protected AnswerFromBot RequestToBot(BotParameters botParameters, Controller ctr)
+        {
+            AnswerFromBot ansMessage = null;
+            try
+            {
+                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
+
+                Type vBotType = vBot.GetType(entryPointClass);
+
+                object vBotObject = Activator.CreateInstance(vBotType);
+
+                return (AnswerFromBot)vBotType.InvokeMember(entryPointMethod, BindingFlags.InvokeMethod, null, vBotObject,
+                    new object[] { botParameters }, null);
+            }
+            catch (Exception ex)
+            {
+                ansMessage.LogMessage = ex.Message;
+                ansMessage.IsTrue = false;
+                return ansMessage;
             }
         }
     }

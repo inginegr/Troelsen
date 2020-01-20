@@ -59,7 +59,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Telegramm\Objects\KeyBoards\TGKeyBoard.cs" />
+    <Compile Include="Telegramm\Objects\TgAnswerContent.cs" />
+    <Compile Include="Telegramm\Objects\TgAnswerToRequest.cs" />
+    <Compile Include="Telegramm\Objects\TgChat.cs" />
+    <Compile Include="Telegramm\Objects\TgForceReply.cs" />
+    <Compile Include="Telegramm\Objects\TgFrom.cs" />
+    <Compile Include="Telegramm\Objects\TgInlineKeyboardButton.cs" />
+    <Compile Include="Telegramm\Objects\TgInlineKeyboardMarkup.cs" />
+    <Compile Include="Telegramm\Objects\TgKeyboardButton.cs" />
+    <Compile Include="Telegramm\Objects\TgMessage.cs" />
+    <Compile Include="Telegramm\Objects\TgMessageToSend.cs" />
     <Compile Include="Telegramm\Objects\TGObjects.cs" />
+    <Compile Include="Telegramm\Objects\TgReplyKeyboardHide.cs" />
+    <Compile Include="Telegramm\Objects\TgReplyKeyboardMarkup.cs" />
+    <Compile Include="Telegramm\Objects\TgUpdate.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicate.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicatePartialProperties.cs" />
     <Compile Include="Viber\Events.cs" />
@@ -91,9 +104,8 @@
     <Compile Include="Viber\ResponseViberService.cs" />
     <Compile Include="VK\Objects\VKObjects.cs" />
     <Compile Include="Services\KeysHandle.cs" />
-    <Compile Include="Telegramm\Comunicate\TGCommunicate.cs" />
-    <Compile Include="Telegramm\Comunicate\TGCommunicatePartial.cs" />
-    <Compile Include="Telegramm\Comunicate\TGCommunicatePartial_.cs" />
+    <Compile Include="Telegramm\Comunicate\TgCommunicate.cs" />
+    <Compile Include="Telegramm\Comunicate\TgCommunicatePartial.cs" />
     <Compile Include="VK\Comunicate\VKComunicate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

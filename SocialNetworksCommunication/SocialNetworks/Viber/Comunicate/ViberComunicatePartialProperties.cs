@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SocialNetworks.Services;
 using ServiceLibrary.Serialization;
-
+using ServiceLibrary.Various;
 
 namespace SocialNetworks.Viber.Comunicate
 {
