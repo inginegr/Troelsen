@@ -33,12 +33,12 @@ namespace BotsRestServices.Models.BotServices
                 BotParameters parameters = new BotParameters();
 
                 parameters.BotId = botNumber;
-                parameters.CommandToRun = "BotsStartPoint";
                 parameters.SecretKey = ctr.Request.Headers[viberAuth];
                 parameters.JsonFromServer = ReadDataFromBrowser(ctr);
                 parameters.AdditionParameters = null;
                 parameters.BotObjects = null;
                 parameters.BotType = BotTypes.ViberBot;
+                parameters.ServiceCommands = TgServiceCommands.NoCommand;
 
                 retAns = RequestToBot(parameters, ctr);
                 return retAns;

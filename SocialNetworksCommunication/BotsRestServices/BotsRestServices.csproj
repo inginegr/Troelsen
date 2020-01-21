@@ -223,12 +223,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="LogFiles\Errors.txt" />
-    <Content Include="OutDlls\BotsLibrary.dll" />
-    <Content Include="OutDlls\Newtonsoft.Json.dll" />
-    <Content Include="OutDlls\ProxySocket.dll" />
-    <Content Include="OutDlls\ServiceLibrary.dll" />
-    <Content Include="OutDlls\SharedObjectsLibrary.dll" />
-    <Content Include="OutDlls\SocialNetworks.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -279,6 +273,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
+    <Folder Include="OutDlls\" />
     <Folder Include="Views\Test\" />
     <Folder Include="Views\Tg\" />
   </ItemGroup>
@@ -303,6 +298,10 @@
     <ProjectReference Include="..\SharedObjectsLibrary\SharedObjectsLibrary.csproj">
       <Project>{86d2adc8-ee70-434a-919a-2eddefda2254}</Project>
       <Name>SharedObjectsLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocialNetworks\SocialNetwork.csproj">
+      <Project>{280d122d-105b-4cc5-98b2-4ac0a8542258}</Project>
+      <Name>SocialNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -15,6 +15,22 @@ namespace SocialNetworks.Telegramm
     /// </summary>
     public partial class TgCommunicate
     {
+        /*----------------------------- Commands in request string--------------------------*/
+        private string SendMessageCommand { get => "sendMessage"; }
+        private string SetWebHookCommand { get => "setWebHook"; }
+        private string GetMeCommand { get => "getMe"; }
+        private string ForwardMessageCommand { get => "forwardMessage"; }
+        private string SendPhotoCommand { get => "sendPhoto"; }
+        private string SendAudioCommand { get => "sendAudio"; }
+        private string SendDocumentCommand { get => "sendDocument"; }
+        private string SendVideoCommand { get => "sendVideo"; }
+        private string SendAnimationCommand { get => "sendAnimation"; }
+        private string SendVoiceCommand { get => "sendVoice"; }
+
+
+
+        /*------------------------------------------------------------------------------------*/
+        
         //Deserializator of json string
         private JsonDeserializer jso = new JsonDeserializer();
                

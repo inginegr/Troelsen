@@ -17,11 +17,19 @@ namespace BotsRestServices.Models.BotServices
         private string entryPointClass = "ManageBotLibraries.ManageBotsClass";
         private string entryPointMethod = "CallFunctions";
         /// <summary>
-        /// Path to library, that rules all bots
+        /// Path to all dlls
         /// </summary>
-        protected string PathToBotsLibrary(Controller ctr)
+        protected string PathToDLLs(Controller ctr)
         {
-            return ctr.Server.MapPath(ConfigurationManager.AppSettings["PathBotsLibrary"]);
+            return ctr.Server.MapPath(ConfigurationManager.AppSettings["PathToAllLibraries"]);
+        }
+
+        /// <summary>
+        /// Path to library, that manages all them
+        /// </summary>
+        protected string PathToManageBotslLibrary(string basePath)
+        {
+            return basePath + ConfigurationManager.AppSettings["ManageBotsLibrary"];
         }
 
         /// <summary>
@@ -112,10 +120,12 @@ namespace BotsRestServices.Models.BotServices
         /// <returns>AnswerFromBot structure</returns>
         protected AnswerFromBot RequestToBot(BotParameters botParameters, Controller ctr)
         {
-            AnswerFromBot ansMessage = null;
+            AnswerFromBot ansMessage = new AnswerFromBot();
             try
             {
-                Assembly vBot = Assembly.LoadFrom(PathToBotsLibrary(ctr));
+                botParameters.PathToLibraries = PathToDLLs(ctr);
+
+                Assembly vBot = Assembly.LoadFrom(PathToManageBotslLibrary(botParameters.PathToLibraries));
 
                 Type vBotType = vBot.GetType(entryPointClass);
 

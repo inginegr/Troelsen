@@ -58,24 +58,28 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Telegramm\Objects\KeyBoards\TgReplyKeyboardMarkup.cs" />
     <Compile Include="Telegramm\Objects\TgAnswerContent.cs" />
     <Compile Include="Telegramm\Objects\TgAnswerToRequest.cs" />
+    <Compile Include="Telegramm\Objects\TgSetWebhookMessage.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgAudio.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgCallbackQuery.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgChat.cs" />
     <Compile Include="Telegramm\Objects\TgForceReply.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgChosenInlineResult.cs" />
+    <Compile Include="Telegramm\Objects\Updates\TgDocument.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgFrom.cs" />
-    <Compile Include="Telegramm\Objects\KeyBoards\TgInlineKeyboardButton.cs" />
-    <Compile Include="Telegramm\Objects\KeyBoards\TgInlineKeyboardMarkup.cs" />
-    <Compile Include="Telegramm\Objects\KeyBoards\TgKeyboardButton.cs" />
+    <Compile Include="Telegramm\Objects\KeyBoards\InlineKeyboardButton.cs" />
+    <Compile Include="Telegramm\Objects\KeyBoards\InlineKeyboardMarkup.cs" />
+    <Compile Include="Telegramm\Objects\KeyBoards\KeyboardButton.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgInlineQuery.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgLocation.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgMessage.cs" />
     <Compile Include="Telegramm\Objects\TgMessageToSend.cs" />
-    <Compile Include="Telegramm\Objects\KeyBoards\TgReplyKeyboardHide.cs" />
-    <Compile Include="Telegramm\Objects\KeyBoards\TgReplyKeyboardMarkup.cs" />
+    <Compile Include="Telegramm\Objects\KeyBoards\ReplyKeyboardHide.cs" />
+    <Compile Include="Telegramm\Objects\KeyBoards\ReplyKeyboardMarkup.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgMessageEntity.cs" />
+    <Compile Include="Telegramm\Objects\Updates\TgPhotoSize.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgUpdate.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgUser.cs" />
     <Compile Include="Viber\Comunicate\ViberComunicate.cs" />

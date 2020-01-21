@@ -12,5 +12,6 @@ namespace SocialNetworks.Telegramm.Objects
         public int offset { get; set; }
         public int length { get; set; }
         public string url { get; set; }
+        public TgUser user { get; set; }
     }
 }

@@ -9,8 +9,7 @@ using SocialNetworks.Viber.Objects;
 using SocialNetworks.Viber.Comunicate;
 using SharedObjectsLibrary;
 using BotsBaseLibrary;
-
-
+using System.IO;
 
 namespace ManageBotLibraries
 {
@@ -65,7 +64,7 @@ namespace ManageBotLibraries
             {
                 string className = GetClassName(botParameters.BotType, botParameters.BotId);
 
-                Assembly vBot = Assembly.LoadFrom(className);
+                Assembly vBot = Assembly.LoadFrom(botParameters.PathToLibraries + className + ".dll");
 
                 Type vBotType = vBot.GetType($"{className}.{className}");
 

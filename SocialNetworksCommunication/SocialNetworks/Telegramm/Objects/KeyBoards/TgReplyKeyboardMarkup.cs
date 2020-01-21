@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class TgReplyKeyboardMarkup
+    public class TgReplyKeyboardMarkup : TgMessageToSend
     {
-        public TgKeyboardButton[][] keyboard { get; set; }
-        public bool resize_keyboard { get; set; }
-        public bool one_time_keyboard { get; set; }
-        public bool selective { get; set; }
+        public ReplyKeyboardMarkup reply_markup { get; set; }
     }
 }

@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SocialNetworks.Telegramm.Objects
+{
+    public class TgSetWebhookMessage
+    {
+        private int max_connections_local;
+        public string url { get; set; }
+        public int max_connections
+        {
+            get => max_connections_local;
+            set
+            {
+                if (value < 1)
+                {
+                    max_connections_local = 1;
+                }else if (value > 100)
+                {
+                    max_connections_local = 100;
+                }
+                else
+                {
+                    max_connections_local = value;
+                }
+            }
+        }
+        public string[] allowed_updates { get; set; }
+    }
+}

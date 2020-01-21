@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class TgInlineKeyboardButton
+    public class InlineKeyboardButton
     {
         public string text { get; set; }
         public string url { get; set; }

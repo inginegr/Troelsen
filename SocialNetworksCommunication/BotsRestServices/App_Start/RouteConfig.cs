@@ -36,6 +36,12 @@ namespace WebApplication9
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Viber", id=UrlParameter.Optional}
             );
+
+            routes.MapRoute(
+                name: "Telegram",
+                url: "{controller}/{action}/{id}/{key}",
+                defaults: new { id = UrlParameter.Optional, key=UrlParameter.Optional }
+            );
         }
     }
 }

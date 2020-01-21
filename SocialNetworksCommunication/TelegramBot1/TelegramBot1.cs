@@ -10,12 +10,12 @@ namespace TelegramBot1
 {
     public class TelegramBot1 : TgBotBaseClass
     {
-        public override AnswerFromBot OnHello(BotParameters bot)
+        public override AnswerFromBot OnStart(BotParameters bot)
         {
             AnswerFromBot answer = new AnswerFromBot();
             try
             {
-
+                
                 return answer;
             }catch(Exception ex)
             {

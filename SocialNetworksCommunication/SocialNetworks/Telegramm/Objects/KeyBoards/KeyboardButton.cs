@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class TgReplyKeyboardHide
+    public class KeyboardButton
     {
-        public bool hide_keyboard { get; set; }
-        public bool selective { get; set; } 
+        public string text { get; set; }
+        public bool request_contact { get; set; }
+        public bool request_location { get; set; }
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class TgKeyboardButton
+    public class InlineKeyboardMarkup
     {
-        public string text { get; set; }
-        public bool request_contact { get; set; }
-        public bool request_location { get; set; }
+        public InlineKeyboardButton[] inline_keyboard { get; set; }        
     }
 }

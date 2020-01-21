@@ -8,7 +8,8 @@ using SocialNetworks.Telegramm.Objects;
 using ServiceLibrary.Various;
 using SocialNetworks.Telegramm;
 using System.Threading;
-using SocialNetworks.Telegramm.Objects;
+
+
 
 namespace SocialNetworks.Telegramm
 {
@@ -66,8 +67,59 @@ namespace SocialNetworks.Telegramm
             }
         }
 
+        /// <summary>
+        /// Send request to bot
+        /// </summary>
+        /// <param name="methodName">Name of method</param>
+        /// <param name="dictionary">Json body of POST request</param>
+        /// <returns>Json string, answer from bot</returns>
+        private string SendRequest(string methodName, string jsonBody)
+        {
+            try
+            {
+                string reqString = $"{BaseQeruestString}{Token}/{methodName}";
+                return inetService.SendPostInternetRequest(jsonBody, reqString);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sends "sendMessage" command to tg server
+        /// </summary>
+        /// <param name="jsonBody">json body request</param>
+        /// <returns>request string from tg server</returns>
+        public string SendMessage(string jsonBody)
+        {
+            try
+            {
+                return SendRequest(SendMessageCommand, jsonBody);
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sends "setWebHook" command to tg server
+        /// </summary>
+        /// <param name="jsonString">json body request to tg server</param>
+        /// <returns>Responswer string from tg server</returns>
+        public string SetWebHook(string jsonString)
+        {
+            try
+            {
+                return SendRequest(SetWebHookCommand, jsonString);
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         // Return basic information about User object
-        public string getMe()
+        private string getMe()
         {
             try
             {                
@@ -137,8 +189,6 @@ namespace SocialNetworks.Telegramm
             }
         }
                             
-
-
         public TgCommunicate()
         {
             throw new Exception("Please choose a correct constructor");

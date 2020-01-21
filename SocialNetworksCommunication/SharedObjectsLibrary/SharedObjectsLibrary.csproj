@@ -43,7 +43,10 @@
     <Compile Include="AnswerFromBot.cs" />
     <Compile Include="BotObject.cs" />
     <Compile Include="BotParameters.cs" />
+    <Compile Include="Enums\BotTypes.cs" />
+    <Compile Include="Enums\TgServiceCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
