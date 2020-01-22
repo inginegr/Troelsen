@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BotsRestServices.Models.Objects.AnswersFromServer;
+using BotsRestServices.Models.Objects.RequestToServer;
+using BotsRestServices.Models.Objects.DbObjects;
+
+using System.Web.Mvc;
+
+
 
 namespace BotsRestServices.Models.UserServices
 {
@@ -34,16 +40,28 @@ namespace BotsRestServices.Models.UserServices
             }
         }
 
-        //public string StartBot()
-        //{
-        //    TotalResponse response = new TotalResponse();
-        //    try
-        //    {
+        public string StartBot(Controller ctr)
+        {
+            TotalResponse response = new TotalResponse();
+            try
+            {
+                TotalRequest req = jsd.DeserializeToObjectT<TotalRequest>(ReadDataFromBrowser(ctr));
 
-        //    }catch(Exception ex)
-        //    {
+                if (!CheckIfRegistered(req.User).IsTrue.IsTrue)
+                {
+                    return js.SerializeObjectT(FormResponseStatus(response, false, "User is not registered"));
+                }
+                else
+                {
+                    UserBot bot = (UserBot)FindRow(req.BotsList.FirstOrDefault());
+                }
 
-        //    }
-        //}
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

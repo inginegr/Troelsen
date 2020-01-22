@@ -14,7 +14,7 @@ namespace BotsRestServices
     {
         protected void Application_Start()
         {
-            //MessageBox.Show("ASDASDs");
+            Console.WriteLine("DSFSDF");
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

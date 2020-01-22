@@ -178,7 +178,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userRequest">User object</param>
         /// <returns>Json string with answer to client</returns>
-        private TotalResponse CheckIfRegistered(User userRequest)
+        protected TotalResponse CheckIfRegistered(User userRequest)
         {
             try
             {
