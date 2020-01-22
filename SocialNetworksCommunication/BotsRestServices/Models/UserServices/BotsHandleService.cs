@@ -34,16 +34,16 @@ namespace BotsRestServices.Models.UserServices
             }
         }
 
-        public string StartBot()
-        {
-            TotalResponse response = new TotalResponse();
-            try
-            {
+        //public string StartBot()
+        //{
+        //    TotalResponse response = new TotalResponse();
+        //    try
+        //    {
 
-            }catch(Exception ex)
-            {
+        //    }catch(Exception ex)
+        //    {
 
-            }
-        }
+        //    }
+        //}
     }
 }
