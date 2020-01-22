@@ -12,5 +12,10 @@ namespace SocialNetworks.Telegramm.Objects
         public bool resize_keyboard { get; set; }
         public bool one_time_keyboard { get; set; }
         public bool selective { get; set; }
+
+        public ReplyKeyboardMarkup()
+        {
+
+        }
     }
 }

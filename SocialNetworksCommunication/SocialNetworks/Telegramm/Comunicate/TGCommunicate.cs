@@ -73,11 +73,11 @@ namespace SocialNetworks.Telegramm
         /// <param name="methodName">Name of method</param>
         /// <param name="dictionary">Json body of POST request</param>
         /// <returns>Json string, answer from bot</returns>
-        private string SendRequest(string methodName, string jsonBody)
+        private string SendRequest(string methodName, string jsonBody, string token)
         {
             try
             {
-                string reqString = $"{BaseQeruestString}{Token}/{methodName}";
+                string reqString = $"{BaseQeruestString}{token}/{methodName}";
                 return inetService.SendPostInternetRequest(jsonBody, reqString);
             }
             catch (Exception ex)
@@ -91,11 +91,11 @@ namespace SocialNetworks.Telegramm
         /// </summary>
         /// <param name="jsonBody">json body request</param>
         /// <returns>request string from tg server</returns>
-        public string SendMessage(string jsonBody)
+        public string SendMessage(string jsonBody, string token)
         {
             try
             {
-                return SendRequest(SendMessageCommand, jsonBody);
+                return SendRequest(SendMessageCommand, jsonBody, token);
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -107,11 +107,11 @@ namespace SocialNetworks.Telegramm
         /// </summary>
         /// <param name="jsonString">json body request to tg server</param>
         /// <returns>Responswer string from tg server</returns>
-        public string SetWebHook(string jsonString)
+        public string SetWebHook(string jsonString, string token)
         {
             try
             {
-                return SendRequest(SetWebHookCommand, jsonString);
+                return SendRequest(SetWebHookCommand, jsonString, token);
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -191,7 +191,7 @@ namespace SocialNetworks.Telegramm
                             
         public TgCommunicate()
         {
-            throw new Exception("Please choose a correct constructor");
+            //throw new Exception("Please choose a correct constructor");
         }
 
         public TgCommunicate(string tokenParam)

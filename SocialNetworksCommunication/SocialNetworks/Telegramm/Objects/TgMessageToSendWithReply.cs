@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Telegramm.Objects
 {
-    public class InlineKeyboardMarkup
+    public class TgMessageToSendWithReply : TgMessageToSend
     {
-        public InlineKeyboardButton[][] inline_keyboard { get; set; }        
+        public int reply_to_message_id { get; set; }
     }
 }

@@ -14,10 +14,8 @@ using BotsRestServices.Models.Objects.RequestToServer;
 
 namespace BotsRestServices.Models.UserServices
 {
-    public class UserService
+    public class UserService : DbHandle
     {
-        // DataBase service
-        protected DbHandle dbHandle = new DbHandle();
 
         // Cryptography functions
         SLCryptography _crypto = new SLCryptography();
@@ -53,7 +51,7 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                UserData user = (UserData)dbHandle.FindRow((UserData)authorize);
+                UserData user = (UserData)FindRow((UserData)authorize);
                 if (user != null)
                     if ((user.Login == authorize.Login) && (user.Password == authorize.Password))
                     {
@@ -167,7 +165,7 @@ namespace BotsRestServices.Models.UserServices
         {
             try
             {
-                return (UserData)dbHandle.FindRow(userParam);
+                return (UserData)FindRow(userParam);
             }
             catch (Exception ex)
             {

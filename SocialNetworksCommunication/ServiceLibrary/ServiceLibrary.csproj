@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Various\InternetService.cs" />
     <Compile Include="Various\StringService.cs" />
-    <Compile Include="Various\TimeHandling.cs" />
+    <Compile Include="Various\TimeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -22,7 +22,7 @@ namespace BotsRestServices.Models.BotServices
                 BotParameters parameters = new BotParameters();
 
                 parameters.BotId = botNumber;
-                parameters.SecretKey = key;
+                parameters.SecretKey = ParseTokenKey(key);
                 parameters.JsonFromServer = ReadDataFromBrowser(ctr);
                 parameters.AdditionParameters = null;
                 parameters.BotObjects = null;
@@ -30,6 +30,9 @@ namespace BotsRestServices.Models.BotServices
                 parameters.ServiceCommands = TgServiceCommands.NoCommand;
 
                 retAns = RequestToBot(parameters, ctr);
+
+                LogData(retAns.LogMessage, ctr);
+
                 return retAns;
             }
             catch (Exception ex)
@@ -38,6 +41,22 @@ namespace BotsRestServices.Models.BotServices
                 retAns.IsTrue = false;
                 retAns.LogMessage = ex.Message;
                 return retAns;
+            }
+        }
+
+        /// <summary>
+        /// Parse Token incoming from bot, 
+        /// </summary>
+        /// <param name="token">Token of bot</param>
+        /// <returns>Parsed token</returns>
+        private string ParseTokenKey(string token)
+        {
+            try
+            {
+                return token.Replace("--", ":");
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

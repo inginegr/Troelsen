@@ -19,7 +19,7 @@ namespace TgBotBaseLibrary
         protected JsonDeserializer deserializer = new JsonDeserializer();
         protected TgCommunicate tg = new TgCommunicate();
         
-        protected virtual string SecretKey { get => ""; }
+        protected virtual string TokenKey { get; set; }
 
         /// <summary>
         /// Entry point of all requests to bot
@@ -31,7 +31,7 @@ namespace TgBotBaseLibrary
             AnswerFromBot botAns = new AnswerFromBot();
             try
             {
-                if (botParameters?.SecretKey != SecretKey)
+                if (botParameters?.SecretKey != TokenKey)
                 {
                     botAns.IsTrue = false;
                     botAns.LogMessage = $"You have wrong secret key: {botParameters.SecretKey}";
@@ -40,46 +40,18 @@ namespace TgBotBaseLibrary
                 //If it service command from local server or user
                 if (botParameters?.ServiceCommands != TgServiceCommands.NoCommand)
                 {
-                    switch (botParameters.ServiceCommands)
-                    {
-                        case TgServiceCommands.StartBot:
-                            return OnStartBot(botParameters);
-                        case TgServiceCommands.StopBot:
-                            return OnStopBot(botParameters);
-                        default:
-                            {
-                                botAns.IsTrue = false;
-                                botAns.LogMessage = $"There is no function to handle requested service command: {botParameters.ServiceCommands} ";
-                                return botAns;
-                            }
-                    }
-                }
-
-
-
-
-                TgUpdate tgUp = deserializer.DeserializeToObjectT<TgUpdate>(botParameters.JsonFromServer);
-                
-                string textQuery = tgUp?.message?.text;
-                                
-                if (textQuery == null|| textQuery == "")
+                    return HandleServiceRequests(botParameters);
+                }else
+                // If message from viber server
+                if (botParameters.JsonFromServer != string.Empty) 
                 {
-                    throw new Exception("The textQuery command is empty. Cannot answer on empty request");
+                    return HandleTgServerRequests(botParameters);
                 }
-                
-                switch (textQuery)
+                else
                 {
-                    case "/start":
-                        return OnStart(botParameters);
-
-                    default:
-                        {
-                            AnswerFromBot ans = new AnswerFromBot();
-                            ans.IsTrue = false;
-                            ans.LogMessage = $"There are no method to handle event: -->{textQuery}";
-                            return ans;
-                        }
-                }
+                    botAns.LogMessage = $"Cannot handle empty request inside EnterPointMethod ";
+                    return botAns;
+                }                
             }
             catch(Exception ex)
             {
@@ -89,16 +61,48 @@ namespace TgBotBaseLibrary
             }
         }
 
+
         /// <summary>
-        /// React on hello event
+        /// Handle service requests
         /// </summary>
-        /// <param name="bot"></param>
+        /// <param name="botParameters"> BotParameters class</param>
         /// <returns></returns>
-        public virtual AnswerFromBot OnStart(BotParameters bot)
+        private AnswerFromBot HandleServiceRequests(BotParameters botParameters)
         {
-            return new AnswerFromBot();
+            AnswerFromBot answer = new AnswerFromBot() { IsTrue = false };
+            try
+            {
+                switch (botParameters.ServiceCommands)
+                {
+                    case TgServiceCommands.StartBot:
+                        return OnStartBot(botParameters);
+                    case TgServiceCommands.StopBot:
+                        return OnStopBot(botParameters);
+                    default:
+                        {
+                            answer.IsTrue = false;
+                            answer.LogMessage = $"There is no function to handle requested service command: {botParameters.ServiceCommands} ";
+                            return answer;
+                        }
+                }
+            }
+            catch(Exception ex)
+            {
+                answer.LogMessage = $"Error occured inside HandleServiceRequests method: -->{ex.Message}";
+                return answer;
+            }
         }
 
+        /// <summary>
+        /// Handle by messages from tg server
+        /// </summary>
+        /// <param name="botParameters">BotParameters class</param>
+        /// <returns></returns>
+        public virtual AnswerFromBot HandleTgServerRequests(BotParameters botParameters)
+        {
+            AnswerFromBot answer = new AnswerFromBot() { IsTrue = false };
+            return answer;
+        }
 
         /// <summary>
         /// Service command to set webhooks of bot
@@ -114,7 +118,7 @@ namespace TgBotBaseLibrary
                 tgSet.url = botParams.JsonFromServer;
 
                 string reqString = serializer.SerializeObjectT(tgSet);
-                string ans = tg.SetWebHook(reqString);
+                string ans = tg.SetWebHook(reqString, TokenKey);
 
                 fromBot.IsTrue = true;
                 fromBot.LogMessage = ans;
@@ -141,7 +145,7 @@ namespace TgBotBaseLibrary
                 tgSet.url = string.Empty;
 
                 string reqString = serializer.SerializeObjectT(tgSet);
-                string ans = tg.SetWebHook(reqString);
+                string ans = tg.SetWebHook(reqString, TokenKey);
 
                 answer.IsTrue = true;
                 answer.LogMessage = ans;
@@ -153,6 +157,16 @@ namespace TgBotBaseLibrary
                 answer.LogMessage = $"The error occured inside OnStopBot method: {ex.Message}";
                 return answer;
             }
+        }
+
+        public TgBotBaseClass()
+        {
+
+        }
+
+        public TgBotBaseClass(string token)
+        {
+            TokenKey = token;
         }
     }
 }

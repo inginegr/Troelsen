@@ -189,6 +189,7 @@
     <Compile Include="Controllers\Bots\TelegramController.cs" />
     <Compile Include="Controllers\Bots\ViberController.cs" />
     <Compile Include="Controllers\Interface\AdminController.cs" />
+    <Compile Include="Controllers\Interface\BotServiceController.cs" />
     <Compile Include="Controllers\Interface\ClientController.cs" />
     <Compile Include="Controllers\Interface\InterfaceController.cs" />
     <Compile Include="Global.asax.cs">
@@ -211,7 +212,7 @@
     <Compile Include="Models\Objects\DbObjects\UserData.cs" />
     <Compile Include="Models\Objects\RequestToServer\TotalRequest.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
-    <Compile Include="Models\UserServices\ClientService.cs" />
+    <Compile Include="Models\UserServices\BotsHandleService.cs" />
     <Compile Include="Models\UserServices\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -223,6 +224,28 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="LogFiles\Errors.txt" />
+    <Content Include="OutDlls\BotsBaseLibrary.dll" />
+    <Content Include="OutDlls\BotsBaseLibrary.pdb" />
+    <Content Include="OutDlls\ManageBotLibraries.dll" />
+    <Content Include="OutDlls\ManageBotLibraries.pdb" />
+    <Content Include="OutDlls\Newtonsoft.Json.dll" />
+    <Content Include="OutDlls\Newtonsoft.Json.xml" />
+    <Content Include="OutDlls\ProxySocket.dll" />
+    <Content Include="OutDlls\ProxySocket.xml" />
+    <Content Include="OutDlls\ServiceLibrary.dll" />
+    <Content Include="OutDlls\ServiceLibrary.pdb" />
+    <Content Include="OutDlls\SharedObjectsLibrary.dll" />
+    <Content Include="OutDlls\SharedObjectsLibrary.pdb" />
+    <Content Include="OutDlls\SocialNetworks.dll" />
+    <Content Include="OutDlls\SocialNetworks.pdb" />
+    <Content Include="OutDlls\TelegramBot1.dll" />
+    <Content Include="OutDlls\TelegramBot1.pdb" />
+    <Content Include="OutDlls\TgBotBaseLibrary.dll" />
+    <Content Include="OutDlls\TgBotBaseLibrary.pdb" />
+    <Content Include="OutDlls\ViberBaseLibrary.dll" />
+    <Content Include="OutDlls\ViberBaseLibrary.pdb" />
+    <Content Include="OutDlls\ViberBot1.dll" />
+    <Content Include="OutDlls\ViberBot1.pdb" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -247,6 +270,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="OutDlls\ManageBotLibraries.dll.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -273,9 +297,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
-    <Folder Include="OutDlls\" />
-    <Folder Include="Views\Test\" />
-    <Folder Include="Views\Tg\" />
+    <Folder Include="Views\BotService\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -89,10 +89,18 @@ namespace ServiceLibrary.Various
             try
             {
                 string retString = string.Empty;
-
+                
                 WebRequest internetRequest = WebRequest.Create(requestString);
 
-                internetRequest = SetHeaders(internetRequest, headers);
+                if (headers == null)
+                {
+                    internetRequest.ContentType = "application/json";
+                }
+                else
+                {
+                    internetRequest = SetHeaders(internetRequest, headers);
+                }
+
                 internetRequest.Method = "POST";
 
                 using (var streamWriter = new StreamWriter(internetRequest.GetRequestStream()))

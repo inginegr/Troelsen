@@ -58,9 +58,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Telegramm\Objects\KeyBoards\TgInlineKeyboardMarkup.cs" />
     <Compile Include="Telegramm\Objects\KeyBoards\TgReplyKeyboardMarkup.cs" />
     <Compile Include="Telegramm\Objects\TgAnswerContent.cs" />
     <Compile Include="Telegramm\Objects\TgAnswerToRequest.cs" />
+    <Compile Include="Telegramm\Objects\TgMessageToSendWithReply.cs" />
     <Compile Include="Telegramm\Objects\TgSetWebhookMessage.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgAudio.cs" />
     <Compile Include="Telegramm\Objects\Updates\TgCallbackQuery.cs" />

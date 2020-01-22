@@ -10,7 +10,6 @@ using System.Net;
 using ServiceLibrary.Security;
 using SocialNetworks.Services;
 using System.IO;
-using SocialNetworks.VKObjects;
 using System.Web.Script.Serialization;
 
 
@@ -21,7 +20,6 @@ namespace SocialNetworks.VK
     /// </summary>
     public class VKComunicate
     {
-
         //Secret keys handle
         private KeysVKHandle keysHandle = null;
 

@@ -13,6 +13,10 @@ namespace SocialNetworks.Telegramm.Objects
         public string parse_mode { get; set; }
         public bool disable_web_page_preview { get; set; }
         public bool disable_notification { get; set; }
-        public int reply_to_message_id { get; set; }
+        
+        public TgMessageToSend()
+        {
+            parse_mode = string.Empty;
+        }
     }
 }

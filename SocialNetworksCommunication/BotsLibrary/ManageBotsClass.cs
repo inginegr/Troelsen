@@ -68,7 +68,7 @@ namespace ManageBotLibraries
 
                 Type vBotType = vBot.GetType($"{className}.{className}");
 
-                object vBotObject = Activator.CreateInstance(vBotType);
+                object vBotObject = Activator.CreateInstance(vBotType, botParameters.SecretKey);
 
                 return (AnswerFromBot)vBotType.InvokeMember("EnterPointMethod", BindingFlags.InvokeMethod, null, vBotObject,
                     new object[] { botParameters }, null);

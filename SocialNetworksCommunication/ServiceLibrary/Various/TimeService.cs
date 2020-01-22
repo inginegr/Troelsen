@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace ServiceLibrary.Various
 {
-    public class TimeHandling
+    public class TimeService
     {
         //Timer object
         private Timer localTimer = new Timer();
@@ -55,6 +55,22 @@ namespace ServiceLibrary.Various
 
                 return (int)(localTimer.Interval / 1000);
             }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets current time
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentTime()
+        {
+            try
+            {
+                return DateTime.Now.ToString("h:mm:ss tt");
+            }
+            catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
