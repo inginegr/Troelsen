@@ -11,7 +11,7 @@ namespace BotsRestServices.Controllers.Interface
 {
     public class ClientController : Controller
     {
-        ClientService client = new ClientService();
+        //ClientService client = new ClientService();
 
         [HttpPost]
         public JsonResult GetBots()

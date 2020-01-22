@@ -69,15 +69,15 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
 
                 using (UserContext context = new UserContext())
                 {
-                    if (nameof(T) == nameof(UserData))
+                    if (rowToFind.GetType().Name == nameof(UserData))
                     {
                         rowToReturn = context.UserTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
-                    else if (nameof(T) == nameof(UserBot))
+                    else if (rowToFind.GetType().Name == nameof(UserBot))
                     {
                         rowToReturn = context.BotsTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
-                    else if (nameof(T) == nameof(BotObject))
+                    else if (rowToFind.GetType().Name == nameof(BotObject))
                     {
                         rowToReturn = context.BotObjectsTable.Find(int.Parse(rowToFind.GetType().GetProperty("Id").GetValue(rowToFind).ToString()));
                     }
