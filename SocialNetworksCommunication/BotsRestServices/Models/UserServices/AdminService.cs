@@ -119,7 +119,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
 
-                List<UserData> list = (List<UserData>)GetRows(request.User);
+                List<UserData> list = (List<UserData>)GetAllRows(request.User);
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.Users = list;
             } catch(Exception ex)
@@ -144,7 +144,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
 
-                List<UserBot> list = ((List<UserBot>)GetRows(new UserBot { Id = 0 })).
+                List<UserBot> list = ((List<UserBot>)GetAllRows(new UserBot { Id = 0 })).
                     Where(item => item.UserDataId == request.User.Id).Cast<UserBot>().ToList();
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.Bots = list;
@@ -171,7 +171,7 @@ namespace BotsRestServices.Models.UserServices
                 TotalRequest request = GetRequestObject(requestString);
                 resp = FormLogPas(request.User);
 
-                List<BotObject> list = ((List<BotObject>)GetRows(new BotObject { Id = 0 })).
+                List<BotObject> list = ((List<BotObject>)GetAllRows(new BotObject { Id = 0 })).
                     Where(item => item.UserBotId == request.User.Id).Cast<BotObject>().ToList();
                 resp = FormResponseStatus(resp, true, "Here is the user list");
                 resp.BotObjects = list;

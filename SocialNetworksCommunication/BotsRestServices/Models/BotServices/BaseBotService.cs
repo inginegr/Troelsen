@@ -16,6 +16,7 @@ namespace BotsRestServices.Models.BotServices
     {
         private string entryPointClass = "ManageBotLibraries.ManageBotsClass";
         private string entryPointMethod = "CallFunctions";
+        
         /// <summary>
         /// Path to all dlls
         /// </summary>

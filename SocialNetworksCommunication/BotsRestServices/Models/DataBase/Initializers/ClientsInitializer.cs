@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
-
+using SharedObjectsLibrary;
 using BotsRestServices.Models.Objects.DbObjects;
 using BotsRestServices.Models.DataBase.Infrastructure;
 using System.Data.Entity.Migrations;
@@ -30,10 +30,42 @@ namespace BotsRestServices.Models.DataBase.Initializers
             context.UserTable.AddOrUpdate(userList.ToArray());
 
             List<UserBot> botList = new List<UserBot>();
-            UserBot ub1 = new UserBot { BotName = "Viber", BotStatus = true, UserData=ud1 };
-            UserBot ub2 = new UserBot { BotName = "VK", BotStatus = true, UserData=ud1 };
-            UserBot ub3 = new UserBot { BotName = "Telegram", BotStatus = true, UserData=ud1 };
-            UserBot ub4 = new UserBot { BotName = "WhatsApp", BotStatus = true, UserData=ud1 };
+            UserBot ub1 = new UserBot
+            {
+                FriendlyBotName = "Viber",
+                BotStatus = true,
+                UserData = ud1,
+                BasicBotName = new BotNames().Viber,
+                SecretKey = "ewrewrewwer",
+                UniqueBotNumber = 1
+            };
+            UserBot ub2 = new UserBot
+            {
+                FriendlyBotName = "VK",
+                BotStatus = true,
+                UserData = ud1,
+                BasicBotName = new BotNames().VK,
+                SecretKey = "r435t5445gr5tfg54rt54rer",
+                UniqueBotNumber = 1
+            };
+            UserBot ub3 = new UserBot
+            {
+                FriendlyBotName = "Telegram",
+                BotStatus = true,
+                UserData = ud1,
+                BasicBotName = new BotNames().Telegram,
+                SecretKey = "ewfl;ldfkgpofdgf[p0rer",
+                UniqueBotNumber = 1
+            };
+            UserBot ub4 = new UserBot
+            {
+                FriendlyBotName = "FaceBook",
+                BotStatus = true,
+                UserData = ud1,
+                BasicBotName = new BotNames().FaceBook,
+                SecretKey = ".,/vcmb.m,b;tgp[rt[p",
+                UniqueBotNumber = 1
+            };
             botList.Add(ub1);
             botList.Add(ub2);
             botList.Add(ub3);

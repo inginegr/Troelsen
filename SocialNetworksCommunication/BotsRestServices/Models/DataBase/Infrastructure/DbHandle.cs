@@ -189,7 +189,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// <param name="rowType"/> Type of table to get
         /// </summary>
         /// <returns>All users in table</returns>
-        public object GetRows<T>(T rowType) where T: class
+        public object GetAllRows<T>(T rowType) where T: class
         {
             try
             {
@@ -249,7 +249,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
                             UserBot newBot = t as UserBot;
                             UserBot botToEdit = context.BotsTable.ToList().Where(bot =>
                               bot.Id == newBot.Id).FirstOrDefault();
-                            botToEdit.BotName = newBot.BotName;
+                            botToEdit.FriendlyBotName = newBot.FriendlyBotName;
                             botToEdit.BotStatus = newBot.BotStatus;
                             botToEdit.UserDataId = newBot.UserDataId;
                         }

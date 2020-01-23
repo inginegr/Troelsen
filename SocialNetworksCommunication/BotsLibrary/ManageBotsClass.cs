@@ -21,16 +21,17 @@ namespace ManageBotLibraries
         private string GetBaseName(BotTypes bots)
         {
             string retAns = string.Empty;
+            BotNames bn = new BotNames();
             switch (bots)
             {
                 case BotTypes.FbBot:
-                    return "FaceBook";
+                    return bn.FaceBook;
                 case BotTypes.TgBot:
-                    return "Telegram";
+                    return bn.Telegram;
                 case BotTypes.ViberBot:
-                    return "Viber";
+                    return bn.Viber;
                 case BotTypes.VkBot:
-                    return "VK";
+                    return bn.VK;
                 default:
                     return string.Empty;
             }

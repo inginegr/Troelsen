@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using ServiceLibrary.Security;
 using ServiceLibrary.Serialization;
 using System.Configuration;
-
+using System.Collections.Specialized;
 
 using BotsRestServices.Models.Objects.AnswersFromServer;
 using BotsRestServices.Models.Objects.DbObjects;
@@ -137,11 +137,12 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userParam">User object</param>
         /// <returns>true if admin else false</returns>
-        private bool CheckIfAdmin(User userParam)
+        protected bool CheckIfAdmin(User userParam)
         {
             try
             {
-                if ((userParam.Login == ConfigurationManager.AppSettings["Login"]) && (userParam.Password == ConfigurationManager.AppSettings["Password"]))
+                if ((userParam.Login == ConfigurationManager.AppSettings["Login"]) && 
+                    (userParam.Password == ConfigurationManager.AppSettings["Password"]))
                 {
                     return true;
                 }
@@ -161,7 +162,7 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="userParam">User object</param>
         /// <returns>UserData if found, else null</returns>
-        private UserData CheckIfClient(User userParam)
+        protected UserData CheckIfClient(User userParam)
         {
             try
             {

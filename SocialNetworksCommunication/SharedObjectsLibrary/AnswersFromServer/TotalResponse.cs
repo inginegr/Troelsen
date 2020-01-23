@@ -16,6 +16,8 @@ namespace BotsRestServices.Models.Objects.AnswersFromServer
         public List<UserData> Users { get; set; }
         public List<UserBot> Bots { get; set; }
         public List<BotObject> BotObjects { get; set; }
+        public BotObject BotObject { get; set; }
+        public UserBot Bot { get; set; }
 
         public TotalResponse()
         {
