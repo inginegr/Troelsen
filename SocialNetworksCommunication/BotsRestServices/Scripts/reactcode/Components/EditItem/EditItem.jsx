@@ -32,21 +32,30 @@ const EditItem = ({objectToRender, k, listObjectChanged , getObject, listInserte
     const id = e.target.dataset.id
     const ind = e.target.dataset.ind
     let value=null
+
+    // Is neccessary to change state of the bot
+    let IsChangedStateOfBot = null
     if(e.target.className=='dropdown-item ma'){
+      IsChangedStateOfBot=true
       if (e.target.dataset.value=="true") {
         value=true
       }else{
         value=false
       }
     }else{
+      IsChangedStateOfBot = false
       value = e.target.value
     }
     let ob = getObject(id)
 
     let { massiveOfKeys, massiveToRender } = convertObjectToMassive(ob)
-    ob[massiveOfKeys[ind]]=value
+    ob[massiveOfKeys[ind]] = value
     
-    listObjectChanged(id, ob)
+    if(IsChangedStateOfBot){
+      listObjectChanged(id, ob, value)
+    }else{
+      listObjectChanged(id, ob)
+    }
   }
 
   // Renders all elements in object

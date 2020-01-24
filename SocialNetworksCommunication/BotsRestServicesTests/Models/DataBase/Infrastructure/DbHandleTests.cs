@@ -93,7 +93,7 @@ namespace BotsRestServices.Models.DataBase.Infrastructure.Tests
 
             UserData editedUser = (UserData)db.FindRow(user);
 
-            Assert.IsTrue(editedUser.Login== "Go" && editedUser.Password == "Hard");
+            Assert.IsTrue(editedUser.Login == "Go" && editedUser.Password == "Hard");
         }
 
         [TestMethod()]
@@ -126,6 +126,22 @@ namespace BotsRestServices.Models.DataBase.Infrastructure.Tests
             BotObject editedBot = (BotObject)db.FindRow(obj);
 
             Assert.IsTrue(editedBot.PathToObject == "New path");
+        }
+
+        [TestMethod()]
+        public void FindRowsTest()
+        {
+            BotObject obj1 = new BotObject() { Id = 1, PathToObject = "dsfdsf" };
+            BotObject obj2 = new BotObject() { Id = 2, PathToObject = "aaaa" };
+            List<BotObject> objs = new List<BotObject>();
+            objs.Add(obj1);
+            objs.Add(obj2);
+
+            DbHandle db = new DbHandle();
+
+            object newObjs = db.FindRows(objs);
+                        
+            //Assert.IsTrue(newObjs.Exists(el=>el.PathToObject==obj1.PathToObject));
         }
     }
 }

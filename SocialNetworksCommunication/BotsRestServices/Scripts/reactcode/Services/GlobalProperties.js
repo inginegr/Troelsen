@@ -28,5 +28,14 @@ export default class GlobalProperties {
     //============================Methods=================================//
     Restart="RestartBot"
     Apply="ApplyStatus"
+
+
+    
+    //============================Controller=================================//
+    BotServiceController="BotService"
+    
+    //============================Methods=================================//
+    StartBot="StartBot"
+    StopBot="StopBot"
 }
 

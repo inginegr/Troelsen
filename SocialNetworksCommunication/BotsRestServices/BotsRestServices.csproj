@@ -202,7 +202,6 @@
     <Compile Include="Models\DataBase\Infrastructure\UserContext.cs" />
     <Compile Include="Models\DataBase\Initializers\ClientsInitializer.cs" />
     <Compile Include="Models\InterfaceServices\InterfaceService.cs" />
-    <Compile Include="Models\Objects\RequestToServer\TotalRequest.cs" />
     <Compile Include="Models\UserServices\AdminService.cs" />
     <Compile Include="Models\UserServices\BotsHandleService.cs" />
     <Compile Include="Models\UserServices\UserService.cs" />
@@ -289,6 +288,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Media\" />
     <Folder Include="App_Data\TextFiles\" />
+    <Folder Include="Models\Objects\" />
     <Folder Include="Views\BotService\" />
   </ItemGroup>
   <ItemGroup>

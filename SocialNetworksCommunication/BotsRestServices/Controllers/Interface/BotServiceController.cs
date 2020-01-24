@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BotsRestServices.Models.UserServices;
+
 
 namespace BotsRestServices.Controllers.Interface
 {
+
     public class BotServiceController : Controller
     {
+        BotsHandleService bh = new BotsHandleService();
         [HttpPost]
         public ActionResult StartBot()
         {
-            return Json("");
+            return Json(bh.StartBot(this));
         }
 
         [HttpPost]

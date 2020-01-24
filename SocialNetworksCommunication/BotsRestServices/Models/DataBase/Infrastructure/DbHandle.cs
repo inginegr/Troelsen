@@ -92,6 +92,41 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         }
 
         /// <summary>
+        /// Find rows in database
+        /// </summary>
+        /// <typeparam name="T">object to find</typeparam>
+        /// <param name="rowsToFind">objects to find</param>
+        /// <returns>Found T if exist, else null</returns>
+        public object FindRows<T>(List<T> rowsToFind) where T : class
+        {
+            try
+            {
+                object retObj = new object();          
+                using (UserContext context = new UserContext())
+                {
+                    if (rowsToFind is List<UserData>)
+                    {
+                        retObj=(List<T>)context.UserTable.Where(ut => (rowsToFind as List<UserData>).Exists(rtf => rtf.Id == ut.Id));
+                    }
+                    else if (rowsToFind is List<UserBot>)
+                    {
+                        retObj=(List<T>)context.BotsTable.Where(ut => (rowsToFind as List<UserBot>).Exists(rtf => rtf.Id == ut.Id));
+                    }
+                    else if (rowsToFind is List<BotObject>)
+                    {
+                        retObj= context.BotObjectsTable.Where(ut => ((List<BotObject>)rowsToFind).Exists(rtf => rtf.Id == ut.Id));
+                    }
+                }
+
+                return retObj;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Add rows to DB
         /// </summary>
         /// <param name="userList">Collection of rows</param>

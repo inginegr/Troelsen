@@ -66,7 +66,7 @@ namespace BotsRestServices.Models.UserServices.Tests
 
             TotalRequest req = new TotalRequest();
 
-            req.Bot = new UserBot { BasicBotName = new BotNames().FaceBook, BotStatus = false };
+            //req. = new UserBot { BasicBotName = BotNames.FaceBook, BotStatus = false };
 
 
 

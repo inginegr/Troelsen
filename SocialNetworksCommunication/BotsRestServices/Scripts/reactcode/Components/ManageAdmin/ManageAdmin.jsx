@@ -16,7 +16,8 @@ export default class ManageAdmin extends React.Component {
       itemsToRender:[],     // Current items to render
       DeletedItems:[],      // Deleted items of itemsToRender array
       NewItems:[],          // Added items to itemsToRender array
-      ItemsToSave: []       // Items, that changed
+      ItemsToSave: [],      // Items, that changed
+      BotsToChangeState: [] // Bots, that must to be started or stoped
     },
     listStack: [],
     UserAuth: null,
@@ -49,10 +50,10 @@ export default class ManageAdmin extends React.Component {
   }
 
   // Call if list object is changed
-  listObjectChanged = (id, newContent) => {
+  listObjectChanged = (id, newContent, switcher=null) => {
     this.setState(
       s => {
-        let { itemsToRender, ItemsToSave } = s.currentList
+        let { itemsToRender, ItemsToSave, BotsToChangeState } = s.currentList
         itemsToRender.map(
           el => {
             if (el.Id == id) {
@@ -61,19 +62,23 @@ export default class ManageAdmin extends React.Component {
           }
         )
 
-        let flg = true
-        ItemsToSave.map(
-          el => {
-            if (el.Id == id) {
-              // console.log(newContent)
-              flg = false
-              el = newContent
+        if(switcher==null){
+          let flg = true
+          ItemsToSave.map(
+            el => {
+              if (el.Id == id) {
+                // console.log(newContent)
+                flg = false
+                el = newContent
+              }
             }
-          }
           )
           if (flg) {
-          // console.log(newContent)
-          ItemsToSave.push(newContent)
+            // console.log(newContent)
+            ItemsToSave.push(newContent)
+          }
+        }else{
+          BotsToChangeState.push(newContent)
         }
 
         return s
@@ -129,7 +134,31 @@ export default class ManageAdmin extends React.Component {
 
   // Save change in clients data 
   saveChange=()=>{
-    const {DeletedItems, NewItems, ItemsToSave} = this.state.currentList
+    const {DeletedItems, NewItems, ItemsToSave, BotsToChangeState} = this.state.currentList
+
+    if(BotsToChangeState.length>0){
+      const answer = this.service.startBot(this.state.UserAuth, BotsToChangeState)
+
+      answer.then(
+        ansJson=>{
+          let ans=JSON.parse(ansJson)
+          if(ans.IsTrue.IsTrue){
+            this.setState(
+              s=>{
+                const {BotsToChangeState} = s.currentList
+                BotsToChangeState=[]
+                return s
+              }
+            )
+          }else{
+            console.log("Cannot change state of bots")
+            return
+          }
+        }
+      )
+    }
+
+
     if(NewItems.length>0){
 
       let {clients, bots, botObjects} = this.formSaveObjects(NewItems)
@@ -140,7 +169,13 @@ export default class ManageAdmin extends React.Component {
         ansJson=>{
           let ans=JSON.parse(ansJson)
             if(ans.IsTrue.IsTrue){
-              this.setState(arrayToSet=[])
+              this.setState(
+                s=>{
+                  const { NewItems } = s.currentList
+                  NewItems=[]
+                  return s
+                }
+              )
             }else{
               console.log(`Cannot save rows. The exception on server is: ${ans.IsTrue.Text}`)
             }
@@ -335,7 +370,8 @@ export default class ManageAdmin extends React.Component {
   showSaveIcon = () => {
     if (this.state.currentList.ItemsToSave.length>0 ||
       this.state.currentList.DeletedItems.length>0 ||
-      this.state.currentList.NewItems.length>0) {
+      this.state.currentList.NewItems.length>0 ||
+      this.state.currentList.BotsToChangeState.length>0) {
       return (
         <button className="btn btn-primary" type="submit" onClick={this.saveChange} >
           <i className="material-icons"> save </i>

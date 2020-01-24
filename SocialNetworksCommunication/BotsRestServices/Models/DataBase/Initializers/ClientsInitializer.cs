@@ -35,7 +35,7 @@ namespace BotsRestServices.Models.DataBase.Initializers
                 FriendlyBotName = "Viber",
                 BotStatus = true,
                 UserData = ud1,
-                BasicBotName = new BotNames().Viber,
+                BasicBotName = BotNames.Viber,
                 SecretKey = "ewrewrewwer",
                 UniqueBotNumber = 1
             };
@@ -44,7 +44,7 @@ namespace BotsRestServices.Models.DataBase.Initializers
                 FriendlyBotName = "VK",
                 BotStatus = true,
                 UserData = ud1,
-                BasicBotName = new BotNames().VK,
+                BasicBotName = BotNames.VK,
                 SecretKey = "r435t5445gr5tfg54rt54rer",
                 UniqueBotNumber = 1
             };
@@ -53,7 +53,7 @@ namespace BotsRestServices.Models.DataBase.Initializers
                 FriendlyBotName = "Telegram",
                 BotStatus = true,
                 UserData = ud1,
-                BasicBotName = new BotNames().Telegram,
+                BasicBotName = BotNames.Telegram,
                 SecretKey = "ewfl;ldfkgpofdgf[p0rer",
                 UniqueBotNumber = 1
             };
@@ -62,7 +62,7 @@ namespace BotsRestServices.Models.DataBase.Initializers
                 FriendlyBotName = "FaceBook",
                 BotStatus = true,
                 UserData = ud1,
-                BasicBotName = new BotNames().FaceBook,
+                BasicBotName = BotNames.FaceBook,
                 SecretKey = ".,/vcmb.m,b;tgp[rt[p",
                 UniqueBotNumber = 1
             };

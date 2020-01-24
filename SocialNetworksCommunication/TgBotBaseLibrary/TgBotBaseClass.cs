@@ -114,9 +114,13 @@ namespace TgBotBaseLibrary
             AnswerFromBot fromBot = new AnswerFromBot();
             try
             {
-                TgSetWebhookMessage tgSet = new TgSetWebhookMessage();
-                tgSet.url = botParams.JsonFromServer;
+                BotServiceData serviceData = deserializer.DeserializeToObjectT<BotServiceData>(botParams.JsonFromServer);
 
+                TgSetWebhookMessage tgSet = new TgSetWebhookMessage();
+                tgSet.url = $"https://{serviceData.url}{UrlPostfixToReceiveRequestsFromBot.TgPostfix}{botParams.BotId}/{TokenKey}";
+                tgSet.allowed_updates = serviceData.allowed_updates;
+                tgSet.max_connections = serviceData.max_connections;
+                
                 string reqString = serializer.SerializeObjectT(tgSet);
                 string ans = tg.SetWebHook(reqString, TokenKey);
 

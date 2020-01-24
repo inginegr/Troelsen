@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BotsRestServices.Models.Objects.DbObjects;
-
+using SharedObjectsLibrary;
 
 
 namespace BotsRestServices.Models.Objects.RequestToServer
@@ -18,9 +18,7 @@ namespace BotsRestServices.Models.Objects.RequestToServer
 
         public List<BotObject> BotObjectsList { get; set; }
 
-        public UserBot Bot { get; set; }
-
-        public BotObject BotOb { get; set; }
+        public BotServiceData ServiceBot { get; set; }
 
         public TotalRequest()
         {
@@ -28,8 +26,7 @@ namespace BotsRestServices.Models.Objects.RequestToServer
             ClientsList = new List<UserData>();
             BotsList = new List<UserBot>();
             BotObjectsList = new List<BotObject>();
-            Bot = new UserBot();
-            BotOb = new BotObject();
+            ServiceBot = new BotServiceData();
         }
     }
 }

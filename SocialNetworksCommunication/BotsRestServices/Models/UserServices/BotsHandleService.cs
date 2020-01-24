@@ -25,19 +25,20 @@ namespace BotsRestServices.Models.UserServices
         /// <returns></returns>
         private BotTypes GetBotType(UserBot bot)
         {
-            BotNames bn = new BotNames();            
-            if (bot.BasicBotName == bn.FaceBook)
+            BotNames bn = new BotNames();
+            switch (bot.BasicBotName)
             {
-                return BotTypes.FbBot;
-            }else if(bot.BasicBotName == bn.Telegram)
-            {
-                return BotTypes.TgBot;
-            }else if(bot.BasicBotName == bn.Viber)
-            {
-                return BotTypes.ViberBot;
-            }else 
-            {
-                return BotTypes.VkBot;
+                case BotNames.FaceBook:
+                    return BotTypes.FbBot;
+                case BotNames.Telegram:
+                    return BotTypes.TgBot;
+                case BotNames.Viber:
+                    return BotTypes.ViberBot;
+                case BotNames.VK:
+                    return BotTypes.VkBot;
+
+                default:
+                    return BotTypes.NotDefined;
             }
         }
 
@@ -115,47 +116,62 @@ namespace BotsRestServices.Models.UserServices
                 }
                 else
                 {
-                    UserBot bot = (UserBot)FindRow(req.Bot);
+                    List<UserBot> botsToStart = (List<UserBot>)FindRow(req.BotsList);
 
-                    if (bot == null)
+                    if (botsToStart == null)
                     {
-                        return FormAnswerString(false, $"Bot {req.BotsList.FirstOrDefault().FriendlyBotName} is not found in Data Base", response);
+                        return FormAnswerString(false, $"Bots are not found inside data base", response);
                     }
-                    // If client has bot remove prev state from ApplicationContext, change row in db and set ApplicationContext and so on
-                    else if (IsUserHasBot(bot, req.User))
+                    // If bot list is not empty
+                    else
                     {
-                        
-                        //Find objects of bot in db
-                        List<BotObject> objList = ((List<BotObject>)GetAllRows(new BotObject())).Where(ob => ob.UserBotId == bot.Id).ToList();
-
-                        bot.BotObject = objList;
-
-                        ctr.HttpContext.Application.Remove(bot.BasicBotName + bot.UniqueBotNumber);
-                        ctr.HttpContext.Application[bot.BasicBotName + bot.UniqueBotNumber] = bot;
-                        
-                        BotParameters botParams = new BotParameters()
+                        // 
+                        foreach(UserBot botToStart in botsToStart)
                         {
-                            BotId = bot.UniqueBotNumber,
-                            ServiceCommands = TgServiceCommands.StartBot,
-                            BotType = GetBotType(bot),
-                            BotObjects = objList,
-                            SecretKey = bot.SecretKey
-                        };
-                        AnswerFromBot ans = RequestToBot(botParams, ctr);
-                        
-                        if (ans.IsTrue)
-                        {
-                            List<UserBot> list = new List<UserBot>();
-                            list.Add(bot);
-                            EditRows(list);
-                            response.Bot = bot;
-                            return FormAnswerString(true, ans.LogMessage, response);
-                        }
-                        else
-                        {
-                            ctr.HttpContext.Application.Remove(bot.BasicBotName + bot.UniqueBotNumber);
+                            //If User is owner of this bot
+                            if(IsUserHasBot(botToStart, req.User))
+                            {
+                                //Find objects of bot in db
+                                List<BotObject> objList = ((List<BotObject>)GetAllRows(new BotObject())).Where(ob => ob.UserBotId == botToStart.Id).ToList();
 
-                            return FormAnswerString(false, ans.LogMessage, response);
+                                botToStart.BotObject = objList;
+
+                                ctr.HttpContext.Application.Remove(botToStart.BasicBotName + botToStart.UniqueBotNumber);
+                                ctr.HttpContext.Application[botToStart.BasicBotName + botToStart.UniqueBotNumber] = botToStart;
+
+                                //Tuning botservice configs
+                                req.ServiceBot.url = ctr.Request.Url.Host;
+
+                                BotParameters botParams = new BotParameters()
+                                {
+                                    BotId = botToStart.UniqueBotNumber,
+                                    ServiceCommands = TgServiceCommands.StartBot,
+                                    BotType = GetBotType(botToStart),
+                                    BotObjects = objList,
+                                    SecretKey = botToStart.SecretKey,
+                                    JsonFromServer=js.SerializeObjectT(req.ServiceBot)
+                                };
+                                AnswerFromBot ans = RequestToBot(botParams, ctr);
+                        
+                                if (ans.IsTrue)
+                                {
+                                    List<UserBot> list = new List<UserBot>();
+                                    list.Add(botToStart);
+                                    EditRows(list);
+                                    response.Bot = botToStart;
+                                    return FormAnswerString(true, ans.LogMessage, response);
+                                }
+                                else
+                                {
+                                    ctr.HttpContext.Application.Remove(botToStart.BasicBotName + botToStart.UniqueBotNumber);
+
+                                    return FormAnswerString(false, ans.LogMessage, response);
+                                }
+                            }
+                            else
+                            {
+                                return FormAnswerString(false, "User is not owner of this bot", response);
+                            }
                         }
                     }
                 }

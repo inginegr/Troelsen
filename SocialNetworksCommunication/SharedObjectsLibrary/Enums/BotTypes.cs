@@ -11,6 +11,7 @@ namespace SharedObjectsLibrary
         VkBot,
         TgBot,
         ViberBot,
-        FbBot
+        FbBot,
+        NotDefined
     }
 }

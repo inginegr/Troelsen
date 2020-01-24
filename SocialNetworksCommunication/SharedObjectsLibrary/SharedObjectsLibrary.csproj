@@ -49,14 +49,17 @@
     <Compile Include="AnswersFromServer\IsTrueAnswer.cs" />
     <Compile Include="AnswersFromServer\TotalResponse.cs" />
     <Compile Include="AnswersFromServer\User.cs" />
+    <Compile Include="BotServiceCommands\BotServiceData.cs" />
     <Compile Include="DbObjects\BotObject.cs" />
     <Compile Include="BotParameters.cs" />
     <Compile Include="Enums\BotNames.cs" />
     <Compile Include="Enums\BotTypes.cs" />
     <Compile Include="Enums\TgServiceCommands.cs" />
+    <Compile Include="Enums\UrlPostfixToReceiveRequestsFromBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbObjects\UserBot.cs" />
     <Compile Include="DbObjects\UserData.cs" />
+    <Compile Include="RequestToServer\TotalRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
