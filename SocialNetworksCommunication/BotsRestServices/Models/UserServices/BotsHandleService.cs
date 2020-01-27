@@ -16,7 +16,7 @@ namespace BotsRestServices.Models.UserServices
     /// <summary>
     /// Make simple operations like remove, delete or edit bot objects 
     /// </summary>
-    public class BotsHandleService : BaseBotService 
+    public class BotsHandleService : BaseBotService
     {
         /// <summary>
         /// Returns Type of bot, using BasicBotName, that stored in db
@@ -56,7 +56,8 @@ namespace BotsRestServices.Models.UserServices
                 totalResponse.IsTrue.IsTrue = IsTrue;
                 totalResponse.IsTrue.Text = mesToSend;
                 return js.SerializeObjectT(totalResponse);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 totalResponse.IsTrue.IsTrue = false;
                 totalResponse.IsTrue.Text = $"Error occured inside FormAnswerString method: --> {ex.Message}";
@@ -103,12 +104,13 @@ namespace BotsRestServices.Models.UserServices
         /// </summary>
         /// <param name="ctr">Controller class</param>
         /// <returns>TotalResponse in json string format</returns>
-        public string StartBot(Controller ctr)
+        public string StartBots(Controller ctr)
         {
             TotalResponse response = new TotalResponse();
             try
             {
                 TotalRequest req = jsd.DeserializeToObjectT<TotalRequest>(ReadDataFromBrowser(ctr));
+                string retString = string.Empty;
 
                 if (!CheckIfRegistered(req.User).IsTrue.IsTrue)
                 {
@@ -116,7 +118,7 @@ namespace BotsRestServices.Models.UserServices
                 }
                 else
                 {
-                    List<UserBot> botsToStart = (List<UserBot>)FindRow(req.BotsList);
+                    List<UserBot> botsToStart = FindRows(req.BotsList);
 
                     if (botsToStart == null)
                     {
@@ -125,16 +127,17 @@ namespace BotsRestServices.Models.UserServices
                     // If bot list is not empty
                     else
                     {
+                        AnswerFromBot botAnswer = new AnswerFromBot();                        
                         // 
-                        foreach(UserBot botToStart in botsToStart)
+                        foreach (UserBot botToStart in botsToStart)
                         {
                             //If User is owner of this bot
-                            if(IsUserHasBot(botToStart, req.User))
+                            if (IsUserHasBot(botToStart, req.User))
                             {
                                 //Find objects of bot in db
                                 List<BotObject> objList = ((List<BotObject>)GetAllRows(new BotObject())).Where(ob => ob.UserBotId == botToStart.Id).ToList();
 
-                                botToStart.BotObject = objList;
+                                botToStart.BotObjects = objList;
 
                                 ctr.HttpContext.Application.Remove(botToStart.BasicBotName + botToStart.UniqueBotNumber);
                                 ctr.HttpContext.Application[botToStart.BasicBotName + botToStart.UniqueBotNumber] = botToStart;
@@ -149,39 +152,133 @@ namespace BotsRestServices.Models.UserServices
                                     BotType = GetBotType(botToStart),
                                     BotObjects = objList,
                                     SecretKey = botToStart.SecretKey,
-                                    JsonFromServer=js.SerializeObjectT(req.ServiceBot)
+                                    JsonFromServer = js.SerializeObjectT(req.ServiceBot)
                                 };
-                                AnswerFromBot ans = RequestToBot(botParams, ctr);
-                        
-                                if (ans.IsTrue)
+
+                                botAnswer = RequestToBot(botParams, ctr);
+
+                                if (botAnswer.IsTrue)
                                 {
-                                    List<UserBot> list = new List<UserBot>();
-                                    list.Add(botToStart);
-                                    EditRows(list);
-                                    response.Bot = botToStart;
-                                    return FormAnswerString(true, ans.LogMessage, response);
+                                    botToStart.BotStatus = true;
                                 }
                                 else
                                 {
                                     ctr.HttpContext.Application.Remove(botToStart.BasicBotName + botToStart.UniqueBotNumber);
-
-                                    return FormAnswerString(false, ans.LogMessage, response);
+                                    botToStart.BotStatus = false;
                                 }
+
+                                response.Bots.Add(botToStart);
+                                retString += $"You have been succesfully started the bot: {botToStart.FriendlyBotName} \n";
                             }
                             else
                             {
-                                return FormAnswerString(false, "User is not owner of this bot", response);
+                                retString += $"You have no permission to this bot \n";
                             }
                         }
                     }
                 }
 
-                return string.Empty;
+                response.IsTrue.IsTrue = true;
+                response.IsTrue.Text = retString;
+
+                return js.SerializeObjectT(response);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                response.IsTrue.IsTrue = false;
+                response.IsTrue.Text = $"The exception occured while starting the bot: --> {ex.Message}";
+                return js.SerializeObjectT(response);
             }
         }
+
+
+        /// <summary>
+        /// Starts bot, that included id json body of request to server
+        /// </summary>
+        /// <param name="ctr">Controller class</param>
+        /// <returns>TotalResponse in json string format</returns>
+        public string StopBots(Controller ctr)
+        {
+            TotalResponse response = new TotalResponse();
+            try
+            {
+                TotalRequest req = jsd.DeserializeToObjectT<TotalRequest>(ReadDataFromBrowser(ctr));
+                string retString = string.Empty;
+
+                if (!CheckIfRegistered(req.User).IsTrue.IsTrue)
+                {
+                    return js.SerializeObjectT(FormResponseStatus(response, false, "User is not registered"));
+                }
+                else
+                {
+                    List<UserBot> botsToStop = FindRows(req.BotsList);
+
+                    if (botsToStop == null)
+                    {
+                        return FormAnswerString(false, $"Bots are not found inside data base", response);
+                    }
+                    // If bot list is not empty
+                    else
+                    {
+                        AnswerFromBot botAnswer = new AnswerFromBot();
+                        // 
+                        foreach (UserBot botToStop in botsToStop)
+                        {
+                            //If User is owner of this bot
+                            if (IsUserHasBot(botToStop, req.User))
+                            {
+                                //Find objects of bot in db
+                                List<BotObject> objList = ((List<BotObject>)GetAllRows(new BotObject())).Where(ob => ob.UserBotId == botToStop.Id).ToList();
+
+                                botToStop.BotObjects = objList;
+
+                                ctr.HttpContext.Application.Remove(botToStop.BasicBotName + botToStop.UniqueBotNumber);
+                                
+                                BotParameters botParams = new BotParameters()
+                                {
+                                    BotId = botToStop.UniqueBotNumber,
+                                    ServiceCommands = TgServiceCommands.StopBot,
+                                    BotType = GetBotType(botToStop),
+                                    BotObjects = objList,
+                                    SecretKey = botToStop.SecretKey,
+                                    JsonFromServer = js.SerializeObjectT(req.ServiceBot)
+                                };
+
+                                botAnswer = RequestToBot(botParams, ctr);
+
+                                if (botAnswer.IsTrue)
+                                {
+                                    botToStop.BotStatus = true;
+                                }
+                                else
+                                {
+                                    ctr.HttpContext.Application[botToStop.BasicBotName + botToStop.UniqueBotNumber] = botToStop;
+                                    botToStop.BotStatus = false;
+                                }
+
+                                response.Bots.Add(botToStop);
+                                retString += $"You have been succesfully stoped the bot: {botToStop.FriendlyBotName} \n";
+                            }
+                            else
+                            {
+                                retString += $"You have no permission to this bot \n";
+                            }
+                        }
+                    }
+                }
+
+                response.IsTrue.IsTrue = true;
+                response.IsTrue.Text = retString;
+
+                return js.SerializeObjectT(response);
+            }
+            catch (Exception ex)
+            {
+                response.IsTrue.IsTrue = false;
+                response.IsTrue.Text = $"The exception occured while starting the bot: --> {ex.Message}";
+                return js.SerializeObjectT(response);
+            }
+        }
+
     }
 }

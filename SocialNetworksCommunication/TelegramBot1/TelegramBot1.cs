@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using SharedObjectsLibrary;
 using SocialNetworks.Telegramm.Objects;
 using TgBotBaseLibrary;
+using BotsRestServices;
 
 namespace TelegramBot1
 {
     public class TelegramBot1 : TgCommands
     {
-        protected override string TokenKey => base.TokenKey;
+        //protected override string TokenKey => base.TokenKey;
         
         /// <summary>
         /// Makes repeated actions

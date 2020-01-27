@@ -133,15 +133,17 @@ namespace BotsRestServices.Models.DataBase.Infrastructure.Tests
         {
             BotObject obj1 = new BotObject() { Id = 1, PathToObject = "dsfdsf" };
             BotObject obj2 = new BotObject() { Id = 2, PathToObject = "aaaa" };
+            BotObject obj3 = new BotObject() { Id = 6, PathToObject = "dddd" };
             List<BotObject> objs = new List<BotObject>();
             objs.Add(obj1);
             objs.Add(obj2);
+            objs.Add(obj3);
 
             DbHandle db = new DbHandle();
 
-            object newObjs = db.FindRows(objs);
+            List<BotObject> newObjs = db.FindRows(objs);
                         
-            //Assert.IsTrue(newObjs.Exists(el=>el.PathToObject==obj1.PathToObject));
+            Assert.IsTrue(newObjs.Exists(el=>el.PathToObject==obj1.PathToObject)&& newObjs.Exists(el => el.PathToObject == obj3.PathToObject)==false);
         }
     }
 }

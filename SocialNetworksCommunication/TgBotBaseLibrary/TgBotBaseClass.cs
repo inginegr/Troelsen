@@ -11,22 +11,19 @@ using ServiceLibrary.Serialization;
 using ServiceLibrary.Various;
 
 
+
 namespace TgBotBaseLibrary
 {
-    public class TgBotBaseClass
+    public class TgBotBaseClass : BotsBaseClass, IBotsBaseClass
     {
-        protected JsonSerializer serializer = new JsonSerializer();
-        protected JsonDeserializer deserializer = new JsonDeserializer();
         protected TgCommunicate tg = new TgCommunicate();
-        
-        protected virtual string TokenKey { get; set; }
 
         /// <summary>
         /// Entry point of all requests to bot
         /// </summary>
         /// <param name="botParameters">BotParameters class</param>
         /// <returns>AnswerFromBot class</returns>
-        public AnswerFromBot EnterPointMethod(BotParameters botParameters)
+        public AnswerFromBot EnterPoint(BotParameters botParameters)
         {
             AnswerFromBot botAns = new AnswerFromBot();
             try
@@ -56,7 +53,7 @@ namespace TgBotBaseLibrary
             catch(Exception ex)
             {
                 botAns.IsTrue = false;
-                botAns.LogMessage = $"There is error inside {nameof(TgBotBaseClass)} in {nameof(EnterPointMethod)}: {ex.Message}";
+                botAns.LogMessage = $"There is error inside {nameof(TgBotBaseClass)} in {nameof(EnterPoint)}: {ex.Message}";
                 return botAns;
             }
         }
@@ -168,9 +165,9 @@ namespace TgBotBaseLibrary
 
         }
 
-        public TgBotBaseClass(string token)
+        public TgBotBaseClass(string token) : base(token)
         {
-            TokenKey = token;
+
         }
     }
 }

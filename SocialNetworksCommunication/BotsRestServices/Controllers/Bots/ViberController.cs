@@ -27,19 +27,16 @@ namespace BotsRestServices.Controllers.Bots
         public ActionResult BotAnswer(int id)
         {
             AnswerFromBot ans = botService.EntryFunction(id, this);
-                        
-            if(ans.IsTrue)
+
+            AnswerFromBot botAns = botService.EntryFunction(id, this);
+
+            if (botAns.IsTrue)
             {
-                //Response.Headers.Add("X-Viber-Content-Signature", Request.Headers["X-Viber-Content-Signature"]);
-                string st = Regex.Replace(ans.LogMessage, "\\r|\\n", "");
-                
-                Response.Output.Write(st);
-                return Json(HttpStatusCode.OK);
+                return Json(botAns);
             }
             else
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(false);
+                return new HttpNotFoundResult("Internal error of server");
             }
         }
 

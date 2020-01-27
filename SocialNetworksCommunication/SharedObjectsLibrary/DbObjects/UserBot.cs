@@ -25,7 +25,7 @@ namespace BotsRestServices.Models.Objects.DbObjects
         public bool BotStatus { get; set; }
 
         [JsonIgnore]
-        public virtual List<BotObject> BotObject { get; set; }
+        public virtual List<BotObject> BotObjects { get; set; }
 
         public int? UserDataId { get; set; }
         [JsonIgnore]
@@ -33,7 +33,7 @@ namespace BotsRestServices.Models.Objects.DbObjects
 
         public UserBot()
         {
-            BotObject = new List<BotObject>();
+            BotObjects = new List<BotObject>();
         }
     }
 }

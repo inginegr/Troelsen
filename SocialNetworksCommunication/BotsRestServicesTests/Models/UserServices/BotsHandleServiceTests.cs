@@ -70,7 +70,7 @@ namespace BotsRestServices.Models.UserServices.Tests
 
 
 
-            botsHandle.StartBot(ctr);
+            botsHandle.StartBots(ctr);
 
             Assert.Fail();
         }

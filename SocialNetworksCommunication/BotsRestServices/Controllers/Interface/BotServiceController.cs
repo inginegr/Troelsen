@@ -15,13 +15,13 @@ namespace BotsRestServices.Controllers.Interface
         [HttpPost]
         public ActionResult StartBot()
         {
-            return Json(bh.StartBot(this));
+            return Json(bh.StartBots(this));
         }
 
         [HttpPost]
         public ActionResult StopBot()
         {
-            return Json("");
+            return Json(bh.StopBots(this));
         }
 
         [HttpPost]

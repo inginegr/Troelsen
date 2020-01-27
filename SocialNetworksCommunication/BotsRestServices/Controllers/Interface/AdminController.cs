@@ -9,7 +9,7 @@ using System.Web.UI;
 
 
 namespace BotsRestServices.Controllers.Interface
-{
+{    
     public class AdminController : Controller
     {
         AdminService admin = new AdminService();

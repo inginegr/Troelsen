@@ -4,22 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharedObjectsLibrary;
+using ServiceLibrary.Serialization;
 
 
 namespace BotsBaseLibrary
 {
-    public interface IBotsBaseClass
+    public class BotsBaseClass
     {
-        AnswerFromBot EnterPoint(BotParameters botParameters);
-    }
+        protected JsonSerializer serializer = new JsonSerializer();
+        protected JsonDeserializer deserializer = new JsonDeserializer();        
 
-    public class BotsBaseClass : IBotsBaseClass
-    {
+        protected virtual string TokenKey { get; set; }
 
-        public AnswerFromBot EnterPoint(BotParameters botParameters)
+        public BotsBaseClass()
         {
-            throw new NotImplementedException();
+
         }
 
+        public BotsBaseClass(string token)
+        {
+            TokenKey = token;
+        }
     }
 }

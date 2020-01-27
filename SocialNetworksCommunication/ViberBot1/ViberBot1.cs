@@ -16,7 +16,7 @@ namespace ViberBot1
     /// <summary>
     /// Test viber bot
     /// </summary>
-    public class ViberBot1 : ViberBotBaseClass
+    public class ViberBot1 : ViberCommands
     {
         public override AnswerFromBot ConversationStartedHandle(BotParameters botParameters)
         {
@@ -50,5 +50,12 @@ namespace ViberBot1
                 return ans;
             }
         }
+
+        public ViberBot1()
+        {
+            throw new Exception("Please, set token in constructor parameters");
+        }
+
+        public ViberBot1(string token) : base(token) { }
     }
 }

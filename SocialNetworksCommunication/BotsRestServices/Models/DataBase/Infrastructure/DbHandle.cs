@@ -97,28 +97,53 @@ namespace BotsRestServices.Models.DataBase.Infrastructure
         /// <typeparam name="T">object to find</typeparam>
         /// <param name="rowsToFind">objects to find</param>
         /// <returns>Found T if exist, else null</returns>
-        public object FindRows<T>(List<T> rowsToFind) where T : class
+        public List<T> FindRows<T>(List<T> rowsToFind) where T : class
         {
             try
             {
-                object retObj = new object();          
+                List<T> newList = new List<T>();
+                
                 using (UserContext context = new UserContext())
                 {
                     if (rowsToFind is List<UserData>)
                     {
-                        retObj=(List<T>)context.UserTable.Where(ut => (rowsToFind as List<UserData>).Exists(rtf => rtf.Id == ut.Id));
+                        foreach (T t in rowsToFind)
+                        {
+                            int id = int.Parse(t.GetType().GetProperty("Id").GetValue(t).ToString());
+
+                            if (context.UserTable.Find(new object[] { id }) != null)
+                            {
+                                newList.Add(t);
+                            }
+                        }
                     }
                     else if (rowsToFind is List<UserBot>)
                     {
-                        retObj=(List<T>)context.BotsTable.Where(ut => (rowsToFind as List<UserBot>).Exists(rtf => rtf.Id == ut.Id));
+                        foreach (T t in rowsToFind)
+                        {
+                            int id = int.Parse(t.GetType().GetProperty("Id").GetValue(t).ToString());
+
+                            if (context.BotObjectsTable.Find(new object[] { id }) != null)
+                            {
+                                newList.Add(t);
+                            }
+                        }
                     }
                     else if (rowsToFind is List<BotObject>)
                     {
-                        retObj= context.BotObjectsTable.Where(ut => ((List<BotObject>)rowsToFind).Exists(rtf => rtf.Id == ut.Id));
+                        foreach (T t in rowsToFind)
+                        {
+                            int id = int.Parse(t.GetType().GetProperty("Id").GetValue(t).ToString());
+
+                            if (context.BotObjectsTable.Find(new object[] { id }) != null)
+                            {
+                                newList.Add(t);
+                            }
+                        }            
                     }
                 }
 
-                return retObj;
+                return newList;
             }
             catch (Exception ex)
             {

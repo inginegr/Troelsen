@@ -9,6 +9,7 @@ using ServiceLibrary.Various;
 using SocialNetworks.Telegramm.Objects;
 using SocialNetworks.Telegramm;
 using System.Text.RegularExpressions;
+using SharedObjectsLibrary;
 
 namespace BotsRestServices.Controllers.Bots
 {
@@ -28,8 +29,17 @@ namespace BotsRestServices.Controllers.Bots
         /// <returns></returns>
         [HttpPost]
         public ActionResult BotAnswer(int id, string key)
-        {            
-            return Json(botService.EntryFunction(id, key, this));
+        {
+            AnswerFromBot botAns = botService.EntryFunction(id, key, this);
+
+            if (botAns.IsTrue)
+            {
+                return Json(botAns);
+            }
+            else
+            {
+                return new HttpNotFoundResult("Internal error of server");
+            }
         }
 
         [HttpPost]

@@ -128,5 +128,11 @@ namespace SocialNetworks.Viber.Comunicate
                 return ansReturn;
             }
         }
+
+        public ViberComunicate() { }
+        public ViberComunicate(string token)
+        {
+            viberHeaderValue = token;
+        }
     }
 }

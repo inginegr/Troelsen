@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace SocialNetworks.Viber
 {
-    public class Events
+    public class ViberEvents
     {
-        public string WebHook { get => "webhook"; }
-        public string ConversationStarted { get => "conversation_started"; }
-        public string Delivered { get => "delivered"; }
-        public string Subscribed { get => "subscribed"; }
-        public string Unsubscribed { get => "unsubscribed"; }
-        public string Seen { get => "seen"; }
-        public string Failed { get => "failed"; }
-        public string Message { get => "message"; }
-
+        public const string WebHook = "webhook"; 
+        public const string ConversationStarted = "conversation_started"; 
+        public const string Delivered = "delivered"; 
+        public const string Subscribed = "subscribed";
+        public const string Unsubscribed = "unsubscribed"; 
+        public const string Seen = "seen"; 
+        public const string Failed = "failed"; 
+        public const string Message = "message"; 
     }
 }

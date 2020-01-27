@@ -45,6 +45,10 @@
     <Compile Include="TgCommands.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BotsBaseLibrary\BotsBaseLibrary.csproj">
+      <Project>{B8DBB5A0-D024-40CE-AD32-2F70E5BD7980}</Project>
+      <Name>BotsBaseLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj">
       <Project>{ef48389d-7257-41d6-9dcb-da45b971473c}</Project>
       <Name>ServiceLibrary</Name>

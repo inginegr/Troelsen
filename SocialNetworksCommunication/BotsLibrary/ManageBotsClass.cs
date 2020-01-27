@@ -15,6 +15,7 @@ namespace ManageBotLibraries
 {
     public class ManageBotsClass
     {
+        private IBotsBaseClass BotsBase { get; set; }
         /// <summary>
         /// Basic name dependent on input request
         /// </summary>
@@ -70,7 +71,7 @@ namespace ManageBotLibraries
 
                 object vBotObject = Activator.CreateInstance(vBotType, botParameters.SecretKey);
 
-                return (AnswerFromBot)vBotType.InvokeMember("EnterPointMethod", BindingFlags.InvokeMethod, null, vBotObject,
+                return (AnswerFromBot)vBotType.InvokeMember(nameof(BotsBase.EnterPoint), BindingFlags.InvokeMethod, null, vBotObject,
                     new object[] { botParameters }, null);
             }
             catch (Exception ex)

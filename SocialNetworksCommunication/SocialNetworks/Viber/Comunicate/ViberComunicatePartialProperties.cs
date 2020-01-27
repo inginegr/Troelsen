@@ -32,7 +32,7 @@ namespace SocialNetworks.Viber.Comunicate
         
         // Header value viber message
         private string viberHeaderValue = string.Empty;
-        public string SetToken { set { viberHeaderValue = value; } }
+        //public string SetToken { set { viberHeaderValue = value; } }
 
     }
 }

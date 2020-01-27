@@ -8,12 +8,12 @@ using SocialNetworks.Viber.Objects;
 using SocialNetworks.Viber;
 using ServiceLibrary.Serialization;
 using SharedObjectsLibrary;
-
+using BotsBaseLibrary;
 
 
 namespace ViberBotBaseLibrary
 {
-    public class ViberBotBaseClass
+    public class ViberBotBaseClass :BotsBaseClass, IBotsBaseClass
     {
         private class EventViber
         {
@@ -22,7 +22,7 @@ namespace ViberBotBaseLibrary
         /// <summary>
         /// Service to communicate with viber server
         /// </summary>
-        protected ViberComunicate viberService = new ViberComunicate();
+        protected ViberComunicate viberService = null;
 
         /// <summary>
         /// Serialize service
@@ -38,105 +38,198 @@ namespace ViberBotBaseLibrary
         /// Start function of viber bot. When message come from viber server, this fuction called first of all
         /// </summary>
         /// <param name="jsonString">Json string from server</param>
-        public AnswerFromBot EnterPointMethod(BotParameters botParameters)
+        public AnswerFromBot EnterPoint(BotParameters botParameters)
         {
-            AnswerFromBot answer = new AnswerFromBot();
+            AnswerFromBot botAns = new AnswerFromBot();
             try
             {
-                EventViber viberEvent = null;
-                if (botParameters.JsonFromServer != "" && botParameters.JsonFromServer != null)
+                if (botParameters?.SecretKey != TokenKey)
                 {
-                    viberEvent = deserializeService.DeserializeToObjectT<EventViber>(botParameters.JsonFromServer);
-
-                    // If event not null and empty then it is callback message
-                    if (viberEvent.Event != null && viberEvent.Event != "")
-                    {
-                        switch (viberEvent.Event)
-                        {
-                            // Hello message
-                            case "webhook":
-                                return WebHookHandle(true);
-
-                            case "conversation_started":
-                                return ConversationStartedHandle(botParameters);
-
-                            default:
-                                answer.LogMessage = "CallBack command not found";
-                                answer.IsTrue = false;
-                                return answer;
-                        }
-                    }
+                    botAns.IsTrue = false;
+                    botAns.LogMessage = $"You have wrong secret key: {botParameters.SecretKey}";
+                    return botAns;
+                }
+                else
+                //If it service command from local server or user
+                if (botParameters?.ServiceCommands != TgServiceCommands.NoCommand)
+                {
+                    return HandleServiceRequests(botParameters);
+                }
+                else
+                // If message from viber server
+                if (botParameters.JsonFromServer != string.Empty)
+                {
+                    return HandleViberServerRequests(botParameters);
                 }
                 else
                 {
-                    answer.IsTrue = false;
-                    answer.LogMessage = "Server send empty message";
+                    botAns.LogMessage = $"Cannot handle empty request inside EnterPointMethod ";
+                    return botAns;
                 }
-
-                return answer;
             }
             catch (Exception ex)
             {
-                answer.IsTrue = false;
-                answer.LogMessage = $"Bot cannot call any function to handle command, because of error: {ex.Message}";
+                botAns.IsTrue = false;
+                botAns.LogMessage = $"There is error inside {nameof(ViberBotBaseClass)} in {nameof(EnterPoint)}: {ex.Message}";
+                return botAns;
+            }
+        }
+
+        /// <summary>
+        /// Handle service requests
+        /// </summary>
+        /// <param name="botParameters"> BotParameters class</param>
+        /// <returns></returns>
+        private AnswerFromBot HandleServiceRequests(BotParameters botParameters)
+        {
+            AnswerFromBot answer = new AnswerFromBot() { IsTrue = false };
+            try
+            {
+                switch (botParameters.ServiceCommands)
+                {
+                    case TgServiceCommands.StartBot:
+                        return OnStartBot(botParameters);
+                    case TgServiceCommands.StopBot:
+                        return OnStopBot(botParameters);
+                    default:
+                        {
+                            answer.IsTrue = false;
+                            answer.LogMessage = $"There is no function to handle requested service command: {botParameters.ServiceCommands} ";
+                            return answer;
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                answer.LogMessage = $"Error occured inside HandleServiceRequests method: -->{ex.Message}";
                 return answer;
             }
         }
 
         /// <summary>
-        /// Start Viber bot
+        /// Handle by webhook callback from viber server
         /// </summary>
-        /// <param name="botParameters">Parameters to bot. AddsParameters[0] - address of entry point</param>
-        /// <returns>AnswerFromBot class</returns>
-        public AnswerFromBot StartBot(BotParameters botParameters)
+        /// <returns></returns>
+        private AnswerFromBot OnWebHook()
         {
-            AnswerFromBot answer = new AnswerFromBot();
+            AnswerFromBot botAnswer = new AnswerFromBot();
             try
             {
-                ViberSetWebHook webHook = (ViberSetWebHook)botParameters.AdditionObject;
-
-                viberService.SetToken = botParameters.SecretKey;
-                ResponseViberService responseViber = viberService.SetWebHook(webHook);
-
-                answer.IsTrue = responseViber.IsTrue;
-                answer.LogMessage = responseViber.LogData;
-
-                return answer;
-
+                botAnswer.IsTrue = true;
+                botAnswer.LogMessage = "ok";
+                return botAnswer;
             }catch(Exception ex)
             {
-                answer.LogMessage = ex.Message;
-                answer.IsTrue = false;
-                return answer;
+                botAnswer.IsTrue = false;
+                botAnswer.LogMessage = $"Bot does not started: --> {ex.Message} ";
+                return botAnswer;
             }
         }
 
+        
         /// <summary>
-        /// Handle of viber server webhook request
+        /// Service command to set webhooks of bot
         /// </summary>
-        /// <param name="IsReady">Fake parameter/ Set to true to start bot succesfully</param>
-        /// <returns>AnswerFromBot class</returns>
-        public AnswerFromBot WebHookHandle(bool IsReady)
+        /// <param name="botParams">BotParameters class</param>
+        /// <returns>Answer from tg server</returns>
+        protected virtual AnswerFromBot OnStartBot(BotParameters botParams)
         {
-            AnswerFromBot retAns = new AnswerFromBot();
+            AnswerFromBot botAnswer = new AnswerFromBot();
             try
             {
-                if (IsReady)
+                BotServiceData serviceData = deserializer.DeserializeToObjectT<BotServiceData>(botParams.JsonFromServer);
+                ViberSetWebHook viberSetWebHook = new ViberSetWebHook();
+                viberSetWebHook.url = $"https://{serviceData.url}{UrlPostfixToReceiveRequestsFromBot.ViberPostfix}{botParams.BotId}/{TokenKey}";
+                viberSetWebHook.send_photo = serviceData.send_photo;
+                viberSetWebHook.send_name = serviceData.send_name;
+                viberSetWebHook.event_types = serviceData.event_types;
+
+                ResponseViberService response = viberService.SetWebHook(viberSetWebHook);
+
+                if (response.IsTrue)
                 {
-                    retAns.IsTrue = true;
-                    retAns.LogMessage = "Bot is ready";
+                    botAnswer.IsTrue = true;
+                    botAnswer.LogMessage = "Bot started succesfully";
                 }
                 else
                 {
-                    retAns.IsTrue = false;
-                    retAns.LogMessage = "Bot is not ready";
+                    botAnswer.IsTrue = false;
+                    botAnswer.LogMessage = $"Error responsed from viber server, while setting webhook: --> {response.LogData}";
                 }
-                return retAns;
-            }catch(Exception ex)
+
+                return botAnswer;
+            }
+            catch (Exception ex)
             {
-                retAns.IsTrue = false;
-                retAns.LogMessage = ex.Message;
-                return retAns;
+                botAnswer.IsTrue = false;
+                botAnswer.LogMessage = ex.Message;
+                return botAnswer;
+            }
+        }
+
+        
+        /// <summary>
+        /// Stop bot and clears all webhooks
+        /// </summary>
+        /// <param name="botParams">BotParameters class</param>
+        /// <returns>Answer from tg server</returns>
+        protected virtual AnswerFromBot OnStopBot(BotParameters botParams)
+        {
+            AnswerFromBot botAns = new AnswerFromBot();
+            try
+            {
+                ViberSetWebHook viberSetWebHook = new ViberSetWebHook();
+                viberSetWebHook.url = "";
+                ResponseViberService resp = viberService.SetWebHook(viberSetWebHook);
+
+                if (resp.IsTrue)
+                {
+                    botAns.IsTrue = true;
+                    botAns.LogMessage = "Webhooks succesfully deleted";
+                }
+                else
+                {
+                    botAns.IsTrue = false;
+                    botAns.LogMessage = resp.LogData;
+                }
+
+                return botAns;
+            }
+            catch (Exception ex)
+            {
+                botAns.IsTrue = false;
+                botAns.LogMessage = $"The error occured inside OnStopBot method: {ex.Message}";
+                return botAns;
+            }
+        }
+
+        /// <summary>
+        /// Handle by messages from tg server
+        /// </summary>
+        /// <param name="botParameters">BotParameters class</param>
+        /// <returns></returns>
+        private AnswerFromBot HandleViberServerRequests(BotParameters botParameters)
+        {
+            AnswerFromBot botAnswer = new AnswerFromBot();
+            try
+            {
+                EventViber eventViber = deserializer.DeserializeToObjectT<EventViber>(botParameters.JsonFromServer);
+                switch (eventViber.Event)
+                {
+                    case ViberEvents.WebHook:
+                        return OnWebHook();
+
+                    default:
+                        botAnswer.IsTrue = false;
+                        botAnswer.LogMessage = "There are no method to handle request from viber server";
+                        return botAnswer;
+                }
+            }
+            catch (Exception ex)
+            {
+                botAnswer.IsTrue = false;
+                botAnswer.LogMessage = $"The error occured while try to handle request from viber server: --> {ex.Message}";
+                return botAnswer;
             }
         }
 
@@ -145,5 +238,11 @@ namespace ViberBotBaseLibrary
             return new AnswerFromBot();
         }
 
+        public ViberBotBaseClass() { }
+
+        public ViberBotBaseClass(string token):base(token)
+        {
+            viberService = new ViberComunicate(token);
+        }
     }
 }

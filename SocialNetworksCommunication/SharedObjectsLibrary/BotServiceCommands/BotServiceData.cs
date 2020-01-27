@@ -11,9 +11,13 @@ namespace SharedObjectsLibrary
     /// </summary>
     public class BotServiceData
     {
-        //--------------------------- To tg bots--------------------------------------//
-        private int max_connections_local;
+        //--------------------------- General service data--------------------------------------//
         public string url { get; set; }
+
+        //----------------------------------------------------------------------------//
+
+        //--------------------------- Service data to tg bots--------------------------------------//
+        private int max_connections_local;
         public int max_connections
         {
             get => max_connections_local;
@@ -34,6 +38,14 @@ namespace SharedObjectsLibrary
             }
         }
         public string[] allowed_updates { get; set; }
+        //----------------------------------------------------------------------------//
+
+/***************************************************************************************************************/
+
+        //--------------------------- Service data to viber bots--------------------------------------//
+        public string[] event_types { get; set; }
+        public bool send_name { get; set; }
+        public bool send_photo { get; set; }
         //----------------------------------------------------------------------------//
     }
 }
