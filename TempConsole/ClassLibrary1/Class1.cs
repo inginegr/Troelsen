@@ -8,13 +8,11 @@ using SharedObjectsLibrary;
 
 namespace ClassLibrary1
 {    
-    public class Class1
+    public class DemoClass : MarshalByRefObject
     {
-        AddLib adl = new AddLib();
-
-        public void cnsl(SharedObject sh)
+        public void prnt(string s)
         {
-            Console.WriteLine($"The x is {sh.X} and string {sh.St}");
+            Console.WriteLine($"The string is {s}");
         }
     }
 }
