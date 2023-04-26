@@ -1,41 +1,43 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
-using SharedObjectsLibrary;
-using SocialNetworks.Viber.Comunicate;
-using SocialNetworks.Viber.Objects;
+using System.Net;
+using Telegram.Bot;
+using Telegram.Bot.Args;
 
-namespace onespace
+namespace Awesome
 {
-
-
-    public class Example
+    class Program
     {
-        public static void Main()
+        static ITelegramBotClient botClient;
+
+        static void Main()
         {
-            ViberComunicate viberComunicate = new ViberComunicate();
+            botClient = new TelegramBotClient("770611690:AAHMqfL8St-CpbznDD1ObU0XJZs3xv5q2e0");
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-            viberComunicate.SetToken = "4a7c5ca68627d7fa-7c9131063c57af80-1c15e271750463a8";
+            var me = botClient.GetMeAsync().Result;
 
-            ViberSetWebHook setWebHook = new ViberSetWebHook()
+            Console.WriteLine($"Hello, World! I am user {me.Id} and my name is {me.FirstName}.");
+
+            botClient.OnMessage += Bot_OnMessage;
+            botClient.StartReceiving();
+
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
+
+            botClient.StopReceiving();
+        }
+
+        static async void Bot_OnMessage(object sender, MessageEventArgs e)
+        {
+            if (e.Message.Text == "hello")
             {
-                url = "https://fbszk.icu/Viber/BotAnswer/1",
-                event_types = new string[] { "delivered", "seen", "failed", "subscribed", "unsubscribed", "conversation_started" },
-                send_name = true,
-                send_photo = true
-            };
+                Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
 
-            viberComunicate.SetWebHook(setWebHook);
-
-            //Assembly asm = Assembly.LoadFrom("C:\\Users\\Dima\\Documents\\GitHub\\Troelsen\\TempConsole\\TempConsole\\libs\\ClassLibrary1.dll");
-
-            //Type tp = asm.GetType("ClassLibrary1.Class1");
-
-            //object obj = Activator.CreateInstance(tp);
-
-            //tp.InvokeMember("cnsl", BindingFlags.InvokeMethod, null, obj, new object[] { new SharedObject { X = 3, St = "sss" } });
-
-            Console.ReadLine();
+                await botClient.SendTextMessageAsync(
+                  chatId: e.Message.Chat.Id,
+                  text: "You said:\n" + e.Message.Text
+                );
+            }
         }
     }
 }
